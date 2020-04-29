@@ -6,14 +6,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="166.0" prefWidth="386.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ficety.gui.controller.LogInController">
+<AnchorPane id="AnchorPane" prefHeight="166.0" prefWidth="311.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ficety.gui.controller.LogInController">
     <stylesheets>
         <URL value="@/ficety/gui/css/adminview.css" />
     </stylesheets>
    <children>
-      <JFXButton fx:id="bn_user" layoutX="138.0" layoutY="118.0" onAction="#handle_userlogin" prefHeight="23.0" prefWidth="111.0" style="-fx-background-color: lightgrey;" text="Login" textFill="#406141" />
-      <TextField fx:id="tf_email" layoutX="110.0" layoutY="24.0" />
-      <TextField fx:id="tf_password" layoutX="110.0" layoutY="70.0" />
+      <JFXButton fx:id="bn_user" layoutX="110.0" layoutY="116.0" onAction="#handle_userlogin" prefHeight="23.0" prefWidth="111.0" style="-fx-background-color: lightgrey;" text="Login" textFill="#406141" />
+      <TextField fx:id="tf_email" layoutX="110.0" layoutY="24.0" prefHeight="27.0" prefWidth="145.0" />
+      <TextField fx:id="tf_password" layoutX="110.0" layoutY="70.0" prefHeight="27.0" prefWidth="145.0" />
       <Label layoutX="35.0" layoutY="29.0" text="Email" />
       <Label layoutX="22.0" layoutY="75.0" text="Password" />
    </children>
