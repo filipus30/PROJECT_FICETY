@@ -6,6 +6,7 @@
 package ficety.dal;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import ficety.be.LoggedInUser;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
