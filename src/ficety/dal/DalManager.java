@@ -175,7 +175,7 @@ public class DalManager implements DalFaçade {
     @Override
     public int checkUserLogin(String email, String password) {
         try {
-            userDBDao.checkUserLogin(email, password);
+           return userDBDao.checkUserLogin(email, password);
         } catch (SQLException ex) {
             Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -23,6 +23,7 @@ import ficety.be.User;
  */
 public class UserDBDAO {
     private DBConnection dbc;
+    private LoggedInUser lUser;
 
     
     public UserDBDAO() {
@@ -135,7 +136,7 @@ public class UserDBDAO {
     }
     
     public int checkUserLogin(String email, String password) throws SQLException {  
-        User tempLogin = null;
+        
         try(Connection con = dbc.getConnection()){
             String SQLStmt = "SELECT * FROM USERS WHERE email = ? AND password = ?";
            PreparedStatement pstmt = con.prepareStatement(SQLStmt);   
@@ -153,15 +154,17 @@ public class UserDBDAO {
                     String userPassword = rs.getString("password");
                     boolean isAdmin = rs.getBoolean("admin");
                     float userSalary = rs.getFloat("salary");
-                    tempLogin = new User(userId, userName, userEmail, userPassword, userSalary, isAdmin);
+                    User tempLogin = new User(userId, userName, userEmail, userPassword, userSalary, isAdmin);
 
-                    LoggedInUser lUser = LoggedInUser.getInstance();
+                    lUser = LoggedInUser.getInstance();
                     lUser.setId(userId);
                     lUser.setEmail(userEmail);
                     lUser.setName(userName);
                     lUser.setPassword(password);
                     lUser.setSalary((int) userSalary);
-                    if(tempLogin.getIsAdmin()) {
+                    lUser.setAdmin(isAdmin);
+                    System.out.println(tempLogin.getIsAdmin());
+                    if(tempLogin.getIsAdmin() == true) {
                         return 1; //user and password match = true
                     }
                     else if(tempLogin.getIsAdmin() == false) {

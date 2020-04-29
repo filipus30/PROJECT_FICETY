@@ -52,7 +52,7 @@
             <JFXButton fx:id="bn_settings" prefHeight="0.0" prefWidth="26.0" text="S" />
          </items>
       </ToolBar>
-      <Button fx:id="bn_expandview" layoutX="53.0" layoutY="412.0" mnemonicParsing="false" onAction="#handel_view" prefHeight="25.0" prefWidth="135.0" text="Expand view" AnchorPane.leftAnchor="53.0" AnchorPane.topAnchor="412.0" />
+      <Button fx:id="bn_expandview" layoutX="53.0" layoutY="412.0" mnemonicParsing="false" onAction="#handle_view" prefHeight="25.0" prefWidth="135.0" text="Expand view" AnchorPane.leftAnchor="53.0" AnchorPane.topAnchor="412.0" />
       <ScrollPane fx:id="Sp_last3" layoutX="21.0" layoutY="111.0" prefHeight="235.0" prefWidth="200.0">
          <content>
             <FlowPane fx:id="fp_last3task" prefHeight="194.0" prefWidth="200.0">

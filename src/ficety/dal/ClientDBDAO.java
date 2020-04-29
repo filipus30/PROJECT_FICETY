@@ -83,9 +83,7 @@ public class ClientDBDAO {
     //  Edits a client  
         String sql = "UPDATE Clients SET name = ?, standardRate = ?, logoImgLocation = ?, email = ? WHERE id = ?";
         try ( Connection con = dbc.getConnection()) {
-            //Create a prepared statement.
             PreparedStatement pstmt = con.prepareStatement(sql);
-            //Set parameter values.
             pstmt.setString(1, name);
             pstmt.setFloat(2, standardRate);
             pstmt.setString(3, logoImgLocation);

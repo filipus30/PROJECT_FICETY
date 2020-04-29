@@ -59,7 +59,9 @@ public class LogInController implements Initializable {
         bm = new BllManager();
         int number = 10;
         if(tf_email.getText().isEmpty() == false || tf_password.getText().isEmpty() == false)
+            System.out.println(number);
          number =  bm.checkUserLogin(email,password);
+         System.out.println(number);
      if(number == 1)
          adminlogin();
      else if (number == 2)
@@ -82,7 +84,7 @@ public class LogInController implements Initializable {
         addStage.setScene(addScene);
         addStage.show();
 
-        Stage stage = (Stage) bn_admin.getScene().getWindow();
+        Stage stage = (Stage) bn_user.getScene().getWindow();
         stage.close();
     }
 

@@ -17,9 +17,9 @@ public class User {
     private String userName;
     private String email;
     private String password;
-    private float salary;  // do we really need this?
-    private boolean isAdmin;  // or 0 = developer, 1 = admin, 2 = project owner.
- //   private List<Task> usersTasks;  //  may be faster to process if we have this.
+    private float salary;  
+    private boolean isAdmin; 
+
 
     
     public User(int userID, String userName, String email, String password, float salary, boolean isAdmin) {
