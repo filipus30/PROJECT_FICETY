@@ -14,6 +14,7 @@ import ficety.be.Project;
 import ficety.be.Task;
 import ficety.be.Session;
 import ficety.be.User;
+import java.time.LocalDateTime;
 
 
 /**
@@ -39,10 +40,10 @@ public interface DalFaçade {
   
 
 // SessionDBDAO methods            
-    public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, String startTime, String finishTime);
-    public Session getSession(int sessionID);
+    public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, LocalDateTime startTime);
     public List<Session> getAllSessionsOfATask(int taskID);
     public void removeSessionFromDB(Session sessionToDelete);
+    public void addFinishTimeToSession(Session currentSession, LocalDateTime finishTime);
   
     
 // UserDBDAO methods

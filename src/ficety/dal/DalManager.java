@@ -13,16 +13,17 @@ import ficety.be.Project;
 import ficety.be.Task;
 import ficety.be.Session;
 import ficety.be.User;
+import java.time.LocalDateTime;
 
 /**
  *
  * @author Trigger, Filip, Cecillia and Alan
  */
 public class DalManager implements DalFaçade {
-    private ProjectDBDAO projectDBDao;
-    private TaskDBDAO taskDBDao;
-    private SessionDBDAO sessionDBDao;
-    private UserDBDAO userDBDao;
+    private ProjectDBDAO projectDBDao = new ProjectDBDAO();
+    private TaskDBDAO taskDBDao = new TaskDBDAO();
+    private SessionDBDAO sessionDBDao = new SessionDBDAO();
+    private UserDBDAO userDBDao = new UserDBDAO();
     
   public DalManager()
   {
@@ -101,6 +102,7 @@ public class DalManager implements DalFaçade {
         return null;
     }
     
+    
     @Override
     public Task editTask(Task editedTask, String taskName, String description, int associatedProjectID) {
         return taskDBDao.editTask(editedTask, taskName, description, associatedProjectID);
@@ -115,20 +117,10 @@ public class DalManager implements DalFaçade {
     
 // SessionDBDAO methods                
     @Override
-    public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, String startTime, String finishTime) {
-        return sessionDBDao.addNewSessionToDB(associatedUserID, associatedTaskID, startTime, finishTime);
+    public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, LocalDateTime startTime) {
+        return sessionDBDao.addNewSessionToDB(associatedUserID, associatedTaskID, startTime);
     }
     
-    @Override
-    public Session getSession(int sessionID) {
-        try {
-            return sessionDBDao.getSession(sessionID);
-        } catch (SQLException ex) {
-            Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-
     @Override
     public List<Session> getAllSessionsOfATask(int taskID) {
         try {
@@ -144,6 +136,15 @@ public class DalManager implements DalFaçade {
         sessionDBDao.removeSessionFromDB(sessionToDelete);
     }
     
+    @Override
+    public void addFinishTimeToSession(Session currentSession, LocalDateTime finishTime)
+    {
+        try {
+            sessionDBDao.addFinishTimeToSession(currentSession, finishTime);
+        } catch (SQLException ex) {
+            Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 
 // UserDBDAO methods    

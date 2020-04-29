@@ -15,12 +15,14 @@ public class LoggedInUser {
     private String loggedInUserName;
     private String loggedInUserEmail;
     private String password;
-    private int salary;  // do we really need this?
-    private boolean admin;  // or 0 = developer, 1 = admin, 2 = project owner.
+    private int salary;
+    private boolean admin; 
     private Task currentTask;
+    private Session currentSession = null;
 
     
     private LoggedInUser() {
+
        
         this.password = password;
         this.salary = salary;
@@ -29,17 +31,22 @@ public class LoggedInUser {
     }
 
     
-     public static LoggedInUser getInstance()
-    {
+    
+
+    
+    public static LoggedInUser getInstance() {
+
         if(instance == null)
         {
             instance = new LoggedInUser();
         }
-        
         return instance;
     }
 
    
+
+
+
 
     public int getId() {
         return loggedInUserID;
@@ -96,5 +103,12 @@ public class LoggedInUser {
         this.currentTask = currentTask;
     }
     
+    public Session getCurrentSession() {
+        return currentSession;
+    }
+    
+    public void setCurrentSession(Session currentSession) {
+        this.currentSession = currentSession;
+    }
     
 }

@@ -37,7 +37,7 @@
       <Button fx:id="bn_add" layoutX="186.0" layoutY="33.0" mnemonicParsing="false" text="add" AnchorPane.leftAnchor="186.0" AnchorPane.topAnchor="35.0" />
       <TextField fx:id="search" layoutX="20.0" layoutY="70.0" prefHeight="25.0" prefWidth="162.0" promptText="Search" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="70.0" />
       <ToggleButton fx:id="tb_toggle" layoutX="197.0" layoutY="70.0" mnemonicParsing="false" onAction="#toggel_size" prefHeight="25.0" prefWidth="23.0" />
-      <Button fx:id="bn_start_stop" layoutX="16.0" layoutY="355.0" mnemonicParsing="false" onAction="#handel_startsotp" prefHeight="40.0" prefWidth="81.0" text="Start/Stop" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="16.0" />
+      <Button fx:id="bn_start_stop" layoutX="16.0" layoutY="355.0" mnemonicParsing="false" onAction="#handle_startStop" prefHeight="40.0" prefWidth="81.0" text="Start/Stop" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="16.0" />
       <Label fx:id="lb_tasktime" layoutX="195.0" layoutY="356.0" text="1:39" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="195.0" />
       <Label fx:id="lb_timetoday" layoutX="195.0" layoutY="379.0" text="1:39" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="195.0" />
       <Text layoutX="150.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Task" wrappingWidth="29.44921875" AnchorPane.bottomAnchor="77.98828125" AnchorPane.leftAnchor="150.0" />

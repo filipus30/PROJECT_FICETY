@@ -41,7 +41,7 @@ public class TaskDBDAO {
         long[] taskDuration = new long[2];
         taskDuration[0] = 0;  // set taskDuration hours to 0
         taskDuration[1] = 0;  // set taskDuration minutes to 0
-        Task newTask = new Task(0, taskName, description, associatedProjectID, emptySessionList, taskDuration);
+        Task newTask = new Task(0, taskName, description, associatedProjectID);
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, taskName);
@@ -82,7 +82,7 @@ public class TaskDBDAO {
                 List<Session> allSessionsOfATask = sessionDBDao.getAllSessionsOfATask(taskID);
                 taskDuration[0] = rs.getLong("durationHours");
                 taskDuration[1] = rs.getLong("durationMinutes");
-                Task taskInProject = new Task(taskID, taskName, description, associatedProjectID, allSessionsOfATask, taskDuration);
+                Task taskInProject = new Task(taskID, taskName, description, associatedProjectID);
             }    
         }
         return task ;
@@ -102,7 +102,7 @@ public class TaskDBDAO {
                 String taskName =  rs.getString("name");
                 taskDuration[0] = rs.getLong("durationHours");
                 taskDuration[1] = rs.getLong("durationMinutes");
-                Task taskInProject = new Task(taskID, taskName, null, projectID, null, taskDuration);
+                Task taskInProject = new Task(taskID, taskName, null, projectID);
                 allTaskIDsAndNamesOfAProject.add(taskInProject); 
             }    
         }

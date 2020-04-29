@@ -5,7 +5,9 @@
  */
 package ficety.be;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  *
@@ -15,12 +17,12 @@ public class Session {
     private int sessionID;
     private int associatedUserID;  // the person whom the Session is assigned to.
     private int associatedTaskID;  // the Task whom the Session is assigned to.
-    private String startTime;
-    private String finishTime;
+    private LocalDateTime startTime;
+    private LocalDateTime finishTime;
 //    private int sessionTime;  //  difference between start time and finish time ...maybe?
 
     
-    public Session(int sessionID, int associatedUser, int associatedTask, String startTime, String finishTime) {
+    public Session(int sessionID, int associatedUser, int associatedTask, LocalDateTime startTime, LocalDateTime finishTime) {
         this.sessionID = sessionID;
         this.associatedUserID = associatedUserID;
         this.associatedTaskID = associatedTaskID;
@@ -33,8 +35,8 @@ public class Session {
         return sessionID;
     }
 
-    public void setSessionId(int id) {
-        this.sessionID = sessionID;
+    public void setSessionId(int sessionId) {
+        this.sessionID = sessionId;
     }
 
     public int getAssociatedUserID() {
@@ -53,19 +55,19 @@ public class Session {
         this.associatedTaskID = associatedTaskID;
     }
 
-    public String getStartTime() {
+    public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
-    public String getFinishTime() {
+    public LocalDateTime getFinishTime() {
         return finishTime;
     }
 
-    public void setFinishTime(String finishTime) {
+    public void setFinishTime(LocalDateTime finishTime) {
         this.finishTime = finishTime;
     }
     

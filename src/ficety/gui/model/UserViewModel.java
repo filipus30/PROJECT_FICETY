@@ -5,10 +5,17 @@
  */
 package ficety.gui.model;
 
+import ficety.bll.BllManager;
+
 /**
  *
  * @author Trigger
  */
 public class UserViewModel {
+    private BllManager BllM = new BllManager();
     
+    public void startStopSession()
+    {
+        BllM.startStopSession();
+    }
 }

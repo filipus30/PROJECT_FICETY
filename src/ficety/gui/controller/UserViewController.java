@@ -9,6 +9,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import ficety.be.LoggedInUser;
+import ficety.be.Task;
+import ficety.gui.model.UserViewModel;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
@@ -141,6 +144,9 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     
     private ScrollPane Sp_last3;
+    
+    private UserViewModel UVM;
+    private LoggedInUser lu;
     int MaxWidth;
     boolean min;
     
@@ -148,7 +154,8 @@ public class UserViewController extends JFrame implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //to do
+        UVM = new UserViewModel();
+        lu = lu.getInstance();
     }    
 
     public UserViewController() {
@@ -233,8 +240,12 @@ public class UserViewController extends JFrame implements Initializable {
     }
 
     @FXML
-    private void handel_startsotp(ActionEvent event) {
-        
+    private void handle_startStop(ActionEvent event) {
+        int userID = 1;
+        Task currentTask = new Task(3, "a", "do smth", 4);
+        lu.setId(userID);
+        lu.setCurrentTask(currentTask);
+        UVM.startStopSession();
     }
     
 

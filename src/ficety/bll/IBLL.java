@@ -10,6 +10,7 @@ import ficety.be.Project;
 import ficety.be.Task;
 import ficety.be.Session;
 import ficety.be.User;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -34,8 +35,7 @@ public interface IBLL {
   
 
 // SessionDBDAO methods            
-    public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, String startTime, String finishTime);
-    public Session getSession(int sessionID);
+    public void startStopSession();
     public List<Session> getAllSessionsOfATask(int taskID);
     public void removeSessionFromDB(Session sessionToDelete);
   
