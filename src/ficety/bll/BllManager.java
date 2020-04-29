@@ -29,7 +29,7 @@ public class BllManager implements IBLL {
 
     private DalManager dalManager = new DalManager();
     private LoggedInUser lu = LoggedInUser.getInstance();
-a
+
    
     
  // ProjectDBDAO methods           
