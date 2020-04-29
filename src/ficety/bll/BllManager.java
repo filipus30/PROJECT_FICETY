@@ -19,6 +19,10 @@ import ficety.dal.DalManager;
 public class BllManager implements IBLL {
     private DalManager dalManager;
     
+    public BllManager()
+    {
+        dalManager = new DalManager();
+    }
    
     
  // ProjectDBDAO methods           
@@ -117,7 +121,7 @@ public class BllManager implements IBLL {
     }
     @Override
     public int checkUserLogin (String email, String password) {
-        return dalManager.checkUserLogin(email,password);
+        return dalManager.checkUserLogin(email, password);
     }
     
 }

@@ -20,10 +20,8 @@ public class LoggedInUser {
     private Task currentTask;
 
     
-    public LoggedInUser(int LoggedInUserID, String LoggedInUserName, String LoggedInUserEmail, String password, int salary, boolean admin) {
-        this.loggedInUserID = LoggedInUserID;
-        this.loggedInUserName = LoggedInUserName;
-        this.loggedInUserEmail = loggedInUserEmail;
+    private LoggedInUser() {
+       
         this.password = password;
         this.salary = salary;
         this.admin = admin;
@@ -31,13 +29,17 @@ public class LoggedInUser {
     }
 
     
-    public static LoggedInUser getInstance() {
+     public static LoggedInUser getInstance()
+    {
+        if(instance == null)
+        {
+            instance = new LoggedInUser();
+        }
+        
         return instance;
     }
 
-    public static void setInstance(LoggedInUser instance) {
-        LoggedInUser.instance = instance;
-    }
+   
 
     public int getId() {
         return loggedInUserID;

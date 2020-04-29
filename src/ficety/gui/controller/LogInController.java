@@ -6,6 +6,8 @@
 package ficety.gui.controller;
 
 import com.jfoenix.controls.JFXButton;
+import ficety.bll.BllManager;
+import ficety.dal.DalManager;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,6 +17,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
@@ -24,33 +29,52 @@ import javafx.stage.Stage;
  */
 public class LogInController implements Initializable {
 
-    @FXML
     private JFXButton bn_admin;
     @FXML
     private JFXButton bn_user;
-
+    @FXML
+    private TextField tf_email;
+    @FXML
+    private TextField tf_password;
+    private BllManager bm;
+  
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+       bm = new BllManager();
+      
     }    
 
-    @FXML
-    private void handle_adminlogin(ActionEvent event) throws IOException {
-        adminlogin();
-    }
+  //  private void handle_adminlogin(ActionEvent event) throws IOException {
+   //     adminlogin();
+   // }
     
 
     @FXML
     private void handle_userlogin(ActionEvent event) throws IOException {
-        userlogin();
+        String email = tf_email.getText();
+        String password = tf_password.getText();
+        bm = new BllManager();
+        int number = 10;
+        if(tf_email.getText().isEmpty() == false || tf_password.getText().isEmpty() == false)
+         number =  bm.checkUserLogin(email,password);
+     if(number == 1)
+         adminlogin();
+     else if (number == 2)
+         userlogin();
+      else
+     { Alert alert = new Alert(AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Wrong login details");
+      alert.showAndWait();}
     }
 
     private void adminlogin() throws IOException {
         Parent root1;
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gui/view/AdminView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ficety/gui/view/AdminView.fxml"));
         root1 = (Parent) fxmlLoader.load();
         fxmlLoader.<AdminViewController>getController();
         Stage addStage = new Stage();
@@ -64,7 +88,7 @@ public class LogInController implements Initializable {
 
     private void userlogin() throws IOException {
         Parent root1;
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("gui/view/UserView.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ficety/gui/view/UserView.fxml"));
         root1 = (Parent) fxmlLoader.load();
         fxmlLoader.<UserViewController>getController();
         Stage addStage = new Stage();

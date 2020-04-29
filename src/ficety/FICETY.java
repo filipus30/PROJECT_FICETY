@@ -19,7 +19,7 @@ public class FICETY extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("gui/view/UserView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("gui/view/LogIn.fxml"));
         
         Scene scene = new Scene(root);
         

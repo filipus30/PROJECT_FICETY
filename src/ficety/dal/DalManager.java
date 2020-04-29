@@ -24,7 +24,13 @@ public class DalManager implements DalFaçade {
     private SessionDBDAO sessionDBDao;
     private UserDBDAO userDBDao;
     
-  
+  public DalManager()
+  {
+         // projectDBDao = new ProjectDBDAO();
+        //  taskDBDao = new TaskDBDAO();
+         // sessionDBDao = new SessionDBDAO();
+          userDBDao = new UserDBDAO();
+ }
     
  // ProjectDBDAO methods       
     @Override
@@ -168,7 +174,12 @@ public class DalManager implements DalFaçade {
 
     @Override
     public int checkUserLogin(String email, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            userDBDao.checkUserLogin(email, password);
+        } catch (SQLException ex) {
+            Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 4;
     }
 
     
