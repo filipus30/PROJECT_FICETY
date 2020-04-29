@@ -7,6 +7,8 @@ package mustc.dal;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import mustc.be.Project;
 import mustc.be.Task;
 import mustc.be.Session;
@@ -47,5 +49,10 @@ public interface DalFaçade {
     public User editUser (User userToEdit, String userName, String email, String password, Float salary, boolean isAdmin); 
     public void removeUserFromDB(User userToDelete);
     
+    
+    
+    
+    public int checkUserLogin (String email, String password);
+     
  
 }

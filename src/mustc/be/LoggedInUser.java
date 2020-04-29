@@ -20,14 +20,14 @@ public class LoggedInUser {
     private Task currentTask;
 
     
-    public LoggedInUser(int LoggedInUserID, String LoggedInUserName, String LoggedInUserEmail, String password, int salary, boolean admin, Task currentTask) {
+    public LoggedInUser(int LoggedInUserID, String LoggedInUserName, String LoggedInUserEmail, String password, int salary, boolean admin) {
         this.loggedInUserID = LoggedInUserID;
         this.loggedInUserName = LoggedInUserName;
         this.loggedInUserEmail = loggedInUserEmail;
         this.password = password;
         this.salary = salary;
         this.admin = admin;
-        this.currentTask = currentTask;
+    
     }
 
     

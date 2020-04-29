@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import mustc.be.LoggedInUser;
 import mustc.be.User;
 
 /**
@@ -132,5 +133,41 @@ public class UserDBDAO {
         }
     }
     
-    
+    public int checkUserLogin(String email, String password) throws SQLException {  
+        User tempLogin = null;
+        try(Connection con = dbc.getConnection()){
+            String SQLStmt = "SELECT * FROM USERS WHERE email = ? AND password = ?";
+            Statement statement = con.createStatement();
+            ResultSet rs = statement.executeQuery(SQLStmt);
+            if(rs != null) //If there is an entry
+            {
+                while(rs.next())
+                {
+                    int userId = rs.getInt("id");
+                    String userEmail = rs.getString("email");
+                    String userName = rs.getString("name");
+                    String userPassword = rs.getString("password");
+                    boolean isAdmin = rs.getBoolean("admin");
+                    float userSalary = rs.getFloat("salary");
+                    tempLogin = new User(userId, userName, userEmail, userPassword, userSalary, isAdmin);
+
+                    LoggedInUser lUser = LoggedInUser.getInstance();
+                    lUser.setId(userId);
+                    lUser.setEmail(userEmail);
+                    lUser.setName(userName);
+                    lUser.setPassword(password);
+                    lUser.setSalary((int) userSalary);
+                    if(tempLogin.getIsAdmin()) {
+                        return 1; //user and password match = true
+                    }
+                    else if(tempLogin.getIsAdmin() == false) {
+                        return 2;
+                    }
+                }
+            } else {
+                return 0;
+            }
+        }
+        return 4; //this should never happen.
+    }
 }
