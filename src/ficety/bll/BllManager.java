@@ -5,20 +5,22 @@
  */
 package ficety.bll;
 
+import ficety.be.LoggedInUser;
 import java.util.List;
 import ficety.be.Project;
 import ficety.be.Session;
 import ficety.be.Task;
 import ficety.be.User;
 import ficety.dal.DalManager;
+import java.time.LocalDateTime;
 
 /**
  *
  * @author Trigger, Filip, Cecillia and Alan
  */
 public class BllManager implements IBLL {
-    private DalManager dalManager;
-    
+    private DalManager dalManager = new DalManager();
+    private LoggedInUser lu = LoggedInUser.getInstance();
    
     
  // ProjectDBDAO methods           
@@ -74,13 +76,30 @@ public class BllManager implements IBLL {
     
 // SessionDBDAO methods                    
     @Override
-    public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, String startTime, String finishTime) {
-        return dalManager.addNewSessionToDB(associatedUserID, associatedTaskID, startTime, finishTime);
-    }
+    public void startStopSession() {
+        LocalDateTime now = LocalDateTime.now();
+        int userID = lu.getId();
+        Session thisSession = lu.getCurrentSession();
 
-    @Override
-    public Session getSession(int sessionID) {
-        return dalManager.getSession(sessionID);
+        if(thisSession == null)
+        {
+            
+            Task currentTask = lu.getCurrentTask();
+            int currentTaskId = currentTask.getTaskId();
+            Session newSession = dalManager.addNewSessionToDB(userID, currentTaskId, now);
+            System.out.println("SessionID = " + newSession.getSessionId());
+            lu.setCurrentSession(newSession);
+
+                       
+        }
+        else
+        {
+            //Session currentSession = lu.getCurrentSession();
+            dalManager.addFinishTimeToSession(thisSession, now);
+            //lu.setCurrentSession(null);
+
+        }
+        
     }
 
     @Override

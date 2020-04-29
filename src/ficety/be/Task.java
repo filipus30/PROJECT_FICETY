@@ -21,13 +21,11 @@ public class Task {
     private long[] taskDuration;  //  total time used on a task
 
     
-    public Task(int taskID, String name, String description, int associatedProject, List<Session> sessions, long[] taskDuration) {
+    public Task(int taskID, String name, String description, int associatedProject) {
         this.taskID = taskID;
         this.taskName = taskName;
         this.description = description;
         this.associatedProjectID = associatedProjectID;
-        this.sessions = sessions;
-        this.taskDuration = taskDuration;
         
     }
 
