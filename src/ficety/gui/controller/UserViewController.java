@@ -10,13 +10,18 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import ficety.be.LoggedInUser;
+import ficety.be.Session;
 import ficety.be.Task;
 import ficety.gui.model.UserViewModel;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
@@ -29,6 +34,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javax.swing.JFrame;
@@ -85,15 +91,13 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private Tab tab_task;
     @FXML
-    private TableView<?> tbv_task;
+    private TableView<Task> tbv_task;
     @FXML
-    private TableColumn<?, ?> Col_task_taskname;
+    private TableColumn<Task,String> Col_task_taskname;
     @FXML
-    private TableColumn<?, ?> Col_task_project;
+    private TableColumn<Task,Integer> Col_task_project;
     @FXML
-    private TableColumn<?, ?> Col_task_devs;
-    @FXML
-    private TableColumn<?, ?> Col_task_myhours;
+    private TableColumn<Task, Integer> Col_task_myhours;
     @FXML
     private JFXTextField task_name;
     @FXML
@@ -131,15 +135,13 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private Tab tab_sesion;
     @FXML
-    private TableColumn<?, ?> col_sesion_taskname;
+    private TableColumn<Session, String> col_sesion_taskname;
     @FXML
-    private TableColumn<?, ?> col_sesion_date;
+    private TableColumn<Session, LocalDateTime> col_sesion_start;
     @FXML
-    private TableColumn<?, ?> col_sesion_start;
+    private TableColumn<Session, LocalDateTime> col_sesion_stop;
     @FXML
-    private TableColumn<?, ?> col_sesion_stop;
-    @FXML
-    private TableColumn<?, ?> col_sesion_myhours;
+    private TableColumn<Session, Integer> col_sesion_myhours;
     @FXML
     private TextField sesion_search;
     @FXML
@@ -151,6 +153,10 @@ public class UserViewController extends JFrame implements Initializable {
     int MaxWidth;
     boolean min;
     boolean isTimerRunning = false;
+    @FXML
+    private TableColumn<Task,String> Col_task_description;
+    @FXML
+    private TableView<Session> tbv_session;
 
     
     @Override
@@ -243,7 +249,7 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private void handle_startStop(ActionEvent event) {
         int userID = 1;
-        Task currentTask = new Task(3, "a", "do smth", 4);
+        Task currentTask = new Task(3, "a", "do smth", 4,8);
         lu.setId(userID);
         lu.setCurrentTask(currentTask);
         UVM.startStopSession();
@@ -287,5 +293,30 @@ AnimationTimer timer = new AnimationTimer() {
     }
     
 };
+
+    @FXML
+    private void load_task_tab(Event event) {
+        Task t = new Task(5,"lol","ok",8,0);
+        ObservableList<Task> data =  FXCollections.observableArrayList();
+        data.add(t);
+        Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
+        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
+        Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectID"));
+        Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
+        tbv_task.setItems(data);
+    }
+
+    @FXML
+    private void load_session_tab(Event event) {
+        LocalDateTime now = LocalDateTime.now();
+        Session s = new Session(3,3,3,now,now);
+        ObservableList<Session> data =  FXCollections.observableArrayList();
+        data.add(s);
+        col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,String>("associatedTask"));
+        col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
+        col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
+        col_sesion_myhours.setCellValueFactory(new PropertyValueFactory<Session,Integer>("myhours"));
+        tbv_session.setItems(data);
+    }
     
 }

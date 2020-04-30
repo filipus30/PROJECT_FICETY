@@ -24,19 +24,18 @@ public class Session {
     
     public Session(int sessionID, int associatedUser, int associatedTask, LocalDateTime startTime, LocalDateTime finishTime) {
         this.sessionID = sessionID;
-        this.associatedUserID = associatedUserID;
-        this.associatedTaskID = associatedTaskID;
+        this.associatedUserID = associatedUser;
+        this.associatedTaskID = associatedTask;
         this.startTime = startTime;
         this.finishTime = finishTime;
     }
 
-    
-    public int getSessionId() {
+    public int getSessionID() {
         return sessionID;
     }
 
-    public void setSessionId(int sessionId) {
-        this.sessionID = sessionId;
+    public void setSessionID(int sessionID) {
+        this.sessionID = sessionID;
     }
 
     public int getAssociatedUserID() {
@@ -47,11 +46,11 @@ public class Session {
         this.associatedUserID = associatedUserID;
     }
 
-    public int getAssociatedTask() {
+    public int getAssociatedTaskID() {
         return associatedTaskID;
     }
 
-    public void setAssociatedTask(int associatedTaskID) {
+    public void setAssociatedTaskID(int associatedTaskID) {
         this.associatedTaskID = associatedTaskID;
     }
 
@@ -70,7 +69,9 @@ public class Session {
     public void setFinishTime(LocalDateTime finishTime) {
         this.finishTime = finishTime;
     }
+
     
+   
     
     
 }

@@ -41,7 +41,7 @@ public class TaskDBDAO {
         long[] taskDuration = new long[2];
         taskDuration[0] = 0;  // set taskDuration hours to 0
         taskDuration[1] = 0;  // set taskDuration minutes to 0
-        Task newTask = new Task(0, taskName, description, associatedProjectID);
+        Task newTask = new Task(0, taskName, description, associatedProjectID,0);
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, taskName);
@@ -53,7 +53,7 @@ public class TaskDBDAO {
             }
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    newTask.setTaskId((int) generatedKeys.getLong(1));
+                    newTask.setTaskID((int) generatedKeys.getLong(1));
                 } else {
                     throw new SQLException("Creating Task failed, no ID obtained.");
                 } 
@@ -79,10 +79,10 @@ public class TaskDBDAO {
                 String taskName =  rs.getString("Name");
                 String description =  rs.getString("Description");   
                 int associatedProjectID = rs.getInt("associatedProject");
-                List<Session> allSessionsOfATask = sessionDBDao.getAllSessionsOfATask(taskID);
-                taskDuration[0] = rs.getLong("durationHours");
-                taskDuration[1] = rs.getLong("durationMinutes");
-                Task taskInProject = new Task(taskID, taskName, description, associatedProjectID);
+            //    List<Session> allSessionsOfATask = sessionDBDao.getAllSessionsOfATask(taskID);
+             //   taskDuration[0] = rs.getLong("durationHours");
+            ////    taskDuration[1] = rs.getLong("durationMinutes");
+                Task taskInProject = new Task(taskID, taskName, description, associatedProjectID,0);
             }    
         }
         return task ;
@@ -102,7 +102,7 @@ public class TaskDBDAO {
                 String taskName =  rs.getString("name");
                 taskDuration[0] = rs.getLong("durationHours");
                 taskDuration[1] = rs.getLong("durationMinutes");
-                Task taskInProject = new Task(taskID, taskName, null, projectID);
+                Task taskInProject = new Task(taskID, taskName, null, projectID,0);
                 allTaskIDsAndNamesOfAProject.add(taskInProject); 
             }    
         }
@@ -121,9 +121,9 @@ public class TaskDBDAO {
             pstmt.setString(2, description);
             pstmt.setInt(3, associatedProjectID);
             pstmt.executeUpdate();  //Execute SQL query.
-            editedTask.setName(taskName);
+            editedTask.setTaskName(taskName);
             editedTask.setDescription(description);
-            editedTask.setAssociatedProject(associatedProjectID);
+            editedTask.setAssociatedProjectID(associatedProjectID);
             return editedTask;
         } catch (SQLServerException ex) {
             Logger.getLogger(TaskDBDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -139,7 +139,7 @@ public class TaskDBDAO {
         String sql = "DELETE FROM Tasks WHERE id = ?";
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1,taskToDelete.getTaskId());
+            pstmt.setInt(1,taskToDelete.getTaskID());
             pstmt.execute();
         } catch (SQLException ex) {
             System.out.println("Exception " + ex);

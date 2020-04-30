@@ -18,31 +18,35 @@ public class Task {
     private int associatedProjectID;  // the project that the task is assigned to.
 //or  private List<int> associatedUserIDs;  // the people to whom the task is assigned to.
     private List<Session> sessions;  //time??
-    private long[] taskDuration;  //  total time used on a task
+    private long[] taskDuration;  //  total time used on a 
+    private int hours;
+    private String users;
 
     
-    public Task(int taskID, String name, String description, int associatedProject) {
+    
+
+    
+    public Task(int taskID, String name, String description, int associatedProject,int hours) {
         this.taskID = taskID;
-        this.taskName = taskName;
+        this.taskName = name;
         this.description = description;
-        this.associatedProjectID = associatedProjectID;
-        
+        this.associatedProjectID = associatedProject;
+        this.hours = hours;
     }
 
-    
-    public int getTaskId() {
+    public int getTaskID() {
         return taskID;
     }
 
-    public void setTaskId(int id) {
+    public void setTaskID(int taskID) {
         this.taskID = taskID;
     }
 
-    public String getName() {
+    public String getTaskName() {
         return taskName;
     }
 
-    public void setName(String name) {
+    public void setTaskName(String taskName) {
         this.taskName = taskName;
     }
 
@@ -58,7 +62,7 @@ public class Task {
         return associatedProjectID;
     }
 
-    public void setAssociatedProject(int associatedProjectID) {
+    public void setAssociatedProjectID(int associatedProjectID) {
         this.associatedProjectID = associatedProjectID;
     }
 
@@ -69,12 +73,29 @@ public class Task {
     public void setSessions(List<Session> sessions) {
         this.sessions = sessions;
     }
-    
+
     public long[] getTaskDuration() {
         return taskDuration;
     }
 
-     public void setTaskDuration(long[] taskDuration) {
+    public void setTaskDuration(long[] taskDuration) {
         this.taskDuration = taskDuration;
     }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
+    public String getUsers() {
+        return users;
+    }
+
+    public void setUsers(String users) {
+        this.users = users;
+    }
+   
 }

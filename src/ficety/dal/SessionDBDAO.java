@@ -62,7 +62,7 @@ public class SessionDBDAO {
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     int key = (int) generatedKeys.getLong(1);
-                    newSession.setSessionId(key);
+                    newSession.setSessionID(key);
                     System.out.println("Key is:" + key);
                     return newSession;
                 } else {
@@ -109,7 +109,7 @@ public class SessionDBDAO {
             Timestamp finishTimeStamp = Timestamp.valueOf(finishTime);
             System.out.println("Time is now: " + finishTimeStamp);
             pstmt.setTimestamp(1, finishTimeStamp);
-            int sessionId = currentSession.getSessionId();
+            int sessionId = currentSession.getSessionID();
             pstmt.setInt(2, sessionId);
             //pstmt.execute();
             int affectedRows = pstmt.executeUpdate();
@@ -126,7 +126,7 @@ public class SessionDBDAO {
         String sql = "DELETE FROM Sessions WHERE id = ?";
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1,sessionToDelete.getSessionId());
+            pstmt.setInt(1,sessionToDelete.getSessionID());
             pstmt.execute();
         } catch (SQLException ex) {
             System.out.println("Exception " + ex);
