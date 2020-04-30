@@ -11,7 +11,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -44,7 +43,7 @@
       <Text layoutX="147.0" layoutY="391.0" strokeType="OUTSIDE" strokeWidth="0.0" text="today" AnchorPane.bottomAnchor="55.98828125" AnchorPane.leftAnchor="147.0" />
       <ToolBar layoutY="1.0" prefHeight="25.0" prefWidth="242.0" style="-fx-background-color: lightgrey;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
-            <Label text="MUSTC" />
+            <Label text="EAST" />
             <Label prefHeight="17.0" prefWidth="44.0" />
             <Label text="User:  " />
             <Label fx:id="lb_loginuser" text="Martin" />
@@ -53,18 +52,18 @@
          </items>
       </ToolBar>
       <Button fx:id="bn_expandview" layoutX="53.0" layoutY="412.0" mnemonicParsing="false" onAction="#handle_view" prefHeight="25.0" prefWidth="135.0" text="Expand view" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="53.0" />
-      <ScrollPane fx:id="Sp_last3" layoutX="21.0" layoutY="111.0" prefHeight="235.0" prefWidth="200.0">
-         <content>
+      <AnchorPane layoutX="21.0" layoutY="111.0">
+         <children>
             <FlowPane fx:id="fp_last3task" prefHeight="194.0" prefWidth="200.0">
                <children>
-                  <StackPane prefHeight="62.0" prefWidth="184.0">
+                  <StackPane prefHeight="72.0" prefWidth="200.0">
                      <children>
                         <JFXButton prefHeight="62.0" prefWidth="184.0" style="-fx-background-color: lightgrey;" text="Time Controll: Task Call">
                            <padding>
                               <Insets bottom="35.0" />
                            </padding>
                            <graphic>
-                              <ImageView fitHeight="26.0" fitWidth="27.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" scaleX="7.0" scaleY="2.5" translateX="65.0" translateY="15.0">
+                              <ImageView fitHeight="18.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" scaleX="7.0" scaleY="2.5" translateX="18.0" translateY="25.0">
                                  <image>
                                     <Image url="@../assets/work%20out%20img.png" />
                                  </image>
@@ -78,14 +77,14 @@
                         </JFXComboBox>
                      </children>
                   </StackPane>
-                  <StackPane prefHeight="62.0" prefWidth="184.0">
+                  <StackPane prefHeight="72.0" prefWidth="200.0">
                      <children>
                         <JFXButton prefHeight="62.0" prefWidth="184.0" style="-fx-background-color: lightgrey;" text="Time Controll: Task Call">
                            <padding>
                               <Insets bottom="35.0" />
                            </padding>
                            <graphic>
-                              <ImageView fitHeight="26.0" fitWidth="27.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" scaleX="7.0" scaleY="2.5" translateX="65.0" translateY="15.0">
+                              <ImageView fitHeight="18.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" scaleX="7.0" scaleY="2.5" translateX="18.0" translateY="25.0">
                                  <image>
                                     <Image url="@../assets/gym-exercise-healthy-dumbbell-512.png" />
                                  </image>
@@ -99,37 +98,16 @@
                         </JFXComboBox>
                      </children>
                   </StackPane>
-                  <StackPane prefHeight="62.0" prefWidth="184.0">
+                  <StackPane prefHeight="72.0" prefWidth="200.0">
                      <children>
                         <JFXButton prefHeight="62.0" prefWidth="184.0" style="-fx-background-color: lightgrey;" text="Time Controll: Task Call">
                            <padding>
                               <Insets bottom="35.0" />
                            </padding>
                            <graphic>
-                              <ImageView fitHeight="26.0" fitWidth="27.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" scaleX="7.0" scaleY="2.5" translateX="65.0" translateY="15.0">
+                              <ImageView fitHeight="18.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true" scaleX="7.0" scaleY="2.5" translateX="18.0" translateY="25.0">
                                  <image>
                                     <Image url="@../assets/gym-exercise-healthy-dumbbell-512.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <JFXComboBox prefHeight="25.0" prefWidth="82.0" promptText="Other">
-                           <StackPane.margin>
-                              <Insets left="126.0" top="30.0" />
-                           </StackPane.margin>
-                        </JFXComboBox>
-                     </children>
-                  </StackPane>
-                  <StackPane prefHeight="62.0" prefWidth="184.0">
-                     <children>
-                        <JFXButton prefHeight="62.0" prefWidth="184.0" style="-fx-background-color: lightgrey;" text="Time Controll: Task Call">
-                           <padding>
-                              <Insets bottom="35.0" />
-                           </padding>
-                           <graphic>
-                              <ImageView fitHeight="26.0" fitWidth="27.0" opacity="0.4" pickOnBounds="true" preserveRatio="true" scaleX="7.0" scaleY="2.5" translateX="65.0" translateY="15.0">
-                                 <image>
-                                    <Image url="@../assets/work%20out%20img.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -143,8 +121,8 @@
                   </StackPane>
                </children>
             </FlowPane>
-         </content>
-      </ScrollPane>
+         </children>
+      </AnchorPane>
       <TabPane layoutX="245.0" layoutY="27.0" prefHeight="423.0" prefWidth="773.0" side="LEFT" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="tab_pj" text="Project">
@@ -154,9 +132,9 @@
                         <TableView fx:id="Tbv_pj" prefHeight="422.0" prefWidth="740.0">
                           <columns>
                             <TableColumn fx:id="Col_pj_name" prefWidth="123.0" text="Name" />
-                            <TableColumn fx:id="Col_pj_clint" prefWidth="123.0" text="Clint" />
+                            <TableColumn fx:id="Col_pj_clint" prefWidth="123.0" text="Client" />
                               <TableColumn fx:id="Col_pj_contact" prefWidth="123.0" text="Contact info" />
-                              <TableColumn fx:id="Col_pj_nroftask" prefWidth="123.0" text="Nr of task" />
+                              <TableColumn fx:id="Col_pj_nroftask" prefWidth="123.0" text="Nr of tasks" />
                               <TableColumn fx:id="Col_pj_myhours" prefWidth="123.0" text="My hours" />
                           </columns>
                         </TableView>
@@ -185,7 +163,7 @@
                         <JFXTextField fx:id="task_name" layoutX="43.0" layoutY="392.0" prefHeight="25.0" prefWidth="81.0" text="Name " />
                         <JFXComboBox fx:id="cb_task_project" layoutX="142.0" layoutY="392.0" prefHeight="25.0" prefWidth="81.0" promptText="Project" />
                         <JFXButton fx:id="bn_task_add" layoutX="239.0" layoutY="395.0" style="-fx-background-color: lightgrey;" text="Add" />
-                        <JFXButton fx:id="bn_task_eddit" layoutX="274.0" layoutY="395.0" style="-fx-background-color: lightgrey;" text="eddit" />
+                        <JFXButton fx:id="bn_task_eddit" layoutX="274.0" layoutY="395.0" style="-fx-background-color: lightgrey;" text="edit" />
                         <JFXButton fx:id="bn_task_delete" layoutX="315.0" layoutY="395.0" style="-fx-background-color: lightgrey;" text="Delete" />
                         <JFXDatePicker fx:id="dp_task_from" layoutX="548.0" layoutY="391.0" prefHeight="28.0" prefWidth="95.0" />
                         <JFXDatePicker fx:id="dp_task_to" layoutX="643.0" layoutY="391.0" prefHeight="28.0" prefWidth="95.0" />
@@ -194,7 +172,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="tab_stat" text="Statistic">
+            <Tab fx:id="tab_stat" text="Statistics">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="422.0" prefWidth="362.0">
                      <children>
@@ -217,7 +195,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab fx:id="tab_sesion" text="Sesion">
+            <Tab fx:id="tab_sesion" text="Session">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
