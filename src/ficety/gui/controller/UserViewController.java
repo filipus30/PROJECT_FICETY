@@ -15,6 +15,7 @@ import ficety.gui.model.UserViewModel;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.animation.AnimationTimer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -149,7 +150,7 @@ public class UserViewController extends JFrame implements Initializable {
     private LoggedInUser lu;
     int MaxWidth;
     boolean min;
-    
+    boolean isTimerRunning = false;
 
     
     @Override
@@ -246,8 +247,45 @@ public class UserViewController extends JFrame implements Initializable {
         lu.setId(userID);
         lu.setCurrentTask(currentTask);
         UVM.startStopSession();
+        if(isTimerRunning){
+            timer.stop();
+        isTimerRunning = false;}
+        else{
+        timer.start();
+        isTimerRunning = true;}
     }
     
+AnimationTimer timer = new AnimationTimer() {
+    private long timestamp;
+    private long time = 0;
+    private long fraction = 0;
 
+    @Override
+    public void start() {
+        // current time adjusted by remaining time from last run
+        timestamp = System.currentTimeMillis() - fraction;
+        super.start();
+    }
+
+    @Override
+    public void stop() {
+        super.stop();
+        // save leftover time not handled with the last update
+        fraction = System.currentTimeMillis() - timestamp;
+    }
+
+    @Override
+    public void handle(long now) {
+        long newTime = System.currentTimeMillis();
+        if (timestamp + 1000 <= newTime) {
+            long deltaT = (newTime - timestamp) / 1000;
+            time += deltaT;
+            timestamp += 1000 * deltaT;
+           String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
+            lb_tasktime.setText((timee));
+        }
+    }
+    
+};
     
 }
