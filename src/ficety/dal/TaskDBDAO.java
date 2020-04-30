@@ -190,7 +190,7 @@ public class TaskDBDAO {
                String taskName = rs.getString("Name");
                String taskDesc = rs.getString("Description");
                
-               Task newTask = new Task(taskId, taskName, taskDesc, projectId);
+               Task newTask = new Task(taskId, taskName, taskDesc, projectId,"");
                pTasks.add(newTask);
             }
             p.setTaskList(pTasks);
