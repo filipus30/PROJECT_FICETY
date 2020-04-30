@@ -5,6 +5,7 @@
  */
 package ficety.bll;
 
+import ficety.be.Client;
 import ficety.be.LoggedInUser;
 import java.util.List;
 import ficety.be.Project;
@@ -13,6 +14,7 @@ import ficety.be.Task;
 import ficety.be.User;
 import ficety.dal.DalManager;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  *
@@ -34,8 +36,8 @@ public class BllManager implements IBLL {
     
  // ProjectDBDAO methods           
     @Override
-    public Project addNewProjectToDB(String projectName, int associatedClientID, int phoneNr, float projectRate, int hoursAllocated, boolean isClosed) {
-        return dalManager.addNewProjectToDB(projectName, associatedClientID, phoneNr, projectRate, hoursAllocated, isClosed);
+    public Project addNewProjectToDB(String projectName, Client associatedClient, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed) {
+        return dalManager.addNewProjectToDB(projectName, associatedClient, phoneNr, projectRate, hoursAllocated, isClosed);
     }
 
     @Override
@@ -44,13 +46,20 @@ public class BllManager implements IBLL {
     }
 
     @Override
-    public List<Project> getAllProjectIDsAndNamesOfAClient(int clientID) {
-        return dalManager.getAllProjectIDsAndNamesOfAClient(clientID);
+    public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr) {
+        return dalManager.editProject(editedProject, projectName, associatedClientID, projectRate, allocatedHours, isClosed, phoneNr);
     }
-
+    
     @Override
-    public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed) {
-        return dalManager.editProject(editedProject, projectName, associatedClientID, projectRate, allocatedHours, isClosed);
+    public ArrayList<Project> get3RecentProjectsForUser()
+    {
+        int userId = lu.getId();
+        ArrayList<Project> projects = dalManager.get3RecentProjectsForUser(userId);
+        for(Project p : projects)
+        {
+            dalManager.addTasksToProject(p);
+        }
+        return projects;
     }
 
     

@@ -145,6 +145,33 @@ public class TaskDBDAO {
             System.out.println("Exception " + ex);
         }
     }
+    
+    public void addTasksToProject(Project p)
+    {
+        ArrayList<Task> pTasks = new ArrayList();
+        String sql = "SELECT Id, Name, Description FROM Tasks WHERE AssociatedProject = ?";
+        try(Connection con = dbc.getConnection())
+        {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            
+            int projectId = p.getId();
+            
+            pstmt.setInt(1, projectId);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next())
+            {
+               int taskId = rs.getInt("Id");
+               String taskName = rs.getString("Name");
+               String taskDesc = rs.getString("Description");
+               
+               Task newTask = new Task(taskId, taskName, taskDesc, projectId);
+               pTasks.add(newTask);
+            }
+            p.setTaskList(pTasks);
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
       
     
 }

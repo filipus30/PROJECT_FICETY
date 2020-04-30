@@ -9,6 +9,9 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import ficety.be.LoggedInUser;
+import ficety.be.Task;
+import ficety.gui.model.UserViewModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -224,7 +227,8 @@ public class AdminViewController implements Initializable {
     private ScrollPane Sp_last3;
     int MaxWidth;
     boolean min;
-    
+    LoggedInUser lu = LoggedInUser.getInstance();
+    UserViewModel UVM = new UserViewModel();
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -314,4 +318,12 @@ public class AdminViewController implements Initializable {
     private void toggel_size(ActionEvent event) {
         ToggelSize();
     }
+    
+        @FXML
+    private void handle_startStop(ActionEvent event) {
+        Task currentTask = new Task(3, "a", "do smth", 4);
+        lu.setCurrentTask(currentTask);
+        UVM.startStopSession();
+    }
+    
 }

@@ -15,22 +15,24 @@ public class Project {
     private int projectID;
     private String projectName;
     private int associatedClientID;  // the person whom the task is assigned to.
-    private int phoneNr;
+    private String phoneNr;
     private float projectRate;
     private int allocatedHours;
     private List<Task> taskList;
     private boolean isClosed;
+    private String clientIMG;
     
 
-    public Project(int projectID, String projectName, int associatedClientID, int phoneNr, float projectRate, int allocatedHours, List<Task> taskList, boolean isClosed) {
+    public Project(int projectID, String projectName, int associatedClientID, String phoneNr, float projectRate, int allocatedHours, boolean isClosed, String clientIMG) {
         this.projectID = projectID;
         this.projectName = projectName;
         this.associatedClientID = associatedClientID;
         this.phoneNr = phoneNr;
         this.projectRate = projectRate;
-        this.allocatedHours =allocatedHours;
+        this.allocatedHours = allocatedHours;
         this.taskList = taskList;
         this.isClosed = isClosed;
+        this.clientIMG = clientIMG;
     }
 
     
@@ -58,11 +60,11 @@ public class Project {
         this.associatedClientID = associatedClientID;
     }
 
-    public int getPhoneNr() {
+    public String getPhoneNr() {
         return phoneNr;
     }
 
-    public void setPhoneNr(int phoneNr) {
+    public void setPhoneNr(String phoneNr) {
         this.phoneNr = phoneNr;
     }
 
@@ -98,5 +100,12 @@ public class Project {
         this.isClosed = isClosed;
     }
     
-    
+    public String getClientIMG()
+    {
+        return clientIMG;
+    }
+    public void setClientIMG(String clientIMG)
+    {
+        this.clientIMG = clientIMG;
+    }
 }
