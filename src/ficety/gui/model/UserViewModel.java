@@ -5,7 +5,9 @@
  */
 package ficety.gui.model;
 
+import ficety.be.Project;
 import ficety.bll.BllManager;
+import java.util.ArrayList;
 
 /**
  *
@@ -17,5 +19,10 @@ public class UserViewModel {
     public void startStopSession()
     {
         BllM.startStopSession();
+    }
+    
+    public ArrayList<Project> get3RecentProjects()
+    {
+        return BllM.get3RecentProjectsForUser();
     }
 }

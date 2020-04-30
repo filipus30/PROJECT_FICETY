@@ -5,6 +5,7 @@
  */
 package ficety.dal;
 
+import ficety.be.Client;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import ficety.be.Task;
 import ficety.be.Session;
 import ficety.be.User;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 
 /**
@@ -25,10 +27,10 @@ public interface DalFaçade {
     
        
 // ProjectDBDAO methods    
-    public Project addNewProjectToDB(String projectName, int associatedClientID, int phoneNr, float projectRate, int hoursAllocated, boolean isClosed);
+    public Project addNewProjectToDB(String projectName, Client associatedClient, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed);
     public Project getProject(int projectID);
-    public List<Project> getAllProjectIDsAndNamesOfAClient(int clientID);
-    public Project editProject (Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed);
+    public Project editProject (Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr);
+    public ArrayList<Project> get3RecentProjectsForUser(int userID);
 
     
 // TaskDBDAO methods        
@@ -37,6 +39,7 @@ public interface DalFaçade {
     public List<Task> getAllTaskIDsAndNamesOfAProject(int projectID);
     public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID);
     public void removeTaskFromDB(Task taskToDelete);
+    public void addTasksToProject(Project p);
   
 
 // SessionDBDAO methods            

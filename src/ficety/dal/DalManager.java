@@ -5,6 +5,7 @@
  */
 package ficety.dal;
 
+import ficety.be.Client;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -14,6 +15,7 @@ import ficety.be.Task;
 import ficety.be.Session;
 import ficety.be.User;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  *
@@ -27,22 +29,20 @@ public class DalManager implements DalFaçade {
     
   public DalManager()
   {
-         // projectDBDao = new ProjectDBDAO();
-        //  taskDBDao = new TaskDBDAO();
-         // sessionDBDao = new SessionDBDAO();
-          userDBDao = new UserDBDAO();
+       
  }
     
  // ProjectDBDAO methods       
     @Override
-    public Project addNewProjectToDB(String projectName, int associatedClientID, int phoneNr, float projectRate, int hoursAllocated, boolean isClosed) {
+    public Project addNewProjectToDB(String projectName, Client associatedClient, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed) {
         try {
-            return projectDBDao.addNewProjectToDB(projectName, associatedClientID, phoneNr, projectRate, hoursAllocated, isClosed);
+            return projectDBDao.addNewProjectToDB(projectName, associatedClient, phoneNr, projectRate, hoursAllocated, isClosed);
         } catch (SQLException ex) {
             Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
+    
     
     @Override
     public Project getProject(int projectID) {
@@ -55,20 +55,15 @@ public class DalManager implements DalFaçade {
     }
     
     @Override
-    public List<Project> getAllProjectIDsAndNamesOfAClient(int clientID) {
-        try {
-            return projectDBDao.getAllProjectIDsAndNamesOfAClient(clientID);
-        } catch (SQLException ex) {
-            Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr) {
+        return projectDBDao.editProject(editedProject, projectName, associatedClientID, projectRate, allocatedHours, isClosed, phoneNr);
     }
     
     @Override
-    public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed) {
-        return projectDBDao.editProject(editedProject, projectName, associatedClientID, projectRate, allocatedHours, isClosed);
+    public ArrayList<Project> get3RecentProjectsForUser(int userID)
+    {
+        return projectDBDao.get3RecentProjectsForUser(userID);
     }
-    
     
     
 // TaskDBDAO methods            
@@ -111,6 +106,11 @@ public class DalManager implements DalFaçade {
     @Override
     public void removeTaskFromDB(Task taskToDelete) {
         taskDBDao.removeTaskFromDB(taskToDelete);
+    }
+    
+    @Override
+    public void addTasksToProject(Project p) {
+        taskDBDao.addTasksToProject(p);
     }
 
     
@@ -182,6 +182,8 @@ public class DalManager implements DalFaçade {
         }
         return 4;
     }
+
+
 
     
 }
