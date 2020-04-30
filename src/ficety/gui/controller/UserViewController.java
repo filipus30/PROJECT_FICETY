@@ -252,7 +252,7 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private void handle_startStop(ActionEvent event) {
         int userID = 1;
-        Task currentTask = new Task(3, "a", "do smth", 4,8);
+        Task currentTask = new Task(3, "a", "do smth", 4,"");
         lu.setId(userID);
         lu.setCurrentTask(currentTask);
         UVM.startStopSession();
@@ -299,7 +299,7 @@ AnimationTimer timer = new AnimationTimer() {
 private TaskDBDAO tbd = new TaskDBDAO();
     @FXML
     private void load_task_tab(Event event) throws SQLException {
-        Task t = new Task(5,"lol","ok",8,0);
+      //  Task t = new Task(5,"lol","ok",8,0);
         ObservableList<Task> data =  FXCollections.observableArrayList(tbd.getTasksInfo(1));
       //  data.add(t);
         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));

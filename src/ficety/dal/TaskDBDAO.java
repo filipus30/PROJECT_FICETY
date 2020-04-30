@@ -41,7 +41,7 @@ public class TaskDBDAO {
         long[] taskDuration = new long[2];
         taskDuration[0] = 0;  // set taskDuration hours to 0
         taskDuration[1] = 0;  // set taskDuration minutes to 0
-        Task newTask = new Task(0, taskName, description, associatedProjectID,0);
+        Task newTask = new Task(0, taskName, description, associatedProjectID,"");
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, taskName);
@@ -82,7 +82,7 @@ public class TaskDBDAO {
             //    List<Session> allSessionsOfATask = sessionDBDao.getAllSessionsOfATask(taskID);
              //   taskDuration[0] = rs.getLong("durationHours");
             ////    taskDuration[1] = rs.getLong("durationMinutes");
-                Task taskInProject = new Task(taskID, taskName, description, associatedProjectID,0);
+                Task taskInProject = new Task(taskID, taskName, description, associatedProjectID,"");
             }    
         }
         return task ;
@@ -102,7 +102,7 @@ public class TaskDBDAO {
                 String taskName =  rs.getString("name");
                 taskDuration[0] = rs.getLong("durationHours");
                 taskDuration[1] = rs.getLong("durationMinutes");
-                Task taskInProject = new Task(taskID, taskName, null, projectID,0);
+                Task taskInProject = new Task(taskID, taskName, null, projectID,"");
                 allTaskIDsAndNamesOfAProject.add(taskInProject); 
             }    
         }
@@ -149,7 +149,7 @@ public class TaskDBDAO {
               List<Task> alltasks = new ArrayList();
         try(Connection con = dbc.getConnection()) {
            // String sql = "Select Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(MINUTE, S.StartTime, S.FinishTime)) AS Total from Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask where Tasks.Id= '3' AND S.AssociatedUser = '?' GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description;";
-           String sql = "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(MINUTE, S.StartTime, S.FinishTime)) AS Total FROM Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask WHERE S.AssociatedUser = ? GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id";
+           String sql = "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(SECOND, S.StartTime, S.FinishTime)) AS Total FROM Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask WHERE S.AssociatedUser = ? GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id";
            PreparedStatement pstmt = con.prepareStatement(sql);   
             pstmt.setInt(1,user);
              pstmt.execute();
@@ -160,8 +160,9 @@ public class TaskDBDAO {
                 String taskName =  rs.getString("Name");
                 String description =  rs.getString("Description");   
                 int associatedProjectID = rs.getInt("associatedProject");
-                int total = rs.getInt("Total");
-                alltasks.add(new Task(taskId, taskName, description, associatedProjectID,total));
+                int time = rs.getInt("Total");
+                String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
+                alltasks.add(new Task(taskId, taskName, description, associatedProjectID,timee));
                
             }    
         }

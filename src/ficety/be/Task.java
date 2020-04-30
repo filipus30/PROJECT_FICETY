@@ -19,14 +19,14 @@ public class Task {
 //or  private List<int> associatedUserIDs;  // the people to whom the task is assigned to.
     private List<Session> sessions;  //time??
     private long[] taskDuration;  //  total time used on a 
-    private int hours;
+    private String hours;
     private String users;
 
     
     
 
     
-    public Task(int taskID, String name, String description, int associatedProject,int hours) {
+    public Task(int taskID, String name, String description, int associatedProject,String hours) {
         this.taskID = taskID;
         this.taskName = name;
         this.description = description;
@@ -82,11 +82,11 @@ public class Task {
         this.taskDuration = taskDuration;
     }
 
-    public int getHours() {
+    public String getHours() {
         return hours;
     }
 
-    public void setHours(int hours) {
+    public void setHours(String hours) {
         this.hours = hours;
     }
 
