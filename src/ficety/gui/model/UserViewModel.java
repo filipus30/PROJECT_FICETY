@@ -23,6 +23,6 @@ public class UserViewModel {
     
     public ArrayList<Project> get3RecentProjects()
     {
-        BllM.get3RecentProjectsForUser();
+        return BllM.get3RecentProjectsForUser();
     }
 }
