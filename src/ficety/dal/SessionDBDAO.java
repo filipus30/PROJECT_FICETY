@@ -48,7 +48,7 @@ public class SessionDBDAO {
     //  Adds a new session to the Session table of the database given the sessions details. Generates an id key
         LocalDateTime finishTime = null;
         String sql = "INSERT INTO Sessions(associatedUser, associatedTask, startTime, finishTime) VALUES (?,?,?,NULL)";
-        Session newSession = new Session(0, associatedUserID, associatedTaskID, startTime, finishTime);
+        Session newSession = new Session(0, associatedUserID, associatedTaskID,null,null,"","");
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, associatedUserID);
@@ -78,12 +78,12 @@ public class SessionDBDAO {
         return null;
     }
      
-    public List<Session> getAllSessionsOfATask(int taskID) throws SQLException {
+    public List<Session> getAllSessionsOfATask(int userid) throws SQLException {
         List<Session> allSessionsOfATask = new ArrayList<>();
         try(Connection con = dbc.getConnection()) {
-            String sql = "SELECT * FROM Sessions WHERE associatedTask = ?";
-            PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            pstmt.setInt(1, taskID);
+            String sql = "SELECT  Sessions.Id, Sessions.AssociatedUser, Sessions.AssociatedTask, Sessions.StartTime, Sessions.FinishTime , SUM(Datediff(SECOND, StartTime, FinishTime)) AS Total, Tasks.Name from Sessions JOIN TASKS ON Sessions.AssociatedTask = Tasks.Id where Sessions.AssociatedUser = ? GROUP BY AssociatedUser,AssociatedTask ,FinishTime ,StartTime ,tasks.name,Sessions.Id ;";
+            PreparedStatement pstmt = con.prepareStatement(sql/*, PreparedStatement.RETURN_GENERATED_KEYS*/);
+            pstmt.setInt(1, userid);
             
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()) // While you have something in the results
@@ -91,9 +91,12 @@ public class SessionDBDAO {
                 int sessionID = rs.getInt("id");
                 int AssociatedUserID =  rs.getInt("AssociatedUser");
                 int associatedTaskID =  rs.getInt("AssociatedTask");
-                LocalDateTime startTime = rs.getTimestamp("StartTime").toLocalDateTime();
-                LocalDateTime finishTime = rs.getTimestamp("FinishTime").toLocalDateTime();            
-                Session sessionInTask = new Session(sessionID, AssociatedUserID, associatedTaskID, startTime, finishTime);
+                Timestamp startTime = rs.getTimestamp("StartTime");
+                Timestamp finishTime = rs.getTimestamp("FinishTime");    
+                int time = rs.getInt("Total");
+                String taskName = rs.getString("Name");
+                String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
+                Session sessionInTask = new Session(sessionID, AssociatedUserID, associatedTaskID, startTime, finishTime,timee,taskName);
                 allSessionsOfATask.add(sessionInTask); 
             }    
         }

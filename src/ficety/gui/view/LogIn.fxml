@@ -12,8 +12,8 @@
     </stylesheets>
    <children>
       <JFXButton fx:id="bn_user" layoutX="110.0" layoutY="116.0" onAction="#handle_userlogin" prefHeight="23.0" prefWidth="111.0" style="-fx-background-color: lightgrey;" text="Login" textFill="#406141" />
-      <TextField fx:id="tf_email" layoutX="110.0" layoutY="24.0" prefHeight="27.0" prefWidth="145.0" />
-      <TextField fx:id="tf_password" layoutX="110.0" layoutY="70.0" prefHeight="27.0" prefWidth="145.0" />
+      <TextField fx:id="tf_email" layoutX="110.0" layoutY="24.0" prefHeight="27.0" prefWidth="145.0" text="u@mail" />
+      <TextField fx:id="tf_password" layoutX="110.0" layoutY="70.0" prefHeight="27.0" prefWidth="145.0" text="u" />
       <Label layoutX="35.0" layoutY="29.0" text="Email" />
       <Label layoutX="22.0" layoutY="75.0" text="Password" />
    </children>

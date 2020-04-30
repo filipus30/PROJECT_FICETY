@@ -174,7 +174,7 @@
                             <TableColumn fx:id="Col_task_taskname" prefWidth="148.0" text="Task name" />
                               <TableColumn fx:id="Col_task_description" prefWidth="109.0" text="Description" />
                             <TableColumn fx:id="Col_task_project" prefWidth="142.0" text="Project" />
-                              <TableColumn fx:id="Col_task_myhours" prefWidth="129.0" text="My hours" />
+                              <TableColumn fx:id="Col_task_myhours" prefWidth="129.0" text="Time Spent" />
                           </columns>
                         </TableView>
                         <Label layoutX="5.0" layoutY="392.0" text="Task">
@@ -226,7 +226,7 @@
                               <TableColumn fx:id="col_sesion_taskname" prefWidth="123.0" text="Task name" />
                               <TableColumn fx:id="col_sesion_start" prefWidth="137.0" text="Start" />
                               <TableColumn fx:id="col_sesion_stop" prefWidth="149.0" text="Stop" />
-                              <TableColumn fx:id="col_sesion_myhours" prefWidth="162.0" text="Hours" />
+                              <TableColumn fx:id="col_sesion_myhours" prefWidth="162.0" text="Time Spent" />
                            </columns>
                         </TableView>
                         <TextField fx:id="sesion_search" layoutX="616.0" prefHeight="25.0" prefWidth="121.0" promptText="Search" AnchorPane.leftAnchor="616.0" />

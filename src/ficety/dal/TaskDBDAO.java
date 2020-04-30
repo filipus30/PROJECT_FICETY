@@ -145,6 +145,29 @@ public class TaskDBDAO {
             System.out.println("Exception " + ex);
         }
     }
+          public List<Task> getTasksInfo(int user) throws SQLException {
+              List<Task> alltasks = new ArrayList();
+        try(Connection con = dbc.getConnection()) {
+           // String sql = "Select Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(MINUTE, S.StartTime, S.FinishTime)) AS Total from Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask where Tasks.Id= '3' AND S.AssociatedUser = '?' GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description;";
+           String sql = "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(MINUTE, S.StartTime, S.FinishTime)) AS Total FROM Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask WHERE S.AssociatedUser = ? GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id";
+           PreparedStatement pstmt = con.prepareStatement(sql);   
+            pstmt.setInt(1,user);
+             pstmt.execute();
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) //While you have something in the results
+            {
+                int taskId = rs.getInt("id");
+                String taskName =  rs.getString("Name");
+                String description =  rs.getString("Description");   
+                int associatedProjectID = rs.getInt("associatedProject");
+                int total = rs.getInt("Total");
+                alltasks.add(new Task(taskId, taskName, description, associatedProjectID,total));
+               
+            }    
+        }
+       return alltasks;
+    }
+    
       
     
 }

@@ -12,8 +12,11 @@ import com.jfoenix.controls.JFXTextField;
 import ficety.be.LoggedInUser;
 import ficety.be.Session;
 import ficety.be.Task;
+import ficety.dal.SessionDBDAO;
+import ficety.dal.TaskDBDAO;
 import ficety.gui.model.UserViewModel;
 import java.net.URL;
+import java.security.Timestamp;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
@@ -135,7 +138,7 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private Tab tab_sesion;
     @FXML
-    private TableColumn<Session, String> col_sesion_taskname;
+    private TableColumn<Session, Integer> col_sesion_taskname;
     @FXML
     private TableColumn<Session, LocalDateTime> col_sesion_start;
     @FXML
@@ -293,29 +296,31 @@ AnimationTimer timer = new AnimationTimer() {
     }
     
 };
-
+private TaskDBDAO tbd = new TaskDBDAO();
     @FXML
-    private void load_task_tab(Event event) {
+    private void load_task_tab(Event event) throws SQLException {
         Task t = new Task(5,"lol","ok",8,0);
-        ObservableList<Task> data =  FXCollections.observableArrayList();
-        data.add(t);
+        ObservableList<Task> data =  FXCollections.observableArrayList(tbd.getTasksInfo(1));
+      //  data.add(t);
         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectID"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
         tbv_task.setItems(data);
+        System.out.println(data.size());
     }
-
+private SessionDBDAO sbd = new SessionDBDAO();
+private LoggedInUser liu;
     @FXML
-    private void load_session_tab(Event event) {
-        LocalDateTime now = LocalDateTime.now();
-        Session s = new Session(3,3,3,now,now);
-        ObservableList<Session> data =  FXCollections.observableArrayList();
-        data.add(s);
-        col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,String>("associatedTask"));
+    private void load_session_tab(Event event) throws SQLException {
+        liu = LoggedInUser.getInstance();
+     //  Timestamp n
+     //   Session s = new Session(3,3,3,now,now,0,"");
+        ObservableList<Session> data =  FXCollections.observableArrayList(sbd.getAllSessionsOfATask(1));
+        col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
         col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
         col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
-        col_sesion_myhours.setCellValueFactory(new PropertyValueFactory<Session,Integer>("myhours"));
+        col_sesion_myhours.setCellValueFactory(new PropertyValueFactory<Session,Integer>("hours"));
         tbv_session.setItems(data);
     }
     
