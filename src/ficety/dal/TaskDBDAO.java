@@ -116,7 +116,8 @@ public class TaskDBDAO {
                 String description =  rs.getString("Description");   
                 int associatedProjectID = rs.getInt("associatedProject");
                 int time = rs.getInt("Total");
-                String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
+               // String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
+              String timee = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
                 alltasks.add(new Task(taskId, taskName, description, associatedProjectID,timee));
                
             }    

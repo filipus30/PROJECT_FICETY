@@ -341,6 +341,9 @@ private LoggedInUser liu;
         col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
         col_sesion_myhours.setCellValueFactory(new PropertyValueFactory<Session,Integer>("hours"));
         tbv_session.setItems(data);
+        cb_project.getSelectionModel().getSelectedItem();
+      //  cb_project.getItems().addAll(c);
+       
     }
     
 }
