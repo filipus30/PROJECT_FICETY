@@ -33,7 +33,7 @@ public class TaskDBDAO {
             sessionDBDao = new SessionDBDAO();
     }        
 
-    public Task addNewTaskToDB(String taskName, String description, int associatedProjectID) throws SQLException { 
+    public Task addNewTaskToDB(String taskName, String description, Project associatedProject) throws SQLException { 
     //  Adds a new Task to the DB, and returns the updated Project to the GUI
         String sql = "INSERT INTO Task(taskName, description, associatedProjectID) VALUES (?,?,?)";
         List<Session> emptySessionList = new ArrayList<>();
@@ -41,6 +41,7 @@ public class TaskDBDAO {
         long[] taskDuration = new long[2];
         taskDuration[0] = 0;  // set taskDuration hours to 0
         taskDuration[1] = 0;  // set taskDuration minutes to 0
+        int associatedProjectID = associatedProject.getId();
         Task newTask = new Task(0, taskName, description, associatedProjectID,"");
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);

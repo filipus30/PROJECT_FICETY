@@ -29,7 +29,7 @@ public interface IBLL {
 
     
 // TaskDBDAO methods        
-    public Task addNewTaskToDB(String taskName, String description, int associatedProjectID);
+    public Task addNewTaskToDB(String taskName, String description, Project associatedProject);
     public Task getTask(int taskID);
     public List<Task> getAllTaskIDsAndNamesOfAProject(int projectID);
     public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID);

@@ -168,4 +168,83 @@ public class ProjectDBDAO {
         }
         return recentProjects;
       }
+      
+      public ArrayList<Project> getAllProjectsForUserTab(int userID)
+      {
+          ArrayList<Project> allProjectsForUser = new ArrayList();
+          String sql ="SELECT Part.* FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Tasks.Id) AS TotalTime, ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr FROM Projects JOIN Clients ON Projects.AssociatedClient=Clients.Id JOIN Tasks ON Projects.Id=Tasks.AssociatedProject JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask WHERE Sessions.AssociatedUser = ?)Part WHERE part.Corr=1;";
+      
+          try ( Connection con = dbc.getConnection()) {
+        //Create a prepared statement.
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        //Set parameter values.
+        pstmt.setInt(1, userID);
+        ResultSet rs = pstmt.executeQuery();
+        while(rs.next())
+        {
+            int projectId = rs.getInt("Id");
+            String projectName = rs.getString("PName");
+            int associatedClientID = rs.getInt("AssociatedClient");
+            Float projectRate = rs.getFloat("ProjectRate");
+            String phoneNr = rs.getString("PhoneNr");
+            int allocatedHours = rs.getInt("AllocatedHours");
+            int closed = rs.getInt("Closed");
+            boolean isClosed = false;
+            if(closed == 1)
+            isClosed = true;
+            String clientIMG = rs.getString("LogoImgLocation");
+            Project project; 
+            project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed, clientIMG);
+            String ClientName = rs.getString("CName");
+            project.setClientName(ClientName);
+            int seconds = rs.getInt("TotalTime");
+            project.setSeconds(seconds);
+            allProjectsForUser.add(project);
+        }
+        return allProjectsForUser;  
+        } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allProjectsForUser;
+      
+      }
+      
+      public ArrayList<Project> getAllProjects()
+      {
+          ArrayList<Project> allProjectsForUser = new ArrayList();
+          String sql ="SELECT Part.* FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Tasks.Id) AS TotalTime, ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr FROM Projects JOIN Clients ON Projects.AssociatedClient=Clients.Id JOIN Tasks ON Projects.Id=Tasks.AssociatedProject LEFT JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask)Part WHERE part.Corr=1;";
+      
+          try ( Connection con = dbc.getConnection()) {
+        //Create a prepared statement.
+        PreparedStatement pstmt = con.prepareStatement(sql);
+
+        ResultSet rs = pstmt.executeQuery();
+        while(rs.next())
+        {
+            int projectId = rs.getInt("Id");
+            String projectName = rs.getString("PName");
+            int associatedClientID = rs.getInt("AssociatedClient");
+            Float projectRate = rs.getFloat("ProjectRate");
+            String phoneNr = rs.getString("PhoneNr");
+            int allocatedHours = rs.getInt("AllocatedHours");
+            int closed = rs.getInt("Closed");
+            boolean isClosed = false;
+            if(closed == 1)
+            isClosed = true;
+            String clientIMG = rs.getString("LogoImgLocation");
+            Project project; 
+            project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed, clientIMG);
+            String ClientName = rs.getString("CName");
+            project.setClientName(ClientName);
+            int seconds = rs.getInt("TotalTime");
+            project.setSeconds(seconds);
+            allProjectsForUser.add(project);
+        }
+        return allProjectsForUser;  
+        } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allProjectsForUser;
+      
+      }
 }

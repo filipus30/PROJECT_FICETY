@@ -65,12 +65,23 @@ public class DalManager implements DalFaçade {
         return projectDBDao.get3RecentProjectsForUser(userID);
     }
     
+    @Override
+    public ArrayList<Project> getAllProjectsForUserTab (int userID)
+    {
+        return projectDBDao.getAllProjectsForUserTab(userID);
+    }
+    
+    @Override
+    public ArrayList<Project> getAllProjects()
+    {
+        return projectDBDao.getAllProjects();
+    }
     
 // TaskDBDAO methods            
     @Override
-    public Task addNewTaskToDB(String taskName, String description, int associatedProjectID) {
+    public Task addNewTaskToDB(String taskName, String description, Project associatedProject) {
         try {
-            return taskDBDao.addNewTaskToDB(taskName, description, associatedProjectID);
+            return taskDBDao.addNewTaskToDB(taskName, description, associatedProject);
         } catch (SQLException ex) {
             Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
         }
