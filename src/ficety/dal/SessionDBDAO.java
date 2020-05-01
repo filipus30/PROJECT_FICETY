@@ -95,7 +95,8 @@ public class SessionDBDAO {
                 Timestamp finishTime = rs.getTimestamp("FinishTime");    
                 int time = rs.getInt("Total");
                 String taskName = rs.getString("Name");
-                String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
+                //String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
+                 String timee = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
                 Session sessionInTask = new Session(sessionID, AssociatedUserID, associatedTaskID, startTime, finishTime,timee,taskName);
                 allSessionsOfATask.add(sessionInTask); 
             }    

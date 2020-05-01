@@ -10,6 +10,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import ficety.be.LoggedInUser;
+import ficety.be.Project;
 import ficety.be.Session;
 import ficety.be.Task;
 import ficety.dal.SessionDBDAO;
@@ -54,7 +55,7 @@ public class UserViewController extends JFrame implements Initializable {
 
     private TextField tf_newtask;
     @FXML
-    private ComboBox<?> cb_project;
+    private ComboBox<Project> cb_project;
     @FXML
     private Button bn_add;
     @FXML
@@ -323,6 +324,9 @@ private LoggedInUser liu;
         col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
         col_sesion_myhours.setCellValueFactory(new PropertyValueFactory<Session,Integer>("hours"));
         tbv_session.setItems(data);
+        cb_project.getSelectionModel().getSelectedItem();
+      //  cb_project.getItems().addAll(c);
+       
     }
     
 }
