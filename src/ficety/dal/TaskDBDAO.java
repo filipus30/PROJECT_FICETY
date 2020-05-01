@@ -33,19 +33,16 @@ public class TaskDBDAO {
             sessionDBDao = new SessionDBDAO();
     }        
 
-    public Task addNewTaskToDB(String taskName, String description, Project associatedProject) throws SQLException { 
+    public Task addNewTaskToDB(String taskName, Project associatedProject) throws SQLException { 
     //  Adds a new Task to the DB, and returns the updated Project to the GUI
-        String sql = "INSERT INTO Task(taskName, description, associatedProjectID) VALUES (?,?,?)";
-        List<Session> emptySessionList = new ArrayList<>();
-        emptySessionList = null;
-        long[] taskDuration = new long[2];
-        taskDuration[0] = 0;  // set taskDuration hours to 0
-        taskDuration[1] = 0;  // set taskDuration minutes to 0
+        System.out.println("Trying to create task name " + taskName);
+        String sql = "INSERT INTO Tasks (Name, Description, AssociatedProject) VALUES (?,?,?)";
         int associatedProjectID = associatedProject.getId();
-        Task newTask = new Task(0, taskName, description, associatedProjectID,"");
+        Task newTask = new Task(0, taskName, " ", associatedProjectID, "");
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, taskName);
+            String description = " ";
             pstmt.setString(2, description);
             pstmt.setInt(3, associatedProjectID);
             int affectedRows = pstmt.executeUpdate();
@@ -66,51 +63,7 @@ public class TaskDBDAO {
         }
         return newTask;
     }
-     
-    
-    public Task getTask(int taskID) throws SQLException {
-        Task task = null;
-        long [] taskDuration = new long[2];
-        try(Connection con = dbc.getConnection()) {
-            String sql = "SELECT * FROM Tasks WHERE id = '" + taskID + "'";
-            Statement statement = con.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()) //While you have something in the results
-            {
-                String taskName =  rs.getString("Name");
-                String description =  rs.getString("Description");   
-                int associatedProjectID = rs.getInt("associatedProject");
-            //    List<Session> allSessionsOfATask = sessionDBDao.getAllSessionsOfATask(taskID);
-             //   taskDuration[0] = rs.getLong("durationHours");
-            ////    taskDuration[1] = rs.getLong("durationMinutes");
-                Task taskInProject = new Task(taskID, taskName, description, associatedProjectID,"");
-            }    
-        }
-        return task ;
-    }
-    
-    
-    public List<Task> getAllTaskIDsAndNamesOfAProject(int projectID) throws SQLException {
-        List<Task> allTaskIDsAndNamesOfAProject = new ArrayList<>();
-        long [] taskDuration = new long[2];
-        try(Connection con = dbc.getConnection()) {
-            String sql = "SELECT id, name FROM Tasks WHERE associatedProject = '" + projectID + "'";
-            Statement statement = con.createStatement();
-            ResultSet rs = statement.executeQuery(sql);
-            while(rs.next()) //While you have something in the results
-            {
-                int taskID = rs.getInt("id");
-                String taskName =  rs.getString("name");
-                taskDuration[0] = rs.getLong("durationHours");
-                taskDuration[1] = rs.getLong("durationMinutes");
-                Task taskInProject = new Task(taskID, taskName, null, projectID,"");
-                allTaskIDsAndNamesOfAProject.add(taskInProject); 
-            }    
-        }
-        return allTaskIDsAndNamesOfAProject ;
-    }
-    
-    
+  
     public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID) { 
     //  Edits a Task in the Task table of the database given the Projects new details.  
         String sql = "UPDATE Task SET name = ?, description = ?, associatedProject = ?";

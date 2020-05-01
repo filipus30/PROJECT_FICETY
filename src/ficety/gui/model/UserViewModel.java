@@ -35,4 +35,9 @@ public class UserViewModel {
     {
         return BllM.getAllProjects();
     }
+    
+    public void addNewTaskAndSetItRunning(String taskName, Project associatedProject)
+    {
+        BllM.addNewTaskAndSetItRunning(taskName, associatedProject);
+    }
 }

@@ -10,6 +10,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import ficety.be.LoggedInUser;
+import ficety.be.Project;
 import ficety.be.Session;
 import ficety.be.Task;
 import ficety.dal.SessionDBDAO;
@@ -54,7 +55,7 @@ public class UserViewController extends JFrame implements Initializable {
 
     private TextField tf_newtask;
     @FXML
-    private ComboBox<?> cb_project;
+    private ComboBox<Project> cb_project;
     @FXML
     private Button bn_add;
     @FXML
@@ -166,6 +167,8 @@ public class UserViewController extends JFrame implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         UVM = new UserViewModel();
         lu = lu.getInstance();
+        ObservableList<Project> data = FXCollections.observableArrayList(UVM.getAllProjects());
+        cb_project.getItems().addAll(data);
     }    
 
     public UserViewController() {
@@ -247,6 +250,21 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private void toggel_size(ActionEvent event) {
         toggelSize();
+    }
+    
+        @FXML
+    private void addTaskAndSetItRunning(ActionEvent event) {
+        Project associatedProject = cb_project.getSelectionModel().getSelectedItem();
+        String taskName = tf_newtask.getText();
+        UVM.addNewTaskAndSetItRunning(taskName, associatedProject);
+        if(isTimerRunning)
+        {
+            timer.stop();
+            isTimerRunning = false;
+        }
+        timer.start();
+        isTimerRunning = true;
+       
     }
 
     @FXML

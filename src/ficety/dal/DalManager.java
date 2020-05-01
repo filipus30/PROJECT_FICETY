@@ -45,16 +45,6 @@ public class DalManager implements DalFaçade {
     
     
     @Override
-    public Project getProject(int projectID) {
-        try {
-            return projectDBDao.getProject(projectID);
-        } catch (SQLException ex) {
-            Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-    
-    @Override
     public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr) {
         return projectDBDao.editProject(editedProject, projectName, associatedClientID, projectRate, allocatedHours, isClosed, phoneNr);
     }
@@ -79,35 +69,14 @@ public class DalManager implements DalFaçade {
     
 // TaskDBDAO methods            
     @Override
-    public Task addNewTaskToDB(String taskName, String description, Project associatedProject) {
+    public Task addNewTaskToDB(String taskName, Project associatedProject) {
         try {
-            return taskDBDao.addNewTaskToDB(taskName, description, associatedProject);
+            return taskDBDao.addNewTaskToDB(taskName, associatedProject);
         } catch (SQLException ex) {
             Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
-    @Override
-    public Task getTask(int taskID) {
-        try {
-            return taskDBDao.getTask(taskID);
-        } catch (SQLException ex) {
-            Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-    
-    @Override
-    public List<Task> getAllTaskIDsAndNamesOfAProject(int projectID) {
-        try {
-            return taskDBDao.getAllTaskIDsAndNamesOfAProject(projectID);
-        } catch (SQLException ex) {
-            Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-    
     
     @Override
     public Task editTask(Task editedTask, String taskName, String description, int associatedProjectID) {

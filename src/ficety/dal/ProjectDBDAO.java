@@ -69,35 +69,6 @@ public class ProjectDBDAO {
         return null;
     }
      
-     
-    public Project getProject(int projectID) throws SQLException {
-    //  Returns a spacific Project data object given the Project id
-        Project project = null;
-        String SQLStmt = "SELECT Projects.Name, Projects.AssociatedClient, Projects.ProjectRate, Projects.AllocatedHours, Projects.Closed, Clients.LogoImgLocation FROM Projects JOIN Clients ON Projeects.AssociatedClient = Clients.Id WHERE Projects.Id = ?";
-        try(Connection con = dbc.getConnection()) {
-            PreparedStatement pstmt = con.prepareStatement(SQLStmt);
-            pstmt.setInt(1, projectID);
-            
-            ResultSet rs = pstmt.executeQuery();
-            while(rs.next()) //While you have something in the results
-            {
-                String projectName = rs.getString("Name");
-                int associatedClientID = rs.getInt("AssociatedClient");
-                Float projectRate = rs.getFloat("ProjectRate");
-                String phoneNr = rs.getString("PhoneNr");
-                int allocatedHours = rs.getInt("AllocatedHours");
-                int closed = rs.getInt("Closed");
-                boolean isClosed = false;
-                if(closed == 1)
-                isClosed = true;
-                String clientIMG = rs.getString("LogoImgLocation");
-                project = new Project(projectID, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed, clientIMG); 
-            }    
-        }
-        return project;
-    }   
-    
-
     public Project editProject (Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr) { 
     //  Edits a Project in the Projects table of the database given the Projects new details.  
         String sql = "UPDATE Projects SET Name = ?, ProjectRate = ?, AllocatedHours = ?, Closed = ? , PhoneNr = ?, AssociatedClient = ?  WHERE Id = ?";

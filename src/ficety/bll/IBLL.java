@@ -23,7 +23,6 @@ public interface IBLL {
        
 // ProjectDBDAO methods    
     public Project addNewProjectToDB(String projectName, Client associatedClient, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed);
-    public Project getProject(int projectID);
     public Project editProject (Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr);
     public ArrayList<Project> get3RecentProjectsForUser();
     public ArrayList<Project> getAllProjectsForUserTab();
@@ -31,11 +30,10 @@ public interface IBLL {
 
     
 // TaskDBDAO methods        
-    public Task addNewTaskToDB(String taskName, String description, Project associatedProject);
-    public Task getTask(int taskID);
-    public List<Task> getAllTaskIDsAndNamesOfAProject(int projectID);
+    public Task addNewTaskToDB(String taskName, Project associatedProject);
     public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID);
     public void removeTaskFromDB(Task taskToDelete);
+    public void addNewTaskAndSetItRunning(String taskName, Project associatedProject);
   
 
 // SessionDBDAO methods            

@@ -126,4 +126,10 @@ public class Project {
     public void setClientName(String clientName) {
         this.clientName = clientName;
     }
+    
+    @Override
+    public String toString()
+    {
+        return projectName;
+    }
 }
