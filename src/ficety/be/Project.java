@@ -22,7 +22,7 @@ public class Project {
     private boolean isClosed;
     private String clientIMG;
     private String clientName;
-    private long seconds;
+    private String seconds;
 
 
     public Project(int projectID, String projectName, int associatedClientID, String phoneNr, float projectRate, int allocatedHours, boolean isClosed, String clientIMG) {
@@ -32,7 +32,7 @@ public class Project {
         this.phoneNr = phoneNr;
         this.projectRate = projectRate;
         this.allocatedHours = allocatedHours;
-        this.taskList = taskList;
+       // this.taskList = taskList;
         this.isClosed = isClosed;
         this.clientIMG = clientIMG;
     }
@@ -44,14 +44,6 @@ public class Project {
 
     public void setId(int projectID) {
         this.projectID = projectID;
-    }
-
-    public String getName() {
-        return projectName;
-    }
-
-    public void setName(String projectName) {
-        this.projectName = projectName;
     }
 
     public int associatedClientID() {
@@ -111,11 +103,11 @@ public class Project {
         this.clientIMG = clientIMG;
     }
     
-    public long getSeconds() {
+    public String getSeconds() {
         return seconds;
     }
 
-    public void setSeconds(long seconds) {
+    public void setSeconds(String seconds) {
         this.seconds = seconds;
     }
 
@@ -131,5 +123,12 @@ public class Project {
     public String toString()
     {
         return projectName;
+    }
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 }

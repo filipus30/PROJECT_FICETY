@@ -90,7 +90,7 @@ public class ProjectDBDAO {
             
             
             pstmt.executeUpdate();  //Execute SQL query.
-            editedProject.setName(projectName);
+            editedProject.setProjectName(projectName);
             editedProject.setAssociatedClient(associatedClientID);  
             editedProject.setProjectRate(projectRate);
             editedProject.setAllocatedHours(allocatedHours);
@@ -185,8 +185,9 @@ public class ProjectDBDAO {
             project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed, clientIMG);
             String ClientName = rs.getString("CName");
             project.setClientName(ClientName);
-            int seconds = rs.getInt("TotalTime");
-            project.setSeconds(seconds);
+            int time = rs.getInt("TotalTime");
+             String timee = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
+            project.setSeconds(timee);
             allProjectsForUser.add(project);
         }
         return allProjectsForUser;  
@@ -232,8 +233,9 @@ public class ProjectDBDAO {
             project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed, clientIMG);
             String ClientName = rs.getString("CName");
             project.setClientName(ClientName);
-            int seconds = rs.getInt("TotalTime");
-            project.setSeconds(seconds);
+            int time = rs.getInt("TotalTime");
+             String timee = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
+            project.setSeconds(timee);
             allProjectsForUser.add(project);
         }
         return allProjectsForUser;  

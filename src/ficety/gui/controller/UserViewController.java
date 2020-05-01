@@ -39,6 +39,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import javax.swing.JFrame;
@@ -79,19 +80,15 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private Tab tab_pj;
     @FXML
-    private TableView<?> Tbv_pj;
+    private TableView<Project> Tbv_pj;
     @FXML
-    private TableColumn<?, ?> Col_pj_name;
+    private TableColumn<Project, String> Col_pj_name;
     @FXML
-    private TableColumn<?, ?> Col_pj_clint;
+    private TableColumn<Project, String> Col_pj_clint;
     @FXML
-    private TableColumn<?, ?> Col_pj_contact;
+    private TableColumn<Project, String> Col_pj_contact;
     @FXML
-    private TableColumn<?, ?> Col_pj_nroftask;
-    @FXML
-    private TableColumn<?, ?> Col_pj_myhours;
-    @FXML
-    private TextField pj_search;
+    private TableColumn<Project, Integer> Col_pj_myhours;
     @FXML
     private Tab tab_task;
     @FXML
@@ -113,12 +110,6 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private JFXButton bn_task_delete;
     @FXML
-    private JFXDatePicker dp_task_from;
-    @FXML
-    private JFXDatePicker dp_task_to;
-    @FXML
-    private TextField task_search;
-    @FXML
     private Tab tab_stat;
     @FXML
     private BarChart<?, ?> stat_graf;
@@ -135,8 +126,6 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private Label lb_stat_totalhours;
     @FXML
-    private TextField stat_search;
-    @FXML
     private Tab tab_sesion;
     @FXML
     private TableColumn<Session, Integer> col_sesion_taskname;
@@ -146,10 +135,6 @@ public class UserViewController extends JFrame implements Initializable {
     private TableColumn<Session, LocalDateTime> col_sesion_stop;
     @FXML
     private TableColumn<Session, Integer> col_sesion_myhours;
-    @FXML
-    private TextField sesion_search;
-    @FXML
-    
     private ScrollPane Sp_last3;
     
     private UserViewModel UVM;
@@ -161,6 +146,8 @@ public class UserViewController extends JFrame implements Initializable {
     private TableColumn<Task,String> Col_task_description;
     @FXML
     private TableView<Session> tbv_session;
+    @FXML
+    private AnchorPane ap;
 
     
     @Override
@@ -183,11 +170,12 @@ public class UserViewController extends JFrame implements Initializable {
         
         Stage stage = (Stage) bn_expandview.getScene().getWindow();
         stage.setMaxHeight(488);
-        stage.setMaxWidth(1044);
+        stage.setMaxWidth(777);
         stage.setMinHeight(488);
-        stage.setMinWidth(1044);
+        stage.setMinWidth(777);
         MaxWidth = 1044;
-        Sp_last3.setVisible(true);
+     //  Sp_last3.setVisible(true);
+     ap.setVisible(true);
             min = true;
         
         }
@@ -195,11 +183,12 @@ public class UserViewController extends JFrame implements Initializable {
             if(min == false){
                 Stage stage = (Stage) bn_expandview.getScene().getWindow();
                 stage.setMaxHeight(488);
-                stage.setMaxWidth(1044);
+                stage.setMaxWidth(777);
                 stage.setMinHeight(488);
-                stage.setMinWidth(1044);
+                stage.setMinWidth(777);
                 MaxWidth = 1044;
-                Sp_last3.setVisible(true);
+             //   Sp_last3.setVisible(true);
+              ap.setVisible(true);
                 min = true;
             }
             else{
@@ -209,7 +198,8 @@ public class UserViewController extends JFrame implements Initializable {
                 stage.setMinHeight(488);
                 stage.setMinWidth(260);
                 MaxWidth = 260;
-                Sp_last3.setVisible(true);
+              //  Sp_last3.setVisible(true
+               ap.setVisible(true);
                 min = true;
             }
         }
@@ -222,7 +212,7 @@ public class UserViewController extends JFrame implements Initializable {
                 min = true;
            
                 System.out.println("true");
-                Stage stage = (Stage) Sp_last3.getScene().getWindow();
+                Stage stage = (Stage) ap.getScene().getWindow();
                 stage.setMaxHeight(488);
                 stage.setMaxWidth(260);
                 stage.setMinHeight(488);
@@ -230,11 +220,12 @@ public class UserViewController extends JFrame implements Initializable {
                 MaxWidth = 260;
             }
         else{
-                Sp_last3.setVisible(false);
+               // Sp_last3.setVisible(false);
+                ap.setVisible(false);
                  min = false;
             
                 System.out.println("false");
-                Stage stage = (Stage) Sp_last3.getScene().getWindow();
+                Stage stage = (Stage) ap.getScene().getWindow();
                 stage.setMaxHeight(248);
                 stage.setMaxWidth(255);
                 stage.setMinHeight(248);
@@ -316,10 +307,12 @@ AnimationTimer timer = new AnimationTimer() {
     
 };
 private TaskDBDAO tbd = new TaskDBDAO();
+private LoggedInUser liu = LoggedInUser.getInstance();
+private UserViewModel uvm = new UserViewModel();
     @FXML
     private void load_task_tab(Event event) throws SQLException {
       //  Task t = new Task(5,"lol","ok",8,0);
-        ObservableList<Task> data =  FXCollections.observableArrayList(tbd.getTasksInfo(1));
+        ObservableList<Task> data =  FXCollections.observableArrayList(tbd.getTasksInfo(liu.getId()));
       //  data.add(t);
         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
@@ -329,13 +322,12 @@ private TaskDBDAO tbd = new TaskDBDAO();
         System.out.println(data.size());
     }
 private SessionDBDAO sbd = new SessionDBDAO();
-private LoggedInUser liu;
     @FXML
     private void load_session_tab(Event event) throws SQLException {
-        liu = LoggedInUser.getInstance();
+       
      //  Timestamp n
      //   Session s = new Session(3,3,3,now,now,0,"");
-        ObservableList<Session> data =  FXCollections.observableArrayList(sbd.getAllSessionsOfATask(1));
+        ObservableList<Session> data =  FXCollections.observableArrayList(sbd.getAllSessionsOfATask(liu.getId()));
         col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
         col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
         col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
@@ -344,6 +336,19 @@ private LoggedInUser liu;
         cb_project.getSelectionModel().getSelectedItem();
       //  cb_project.getItems().addAll(c);
        
+    }
+
+    @FXML
+    private void load_pj_tab(Event event) {
+         ObservableList<Project> data =  FXCollections.observableArrayList(uvm.getAllProjectsForUserTab());
+         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
+         Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
+         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
+         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
+         Tbv_pj.setItems(data);
+        
+        
+        
     }
     
 }
