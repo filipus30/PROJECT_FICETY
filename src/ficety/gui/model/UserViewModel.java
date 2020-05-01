@@ -25,4 +25,14 @@ public class UserViewModel {
     {
         return BllM.get3RecentProjectsForUser();
     }
+    
+    public ArrayList<Project> getAllProjectsForUserTab()
+    {
+        return BllM.getAllProjectsForUserTab();
+    }
+    
+    public ArrayList<Project> getAllProjects()
+    {
+        return BllM.getAllProjects();
+    }
 }

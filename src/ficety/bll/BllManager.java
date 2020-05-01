@@ -61,7 +61,19 @@ public class BllManager implements IBLL {
         }
         return projects;
     }
+    
+    @Override
+    public ArrayList<Project> getAllProjectsForUserTab()
+    {
+        int userId = lu.getId();
+        return dalManager.getAllProjectsForUserTab(userId);
+    }
 
+    @Override
+    public ArrayList<Project> getAllProjects()
+    {
+        return dalManager.getAllProjects();
+    }
     
     
 // TaskDBDAO methods                

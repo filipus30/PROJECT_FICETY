@@ -26,6 +26,8 @@ public interface IBLL {
     public Project getProject(int projectID);
     public Project editProject (Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr);
     public ArrayList<Project> get3RecentProjectsForUser();
+    public ArrayList<Project> getAllProjectsForUserTab();
+    public ArrayList<Project> getAllProjects();
 
     
 // TaskDBDAO methods        
