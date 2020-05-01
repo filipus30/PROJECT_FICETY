@@ -47,6 +47,7 @@ public interface IBLL {
     public User getUser(int userID);
     public User editUser (User userToEdit, String userName, String email, String password, Float salary, boolean isAdmin); 
     public void removeUserFromDB(User userToDelete);
+    public ArrayList<User> getAllUsers();
     
     
     

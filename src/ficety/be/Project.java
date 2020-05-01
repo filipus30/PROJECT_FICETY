@@ -22,7 +22,7 @@ public class Project {
     private boolean isClosed;
     private String clientIMG;
     private String clientName;
-    private int seconds;
+    private long seconds;
 
 
     public Project(int projectID, String projectName, int associatedClientID, String phoneNr, float projectRate, int allocatedHours, boolean isClosed, String clientIMG) {
@@ -111,11 +111,11 @@ public class Project {
         this.clientIMG = clientIMG;
     }
     
-    public int getSeconds() {
+    public long getSeconds() {
         return seconds;
     }
 
-    public void setSeconds(int seconds) {
+    public void setSeconds(long seconds) {
         this.seconds = seconds;
     }
 

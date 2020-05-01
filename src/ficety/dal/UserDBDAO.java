@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ficety.be.User;
+import java.util.ArrayList;
 
 
 /**
@@ -66,13 +67,14 @@ public class UserDBDAO {
     }
      
     
-    public User getUser(int userID) throws SQLException {
+    public User getUser(int userID) {
     //  Returns a spacific user data object given their user id
         User user = null;
         try(Connection con = dbc.getConnection()) {
-            String sql = "SELECT userName, email, password, salary, isAdmin FROM Users WHERE id ='" + userID + "'";
-            Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+            String sql = "SELECT userName, email, password, salary, isAdmin FROM Users WHERE id =?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, userID);
+            ResultSet rs = pstmt.executeQuery();
             while(rs.next()) //While you have something in the results
             {
                 String userName = rs.getString("userName");
@@ -84,7 +86,10 @@ public class UserDBDAO {
                 if(admin == 1)
                     isAdmin = true;
                user = new User(userID, userName, email, password, salary, isAdmin); 
+               return user;
             }    
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return user;
     }   
@@ -177,4 +182,40 @@ public class UserDBDAO {
         }
         return 4; //this should never happen.
     }
+    
+        public ArrayList<User> getAllUsers() {
+    //  Returns a spacific user data object given their user id
+        ArrayList<User> allUsers= new ArrayList();
+        try(Connection con = dbc.getConnection()) {
+            String sql = "SELECT Part.* FROM " +
+                            "(SELECT Users.Id, Users.Name AS UName, Users.Email, Users.Password, Users.Salary, Users.Admin, " + 
+                                    "SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Users.Id) AS TotalTime, " + 
+                                    "ROW_NUMBER() OVER(PARTITION BY Users.Id ORDER BY Users.Name) AS Corr " +
+                                "FROM Users " +
+                                    "LEFT JOIN Sessions ON Users.Id = Sessions.AssociatedUser" +
+                            ")Part" +
+                            "WHERE part.Corr=1;";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) //While you have something in the results
+            {
+                int userID = rs.getInt("Id");
+                String userName = rs.getString("UName");
+                String email = rs.getString("Email");
+                String password = rs.getString("Password");
+                Float salary = rs.getFloat("Salary");
+                int admin = rs.getInt("Admin");
+                boolean isAdmin = false;
+                if(admin == 1)
+                    isAdmin = true;
+               User tempUser = new User(userID, userName, email, password, salary, isAdmin);
+               long time = rs.getLong("TotalTime");
+               tempUser.setTotalTime(time);
+               allUsers.add(tempUser);
+            }    
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allUsers;
+    }   
 }

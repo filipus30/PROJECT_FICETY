@@ -167,4 +167,10 @@ public class BllManager implements IBLL {
         return dalManager.checkUserLogin(email, password);
     }
     
+    @Override
+    public ArrayList<User> getAllUsers()
+    {
+        return dalManager.getAllUsers();
+    }
+    
 }

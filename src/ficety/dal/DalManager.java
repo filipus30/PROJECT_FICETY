@@ -135,12 +135,7 @@ public class DalManager implements DalFaçade {
     
     @Override
     public User getUser(int userID) {
-        try {
-            return userDBDao.getUser(userID);
-        } catch (SQLException ex) {
-            Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return userDBDao.getUser(userID);
     }
     
     @Override
@@ -163,7 +158,11 @@ public class DalManager implements DalFaçade {
         return 4;
     }
 
-
+    @Override
+    public ArrayList<User> getAllUsers()
+    {
+        return userDBDao.getAllUsers();
+    }
 
     
 }

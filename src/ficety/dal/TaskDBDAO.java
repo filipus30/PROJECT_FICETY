@@ -35,7 +35,7 @@ public class TaskDBDAO {
 
     public Task addNewTaskToDB(String taskName, Project associatedProject) throws SQLException { 
     //  Adds a new Task to the DB, and returns the updated Project to the GUI
-        System.out.println("Trying to create task name " + taskName);
+        //System.out.println("Trying to create task name " + taskName);
         String sql = "INSERT INTO Tasks (Name, Description, AssociatedProject) VALUES (?,?,?)";
         int associatedProjectID = associatedProject.getId();
         Task newTask = new Task(0, taskName, " ", associatedProjectID, "");
@@ -104,7 +104,11 @@ public class TaskDBDAO {
               List<Task> alltasks = new ArrayList();
         try(Connection con = dbc.getConnection()) {
            // String sql = "Select Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(MINUTE, S.StartTime, S.FinishTime)) AS Total from Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask where Tasks.Id= '3' AND S.AssociatedUser = '?' GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description;";
-           String sql = "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(SECOND, S.StartTime, S.FinishTime)) AS Total FROM Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask WHERE S.AssociatedUser = ? GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id";
+           String sql = "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(SECOND, S.StartTime, S.FinishTime)) AS Total " + 
+                        "FROM Tasks " + 
+                            "JOIN Sessions S ON Tasks.Id=S.AssociatedTask " + 
+                        "WHERE S.AssociatedUser = ? " + 
+                        "GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id";
            PreparedStatement pstmt = con.prepareStatement(sql);   
             pstmt.setInt(1,user);
              pstmt.execute();

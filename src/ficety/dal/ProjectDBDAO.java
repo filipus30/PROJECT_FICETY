@@ -109,7 +109,15 @@ public class ProjectDBDAO {
       public ArrayList<Project> get3RecentProjectsForUser(int loggedInUserKey)
       {
         ArrayList<Project> recentProjects = new ArrayList();
-        String sql = "Select TOP(3) part.* FROM (Select Projects.Id, Projects.Name, Projects.ProjectRate, Projects.AssociatedClient, Projects.Closed, Projects.Phonenr, Projects.AllocatedHours, Clients.LogoImgLocation, Sessions.FinishTime, ROW_NUMBER() OVER(Partition BY Projects.Id ORDER BY Sessions.FinishTime) Corr FROM Projects JOIN Tasks ON Projects.Id = Tasks.AssociatedProject  JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask JOIN Clients On Projects.AssociatedClient = Clients.Id WHERE Sessions.AssociatedUser = ? AND Closed = 0) part WHERE part.Corr=1";
+        String sql = "Select TOP(3) part.* " + 
+                "FROM (Select Projects.Id, Projects.Name, Projects.ProjectRate, Projects.AssociatedClient, Projects.Closed, Projects.Phonenr, Projects.AllocatedHours, " +
+                        "Clients.LogoImgLocation, Sessions.FinishTime, ROW_NUMBER() OVER(Partition BY Projects.Id ORDER BY Sessions.FinishTime) Corr " + 
+                    "FROM Projects " +
+                    "JOIN Tasks ON Projects.Id = Tasks.AssociatedProject  " + 
+                    "JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask " + 
+                    "JOIN Clients On Projects.AssociatedClient = Clients.Id " + 
+                    "WHERE Sessions.AssociatedUser = ? AND Closed = 0) part " + 
+                "WHERE part.Corr=1";
         try ( Connection con = dbc.getConnection()) {
         //Create a prepared statement.
         PreparedStatement pstmt = con.prepareStatement(sql);
@@ -143,7 +151,16 @@ public class ProjectDBDAO {
       public ArrayList<Project> getAllProjectsForUserTab(int userID)
       {
           ArrayList<Project> allProjectsForUser = new ArrayList();
-          String sql ="SELECT Part.* FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Tasks.Id) AS TotalTime, ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr FROM Projects JOIN Clients ON Projects.AssociatedClient=Clients.Id JOIN Tasks ON Projects.Id=Tasks.AssociatedProject JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask WHERE Sessions.AssociatedUser = ?)Part WHERE part.Corr=1;";
+          String sql ="SELECT Part.* " + 
+                        "FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, "+ 
+                                "Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Tasks.Id) AS TotalTime, " +
+                                "ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr " +
+                            "FROM Projects " + 
+                                "JOIN Clients ON Projects.AssociatedClient=Clients.Id " + 
+                                "JOIN Tasks ON Projects.Id=Tasks.AssociatedProject " + 
+                                "JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask " + 
+                            "WHERE Sessions.AssociatedUser = ?)Part " + 
+                        "WHERE part.Corr=1;";
       
           try ( Connection con = dbc.getConnection()) {
         //Create a prepared statement.
@@ -183,7 +200,15 @@ public class ProjectDBDAO {
       public ArrayList<Project> getAllProjects()
       {
           ArrayList<Project> allProjectsForUser = new ArrayList();
-          String sql ="SELECT Part.* FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Tasks.Id) AS TotalTime, ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr FROM Projects JOIN Clients ON Projects.AssociatedClient=Clients.Id JOIN Tasks ON Projects.Id=Tasks.AssociatedProject LEFT JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask)Part WHERE part.Corr=1;";
+          String sql ="SELECT Part.* " + 
+                        "FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, " + 
+                                "Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Tasks.Id) AS TotalTime, " + 
+                                "ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr " + 
+                            "FROM Projects " + 
+                            "JOIN Clients ON Projects.AssociatedClient=Clients.Id " + 
+                            "JOIN Tasks ON Projects.Id=Tasks.AssociatedProject " + 
+                            "LEFT JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask)Part " + 
+                        "WHERE part.Corr=1;";
       
           try ( Connection con = dbc.getConnection()) {
         //Create a prepared statement.
