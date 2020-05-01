@@ -6,6 +6,7 @@
 package ficety.gui.model;
 
 import ficety.be.Project;
+import ficety.be.User;
 import ficety.bll.BllManager;
 import java.util.ArrayList;
 
@@ -24,5 +25,25 @@ public class UserViewModel {
     public ArrayList<Project> get3RecentProjects()
     {
         return BllM.get3RecentProjectsForUser();
+    }
+    
+    public ArrayList<Project> getAllProjectsForUserTab()
+    {
+        return BllM.getAllProjectsForUserTab();
+    }
+    
+    public ArrayList<Project> getAllProjects()
+    {
+        return BllM.getAllProjects();
+    }
+    
+    public void addNewTaskAndSetItRunning(String taskName, Project associatedProject)
+    {
+        BllM.addNewTaskAndSetItRunning(taskName, associatedProject);
+    }
+    
+    public ArrayList<User> getAllUsers()
+    {
+        return BllM.getAllUsers();
     }
 }

@@ -167,6 +167,8 @@ public class UserViewController extends JFrame implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         UVM = new UserViewModel();
         lu = lu.getInstance();
+        ObservableList<Project> data = FXCollections.observableArrayList(UVM.getAllProjects());
+        cb_project.getItems().addAll(data);
     }    
 
     public UserViewController() {
@@ -248,6 +250,21 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private void toggel_size(ActionEvent event) {
         toggelSize();
+    }
+    
+        @FXML
+    private void addTaskAndSetItRunning(ActionEvent event) {
+        Project associatedProject = cb_project.getSelectionModel().getSelectedItem();
+        String taskName = tf_newtask.getText();
+        UVM.addNewTaskAndSetItRunning(taskName, associatedProject);
+        if(isTimerRunning)
+        {
+            timer.stop();
+            isTimerRunning = false;
+        }
+        timer.start();
+        isTimerRunning = true;
+       
     }
 
     @FXML

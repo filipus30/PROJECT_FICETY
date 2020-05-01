@@ -19,9 +19,10 @@ public class User {
     private String password;
     private float salary;  
     private boolean isAdmin; 
+    private long totalTime;
 
 
-    
+
     public User(int userID, String userName, String email, String password, float salary, boolean isAdmin) {
         this.userID = userID;
         this.userName = userName;
@@ -80,6 +81,12 @@ public class User {
         this.isAdmin = isAdmin;
     }
     
-    
+    public long getTotalTime() {
+        return totalTime;
+    }
+
+    public void setTotalTime(long totalTime) {
+        this.totalTime = totalTime;
+    }
     
 }

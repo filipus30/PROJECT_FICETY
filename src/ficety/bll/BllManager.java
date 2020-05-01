@@ -41,11 +41,6 @@ public class BllManager implements IBLL {
     }
 
     @Override
-    public Project getProject(int projectID) {
-        return dalManager.getProject(projectID);
-    }
-
-    @Override
     public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr) {
         return dalManager.editProject(editedProject, projectName, associatedClientID, projectRate, allocatedHours, isClosed, phoneNr);
     }
@@ -61,23 +56,25 @@ public class BllManager implements IBLL {
         }
         return projects;
     }
+    
+    @Override
+    public ArrayList<Project> getAllProjectsForUserTab()
+    {
+        int userId = lu.getId();
+        return dalManager.getAllProjectsForUserTab(userId);
+    }
 
+    @Override
+    public ArrayList<Project> getAllProjects()
+    {
+        return dalManager.getAllProjects();
+    }
     
     
 // TaskDBDAO methods                
     @Override
-    public Task addNewTaskToDB(String taskName, String description, int associatedProjectID) {
-        return dalManager.addNewTaskToDB(taskName, description, associatedProjectID);
-    }
-
-    @Override
-    public Task getTask(int taskID) {
-        return dalManager.getTask(taskID);
-    }
-
-    @Override
-    public List<Task> getAllTaskIDsAndNamesOfAProject(int projectID) {
-        return dalManager.getAllTaskIDsAndNamesOfAProject(projectID);
+    public Task addNewTaskToDB(String taskName, Project associatedProject) {
+        return dalManager.addNewTaskToDB(taskName, associatedProject);
     }
 
     @Override
@@ -89,32 +86,45 @@ public class BllManager implements IBLL {
     public void removeTaskFromDB(Task taskToDelete) {
         dalManager.removeTaskFromDB(taskToDelete);
     }
+    
+    @Override
+    public void addNewTaskAndSetItRunning(String taskName, Project associatedProject)
+    {
+        if(lu.getCurrentSession() != null)
+        {
+            dalManager.addFinishTimeToSession(lu.getCurrentSession(), LocalDateTime.now());
+            lu.setCurrentSession(null);
+        }
+        Task currentTask = addNewTaskToDB(taskName, associatedProject);
+        lu.setCurrentTask(currentTask);
+        startStopSession();
+    }
 
     
     
 // SessionDBDAO methods                    
     @Override
     public void startStopSession() {
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now(); //The time right now
         int userID = lu.getId();
         Session thisSession = lu.getCurrentSession();
 
-        if(thisSession == null)
+        if(thisSession == null) //If there is no session running
         {
             
-            Task currentTask = lu.getCurrentTask();
+            Task currentTask = lu.getCurrentTask(); //get the selected task
             int currentTaskId = currentTask.getTaskID();
-            Session newSession = dalManager.addNewSessionToDB(userID, currentTaskId, now);
-            System.out.println("SessionID = " + newSession.getSessionID());
-            lu.setCurrentSession(newSession);
+            Session newSession = dalManager.addNewSessionToDB(userID, currentTaskId, now); //Add the session to DB.
+            //System.out.println("SessionID = " + newSession.getSessionID());
+            lu.setCurrentSession(newSession); //Set the current Session active
 
                        
         }
-        else
+        else//IF there is a current session runnign then we only need to stop it.
         {
             //Session currentSession = lu.getCurrentSession();
-            dalManager.addFinishTimeToSession(thisSession, now);
-            //lu.setCurrentSession(null);
+            dalManager.addFinishTimeToSession(thisSession, now); //Add the end time.
+            lu.setCurrentSession(null);
 
         }
         
@@ -155,6 +165,12 @@ public class BllManager implements IBLL {
     @Override
     public int checkUserLogin (String email, String password) {
         return dalManager.checkUserLogin(email, password);
+    }
+    
+    @Override
+    public ArrayList<User> getAllUsers()
+    {
+        return dalManager.getAllUsers();
     }
     
 }

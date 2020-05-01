@@ -21,7 +21,9 @@ public class Project {
     private List<Task> taskList;
     private boolean isClosed;
     private String clientIMG;
-    
+    private String clientName;
+    private long seconds;
+
 
     public Project(int projectID, String projectName, int associatedClientID, String phoneNr, float projectRate, int allocatedHours, boolean isClosed, String clientIMG) {
         this.projectID = projectID;
@@ -107,5 +109,27 @@ public class Project {
     public void setClientIMG(String clientIMG)
     {
         this.clientIMG = clientIMG;
+    }
+    
+    public long getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(long seconds) {
+        this.seconds = seconds;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return projectName;
     }
 }
