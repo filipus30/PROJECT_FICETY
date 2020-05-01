@@ -265,7 +265,7 @@ public class UserViewController extends JFrame implements Initializable {
     public void toggelSize(){
         
         if(min == false){    
-                Sp_last3.setVisible(true);
+              //  Sp_last3.setVisible(true);
                 min = true;
            
                 System.out.println("true");
