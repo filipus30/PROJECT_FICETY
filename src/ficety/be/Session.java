@@ -8,6 +8,7 @@ package ficety.be;
 import java.time.LocalDate;
 import java.util.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -67,20 +68,22 @@ public class Session {
         this.associatedTaskID = associatedTaskID;
     }
 
-    public Timestamp getStartTime() {
-        return startTime;
+    public String getStartTime() {
+        String s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(finishTime);
+        return s;
     }
 
     public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public Timestamp getFinishTime() {
-        return finishTime;
+    public String getFinishTime() {
+        String s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(finishTime);
+        return s;
     }
 
     public void setFinishTime(Timestamp finishTime) {
-        this.finishTime = finishTime;
+           this.finishTime = finishTime;
     }
 
      public String getTaskName() {
