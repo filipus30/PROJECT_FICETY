@@ -97,5 +97,10 @@ public class Task {
     public void setUsers(String users) {
         this.users = users;
     }
+
+    @Override
+    public String toString() {
+        return  taskName;
+    }
    
 }
