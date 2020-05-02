@@ -37,6 +37,7 @@ import javafx.stage.Stage;
  */
 public class AdminViewController implements Initializable {
 
+    private boolean debug = false;
     @FXML
     private TextField tf_newtask;
     @FXML
@@ -285,7 +286,7 @@ public class AdminViewController implements Initializable {
             Sp_last3.setVisible(true);
             min = true;
            
-                System.out.println("true");
+                debug("true");
                 Stage stage = (Stage) Sp_last3.getScene().getWindow();
                 stage.setMaxHeight(488);
                 stage.setMaxWidth(260);
@@ -297,7 +298,7 @@ public class AdminViewController implements Initializable {
             Sp_last3.setVisible(false);
             min = false;
             
-            System.out.println("false");
+            debug("false");
             Stage stage = (Stage) Sp_last3.getScene().getWindow();
             stage.setMaxHeight(248);
             stage.setMaxWidth(255);
@@ -325,5 +326,13 @@ public class AdminViewController implements Initializable {
         lu.setCurrentTask(currentTask);
         UVM.startStopSession();
     }
-    
+        
+   
+    private void debug (String msg)
+    {
+        if(debug == true)
+        {
+            System.out.println(msg);
+        }
+    }
 }
