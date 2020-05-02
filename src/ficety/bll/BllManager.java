@@ -22,7 +22,8 @@ import java.util.ArrayList;
  */
 public class BllManager implements IBLL {
 
-   // private DalManager dalManager;
+    private boolean debug = false;
+// private DalManager dalManager;
     
     public BllManager()
     {
@@ -146,7 +147,7 @@ public class BllManager implements IBLL {
             Task currentTask = lu.getCurrentTask(); //get the selected task
             int currentTaskId = currentTask.getTaskID();
             Session newSession = dalManager.addNewSessionToDB(userID, currentTaskId, now); //Add the session to DB.
-            //System.out.println("SessionID = " + newSession.getSessionID());
+            debug("SessionID = " + newSession.getSessionID());//DEBUG MESSAGE
             lu.setCurrentSession(newSession); //Set the current Session active
 
                        
@@ -205,4 +206,11 @@ public class BllManager implements IBLL {
         return dalManager.getAllUsers();
     }
     
+    private void debug(String msg)
+    {
+        if(debug==true)
+        {
+            System.out.println(msg);
+        }
+    }
 }

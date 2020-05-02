@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class UserDBDAO {
     private DBConnection dbc;
     private LoggedInUser lUser;
-
+    private boolean debug = false;
     
     public UserDBDAO() {
         dbc = new DBConnection();
@@ -168,7 +168,7 @@ public class UserDBDAO {
                     lUser.setPassword(password);
                     lUser.setSalary((int) userSalary);
                     lUser.setAdmin(isAdmin);
-                    System.out.println(tempLogin.getIsAdmin());
+                    debug("" + tempLogin.getIsAdmin());
                     if(tempLogin.getIsAdmin() == true) {
                         return 1; //user and password match = true
                     }
@@ -218,4 +218,12 @@ public class UserDBDAO {
         }
         return allUsers;
     }   
+        
+    private void debug(String msg)
+    {
+        if(debug == true)
+        {
+            System.out.println(msg);
+        }
+    }
 }

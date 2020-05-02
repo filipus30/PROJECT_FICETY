@@ -25,17 +25,18 @@ import ficety.be.Task;
  */
 public class TaskDBDAO {
     private DBConnection dbc;
-    private SessionDBDAO sessionDBDao;
+ //   private SessionDBDAO sessionDBDao;
+    private boolean debug = false;
     
     
     public TaskDBDAO() {
             dbc = new DBConnection();
-            sessionDBDao = new SessionDBDAO();
+  //          sessionDBDao = new SessionDBDAO();
     }        
 
     public Task addNewTaskToDB(String taskName, Project associatedProject) throws SQLException { 
     //  Adds a new Task to the DB, and returns the updated Project to the GUI
-        //System.out.println("Trying to create task name " + taskName);
+        debug("Trying to create task name " + taskName);
         String sql = "INSERT INTO Tasks (Name, Description, AssociatedProject) VALUES (?,?,?)";
         int associatedProjectID = associatedProject.getId();
         Task newTask = new Task(0, taskName, " ", associatedProjectID, "");
@@ -160,6 +161,12 @@ public class TaskDBDAO {
         }
     }
 
-      
+    private void debug(String msg)
+    {
+        if(debug == true)
+        {
+            System.out.println(msg);
+        }
+    } 
     
 }

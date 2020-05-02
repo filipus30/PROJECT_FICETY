@@ -31,7 +31,8 @@ import java.util.Date;
  */
 public class SessionDBDAO {
     private DBConnection dbc;
-    private UserDBDAO userDBDao;
+   // private UserDBDAO userDBDao;
+    private boolean debug = false;
 //    private TaskDBDAO taskDBDao;
 
     
@@ -39,14 +40,13 @@ public class SessionDBDAO {
     public SessionDBDAO() {
         dbc = new DBConnection();
 //        taskDBDao = new TaskDBDAO();
-        userDBDao = new UserDBDAO();
+//        userDBDao = new UserDBDAO();
     }
 
     
     
      public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, LocalDateTime startTime) { 
     //  Adds a new session to the Session table of the database given the sessions details. Generates an id key
-        LocalDateTime finishTime = null;
         String sql = "INSERT INTO Sessions(associatedUser, associatedTask, startTime, finishTime) VALUES (?,?,?,NULL)";
         Session newSession = new Session(0, associatedUserID, associatedTaskID,null,null,"","");
         try (Connection con = dbc.getConnection()) {
@@ -63,7 +63,7 @@ public class SessionDBDAO {
                 if (generatedKeys.next()) {
                     int key = (int) generatedKeys.getLong(1);
                     newSession.setSessionID(key);
-                    System.out.println("Key is:" + key);
+                    debug("Key is:" + key);
                     return newSession;
                 } else {
                     throw new SQLException("Creating Session failed, no ID obtained.");
@@ -113,7 +113,7 @@ public class SessionDBDAO {
             PreparedStatement pstmt = con.prepareStatement(sql);
             
             Timestamp finishTimeStamp = Timestamp.valueOf(finishTime);
-            System.out.println("Time is now: " + finishTimeStamp);
+            debug("Time is now: " + finishTimeStamp);
             pstmt.setTimestamp(1, finishTimeStamp);
             int sessionId = currentSession.getSessionID();
             pstmt.setInt(2, sessionId);
@@ -139,5 +139,11 @@ public class SessionDBDAO {
         }
     }
       
-    
+    private void debug(String msg)
+    {
+        if(debug == true)
+        {
+            System.out.println(msg);
+        }
+    }
 }
