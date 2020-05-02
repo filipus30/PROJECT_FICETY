@@ -361,28 +361,26 @@ AnimationTimer timer = new AnimationTimer() {
     }
     
 };
-private TaskDBDAO tbd = new TaskDBDAO();
-private LoggedInUser liu = LoggedInUser.getInstance();
-private UserViewModel uvm = new UserViewModel();
+
     @FXML
     private void load_task_tab(Event event) throws SQLException {
       //  Task t = new Task(5,"lol","ok",8,0);
-        ObservableList<Task> data =  FXCollections.observableArrayList(tbd.getTasksInfo(liu.getId()));
+        ObservableList<Task> data =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
       //  data.add(t);
         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectID"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
         tbv_task.setItems(data);
-        System.out.println(data.size());
+        debug(data.size() + "");
     }
-private SessionDBDAO sbd = new SessionDBDAO();
+
     @FXML
     private void load_session_tab(Event event) throws SQLException {
        
      //  Timestamp n
      //   Session s = new Session(3,3,3,now,now,0,"");
-        ObservableList<Session> data =  FXCollections.observableArrayList(sbd.getAllSessionsOfATask(liu.getId()));
+        ObservableList<Session> data =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
         col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
         col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
         col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
@@ -395,7 +393,7 @@ private SessionDBDAO sbd = new SessionDBDAO();
 
     @FXML
     private void load_pj_tab(Event event) {
-         ObservableList<Project> data =  FXCollections.observableArrayList(uvm.getAllProjectsForUserTab());
+         ObservableList<Project> data =  FXCollections.observableArrayList(UVM.getAllProjectsForUserTab());
          Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
          Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
          Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));

@@ -29,7 +29,7 @@ public class ClientDBDAO {
         dbc = new DBConnection();
     }
     
-    public Client addNewClientToDB(String clientName,float standardRate,String logoImgLocation,String email) throws SQLException { 
+    public Client addNewClientToDB(String clientName,float standardRate,String logoImgLocation,String email) { 
     //  Adds a new Client to the DB, and returns the updated Client to the GUI
         String sql = "INSERT INTO Clients(Name, logoImgLocation, standardRate, email) VALUES (?,?,?,?)";
         Client newClient = new Client(0,clientName,logoImgLocation,standardRate,email);
@@ -58,9 +58,9 @@ public class ClientDBDAO {
         return newClient;
     }
     
-     public List<Client> getAllClients() throws SQLException {
+     public ArrayList<Client> getAllClients() {
     //  Returns all Clients  
-        List<Client> allClients = new ArrayList<>();
+        ArrayList<Client> allClients = new ArrayList<>();
         try(Connection con = dbc.getConnection()){
             String sql = "SELECT * FROM Clients";
             Statement stmt = con.createStatement();
@@ -75,6 +75,8 @@ public class ClientDBDAO {
                 
                 allClients.add(new Client(clientID,clientName,logoImgLocation,standardRate,email)); 
             }    
+        } catch (SQLException ex) {
+            Logger.getLogger(ClientDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allClients;
     }
@@ -102,37 +104,16 @@ public class ClientDBDAO {
         }
         return null; 
     }
-    public Client getSpecificClient(int id) throws SQLException {
-    //  Returns specific Client
-        try(Connection con = dbc.getConnection()){
-            String sql = "SELECT * FROM Clients WHERE id = ?";
-             PreparedStatement pstmt = con.prepareStatement(sql);   
-             pstmt.setInt(1,id);
-             pstmt.execute();
-            ResultSet rs = pstmt.executeQuery();
-            
-            while(rs.next()) //While you have something in the results
-            {
-                int clientID =  rs.getInt("id");
-                String clientName = rs.getString("name");
-                String logoImgLocation = rs.getString("logoImgLocation");
-                float standardRate = rs.getFloat("standardRate");
-                String email = rs.getString("email");
-                
-               return new Client(clientID,clientName,logoImgLocation,standardRate,email); 
-            }    
-        }
-        return null;
-    }
     
-    
-    public void deleteClient(Client clientToDelete) throws SQLException {
+    public void deleteClient(Client clientToDelete){
     //  Delete specific Client
         try(Connection con = dbc.getConnection()){
             String sql = "DELETE FROM Clients WHERE id = ?";
              PreparedStatement pstmt = con.prepareStatement(sql);   
              pstmt.setInt(1,clientToDelete.getId());
              pstmt.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClientDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
        
     }

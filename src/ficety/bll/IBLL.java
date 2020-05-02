@@ -19,6 +19,12 @@ import java.util.ArrayList;
  * @author Trigger, Filip, Cecillia and Alan
  */
 public interface IBLL {
+
+//ClientDBDAO methods
+    public Client addNewClientToDB(String clientName,float standardRate,String logoImgLocation,String email);
+    public ArrayList<Client> getAllClients();
+    public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email);
+    public void deleteClient(Client clientToDelete);
     
        
 // ProjectDBDAO methods    
@@ -34,11 +40,12 @@ public interface IBLL {
     public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID);
     public void removeTaskFromDB(Task taskToDelete);
     public void addNewTaskAndSetItRunning(String taskName, Project associatedProject);
+    public List<Task> getTasksForUserInfo();
   
 
 // SessionDBDAO methods            
     public void startStopSession();
-    public List<Session> getAllSessionsOfATask(int taskID);
+    public List<Session> getAllSessionsOfAUser();
     public void removeSessionFromDB(Session sessionToDelete);
   
     

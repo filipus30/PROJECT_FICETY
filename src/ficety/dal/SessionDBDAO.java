@@ -78,7 +78,7 @@ public class SessionDBDAO {
         return null;
     }
      
-    public List<Session> getAllSessionsOfATask(int userid) throws SQLException {
+    public List<Session> getAllSessionsOfAUser(int userid){
         List<Session> allSessionsOfATask = new ArrayList<>();
         try(Connection con = dbc.getConnection()) {
             String sql = "SELECT  Sessions.Id, Sessions.AssociatedUser, Sessions.AssociatedTask, Sessions.StartTime, Sessions.FinishTime , SUM(Datediff(SECOND, StartTime, FinishTime)) AS Total, Tasks.Name from Sessions JOIN TASKS ON Sessions.AssociatedTask = Tasks.Id where Sessions.AssociatedUser = ? GROUP BY AssociatedUser,AssociatedTask ,FinishTime ,StartTime ,tasks.name,Sessions.Id ;";
@@ -100,6 +100,8 @@ public class SessionDBDAO {
                 Session sessionInTask = new Session(sessionID, AssociatedUserID, associatedTaskID, startTime, finishTime,timee,taskName);
                 allSessionsOfATask.add(sessionInTask); 
             }    
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return allSessionsOfATask ;
     }

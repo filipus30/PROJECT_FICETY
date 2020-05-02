@@ -26,21 +26,43 @@ public class DalManager implements DalFaçade {
     private TaskDBDAO taskDBDao = new TaskDBDAO();
     private SessionDBDAO sessionDBDao = new SessionDBDAO();
     private UserDBDAO userDBDao = new UserDBDAO();
+    private ClientDBDAO clientDBDao = new ClientDBDAO();
     
   public DalManager()
   {
        
  }
+//ClientDBDAO methods
+    @Override
+    public Client addNewClientToDB(String clientName,float standardRate,String logoImgLocation,String email)
+    {
+        return clientDBDao.addNewClientToDB(clientName, standardRate, logoImgLocation, email);
+    }
     
+    @Override
+    public ArrayList<Client> getAllClients()
+    {
+        return clientDBDao.getAllClients();
+    }
+  
+    @Override
+    public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email)
+    {
+        return clientDBDao.editClient(editedClient, name, standardRate, logoImgLocation, email);
+    }
+    
+    @Override
+    public void deleteClient(Client clientToDelete)
+    {
+        clientDBDao.deleteClient(clientToDelete);
+    }
+  
  // ProjectDBDAO methods       
     @Override
     public Project addNewProjectToDB(String projectName, Client associatedClient, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed) {
-        try {
-            return projectDBDao.addNewProjectToDB(projectName, associatedClient, phoneNr, projectRate, hoursAllocated, isClosed);
-        } catch (SQLException ex) {
-            Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+
+        return projectDBDao.addNewProjectToDB(projectName, associatedClient, phoneNr, projectRate, hoursAllocated, isClosed);
+
     }
     
     
@@ -93,7 +115,11 @@ public class DalManager implements DalFaçade {
         taskDBDao.addTasksToProject(p);
     }
 
-    
+    @Override
+    public List<Task> getTasksForUserInfo(int user)
+    {
+        return taskDBDao.getTasksForUserInfo(user);
+    }
     
 // SessionDBDAO methods                
     @Override
@@ -102,13 +128,10 @@ public class DalManager implements DalFaçade {
     }
     
     @Override
-    public List<Session> getAllSessionsOfATask(int taskID) {
-        try {
-            return sessionDBDao.getAllSessionsOfATask(taskID);
-        } catch (SQLException ex) {
-            Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    public List<Session> getAllSessionsOfAUser(int userID) {
+        
+        return sessionDBDao.getAllSessionsOfAUser(userID);
+
     }
     
     @Override

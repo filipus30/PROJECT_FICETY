@@ -100,7 +100,7 @@ public class TaskDBDAO {
         }
     }
 
-          public List<Task> getTasksInfo(int user) throws SQLException {
+    public List<Task> getTasksForUserInfo(int user){
               List<Task> alltasks = new ArrayList();
         try(Connection con = dbc.getConnection()) {
            // String sql = "Select Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(MINUTE, S.StartTime, S.FinishTime)) AS Total from Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask where Tasks.Id= '3' AND S.AssociatedUser = '?' GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description;";
@@ -125,6 +125,8 @@ public class TaskDBDAO {
                 alltasks.add(new Task(taskId, taskName, description, associatedProjectID,timee));
                
             }    
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
        return alltasks;
     }

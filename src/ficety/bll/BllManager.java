@@ -32,7 +32,31 @@ public class BllManager implements IBLL {
     private DalManager dalManager = new DalManager();
     private LoggedInUser lu = LoggedInUser.getInstance();
 
-   
+//CLientDBDAO methods
+    @Override
+    public Client addNewClientToDB(String clientName,float standardRate,String logoImgLocation,String email)
+    {
+        return dalManager.addNewClientToDB(clientName, standardRate, logoImgLocation, email);
+    }
+    
+    @Override
+    public ArrayList<Client> getAllClients()
+    {
+        return dalManager.getAllClients();
+    }
+  
+    @Override
+    public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email)
+    {
+        return dalManager.editClient(editedClient, name, standardRate, logoImgLocation, email);
+    }
+    
+    @Override
+    public void deleteClient(Client clientToDelete)
+    {
+        dalManager.deleteClient(clientToDelete);
+    }
+  
     
  // ProjectDBDAO methods           
     @Override
@@ -88,6 +112,13 @@ public class BllManager implements IBLL {
     }
     
     @Override
+    public List<Task> getTasksForUserInfo()
+    {
+        int user = lu.getId();
+        return dalManager.getTasksForUserInfo(user);
+    }
+    
+    @Override
     public void addNewTaskAndSetItRunning(String taskName, Project associatedProject)
     {
         if(lu.getCurrentSession() != null)
@@ -131,8 +162,9 @@ public class BllManager implements IBLL {
     }
 
     @Override
-    public List<Session> getAllSessionsOfATask(int taskID) {
-        return dalManager.getAllSessionsOfATask(taskID);
+    public List<Session> getAllSessionsOfAUser() {
+        int userID = lu.getId();
+        return dalManager.getAllSessionsOfAUser(userID);
     }
 
     @Override
