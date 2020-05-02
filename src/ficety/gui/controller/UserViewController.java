@@ -31,6 +31,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -53,6 +54,7 @@ import javax.swing.JFrame;
  */
 public class UserViewController extends JFrame implements Initializable {
     
+    private boolean debug = true;
     private Label label;
     @FXML
 
@@ -268,7 +270,7 @@ public class UserViewController extends JFrame implements Initializable {
               //  Sp_last3.setVisible(true);
                 min = true;
            
-                System.out.println("true");
+                debug("true");
                 Stage stage = (Stage) ap.getScene().getWindow();
                 stage.setMaxHeight(488);
                 stage.setMaxWidth(260);
@@ -281,7 +283,7 @@ public class UserViewController extends JFrame implements Initializable {
                 ap.setVisible(false);
                  min = false;
             
-                System.out.println("false");
+                debug("false");
                 Stage stage = (Stage) ap.getScene().getWindow();
                 stage.setMaxHeight(248);
                 stage.setMaxWidth(255);
@@ -318,10 +320,6 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private void handle_startStop(ActionEvent event) {
 
-        int userID = 1;
-        Task currentTask = new Task(3, "a", "do smth", 4,"");
-        lu.setId(userID);
-        lu.setCurrentTask(currentTask);
         UVM.startStopSession();
         if(isTimerRunning){
             timer.stop();
@@ -363,28 +361,26 @@ AnimationTimer timer = new AnimationTimer() {
     }
     
 };
-private TaskDBDAO tbd = new TaskDBDAO();
-private LoggedInUser liu = LoggedInUser.getInstance();
-private UserViewModel uvm = new UserViewModel();
+
     @FXML
     private void load_task_tab(Event event) throws SQLException {
       //  Task t = new Task(5,"lol","ok",8,0);
-        ObservableList<Task> data =  FXCollections.observableArrayList(tbd.getTasksInfo(liu.getId()));
+        ObservableList<Task> data =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
       //  data.add(t);
         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectID"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
         tbv_task.setItems(data);
-        System.out.println(data.size());
+        debug(data.size() + "");
     }
-private SessionDBDAO sbd = new SessionDBDAO();
+
     @FXML
     private void load_session_tab(Event event) throws SQLException {
        
      //  Timestamp n
      //   Session s = new Session(3,3,3,now,now,0,"");
-        ObservableList<Session> data =  FXCollections.observableArrayList(sbd.getAllSessionsOfATask(liu.getId()));
+        ObservableList<Session> data =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
         col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
         col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
         col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
@@ -397,7 +393,7 @@ private SessionDBDAO sbd = new SessionDBDAO();
 
     @FXML
     private void load_pj_tab(Event event) {
-         ObservableList<Project> data =  FXCollections.observableArrayList(uvm.getAllProjectsForUserTab());
+         ObservableList<Project> data =  FXCollections.observableArrayList(UVM.getAllProjectsForUserTab());
          Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
          Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
          Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
@@ -408,4 +404,51 @@ private SessionDBDAO sbd = new SessionDBDAO();
         
     }
     
+    @FXML //On the task selection for both the Task-tab as well as the Tasks INSIDE 3 most recent projects.
+    private void chooseSelectedTask(Event event)
+    {
+        if(event.getSource().equals(jcb1)) //From First recent Project
+        {
+            if(jcb1.getValue() != null)
+            {
+                debug("Value 1 box selected"); //DEBUG MESSAGE
+                Task tmp = jcb1.getValue();
+                lu.setCurrentTask(tmp);
+            }
+        }
+        
+        else if(event.getSource().equals(jcb2)) //From Second recent Project
+        {
+            if(jcb2.getValue() != null)
+            {
+                debug("Value 2 box selected"); //DEBUG MESSAGE
+                Task tmp = jcb2.getValue();
+                lu.setCurrentTask(tmp);
+            }
+        }
+        
+        else if(event.getSource().equals(jcb3)) //From Third recent Project
+        {
+            if(jcb3.getValue() != null)
+            {
+                debug("Value 3 box selected");//DEBUG MESSAGE
+                Task tmp = jcb3.getValue();
+                lu.setCurrentTask(tmp);
+            }
+        }
+        else if(event.getSource().equals(tbv_task))//From Task table view.
+        {
+            debug("TableView selected.");//DEBUG MESSAGE
+            Task tmp = tbv_task.getSelectionModel().getSelectedItem();
+            lu.setCurrentTask(tmp);
+        }
+    }
+    
+    private void debug (String msg)
+    {
+        if(debug == true)
+        {
+            System.out.println(msg);
+        }
+    }
 }

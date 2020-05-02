@@ -70,7 +70,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXComboBox fx:id="jcb1" prefHeight="25.0" prefWidth="82.0" promptText="Other">
+                        <JFXComboBox fx:id="jcb1" onAction="#chooseSelectedTask" prefHeight="25.0" prefWidth="82.0" promptText="Tasks">
                            <StackPane.margin>
                               <Insets left="126.0" top="30.0" />
                            </StackPane.margin>
@@ -91,7 +91,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXComboBox fx:id="jcb2" prefHeight="25.0" prefWidth="82.0" promptText="Other">
+                        <JFXComboBox fx:id="jcb2" onAction="#chooseSelectedTask" prefHeight="25.0" prefWidth="82.0" promptText="Tasks">
                            <StackPane.margin>
                               <Insets left="126.0" top="30.0" />
                            </StackPane.margin>
@@ -112,7 +112,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <JFXComboBox fx:id="jcb3" prefHeight="25.0" prefWidth="82.0" promptText="Other">
+                        <JFXComboBox fx:id="jcb3" onAction="#chooseSelectedTask" prefHeight="25.0" prefWidth="82.0" promptText="Tasks">
                            <StackPane.margin>
                               <Insets left="126.0" top="30.0" />
                            </StackPane.margin>
@@ -145,7 +145,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="tbv_task" layoutX="-3.0" prefHeight="391.0" prefWidth="498.0">
+                        <TableView fx:id="tbv_task" layoutX="-3.0" onMouseClicked="#chooseSelectedTask" prefHeight="391.0" prefWidth="498.0">
                           <columns>
                             <TableColumn fx:id="Col_task_taskname" prefWidth="111.0" text="Task name" />
                               <TableColumn fx:id="Col_task_description" prefWidth="122.0" text="Description" />

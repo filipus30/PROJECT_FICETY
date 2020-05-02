@@ -24,6 +24,12 @@ import java.util.ArrayList;
  * @author Trigger, Filip, Cecillia and Alan
  */
 public interface DalFaçade {
+
+//ClientDBDAO methods
+    public Client addNewClientToDB(String clientName,float standardRate,String logoImgLocation,String email);
+    public ArrayList<Client> getAllClients();
+    public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email);
+    public void deleteClient(Client clientToDelete);
     
        
 // ProjectDBDAO methods    
@@ -39,11 +45,12 @@ public interface DalFaçade {
     public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID);
     public void removeTaskFromDB(Task taskToDelete);
     public void addTasksToProject(Project p);
+    public List<Task> getTasksForUserInfo(int user);
   
 
 // SessionDBDAO methods            
     public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, LocalDateTime startTime);
-    public List<Session> getAllSessionsOfATask(int taskID);
+    public List<Session> getAllSessionsOfAUser(int taskID);
     public void removeSessionFromDB(Session sessionToDelete);
     public void addFinishTimeToSession(Session currentSession, LocalDateTime finishTime);
   
