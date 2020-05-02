@@ -20,6 +20,7 @@ import java.net.URL;
 import java.security.Timestamp;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
@@ -146,6 +147,7 @@ public class UserViewController extends JFrame implements Initializable {
     int MaxWidth;
     boolean min;
     boolean isTimerRunning = false;
+    boolean loaded = false;
     @FXML
     private TableColumn<Task,String> Col_task_description;
     @FXML
@@ -171,11 +173,12 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private JFXComboBox<Task> jcb3;
 
-    
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         UVM = new UserViewModel();
         lu = lu.getInstance();
+        
        ObservableList<Project> data = FXCollections.observableArrayList(UVM.getAllProjects());
        cb_project.getItems().addAll(data);
        ObservableList<Project> last3data = FXCollections.observableArrayList(UVM.get3RecentProjects());
@@ -212,8 +215,14 @@ public class UserViewController extends JFrame implements Initializable {
        img3.setImage(image3);}
         
         
-        
-        
+         List<Project> list = UVM.getAllProjectsForUserTab();
+         ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
+         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
+         Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
+         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
+         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
+         Tbv_pj.setItems(datapj);
+         loaded = true;
         
     }    
 
@@ -392,13 +401,15 @@ AnimationTimer timer = new AnimationTimer() {
     }
 
     @FXML
-    private void load_pj_tab(Event event) {
-         ObservableList<Project> data =  FXCollections.observableArrayList(UVM.getAllProjectsForUserTab());
+    private void load_pj_tab(Event event) throws InterruptedException {
+        if(loaded)
+        {   List<Project> list = UVM.getAllProjectsForUserTab();
+         ObservableList<Project> data =  FXCollections.observableArrayList(list);
          Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
          Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
          Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
          Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
-         Tbv_pj.setItems(data);
+         Tbv_pj.setItems(data);}
         
         
         
