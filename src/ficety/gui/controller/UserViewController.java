@@ -77,8 +77,6 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private Label lb_loginuser;
     @FXML
-    private JFXButton bn_settings;
-    @FXML
     private Button bn_expandview;
     @FXML
     private FlowPane fp_last3task;
@@ -148,6 +146,7 @@ public class UserViewController extends JFrame implements Initializable {
     boolean min;
     boolean isTimerRunning = false;
     boolean loaded = false;
+    private long time = 0;
     @FXML
     private TableColumn<Task,String> Col_task_description;
     @FXML
@@ -182,6 +181,7 @@ public class UserViewController extends JFrame implements Initializable {
        ObservableList<Project> data = FXCollections.observableArrayList(UVM.getAllProjects());
        cb_project.getItems().addAll(data);
        ObservableList<Project> last3data = FXCollections.observableArrayList(UVM.get3RecentProjects());
+       loadAll();
        if(last3data.size() >= 1)
        { 
        ObservableList<Task> tasklist1 = FXCollections.observableArrayList(last3data.get(0).getTaskList());
@@ -215,13 +215,13 @@ public class UserViewController extends JFrame implements Initializable {
        img3.setImage(image3);}
         
         
-         List<Project> list = UVM.getAllProjectsForUserTab();
-         ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
-         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
-         Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
-         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
-         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
-         Tbv_pj.setItems(datapj);
+//         List<Project> list = UVM.getAllProjectsForUserTab();
+//         ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
+//         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
+//         Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
+//         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
+//         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
+//         Tbv_pj.setItems(datapj);
          loaded = true;
         
     }    
@@ -319,6 +319,7 @@ public class UserViewController extends JFrame implements Initializable {
         if(isTimerRunning)
         {
             timer.stop();
+            time = 0;
             isTimerRunning = false;
         }
         timer.start();
@@ -340,7 +341,7 @@ public class UserViewController extends JFrame implements Initializable {
     
 AnimationTimer timer = new AnimationTimer() {
     private long timestamp;
-    private long time = 0;
+    private long timefortotal;
     private long fraction = 0;
 
     @Override
@@ -363,9 +364,12 @@ AnimationTimer timer = new AnimationTimer() {
         if (timestamp + 1000 <= newTime) {
             long deltaT = (newTime - timestamp) / 1000;
             time += deltaT;
+            timefortotal += deltaT;
             timestamp += 1000 * deltaT;
            String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
-            lb_tasktime.setText((timee));
+           String timetotal = String.format("%02d:%02d:%02d",timefortotal/3600 ,timefortotal / 60, timefortotal % 60);
+            lb_tasktime.setText(timee);
+            lb_timetoday.setText(timetotal);
         }
     }
     
@@ -373,15 +377,13 @@ AnimationTimer timer = new AnimationTimer() {
 
     @FXML
     private void load_task_tab(Event event) throws SQLException {
-      //  Task t = new Task(5,"lol","ok",8,0);
-        ObservableList<Task> data =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
-      //  data.add(t);
-        Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
-        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
-        Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectID"));
-        Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
-        tbv_task.setItems(data);
-        debug(data.size() + "");
+//        ObservableList<Task> data =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
+//        Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
+//        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
+//        Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectID"));
+//        Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
+//        tbv_task.setItems(data);
+//        debug(data.size() + "");
     }
 
     @FXML
@@ -389,29 +391,30 @@ AnimationTimer timer = new AnimationTimer() {
        
      //  Timestamp n
      //   Session s = new Session(3,3,3,now,now,0,"");
-        ObservableList<Session> data =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
-        col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
-        col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
-        col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
-        col_sesion_myhours.setCellValueFactory(new PropertyValueFactory<Session,Integer>("hours"));
-        tbv_session.setItems(data);
-        cb_project.getSelectionModel().getSelectedItem();
-      //  cb_project.getItems().addAll(c);
+//        ObservableList<Session> data =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
+//        col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
+//        col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
+//        col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
+//        col_sesion_myhours.setCellValueFactory(new PropertyValueFactory<Session,Integer>("hours"));
+//        tbv_session.setItems(data);
+//        cb_project.getSelectionModel().getSelectedItem();
+//      //  cb_project.getItems().addAll(c);
        
     }
 
     @FXML
     private void load_pj_tab(Event event) throws InterruptedException {
         if(loaded)
-        {   List<Project> list = UVM.getAllProjectsForUserTab();
-         ObservableList<Project> data =  FXCollections.observableArrayList(list);
-         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
-         Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
-         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
-         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
-         Tbv_pj.setItems(data);}
+            ;
+//        {   List<Project> list = UVM.getAllProjectsForUserTab();
+//         ObservableList<Project> data =  FXCollections.observableArrayList(list);
+//         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
+//         Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
+//         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
+//         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
+//         Tbv_pj.setItems(data);}
         
-        
+            
         
     }
     
@@ -425,6 +428,7 @@ AnimationTimer timer = new AnimationTimer() {
                 debug("Value 1 box selected"); //DEBUG MESSAGE
                 Task tmp = jcb1.getValue();
                 lu.setCurrentTask(tmp);
+                time = 0;
             }
         }
         
@@ -453,6 +457,30 @@ AnimationTimer timer = new AnimationTimer() {
             Task tmp = tbv_task.getSelectionModel().getSelectedItem();
             lu.setCurrentTask(tmp);
         }
+    }
+    private void loadAll()
+    {
+         ObservableList<Task> datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
+        Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
+        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
+        Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectID"));
+        Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
+        tbv_task.setItems(datatask);
+        ObservableList<Session> datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
+        col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
+        col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
+        col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
+        col_sesion_myhours.setCellValueFactory(new PropertyValueFactory<Session,Integer>("hours"));
+        tbv_session.setItems(datasession);
+        cb_project.getSelectionModel().getSelectedItem();
+        List<Project> list = UVM.getAllProjectsForUserTab();
+        ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
+        Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
+        Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
+        Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
+        Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
+        Tbv_pj.setItems(datapj);
+        
     }
     
     private void debug (String msg)

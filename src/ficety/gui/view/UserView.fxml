@@ -27,7 +27,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" maxHeight="550.0" maxWidth="1044.0" minWidth="-Infinity" prefHeight="450.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ficety.gui.controller.UserViewController">
+<AnchorPane id="AnchorPane" maxHeight="550.0" maxWidth="1044.0" minWidth="-Infinity" prefHeight="405.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ficety.gui.controller.UserViewController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIGHTGRAY" height="450.0" layoutX="-1.0" stroke="BLACK" strokeType="INSIDE" width="246.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f4f4f4" height="445.0" stroke="WHITE" strokeType="INSIDE" width="240.0" />
@@ -48,7 +48,6 @@
             <Label text="User:  " />
             <Label fx:id="lb_loginuser" text="Martin" />
             <Label prefHeight="17.0" prefWidth="24.0" />
-            <JFXButton fx:id="bn_settings" prefHeight="0.0" prefWidth="26.0" text="S" />
          </items>
       </ToolBar>
       <Button fx:id="bn_expandview" layoutX="53.0" layoutY="412.0" mnemonicParsing="false" onAction="#handle_view" prefHeight="25.0" prefWidth="135.0" text="Expand view" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="53.0" />
@@ -123,18 +122,18 @@
             </FlowPane>
          </children>
       </AnchorPane>
-      <TabPane layoutX="245.0" layoutY="27.0" prefHeight="423.0" prefWidth="773.0" side="LEFT" tabClosingPolicy="UNAVAILABLE">
+      <TabPane layoutX="245.0" layoutY="27.0" prefHeight="423.0" prefWidth="552.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <tabs>
           <Tab fx:id="tab_pj" onSelectionChanged="#load_pj_tab" text="Project">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="606.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="661.0">
                      <children>
-                        <TableView fx:id="Tbv_pj" prefHeight="422.0" prefWidth="500.0">
+                        <TableView fx:id="Tbv_pj" prefHeight="422.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                           <columns>
-                            <TableColumn fx:id="Col_pj_name" prefWidth="123.0" text="Name" />
+                            <TableColumn fx:id="Col_pj_name" prefWidth="122.0" text="Name" />
                             <TableColumn fx:id="Col_pj_clint" prefWidth="123.0" text="Client" />
-                              <TableColumn fx:id="Col_pj_contact" prefWidth="123.0" text="Contact info" />
-                              <TableColumn fx:id="Col_pj_myhours" prefWidth="129.0" text="Time spent" />
+                              <TableColumn fx:id="Col_pj_contact" prefWidth="137.0" text="Contact info" />
+                              <TableColumn fx:id="Col_pj_myhours" prefWidth="134.0" text="Time spent" />
                           </columns>
                         </TableView>
                      </children>
@@ -143,14 +142,14 @@
           </Tab>
           <Tab fx:id="tab_task" onSelectionChanged="#load_task_tab" text="Task">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="582.0">
                      <children>
-                        <TableView fx:id="tbv_task" layoutX="-3.0" onMouseClicked="#chooseSelectedTask" prefHeight="391.0" prefWidth="498.0">
+                        <TableView fx:id="tbv_task" layoutX="-3.0" onMouseClicked="#chooseSelectedTask" prefHeight="391.0" prefWidth="522.0" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="0.0">
                           <columns>
                             <TableColumn fx:id="Col_task_taskname" prefWidth="111.0" text="Task name" />
-                              <TableColumn fx:id="Col_task_description" prefWidth="122.0" text="Description" />
-                            <TableColumn fx:id="Col_task_project" prefWidth="110.0" text="Project" />
-                              <TableColumn fx:id="Col_task_myhours" prefWidth="185.0" text="Time Spent" />
+                              <TableColumn fx:id="Col_task_description" prefWidth="141.0" text="Description" />
+                            <TableColumn fx:id="Col_task_project" minWidth="0.0" prefWidth="125.0" text="Project" />
+                              <TableColumn fx:id="Col_task_myhours" prefWidth="143.0" text="Time Spent" />
                           </columns>
                         </TableView>
                         <Label layoutX="5.0" layoutY="392.0" text="Task">
@@ -192,14 +191,14 @@
 
             <Tab fx:id="tab_sesion" onSelectionChanged="#load_session_tab" text="Sesion">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="567.0">
+                  <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="566.0">
                      <children>
-                        <TableView fx:id="tbv_session" prefHeight="422.0" prefWidth="496.0">
+                        <TableView fx:id="tbv_session" prefHeight="422.0" prefWidth="520.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                            <columns>
-                              <TableColumn fx:id="col_sesion_taskname" prefWidth="123.0" text="Task name" />
-                              <TableColumn fx:id="col_sesion_start" prefWidth="89.0" text="Start" />
-                              <TableColumn fx:id="col_sesion_stop" prefWidth="120.0" text="Stop" />
-                              <TableColumn fx:id="col_sesion_myhours" prefWidth="163.0" text="Time Spent" />
+                              <TableColumn fx:id="col_sesion_taskname" prefWidth="99.0" text="Task name" />
+                              <TableColumn fx:id="col_sesion_start" prefWidth="153.0" text="Start" />
+                              <TableColumn fx:id="col_sesion_stop" prefWidth="138.0" text="Stop" />
+                              <TableColumn fx:id="col_sesion_myhours" prefWidth="134.0" text="Time Spent" />
                            </columns>
                         </TableView>
                      </children>
