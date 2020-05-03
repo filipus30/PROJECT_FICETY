@@ -21,17 +21,21 @@ public class Task {
     private long[] taskDuration;  //  total time used on a 
     private String hours;
     private String users;
+    private String associatedProjectName;
+
+
 
     
     
 
     
-    public Task(int taskID, String name, String description, int associatedProject,String hours) {
+    public Task(int taskID, String name, String description, int associatedProject, String associatedProjectName, String hours) {
         this.taskID = taskID;
         this.taskName = name;
         this.description = description;
         this.associatedProjectID = associatedProject;
         this.hours = hours;
+        this.associatedProjectName = associatedProjectName;
     }
 
     public int getTaskID() {
@@ -103,4 +107,11 @@ public class Task {
         return  taskName;
     }
    
+    public String getAssociatedProjectName() {
+        return associatedProjectName;
+    }
+
+    public void setAssociatedProjectName(String associatedProjectName) {
+        this.associatedProjectName = associatedProjectName;
+    }
 }

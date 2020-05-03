@@ -51,7 +51,7 @@ import javax.swing.JFrame;
  */
 public class UserViewController extends JFrame implements Initializable {
     
-    private boolean debug = true;
+    private boolean debug = false;
     private Label label;
     @FXML
 
@@ -461,7 +461,7 @@ AnimationTimer timer = new AnimationTimer() {
          ObservableList<Task> datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
-        Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectID"));
+        Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
         tbv_task.setItems(datatask);
         ObservableList<Session> datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
