@@ -34,8 +34,8 @@
       <TextField fx:id="tf_newtask" layoutX="102.0" layoutY="35.0" prefHeight="25.0" prefWidth="75.0" promptText="New Task" AnchorPane.leftAnchor="102.0" AnchorPane.topAnchor="35.0" />
       <ComboBox fx:id="cb_project" layoutX="16.0" layoutY="35.0" prefHeight="25.0" prefWidth="81.0" promptText="Project" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="35.0" />
       <Button fx:id="bn_add" layoutX="186.0" layoutY="33.0" mnemonicParsing="false" onAction="#addTaskAndSetItRunning" text="add" AnchorPane.leftAnchor="186.0" AnchorPane.topAnchor="35.0" />
-      <TextField fx:id="search" layoutX="20.0" layoutY="70.0" prefHeight="25.0" prefWidth="162.0" promptText="Search" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="70.0" />
-      <ToggleButton fx:id="tb_toggle" layoutX="197.0" layoutY="70.0" mnemonicParsing="false" onAction="#toggel_size" prefHeight="25.0" prefWidth="23.0" />
+      <TextField fx:id="search" layoutX="27.0" layoutY="73.0" prefHeight="25.0" prefWidth="162.0" promptText="Search" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="73.0" />
+      <ToggleButton fx:id="tb_toggle" layoutX="189.0" layoutY="409.0" mnemonicParsing="false" onAction="#toggel_size" prefHeight="27.0" prefWidth="35.0" text="&lt;-" />
       <Button fx:id="bn_start_stop" layoutX="16.0" layoutY="355.0" mnemonicParsing="false" onAction="#handle_startStop" prefHeight="40.0" prefWidth="81.0" text="Start/Stop" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="16.0" />
       <Label fx:id="lb_tasktime" layoutX="178.0" layoutY="356.0" text="00:00:00" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="178.0" />
       <Label fx:id="lb_timetoday" layoutX="178.0" layoutY="378.0" text="00:00:00" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="178.0" />
@@ -50,7 +50,7 @@
             <Label prefHeight="17.0" prefWidth="24.0" />
          </items>
       </ToolBar>
-      <Button fx:id="bn_expandview" layoutX="53.0" layoutY="412.0" mnemonicParsing="false" onAction="#handle_view" prefHeight="25.0" prefWidth="135.0" text="Expand view" AnchorPane.bottomAnchor="13.0" AnchorPane.leftAnchor="53.0" />
+      <Button fx:id="bn_expandview" layoutX="16.0" layoutY="409.0" mnemonicParsing="false" onAction="#handle_view" prefHeight="25.0" prefWidth="135.0" text="Show Overview" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="16.0" />
       <AnchorPane fx:id="ap" layoutX="21.0" layoutY="111.0">
          <children>
             <FlowPane fx:id="fp_last3task" prefHeight="194.0" prefWidth="200.0">
@@ -193,7 +193,7 @@
                <content>
                   <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="566.0">
                      <children>
-                        <TableView fx:id="tbv_session" prefHeight="422.0" prefWidth="520.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                        <TableView fx:id="tbv_session" prefHeight="383.0" prefWidth="520.0" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="0.0">
                            <columns>
                               <TableColumn fx:id="col_sesion_taskname" prefWidth="99.0" text="Task name" />
                               <TableColumn fx:id="col_sesion_start" prefWidth="153.0" text="Start" />
