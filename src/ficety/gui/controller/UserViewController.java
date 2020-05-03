@@ -101,7 +101,7 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private JFXTextField task_name;
     @FXML
-    private JFXComboBox<?> cb_task_project;
+    private JFXComboBox<Project> cb_task_project;
     @FXML
     private JFXButton bn_task_add;
     @FXML
@@ -169,15 +169,16 @@ public class UserViewController extends JFrame implements Initializable {
     private JFXComboBox<Task> jcb3;
     @FXML
     private JFXTextField task_description;
-
+    private ObservableList<Project> datax;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         UVM = new UserViewModel();
         lu = lu.getInstance();
         
-       ObservableList<Project> data = FXCollections.observableArrayList(UVM.getAllProjects());
-       cb_project.getItems().addAll(data);
+       ObservableList<Project> datax = FXCollections.observableArrayList(UVM.getAllProjects());
+       cb_project.getItems().addAll(datax);
+       cb_task_project.getItems().addAll(datax);
        ObservableList<Project> last3data = FXCollections.observableArrayList(UVM.get3RecentProjects());
        loadAll();
        if(last3data.size() >= 1)
@@ -454,6 +455,15 @@ AnimationTimer timer = new AnimationTimer() {
             debug("TableView selected.");//DEBUG MESSAGE
             Task tmp = tbv_task.getSelectionModel().getSelectedItem();
             lu.setCurrentTask(tmp);
+            task_name.setText(lu.getCurrentTask().getTaskName());
+            task_description.setText(lu.getCurrentTask().getDescription());
+            for(int i = 0;i<datax.size();i++)
+            {
+               if(datax.get(i).getId() == lu.getCurrentTask().getAssociatedProjectID())
+                   cb_task_project.getSelectionModel().select(datax.get(i));
+            }
+            
+            
         }
     }
     private void loadAll()
