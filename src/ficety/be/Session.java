@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleStringProperty;
 
 /**
  *

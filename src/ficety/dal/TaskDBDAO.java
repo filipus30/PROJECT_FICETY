@@ -39,8 +39,7 @@ public class TaskDBDAO {
         debug("Trying to create task name " + taskName);
         String sql = "INSERT INTO Tasks (Name, Description, AssociatedProject) VALUES (?,?,?)";
         int associatedProjectID = associatedProject.getId();
-        String associatedProjectName = associatedProject.getProjectName();
-        Task newTask = new Task(0, taskName, " ", associatedProjectID, associatedProjectName, "");
+        Task newTask = new Task(0, taskName, " ", associatedProjectID, "");
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, taskName);
@@ -106,12 +105,11 @@ public class TaskDBDAO {
               List<Task> alltasks = new ArrayList();
         try(Connection con = dbc.getConnection()) {
            // String sql = "Select Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(MINUTE, S.StartTime, S.FinishTime)) AS Total from Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask where Tasks.Id= '3' AND S.AssociatedUser = '?' GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description;";
-           String sql = "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, P.Name AS PName, SUM(Datediff(SECOND, S.StartTime, S.FinishTime)) AS Total " + 
+           String sql = "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(SECOND, S.StartTime, S.FinishTime)) AS Total " + 
                         "FROM Tasks " + 
                             "JOIN Sessions S ON Tasks.Id=S.AssociatedTask " + 
-                            "JOIN Projects P ON Tasks.AssociatedProject=P.Id " + 
                         "WHERE S.AssociatedUser = ? " + 
-                        "GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id, P.Name";
+                        "GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id";
            PreparedStatement pstmt = con.prepareStatement(sql);   
             pstmt.setInt(1,user);
              pstmt.execute();
@@ -122,11 +120,10 @@ public class TaskDBDAO {
                 String taskName =  rs.getString("Name");
                 String description =  rs.getString("Description");   
                 int associatedProjectID = rs.getInt("associatedProject");
-                String associatedProjectName = rs.getString("PName");
                 int time = rs.getInt("Total");
                // String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
               String timee = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
-                alltasks.add(new Task(taskId, taskName, description, associatedProjectID, associatedProjectName, timee));
+                alltasks.add(new Task(taskId, taskName, description, associatedProjectID,timee));
                
             }    
         } catch (SQLException ex) {
@@ -140,7 +137,7 @@ public class TaskDBDAO {
     public void addTasksToProject(Project p)
     {
         ArrayList<Task> pTasks = new ArrayList();
-        String sql = "SELECT T.Id, T.Name, T.Description, P.Name as PName FROM Tasks T JOIN Projects P ON T.AssociatedProject=P.Id WHERE AssociatedProject = ?";
+        String sql = "SELECT Id, Name, Description FROM Tasks WHERE AssociatedProject = ?";
         try(Connection con = dbc.getConnection())
         {
             PreparedStatement pstmt = con.prepareStatement(sql);
@@ -154,9 +151,8 @@ public class TaskDBDAO {
                int taskId = rs.getInt("Id");
                String taskName = rs.getString("Name");
                String taskDesc = rs.getString("Description");
-               String associatedProjectName = rs.getString("PName");
                
-               Task newTask = new Task(taskId, taskName, taskDesc, projectId, associatedProjectName, "");
+               Task newTask = new Task(taskId, taskName, taskDesc, projectId,"");
                pTasks.add(newTask);
             }
             p.setTaskList(pTasks);

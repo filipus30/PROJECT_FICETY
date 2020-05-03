@@ -136,6 +136,15 @@ public class DalManager implements DalFaçade {
     }
     
     @Override
+<<<<<<< HEAD
+    public Session editSession(Session currentSession, LocalDateTime startTime, LocalDateTime finishTime)
+    {
+        return sessionDBDao.editSessionB(currentSession, startTime, finishTime);
+    }
+    
+    @Override
+=======
+>>>>>>> parent of b4bd565... Merge remote-tracking branch 'origin/Cecilia'
     public void removeSessionFromDB(Session sessionToDelete) {
         sessionDBDao.removeSessionFromDB(sessionToDelete);
     }

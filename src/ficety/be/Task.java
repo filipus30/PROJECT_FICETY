@@ -6,6 +6,8 @@
 package ficety.be;
 
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
@@ -14,6 +16,7 @@ import java.util.List;
 public class Task {
     private int taskID;
     private String taskName;
+    private StringProperty desc;
     private String description;
     private int associatedProjectID;  // the project that the task is assigned to.
 //or  private List<int> associatedUserIDs;  // the people to whom the task is assigned to.
@@ -21,21 +24,18 @@ public class Task {
     private long[] taskDuration;  //  total time used on a 
     private String hours;
     private String users;
-    private String associatedProjectName;
-
-
 
     
     
 
     
-    public Task(int taskID, String name, String description, int associatedProject, String associatedProjectName, String hours) {
+    public Task(int taskID, String name, String description, int associatedProject,String hours) {
         this.taskID = taskID;
         this.taskName = name;
         this.description = description;
+        this.desc = new SimpleStringProperty(description);
         this.associatedProjectID = associatedProject;
         this.hours = hours;
-        this.associatedProjectName = associatedProjectName;
     }
 
     public int getTaskID() {
@@ -107,6 +107,8 @@ public class Task {
         return  taskName;
     }
    
+<<<<<<< HEAD
+<<<<<<< HEAD
     public String getAssociatedProjectName() {
         return associatedProjectName;
     }
@@ -114,4 +116,16 @@ public class Task {
     public void setAssociatedProjectName(String associatedProjectName) {
         this.associatedProjectName = associatedProjectName;
     }
+    public String getDesc()
+    {
+       return desc.get();
+    }
+    public void setDesc(String desc)
+    {
+        this.desc = new SimpleStringProperty(desc);
+    }
+=======
+>>>>>>> parent of d515067... Merge remote-tracking branch 'origin/Cecilia'
+=======
+>>>>>>> parent of d515067... Merge remote-tracking branch 'origin/Cecilia'
 }

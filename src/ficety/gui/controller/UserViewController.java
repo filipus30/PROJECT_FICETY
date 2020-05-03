@@ -51,7 +51,7 @@ import javax.swing.JFrame;
  */
 public class UserViewController extends JFrame implements Initializable {
     
-    private boolean debug = false;
+    private boolean debug = true;
     private Label label;
     @FXML
 
@@ -458,6 +458,7 @@ AnimationTimer timer = new AnimationTimer() {
         }
         else if(event.getSource().equals(tbv_task))//From Task table view.
         {
+            ObservableList<Project> datax = FXCollections.observableArrayList(UVM.getAllProjects());
             debug("TableView selected.");//DEBUG MESSAGE
             Task tmp = tbv_task.getSelectionModel().getSelectedItem();
             lu.setCurrentTask(tmp);
@@ -476,8 +477,18 @@ AnimationTimer timer = new AnimationTimer() {
     {
          ObservableList<Task> datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
-        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
+<<<<<<< HEAD
+<<<<<<< HEAD
+        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("desc"));
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
+=======
+        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
+        Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectID"));
+>>>>>>> parent of d515067... Merge remote-tracking branch 'origin/Cecilia'
+=======
+        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
+        Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectID"));
+>>>>>>> parent of d515067... Merge remote-tracking branch 'origin/Cecilia'
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
         tbv_task.setItems(datatask);
         ObservableList<Session> datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
