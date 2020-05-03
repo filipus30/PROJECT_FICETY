@@ -176,7 +176,7 @@ public class UserViewController extends JFrame implements Initializable {
         UVM = new UserViewModel();
         lu = lu.getInstance();
         
-       ObservableList<Project> datax = FXCollections.observableArrayList(UVM.getAllProjects());
+       datax = FXCollections.observableArrayList(UVM.getAllProjects());
        cb_project.getItems().addAll(datax);
        cb_task_project.getItems().addAll(datax);
        ObservableList<Project> last3data = FXCollections.observableArrayList(UVM.get3RecentProjects());
