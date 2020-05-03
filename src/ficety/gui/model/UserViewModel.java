@@ -115,6 +115,9 @@ public class UserViewModel {
         BllM.removeSessionFromDB(sessionToDelete);
     }
     
-        
+    public Session editSession(Session sessionToEdit, String startTime, String finishTime,int id)
+    {
+       return BllM.editSession(sessionToEdit, startTime, finishTime, id);
+    }
         
 }

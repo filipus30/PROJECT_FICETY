@@ -173,7 +173,10 @@ public class BllManager implements IBLL {
         dalManager.removeSessionFromDB(sessionToDelete);
     }
 
-    
+    @Override
+    public Session editSession(Session sessionToEdit, String startTime, String finishTime, int id) {
+       return dalManager.editSession(sessionToEdit, startTime, finishTime, id);
+    }
     
 // UserDBDAO methods        
     @Override
@@ -213,4 +216,6 @@ public class BllManager implements IBLL {
             System.out.println(msg);
         }
     }
+
+    
 }

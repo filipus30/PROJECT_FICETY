@@ -14,6 +14,7 @@ import ficety.be.Project;
 import ficety.be.Task;
 import ficety.be.Session;
 import ficety.be.User;
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -148,7 +149,15 @@ public class DalManager implements DalFaçade {
             Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+     @Override
+    public Session editSession(Session sessionToEdit, String startTime, String finishTime, int id) {
+        try {
+            return sessionDBDao.editSession(sessionToEdit, startTime, finishTime, id);
+        } catch (ParseException ex) {
+            Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
 // UserDBDAO methods    
     @Override
@@ -186,6 +195,8 @@ public class DalManager implements DalFaçade {
     {
         return userDBDao.getAllUsers();
     }
+
+   
 
     
 }

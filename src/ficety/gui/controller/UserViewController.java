@@ -170,6 +170,12 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private JFXTextField task_description;
     private ObservableList<Project> datax;
+    private JFXTextField session_name;
+    @FXML
+    private JFXTextField session_start;
+    @FXML
+    private JFXTextField session_stop;
+    private JFXTextField session_timespent;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -490,6 +496,27 @@ AnimationTimer timer = new AnimationTimer() {
         Tbv_pj.setItems(datapj);
         lb_loginuser.setText(lu.getName());
         
+    }
+    @FXML
+    private void chooseSession(Event event)
+    {
+        if(event.getSource().equals(tbv_session))
+        { Session ses = tbv_session.getSelectionModel().getSelectedItem();
+           session_start.setText(ses.getStartTime());
+           session_stop.setText(ses.getFinishTime());
+        }
+        
+    }
+    
+
+    @FXML
+    private void edit_session(ActionEvent event) {
+        UVM.editSession(tbv_session.getSelectionModel().getSelectedItem(),session_start.getText(),session_stop.getText(),tbv_session.getSelectionModel().getSelectedItem().getSessionID());
+    }
+
+    @FXML
+    private void delete_session(ActionEvent event) {
+        UVM.removeSessionFromDB(tbv_session.getSelectionModel().getSelectedItem());
     }
     
     private void debug (String msg)

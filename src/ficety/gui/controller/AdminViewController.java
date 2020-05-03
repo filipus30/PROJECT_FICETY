@@ -321,7 +321,7 @@ public class AdminViewController implements Initializable {
     
         @FXML
     private void handle_startStop(ActionEvent event) {
-        Task currentTask = new Task(3, "a", "do smth", 4,"");
+        Task currentTask = new Task(3, "a", "do smth", 4,"","");
         lu.setCurrentTask(currentTask);
         UVM.startStopSession();
     }

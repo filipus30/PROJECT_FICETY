@@ -22,6 +22,8 @@ import java.util.logging.Logger;
 import ficety.be.Session;
 import ficety.be.Task;
 import ficety.be.User;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -138,7 +140,33 @@ public class SessionDBDAO {
             System.out.println("Exception " + ex);
         }
     }
-      
+      public Session editSession (Session sessionToEdit, String startTime, String finishTime,int id) throws ParseException { 
+    //  Edits a Task in the Task table of the database given the Projects new details.  
+        String sql = "UPDATE Sessions SET startTime = ?, finishTime = ? WHERE id = ?";
+        try ( Connection con = dbc.getConnection()) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date parsedDate = dateFormat.parse(startTime);
+            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date parsedDate2 = dateFormat2.parse(finishTime);
+            Timestamp timestamp2 = new java.sql.Timestamp(parsedDate2.getTime());
+            //Create a prepared statement.
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            //Set parameter values.
+            pstmt.setTimestamp(1, timestamp);
+            pstmt.setTimestamp(2, timestamp2);
+            pstmt.setInt(3, sessionToEdit.getSessionID());
+            pstmt.executeUpdate();  //Execute SQL query.
+            sessionToEdit.setStartTime(timestamp);
+            sessionToEdit.setFinishTime(timestamp2);
+            return sessionToEdit;
+        } catch (SQLServerException ex) {
+            Logger.getLogger(TaskDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
     private void debug(String msg)
     {
         if(debug == true)

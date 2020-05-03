@@ -47,6 +47,7 @@ public interface IBLL {
     public void startStopSession();
     public List<Session> getAllSessionsOfAUser();
     public void removeSessionFromDB(Session sessionToDelete);
+    public Session editSession (Session sessionToEdit, String startTime, String finishTime,int id);
   
     
 // UserDBDAO methods

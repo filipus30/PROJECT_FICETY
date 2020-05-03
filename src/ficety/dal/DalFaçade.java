@@ -53,6 +53,7 @@ public interface DalFaçade {
     public List<Session> getAllSessionsOfAUser(int taskID);
     public void removeSessionFromDB(Session sessionToDelete);
     public void addFinishTimeToSession(Session currentSession, LocalDateTime finishTime);
+    public Session editSession (Session sessionToEdit, String startTime, String finishTime,int id);
   
     
 // UserDBDAO methods

@@ -69,7 +69,7 @@ public class Session {
     }
 
     public String getStartTime() {
-        String s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(finishTime);
+        String s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startTime);
         return s;
     }
 
