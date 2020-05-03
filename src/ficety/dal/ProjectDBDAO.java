@@ -245,4 +245,18 @@ public class ProjectDBDAO {
         return allProjectsForUser;
       
       }
+      
+      public void deleteProject(Project projectToDelete)
+      {
+    //  Delete specific Project
+        int idToDelete = projectToDelete.getId();
+        try(Connection con = dbc.getConnection()){
+            String sql = "DELETE FROM Projects WHERE Id = ?";
+             PreparedStatement pstmt = con.prepareStatement(sql);   
+             pstmt.setInt(1,idToDelete);
+             pstmt.execute();
+        } catch (SQLException ex) {
+            Logger.getLogger(ClientDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }          
+      }
 }

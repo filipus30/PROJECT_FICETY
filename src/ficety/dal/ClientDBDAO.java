@@ -83,7 +83,7 @@ public class ClientDBDAO {
     
     public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email) { 
     //  Edits a client  
-        String sql = "UPDATE Clients SET name = ?, standardRate = ?, logoImgLocation = ?, email = ? WHERE id = ?";
+        String sql = "UPDATE Clients SET Name = ?, StandardRate = ?, LogoImgLocation = ?, Email = ? WHERE Id = ?";
         try ( Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setString(1, name);
@@ -108,7 +108,7 @@ public class ClientDBDAO {
     public void deleteClient(Client clientToDelete){
     //  Delete specific Client
         try(Connection con = dbc.getConnection()){
-            String sql = "DELETE FROM Clients WHERE id = ?";
+            String sql = "DELETE FROM Clients WHERE Id = ?";
              PreparedStatement pstmt = con.prepareStatement(sql);   
              pstmt.setInt(1,clientToDelete.getId());
              pstmt.execute();

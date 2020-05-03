@@ -95,13 +95,24 @@ public class BllManager implements IBLL {
         return dalManager.getAllProjects();
     }
     
+    @Override 
+    public void deleteProject(Project projectToDelete)
+    {
+        dalManager.deleteProject(projectToDelete);
+    }
+    
     
 // TaskDBDAO methods                
+    @Override
+    public Task addNewTaskToDB(String taskName, String taskDesc, Project associatedProject) {
+        return dalManager.addNewTaskToDB(taskName, taskDesc, associatedProject);
+    }
+
     @Override
     public Task addNewTaskToDB(String taskName, Project associatedProject) {
         return dalManager.addNewTaskToDB(taskName, associatedProject);
     }
-
+    
     @Override
     public Task editTask(Task editedTask, String taskName, String description, int associatedProjectID) {
         return dalManager.editTask(editedTask, taskName, description, associatedProjectID);
@@ -168,6 +179,12 @@ public class BllManager implements IBLL {
         return dalManager.getAllSessionsOfAUser(userID);
     }
 
+    @Override
+    public Session editSession(Session currentSession, LocalDateTime startTime, LocalDateTime finishTime)
+    {
+        return dalManager.editSession(currentSession, startTime, finishTime);
+    }
+    
     @Override
     public void removeSessionFromDB(Session sessionToDelete) {
         dalManager.removeSessionFromDB(sessionToDelete);

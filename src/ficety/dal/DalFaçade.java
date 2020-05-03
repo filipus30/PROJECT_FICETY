@@ -38,9 +38,11 @@ public interface DalFaçade {
     public ArrayList<Project> get3RecentProjectsForUser(int userID);
     public ArrayList<Project> getAllProjectsForUserTab(int userID);
     public ArrayList<Project> getAllProjects();
+    public void deleteProject(Project projectToDelete);
 
     
-// TaskDBDAO methods        
+// TaskDBDAO methods 
+    public Task addNewTaskToDB(String taskName, String TaskDesc, Project associatedProject);
     public Task addNewTaskToDB(String taskName, Project associatedProject);
     public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID);
     public void removeTaskFromDB(Task taskToDelete);
@@ -51,6 +53,7 @@ public interface DalFaçade {
 // SessionDBDAO methods            
     public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, LocalDateTime startTime);
     public List<Session> getAllSessionsOfAUser(int taskID);
+    public Session editSession(Session currentSession, LocalDateTime startTime, LocalDateTime finishTime);
     public void removeSessionFromDB(Session sessionToDelete);
     public void addFinishTimeToSession(Session currentSession, LocalDateTime finishTime);
   

@@ -89,15 +89,21 @@ public class DalManager implements DalFaçade {
         return projectDBDao.getAllProjects();
     }
     
+    @Override
+    public void deleteProject(Project projectToDelete)
+    {
+        projectDBDao.deleteProject(projectToDelete);
+    }
+    
 // TaskDBDAO methods            
     @Override
+    public Task addNewTaskToDB(String taskName, String taskDesc, Project associatedProject) {
+        return taskDBDao.addNewTaskToDB(taskName, taskDesc, associatedProject);
+    }
+    
+    @Override
     public Task addNewTaskToDB(String taskName, Project associatedProject) {
-        try {
-            return taskDBDao.addNewTaskToDB(taskName, associatedProject);
-        } catch (SQLException ex) {
-            Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+        return taskDBDao.addNewTaskToDB(taskName, associatedProject);
     }
     
     @Override
@@ -132,6 +138,12 @@ public class DalManager implements DalFaçade {
         
         return sessionDBDao.getAllSessionsOfAUser(userID);
 
+    }
+    
+    @Override
+    public Session editSession(Session currentSession, LocalDateTime startTime, LocalDateTime finishTime)
+    {
+        return sessionDBDao.editSession(currentSession, startTime, finishTime);
     }
     
     @Override

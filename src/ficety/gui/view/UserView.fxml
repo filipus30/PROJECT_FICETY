@@ -33,7 +33,7 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f4f4f4" height="445.0" stroke="WHITE" strokeType="INSIDE" width="240.0" />
       <TextField fx:id="tf_newtask" layoutX="102.0" layoutY="35.0" prefHeight="25.0" prefWidth="75.0" promptText="New Task" AnchorPane.leftAnchor="102.0" AnchorPane.topAnchor="35.0" />
       <ComboBox fx:id="cb_project" layoutX="16.0" layoutY="35.0" prefHeight="25.0" prefWidth="81.0" promptText="Project" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="35.0" />
-      <Button fx:id="bn_add" layoutX="186.0" layoutY="33.0" mnemonicParsing="false" onAction="#addTaskAndSetItRunning" text="add" AnchorPane.leftAnchor="186.0" AnchorPane.topAnchor="35.0" />
+      <Button fx:id="bn_add" layoutX="186.0" layoutY="33.0" mnemonicParsing="false" onAction="#addTaskAndSetItRunning" text="Start" AnchorPane.leftAnchor="186.0" AnchorPane.topAnchor="35.0" />
       <TextField fx:id="search" layoutX="27.0" layoutY="73.0" prefHeight="25.0" prefWidth="162.0" promptText="Search" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="73.0" />
       <ToggleButton fx:id="tb_toggle" layoutX="189.0" layoutY="409.0" mnemonicParsing="false" onAction="#toggel_size" prefHeight="27.0" prefWidth="35.0" text="&lt;-" />
       <Button fx:id="bn_start_stop" layoutX="16.0" layoutY="355.0" mnemonicParsing="false" onAction="#handle_startStop" prefHeight="40.0" prefWidth="81.0" text="Start/Stop" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="16.0" />
@@ -123,7 +123,7 @@
       </AnchorPane>
       <TabPane layoutX="245.0" layoutY="27.0" prefHeight="423.0" prefWidth="552.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
         <tabs>
-          <Tab fx:id="tab_pj" onSelectionChanged="#load_pj_tab" text="Project">
+          <Tab fx:id="tab_pj" onSelectionChanged="#load_pj_tab" text="Projects">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="661.0">
                      <children>
@@ -139,7 +139,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab fx:id="tab_task" onSelectionChanged="#load_task_tab" text="Task">
+          <Tab fx:id="tab_task" onSelectionChanged="#load_task_tab" text="Tasks">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="582.0">
                      <children>
@@ -158,9 +158,9 @@
                         </Label>
                         <JFXTextField fx:id="task_name" layoutX="43.0" layoutY="392.0" prefHeight="27.0" prefWidth="45.0" text="Name " />
                         <JFXComboBox fx:id="cb_task_project" layoutX="98.0" layoutY="392.0" prefHeight="27.0" prefWidth="125.0" promptText="Project" />
-                        <JFXButton fx:id="bn_task_add" layoutX="362.0" layoutY="392.0" style="-fx-background-color: lightgrey;" text="Add" />
-                        <JFXButton fx:id="bn_task_eddit" layoutX="405.0" layoutY="392.0" style="-fx-background-color: lightgrey;" text="edit" />
-                        <JFXButton fx:id="bn_task_delete" layoutX="447.0" layoutY="392.0" style="-fx-background-color: lightgrey;" text="Delete" />
+                        <JFXButton fx:id="bn_task_add" layoutX="362.0" layoutY="392.0" onAction="#addTask" style="-fx-background-color: lightgrey;" text="Add" />
+                        <JFXButton fx:id="bn_task_eddit" layoutX="405.0" layoutY="392.0" onAction="#editTask" style="-fx-background-color: lightgrey;" text="Edit" />
+                        <JFXButton fx:id="bn_task_delete" layoutX="447.0" layoutY="392.0" onAction="#deleteTask" style="-fx-background-color: lightgrey;" text="Delete" />
                         <JFXTextField fx:id="task_description" layoutX="240.0" layoutY="392.0" prefHeight="27.0" prefWidth="112.0" text="Description" />
                      </children>
                   </AnchorPane>
@@ -189,7 +189,7 @@
                </content>
             </Tab>
 
-            <Tab fx:id="tab_sesion" onSelectionChanged="#load_session_tab" text="Session">
+            <Tab fx:id="tab_sesion" onSelectionChanged="#load_session_tab" text="Sessions">
                <content>
                   <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="566.0">
                      <children>

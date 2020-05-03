@@ -33,9 +33,11 @@ public interface IBLL {
     public ArrayList<Project> get3RecentProjectsForUser();
     public ArrayList<Project> getAllProjectsForUserTab();
     public ArrayList<Project> getAllProjects();
+    public void deleteProject(Project projectToDelete);
 
     
 // TaskDBDAO methods        
+    public Task addNewTaskToDB(String taskName, String taskDesc, Project associatedProject);
     public Task addNewTaskToDB(String taskName, Project associatedProject);
     public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID);
     public void removeTaskFromDB(Task taskToDelete);
@@ -46,6 +48,7 @@ public interface IBLL {
 // SessionDBDAO methods            
     public void startStopSession();
     public List<Session> getAllSessionsOfAUser();
+    public Session editSession(Session currentSession, LocalDateTime startTime, LocalDateTime finishTime);
     public void removeSessionFromDB(Session sessionToDelete);
   
     

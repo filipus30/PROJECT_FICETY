@@ -34,7 +34,7 @@ public class TaskDBDAO {
   //          sessionDBDao = new SessionDBDAO();
     }        
 
-    public Task addNewTaskToDB(String taskName, Project associatedProject) throws SQLException { 
+    public Task addNewTaskToDB(String taskName, Project associatedProject){ 
     //  Adds a new Task to the DB, and returns the updated Project to the GUI
         debug("Trying to create task name " + taskName);
         String sql = "INSERT INTO Tasks (Name, Description, AssociatedProject) VALUES (?,?,?)";
@@ -65,10 +65,42 @@ public class TaskDBDAO {
         }
         return newTask;
     }
+    
+        public Task addNewTaskToDB(String taskName, String taskDesc, Project associatedProject){ 
+    //  Adds a new Task to the DB, and returns the updated Project to the GUI
+        debug("Trying to create task name " + taskName);
+        String sql = "INSERT INTO Tasks (Name, Description, AssociatedProject) VALUES (?,?,?)";
+        int associatedProjectID = associatedProject.getId();
+        String associatedProjectName = associatedProject.getProjectName();
+        Task newTask = new Task(0, taskName, taskDesc, associatedProjectID, associatedProjectName, "");
+        try (Connection con = dbc.getConnection()) {
+            PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, taskName);
+            pstmt.setString(2, taskDesc);
+            pstmt.setInt(3, associatedProjectID);
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Creating Task failed, no rows affected.");
+            }
+            try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    newTask.setTaskID((int) generatedKeys.getLong(1));
+                } else {
+                    throw new SQLException("Creating Task failed, no ID obtained.");
+                } 
+            }
+        } catch (SQLServerException ex) {
+            Logger.getLogger(TaskDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return newTask;
+    }
   
     public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID) { 
     //  Edits a Task in the Task table of the database given the Projects new details.  
-        String sql = "UPDATE Task SET name = ?, description = ?, associatedProject = ?";
+        int taskID = editedTask.getTaskID();
+        String sql = "UPDATE Tasks SET Name = ?, Description = ?, AssociatedProject = ? WHERE Id = ?";
         try ( Connection con = dbc.getConnection()) {
             //Create a prepared statement.
             PreparedStatement pstmt = con.prepareStatement(sql);
@@ -76,6 +108,7 @@ public class TaskDBDAO {
             pstmt.setString(1, taskName);
             pstmt.setString(2, description);
             pstmt.setInt(3, associatedProjectID);
+            pstmt.setInt(4, taskID);
             pstmt.executeUpdate();  //Execute SQL query.
             editedTask.setTaskName(taskName);
             editedTask.setDescription(description);
@@ -92,10 +125,11 @@ public class TaskDBDAO {
         
     public void removeTaskFromDB(Task taskToDelete) {
     //  Removes a user from the User table of the database given a User data object
+        int idToDelete = taskToDelete.getTaskID();
         String sql = "DELETE FROM Tasks WHERE id = ?";
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1,taskToDelete.getTaskID());
+            pstmt.setInt(1,idToDelete);
             pstmt.execute();
         } catch (SQLException ex) {
             System.out.println("Exception " + ex);

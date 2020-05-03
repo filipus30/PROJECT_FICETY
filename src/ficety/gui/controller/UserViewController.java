@@ -51,7 +51,7 @@ import javax.swing.JFrame;
  */
 public class UserViewController extends JFrame implements Initializable {
     
-    private boolean debug = false;
+    private boolean debug = true;
     private Label label;
     @FXML
 
@@ -497,6 +497,70 @@ AnimationTimer timer = new AnimationTimer() {
         if(debug == true)
         {
             System.out.println(msg);
+        }
+    }
+
+    @FXML
+    private void editTask(ActionEvent event) {
+        if(task_name.getText() != null)
+        {
+            if(cb_task_project != null)
+            {
+                 debug("Editing task, passing down stack");
+                UVM.editTask(lu.getCurrentTask(), task_name.getText(), task_description.getText() , cb_task_project.getSelectionModel().getSelectedItem().getId() );
+                lu.setCurrentTask(null);
+            }
+            else 
+            {
+                debug("You have forgotten to select a Project for the task you want to edit Install a popup for me!");
+            }
+        }
+        else
+        {
+            debug("You have not entered a name for a task. Nothing changed. Install popup for me");
+        }
+    }
+
+    @FXML
+    private void addTask(ActionEvent event)
+    {
+        if(task_name.getText() != null)
+        {
+            if(cb_task_project != null)
+            {
+                debug("Adding task to DB passing down stack");
+                UVM.addNewTaskToDB(task_name.getText(), task_description.getText(), cb_task_project.getSelectionModel().getSelectedItem());
+                lu.setCurrentTask(null);
+            }
+            else 
+            {
+                debug("You have forgotten to select a Project for the task you want to edit Install a popup for me!");
+            }
+        }
+        else
+        {
+            debug("You have not entered a name for a task. Nothing changed. Install popup for me");
+        }
+    }
+    
+    @FXML
+    private void deleteTask(ActionEvent event) {
+        if(task_name.getText() != null)
+        {
+            if(cb_task_project != null)
+            {
+                debug("Removing task from DB passing down stack");
+                UVM.removeTaskFromDB(lu.getCurrentTask());
+                lu.setCurrentTask(null);
+            }
+            else 
+            {
+                debug("You have forgotten to select a Project for the task you want to edit Install a popup for me!");
+            }
+        }
+        else
+        {
+            debug("You have not entered a name for a task. Nothing changed. Install popup for me");
         }
     }
 }

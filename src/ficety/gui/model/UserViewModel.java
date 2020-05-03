@@ -11,6 +11,7 @@ import ficety.be.Session;
 import ficety.be.Task;
 import ficety.be.User;
 import ficety.bll.BllManager;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,10 +69,15 @@ public class UserViewModel {
         return BllM.getAllProjects();
     }
     
+    public void deleteProject(Project projectToDelete)
+    {
+        BllM.deleteProject(projectToDelete);
+    }
+    
     //TASK Related
     
-    public Task addNewTaskToDB(String taskName, Project associatedProject) {
-        return BllM.addNewTaskToDB(taskName, associatedProject);
+    public Task addNewTaskToDB(String taskName, String taskDesc, Project associatedProject) {
+        return BllM.addNewTaskToDB(taskName, taskDesc, associatedProject);
     }
     
     public Task editTask(Task editedTask, String taskName, String description, int associatedProjectID) {
@@ -108,6 +114,11 @@ public class UserViewModel {
     
      public List<Session> getAllSessionsOfAUser() {
         return BllM.getAllSessionsOfAUser();
+    }
+     
+    public Session editSession(Session currentSession, LocalDateTime startTime, LocalDateTime finishTime)
+    {
+        return BllM.editSession(currentSession, startTime, finishTime);
     }
      
     public void removeSessionFromDB(Session sessionToDelete)

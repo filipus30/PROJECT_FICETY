@@ -122,18 +122,59 @@ public class SessionDBDAO {
             if (affectedRows == 0) {
                 throw new SQLException("Updating Session failed, no rows affected.");
             }
+            else
+            {
+                debug("Session Finishtime set correctly.");
+            }
         }
         
+    }
+    
+        public Session editSession(Session sessionToEdit, LocalDateTime startTime, LocalDateTime finishTime){ 
+    //  Adds a finishTime to a given Session   
+        String sql ="UPDATE Sessions SET StartTime = ?, FinishTime = ? WHERE Id = ?;";
+        try (Connection con = dbc.getConnection()) {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            
+            Timestamp startTimeStamp = Timestamp.valueOf(startTime);
+            debug("Time for start: " + startTimeStamp);
+            pstmt.setTimestamp(1, startTimeStamp);
+            
+            Timestamp finishTimeStamp = Timestamp.valueOf(finishTime);
+            debug("Time for finish: " + finishTimeStamp);
+            pstmt.setTimestamp(2, finishTimeStamp);
+            
+            int sessionId = sessionToEdit.getSessionID();
+            pstmt.setInt(3, sessionId);
+            //pstmt.execute();
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new SQLException("Updating Session failed, no rows affected.");
+            }
+            else
+            {
+                debug("Session was edited correctly.");
+                sessionToEdit.setStartTime(startTimeStamp);
+                sessionToEdit.setFinishTime(finishTimeStamp);
+                return sessionToEdit;
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SessionDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
      
     public void removeSessionFromDB(Session sessionToDelete) {
     //  Removes a session from the Session table of the database given a Session data object
+        int deletableID = sessionToDelete.getSessionID();
         String sql = "DELETE FROM Sessions WHERE id = ?";
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql);
-            pstmt.setInt(1,sessionToDelete.getSessionID());
+            pstmt.setInt(1, deletableID);
             pstmt.execute();
+            debug("Session was deleted");
         } catch (SQLException ex) {
             System.out.println("Exception " + ex);
         }
