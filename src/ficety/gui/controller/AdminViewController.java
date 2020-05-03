@@ -224,7 +224,6 @@ public class AdminViewController implements Initializable {
     private JFXButton bn_user_eddit;
     @FXML
     private JFXButton bn_user_delete;
-    @FXML
     private ScrollPane Sp_last3;
     int MaxWidth;
     boolean min;

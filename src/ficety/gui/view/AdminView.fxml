@@ -141,7 +141,7 @@
                            </columns>
                         </TableView>
                         <TextField fx:id="clint_search" layoutX="630.0" prefHeight="25.0" prefWidth="107.0" promptText="Search" AnchorPane.leftAnchor="630.0" />
-                        <Label layoutX="6.0" layoutY="394.0" prefHeight="25.0" prefWidth="35.0" text="Clint">
+                        <Label layoutX="6.0" layoutY="394.0" prefHeight="25.0" prefWidth="39.0" text="Client">
                            <font>
                               <Font size="16.0" />
                            </font>
@@ -163,7 +163,7 @@
                         <TableView fx:id="Tbv_pj" prefHeight="394.0" prefWidth="740.0">
                           <columns>
                             <TableColumn fx:id="Col_pj_name" prefWidth="105.0" text="Name" />
-                            <TableColumn fx:id="Col_pj_clint" prefWidth="105.0" text="Clint" />
+                            <TableColumn fx:id="Col_pj_clint" prefWidth="105.0" text="Client" />
                               <TableColumn fx:id="Col_pj_contact" prefWidth="105.0" text="Contact info" />
                               <TableColumn fx:id="Col_pj_nroftask" prefWidth="105.0" text="Nr of task" />
                               <TableColumn fx:id="Col_pj_totalhours" prefWidth="105.0" text="Total hours" />

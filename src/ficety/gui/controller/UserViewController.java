@@ -13,11 +13,8 @@ import ficety.be.LoggedInUser;
 import ficety.be.Project;
 import ficety.be.Session;
 import ficety.be.Task;
-import ficety.dal.SessionDBDAO;
-import ficety.dal.TaskDBDAO;
 import ficety.gui.model.UserViewModel;
 import java.net.URL;
-import java.security.Timestamp;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,7 +29,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Control;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
@@ -480,6 +476,7 @@ AnimationTimer timer = new AnimationTimer() {
         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
         Tbv_pj.setItems(datapj);
+        lb_loginuser.setText(lu.getName());
         
     }
     
