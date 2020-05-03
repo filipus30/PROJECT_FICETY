@@ -43,11 +43,10 @@
       <Text layoutX="122.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="today" AnchorPane.bottomAnchor="55.2578125" AnchorPane.leftAnchor="122.0" />
       <ToolBar layoutY="1.0" prefHeight="29.0" prefWidth="773.0" style="-fx-background-color: lightgrey;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
-            <Label text="EAST" />
+            <Label text="FICETY" />
             <Label prefHeight="17.0" prefWidth="44.0" />
             <Label text="User:  " />
-            <Label fx:id="lb_loginuser" text="Martin" />
-            <Label prefHeight="17.0" prefWidth="24.0" />
+            <Label fx:id="lb_loginuser" />
          </items>
       </ToolBar>
       <Button fx:id="bn_expandview" layoutX="16.0" layoutY="409.0" mnemonicParsing="false" onAction="#handle_view" prefHeight="25.0" prefWidth="135.0" text="Show Overview" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="16.0" />
@@ -152,16 +151,17 @@
                               <TableColumn fx:id="Col_task_myhours" prefWidth="143.0" text="Time Spent" />
                           </columns>
                         </TableView>
-                        <Label layoutX="5.0" layoutY="392.0" text="Task">
+                        <Label layoutX="6.0" layoutY="396.0" text="Task">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
                         <JFXTextField fx:id="task_name" layoutX="43.0" layoutY="392.0" prefHeight="25.0" prefWidth="81.0" text="Name " />
                         <JFXComboBox fx:id="cb_task_project" layoutX="142.0" layoutY="392.0" prefHeight="25.0" prefWidth="81.0" promptText="Project" />
-                        <JFXButton fx:id="bn_task_add" layoutX="239.0" layoutY="395.0" style="-fx-background-color: lightgrey;" text="Add" />
-                        <JFXButton fx:id="bn_task_eddit" layoutX="274.0" layoutY="395.0" style="-fx-background-color: lightgrey;" text="edit" />
-                        <JFXButton fx:id="bn_task_delete" layoutX="315.0" layoutY="395.0" style="-fx-background-color: lightgrey;" text="Delete" />
+                        <JFXButton fx:id="bn_task_add" layoutX="362.0" layoutY="392.0" style="-fx-background-color: lightgrey;" text="Add" />
+                        <JFXButton fx:id="bn_task_eddit" layoutX="405.0" layoutY="392.0" style="-fx-background-color: lightgrey;" text="edit" />
+                        <JFXButton fx:id="bn_task_delete" layoutX="447.0" layoutY="392.0" style="-fx-background-color: lightgrey;" text="Delete" />
+                        <JFXTextField fx:id="task_description" layoutX="240.0" layoutY="392.0" prefHeight="27.0" prefWidth="101.0" text="Description" />
                      </children>
                   </AnchorPane>
             </content>
@@ -189,7 +189,7 @@
                </content>
             </Tab>
 
-            <Tab fx:id="tab_sesion" onSelectionChanged="#load_session_tab" text="Sesion">
+            <Tab fx:id="tab_sesion" onSelectionChanged="#load_session_tab" text="Session">
                <content>
                   <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="566.0">
                      <children>

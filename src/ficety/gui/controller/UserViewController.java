@@ -167,6 +167,8 @@ public class UserViewController extends JFrame implements Initializable {
     private ImageView img3;
     @FXML
     private JFXComboBox<Task> jcb3;
+    @FXML
+    private JFXTextField task_description;
 
    
     @Override
