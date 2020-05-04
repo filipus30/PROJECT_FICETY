@@ -407,8 +407,7 @@ AnimationTimer timer = new AnimationTimer() {
 
     @FXML
     private void load_pj_tab(Event event) throws InterruptedException {
-        if(loaded)
-            ;
+        
 //        {   List<Project> list = UVM.getAllProjectsForUserTab();
 //         ObservableList<Project> data =  FXCollections.observableArrayList(list);
 //         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
