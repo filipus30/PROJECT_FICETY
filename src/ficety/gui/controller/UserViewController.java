@@ -27,6 +27,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -536,14 +537,22 @@ AnimationTimer timer = new AnimationTimer() {
             }
             else 
             {
-                debug("You have forgotten to select a Project for the task you want to edit Install a popup for me!");
-            }
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Please select project for task you want to edit");
+      alert.showAndWait();}
+            
         }
         else
         {
-            debug("You have not entered a name for a task. Nothing changed. Install popup for me");
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Please enter name for task");
+      alert.showAndWait();}
         }
-    }
+    
 
     @FXML
     private void addTask(ActionEvent event)
