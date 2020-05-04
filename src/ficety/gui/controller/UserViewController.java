@@ -564,15 +564,24 @@ AnimationTimer timer = new AnimationTimer() {
                 debug("Adding task to DB passing down stack");
                 UVM.addNewTaskToDB(task_name.getText(), task_description.getText(), cb_task_project.getSelectionModel().getSelectedItem());
                 lu.setCurrentTask(null);
+                UVM.startStopSession();
             }
             else 
             {
-                debug("You have forgotten to select a Project for the task you want to edit Install a popup for me!");
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Please select project for task you want to edit");
+      alert.showAndWait();
             }
         }
         else
         {
-            debug("You have not entered a name for a task. Nothing changed. Install popup for me");
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Please enter name for task");
+      alert.showAndWait();
         }
     }
     
@@ -586,14 +595,8 @@ AnimationTimer timer = new AnimationTimer() {
                 UVM.removeTaskFromDB(lu.getCurrentTask());
                 lu.setCurrentTask(null);
             }
-            else 
-            {
-                debug("You have forgotten to select a Project for the task you want to edit Install a popup for me!");
-            }
+            
         }
-        else
-        {
-            debug("You have not entered a name for a task. Nothing changed. Install popup for me");
-        }
+       
     }
 }
