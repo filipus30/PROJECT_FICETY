@@ -170,6 +170,10 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private JFXTextField task_description;
     private ObservableList<Project> datax;
+    @FXML
+    private JFXTextField session_start;
+    @FXML
+    private JFXTextField session_stop;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
