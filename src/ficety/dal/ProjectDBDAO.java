@@ -24,6 +24,7 @@ import ficety.be.Task;
  * @author Trigger, Filip, Cecillia and Alan
  */
 public class ProjectDBDAO {
+    private boolean debug = false;
     private DBConnection dbc;
     
     
@@ -236,6 +237,20 @@ public class ProjectDBDAO {
             int time = rs.getInt("TotalTime");
              String timee = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
             project.setSeconds(timee);
+            if(allocatedHours > 0)
+            {
+                double hours = time/3600;
+                double quarterly = (Math.round(Math.round((time%3600)*60) / 15.0) * .25);
+                double payment = (hours + quarterly)*projectRate;
+                String total = String.valueOf(payment);
+                project.setCalPayment(total + " calculated");
+            }
+            else
+            {
+                String payment = String.valueOf(projectRate);
+                project.setCalPayment(payment + "fixed rate");
+            }
+            
             allProjectsForUser.add(project);
         }
         return allProjectsForUser;  
@@ -258,5 +273,13 @@ public class ProjectDBDAO {
         } catch (SQLException ex) {
             Logger.getLogger(ClientDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }          
+      }
+      
+      private void debug(String msg)
+      {
+          if(debug == true)
+          {
+              System.out.println(msg);
+          }
       }
 }

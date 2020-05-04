@@ -131,6 +131,12 @@ public class BllManager implements IBLL {
     }
     
     @Override
+    public List<Task> getAllTasksForAdmin()
+    {
+        return dalManager.getAllTasksForAdmin();
+    }        
+    
+    @Override
     public void addNewTaskAndSetItRunning(String taskName, Project associatedProject)
     {
         if(lu.getCurrentSession() != null)

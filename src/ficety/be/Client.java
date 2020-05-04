@@ -17,6 +17,9 @@ public class Client {
     private String imgLocation;
     private float standardRate;
     private String email;
+    private int projectNr;
+
+
 
     
     public Client(int id, String name, String imgLocation, float standardRate, String email) {
@@ -68,6 +71,13 @@ public class Client {
         this.email = email;
     }
     
+    public int getProjectNr() {
+        return projectNr;
+    }
+
+    public void setProjectNr(int projectNr) {
+        this.projectNr = projectNr;
+    }
     
     
 }

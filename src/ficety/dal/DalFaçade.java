@@ -46,8 +46,10 @@ public interface DalFaçade {
     public Task addNewTaskToDB(String taskName, Project associatedProject);
     public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID);
     public void removeTaskFromDB(Task taskToDelete);
+    public List<Task> getAllTasksForAdmin();
     public void addTasksToProject(Project p);
     public List<Task> getTasksForUserInfo(int user);
+    
   
 
 // SessionDBDAO methods            

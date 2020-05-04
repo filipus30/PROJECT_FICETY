@@ -93,6 +93,11 @@ public class UserViewModel {
         return BllM.getTasksForUserInfo();
     }
     
+    public List<Task> getAllTasksForAdmin()
+    {
+        return BllM.getAllTasksForAdmin();
+    }
+    
     public void addNewTaskAndSetItRunning(String taskName, Project associatedProject)
     {
         BllM.addNewTaskAndSetItRunning(taskName, associatedProject);
