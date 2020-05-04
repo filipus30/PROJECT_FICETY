@@ -111,7 +111,7 @@ public class TaskDBDAO {
             pstmt.setInt(4, taskID);
             pstmt.executeUpdate();  //Execute SQL query.
             editedTask.setTaskName(taskName);
-            editedTask.setDescription(description);
+            editedTask.setDesc(description);
             editedTask.setAssociatedProjectID(associatedProjectID);
             return editedTask;
         } catch (SQLServerException ex) {

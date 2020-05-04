@@ -9,6 +9,8 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
@@ -18,10 +20,11 @@ public class Session {
     private int sessionID;
     private int associatedUserID;  // the person whom the Session is assigned to.
     private int associatedTaskID;  // the Task whom the Session is assigned to.
-    private Timestamp startTime;
-    private Timestamp finishTime;
-    private String hours;
+    private final StringProperty startTime = new SimpleStringProperty();
+    private final StringProperty finishTime = new SimpleStringProperty();
+    private final StringProperty hours = new SimpleStringProperty();
     private String taskName;
+    
 //    private int sessionTime;  //  difference between start time and finish time ...maybe?
 
   
@@ -30,19 +33,15 @@ public class Session {
         this.sessionID = sessionID;
         this.associatedUserID = associatedUser;
         this.associatedTaskID = associatedTask;
-        this.startTime = startTime;
-        this.finishTime = finishTime;
-        this.hours = timespent;
+        String start = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(startTime);
+        String finish = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(finishTime);
+        this.startTime.set(start);
+        this.finishTime.set(finish);
+        this.hours.set(timespent);
         this.taskName = taskName;
     }
 
-    public String getHours() {
-        return hours;
-    }
-
-    public void setHours(String hours) {
-        this.hours = hours;
-    }
+   
 
     public int getSessionID() {
         return sessionID;
@@ -67,25 +66,6 @@ public class Session {
     public void setAssociatedTaskID(int associatedTaskID) {
         this.associatedTaskID = associatedTaskID;
     }
-
-    public String getStartTime() {
-        String s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(finishTime);
-        return s;
-    }
-
-    public void setStartTime(Timestamp startTime) {
-        this.startTime = startTime;
-    }
-
-    public String getFinishTime() {
-        String s = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(finishTime);
-        return s;
-    }
-
-    public void setFinishTime(Timestamp finishTime) {
-           this.finishTime = finishTime;
-    }
-
      public String getTaskName() {
         return taskName;
     }
@@ -93,8 +73,38 @@ public class Session {
     public void setTaskName(String taskName) {
         this.taskName = taskName;
     }
+public String getStartTime() {
+        return startTime.get();
+    }
 
-   
-    
+    public void setStartTime(String value) {
+        startTime.set(value);
+    }
+
+    public StringProperty startTimeProperty() {
+        return startTime;
+    }
+    public String getFinishTime() {
+        return finishTime.get();
+    }
+
+    public void setFinishTime(String value) {
+        finishTime.set(value);
+    }
+
+    public StringProperty finishTimeProperty() {
+        return finishTime;
+    }
+    public String getHours() {
+        return hours.get();
+    }
+
+    public void setHours(String value) {
+        hours.set(value);
+    }
+
+    public StringProperty hoursProperty() {
+        return hours;
+    }
     
 }

@@ -460,7 +460,7 @@ AnimationTimer timer = new AnimationTimer() {
             Task tmp = tbv_task.getSelectionModel().getSelectedItem();
             lu.setCurrentTask(tmp);
             task_name.setText(lu.getCurrentTask().getTaskName());
-            task_description.setText(lu.getCurrentTask().getDescription());
+            task_description.setText(lu.getCurrentTask().getDesc());
             for(int i = 0;i<datax.size();i++)
             {
                if(datax.get(i).getId() == lu.getCurrentTask().getAssociatedProjectID())
@@ -474,7 +474,7 @@ AnimationTimer timer = new AnimationTimer() {
     {
          ObservableList<Task> datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
-        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
+        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("desc"));
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
         tbv_task.setItems(datatask);

@@ -22,8 +22,11 @@ import java.util.logging.Logger;
 import ficety.be.Session;
 import ficety.be.Task;
 import ficety.be.User;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -130,41 +133,71 @@ public class SessionDBDAO {
         
     }
     
-        public Session editSession(Session sessionToEdit, LocalDateTime startTime, LocalDateTime finishTime){ 
-    //  Adds a finishTime to a given Session   
-        String sql ="UPDATE Sessions SET StartTime = ?, FinishTime = ? WHERE Id = ?;";
-        try (Connection con = dbc.getConnection()) {
+//        public Session editSession(Session sessionToEdit, LocalDateTime startTime, LocalDateTime finishTime){ 
+//    //  Adds a finishTime to a given Session   
+//        String sql ="UPDATE Sessions SET StartTime = ?, FinishTime = ? WHERE Id = ?;";
+//        try (Connection con = dbc.getConnection()) {
+//            PreparedStatement pstmt = con.prepareStatement(sql);
+//            
+//            Timestamp startTimeStamp = Timestamp.valueOf(startTime);
+//            debug("Time for start: " + startTimeStamp);
+//            pstmt.setTimestamp(1, startTimeStamp);
+//            
+//            Timestamp finishTimeStamp = Timestamp.valueOf(finishTime);
+//            debug("Time for finish: " + finishTimeStamp);
+//            pstmt.setTimestamp(2, finishTimeStamp);
+//            
+//            int sessionId = sessionToEdit.getSessionID();
+//            pstmt.setInt(3, sessionId);
+//            //pstmt.execute();
+//            int affectedRows = pstmt.executeUpdate();
+//            if (affectedRows == 0) {
+//                throw new SQLException("Updating Session failed, no rows affected.");
+//            }
+//            else
+//            {
+//                debug("Session was edited correctly.");
+//                sessionToEdit.setStartTime(startTimeStamp);
+//                sessionToEdit.setFinishTime(finishTimeStamp);
+//                return sessionToEdit;
+//                
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(SessionDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return null;
+//    }
+public Session editSession (Session sessionToEdit, String startTime, String finishTime,int id) throws ParseException { 
+    //  Edits a Task in the Task table of the database given the Projects new details.  
+        String sql = "UPDATE Sessions SET startTime = ?, finishTime = ? WHERE id = ?";
+        try ( Connection con = dbc.getConnection()) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date parsedDate = dateFormat.parse(startTime);
+            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            Date parsedDate2 = dateFormat2.parse(finishTime);
+            Timestamp timestamp2 = new java.sql.Timestamp(parsedDate2.getTime());
+            long millis = timestamp2.getTime() - timestamp.getTime();
+            String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+            TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+            TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
             PreparedStatement pstmt = con.prepareStatement(sql);
-            
-            Timestamp startTimeStamp = Timestamp.valueOf(startTime);
-            debug("Time for start: " + startTimeStamp);
-            pstmt.setTimestamp(1, startTimeStamp);
-            
-            Timestamp finishTimeStamp = Timestamp.valueOf(finishTime);
-            debug("Time for finish: " + finishTimeStamp);
-            pstmt.setTimestamp(2, finishTimeStamp);
-            
-            int sessionId = sessionToEdit.getSessionID();
-            pstmt.setInt(3, sessionId);
-            //pstmt.execute();
-            int affectedRows = pstmt.executeUpdate();
-            if (affectedRows == 0) {
-                throw new SQLException("Updating Session failed, no rows affected.");
-            }
-            else
-            {
-                debug("Session was edited correctly.");
-                sessionToEdit.setStartTime(startTimeStamp);
-                sessionToEdit.setFinishTime(finishTimeStamp);
-                return sessionToEdit;
-                
-            }
+            //Set parameter values.
+            pstmt.setTimestamp(1, timestamp);
+            pstmt.setTimestamp(2, timestamp2);
+            pstmt.setInt(3, sessionToEdit.getSessionID());
+            pstmt.executeUpdate();  //Execute SQL query.
+            sessionToEdit.setStartTime(startTime);
+            sessionToEdit.setFinishTime(finishTime);
+            sessionToEdit.setHours(hms);
+            return sessionToEdit;
+        } catch (SQLServerException ex) {
+            Logger.getLogger(TaskDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(SessionDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TaskDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-
      
     public void removeSessionFromDB(Session sessionToDelete) {
     //  Removes a session from the Session table of the database given a Session data object
