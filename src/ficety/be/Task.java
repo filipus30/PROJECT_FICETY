@@ -24,7 +24,8 @@ public class Task {
     private final StringProperty hours = new SimpleStringProperty();
     private String users;
     private String associatedProjectName;
-
+    private float salary;
+    private String projectPayment;
 
 
     
@@ -129,4 +130,25 @@ public class Task {
     }
     
     
+    
+    
+    public float getSalary() {
+        return salary;
+    }
+
+    public void setSalary(float salary) {
+        this.salary = salary;
+    }
+    
+    public String getProjectPayment() {
+        return projectPayment;
+    }
+
+    public void setProjectPayment(String projectPayment) {
+        this.projectPayment = projectPayment;
+    }
+
+
+
+
 }

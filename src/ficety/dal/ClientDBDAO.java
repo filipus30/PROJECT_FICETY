@@ -62,7 +62,13 @@ public class ClientDBDAO {
     //  Returns all Clients  
         ArrayList<Client> allClients = new ArrayList<>();
         try(Connection con = dbc.getConnection()){
-            String sql = "SELECT * FROM Clients";
+            String sql = "SELECT part.* " +
+                            "FROM ( " +
+                                    "SELECT C.Id, C.Name, C.Email, C.StandardRate, C.LogoImgLocation, Count(P.Id) OVER (PARTITION BY C.Id) AS PNr, "+ 
+                                                "ROW_NUMBER() OVER (PARTITION BY C.Id ORDER BY C.Name) AS Corr " +
+                                        "FROM Clients C " +
+                                        "LEFT JOIN Projects P ON C.Id = P.AssociatedClient) part " +
+                                    "WHERE part.Corr=1";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while(rs.next()) //While you have something in the results
@@ -72,8 +78,10 @@ public class ClientDBDAO {
                 String logoImgLocation = rs.getString("logoImgLocation");
                 float standardRate = rs.getFloat("standardRate");
                 String email = rs.getString("email");
-                
-                allClients.add(new Client(clientID,clientName,logoImgLocation,standardRate,email)); 
+                int projectNr = rs.getInt("PNr");
+                Client tempClient = new Client(clientID,clientName,logoImgLocation,standardRate,email);
+                tempClient.setProjectNr(projectNr);
+                allClients.add(tempClient); 
             }    
         } catch (SQLException ex) {
             Logger.getLogger(ClientDBDAO.class.getName()).log(Level.SEVERE, null, ex);

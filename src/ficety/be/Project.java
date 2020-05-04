@@ -23,7 +23,7 @@ public class Project {
     private String clientIMG;
     private String clientName;
     private String seconds;
-    private int calPayment;
+    private String calPayment;
 
 
     public Project(int projectID, String projectName, int associatedClientID, String phoneNr, float projectRate, int allocatedHours, boolean isClosed, String clientIMG) {
@@ -133,11 +133,11 @@ public class Project {
         this.projectName = projectName;
     }
 
-    public int getCalPayment() {
+    public String getCalPayment() {
         return calPayment;
     }
 
-    public void setCalPayment(int calPayment) {
+    public void setCalPayment(String calPayment) {
         this.calPayment = calPayment;
     }
     

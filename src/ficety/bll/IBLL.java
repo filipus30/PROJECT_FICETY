@@ -43,6 +43,7 @@ public interface IBLL {
     public void removeTaskFromDB(Task taskToDelete);
     public void addNewTaskAndSetItRunning(String taskName, Project associatedProject);
     public List<Task> getTasksForUserInfo();
+    public List<Task> getAllTasksForAdmin();
   
 
 // SessionDBDAO methods            

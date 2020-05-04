@@ -142,8 +142,8 @@ public class TaskDBDAO {
            // String sql = "Select Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(MINUTE, S.StartTime, S.FinishTime)) AS Total from Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask where Tasks.Id= '3' AND S.AssociatedUser = '?' GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description;";
            String sql = "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, P.Name AS PName, SUM(Datediff(SECOND, S.StartTime, S.FinishTime)) AS Total " + 
                         "FROM Tasks " + 
-                            "JOIN Sessions S ON Tasks.Id=S.AssociatedTask " + 
-                            "JOIN Projects P ON Tasks.AssociatedProject=P.Id " + 
+                            "LEFT JOIN Sessions S ON Tasks.Id=S.AssociatedTask " + 
+                            "LEFT JOIN Projects P ON Tasks.AssociatedProject=P.Id " + 
                         "WHERE S.AssociatedUser = ? " + 
                         "GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id, P.Name";
            PreparedStatement pstmt = con.prepareStatement(sql);   
@@ -161,6 +161,64 @@ public class TaskDBDAO {
                // String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
               String timee = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
                 alltasks.add(new Task(taskId, taskName, description, associatedProjectID, associatedProjectName, timee));
+               
+            }    
+        } catch (SQLException ex) {
+            Logger.getLogger(TaskDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return alltasks;
+    }
+    
+    public ArrayList<Task> getAllTasksForAdmin()
+    {
+        ArrayList<Task> alltasks = new ArrayList();
+        try(Connection con = dbc.getConnection()) {
+           // String sql = "Select Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(MINUTE, S.StartTime, S.FinishTime)) AS Total from Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask where Tasks.Id= '3' AND S.AssociatedUser = '?' GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description;";
+           String sql = "Select part.* FROM( " +
+                            "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, P.Name AS PName, P.ProjectRate, P.AllocatedHours, " + 
+                                    "U.Name AS UName, U.Salary, SUM(Datediff(SECOND, S.StartTime, S.FinishTime)) AS Total, " + 
+                                    "ROW_NUMBER()OVER (PARTITION BY Tasks.Id ORDER BY P.Name) AS Corr " +
+                            "FROM Tasks" +
+                                "LEFT JOIN Sessions S ON Tasks.Id=S.AssociatedTask " +
+                                "LEFT JOIN Projects P ON Tasks.AssociatedProject=P.Id " +
+                                "LEFT JOIN Users U ON S.AssociatedUser=U.Id " +
+                            "GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id, P.Name, P.AllocatedHours, P.ProjectRate, U.Name, U.Salary) part " +
+                            "WHERE part.Corr = 1;";
+           PreparedStatement pstmt = con.prepareStatement(sql);   
+             pstmt.execute();
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) //While you have something in the results
+            {
+                int taskId = rs.getInt("id");
+                String taskName =  rs.getString("Name");
+                String description =  rs.getString("Description");   
+                int associatedProjectID = rs.getInt("associatedProject");
+                String associatedProjectName = rs.getString("PName");
+                int time = rs.getInt("Total");
+               // String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
+               
+                String timee = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
+                Task tempTask = new Task(taskId, taskName, description, associatedProjectID, associatedProjectName, timee);
+                String user = rs.getString("UName");
+                tempTask.setUsers(user);
+                float salary = rs.getFloat("Salary");
+                tempTask.setSalary(salary);
+                float pRate = rs.getFloat("ProjectRate");
+                int allocatedHours = rs.getInt("AllocatedHours");
+                if(allocatedHours == 0)
+                {
+                    String payment = String.valueOf(pRate);
+                    tempTask.setProjectPayment(payment + " fixed rate");
+                }
+                else
+                {
+                    double hours = time/3600;
+                    double quarterly = (Math.round(Math.round((time%3600)*60) / 15.0) * .25);
+                    double payment = (hours + quarterly)*pRate;
+                    String total = String.valueOf(payment);
+                    tempTask.setProjectPayment(total + " calculated");
+                }
+                alltasks.add(tempTask);
                
             }    
         } catch (SQLException ex) {

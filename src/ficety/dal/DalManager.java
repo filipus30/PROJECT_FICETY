@@ -118,6 +118,12 @@ public class DalManager implements DalFaçade {
     }
     
     @Override
+    public ArrayList<Task> getAllTasksForAdmin()
+    {
+        return taskDBDao.getAllTasksForAdmin();
+    }
+    
+    @Override
     public void addTasksToProject(Project p) {
         taskDBDao.addTasksToProject(p);
     }
