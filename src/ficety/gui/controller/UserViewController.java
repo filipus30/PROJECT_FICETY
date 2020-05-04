@@ -599,4 +599,8 @@ AnimationTimer timer = new AnimationTimer() {
         }
        
     }
+
+    @FXML
+    private void show_admin(ActionEvent event) {
+    }
 }
