@@ -6,6 +6,8 @@
 package ficety.be;
 
 import java.util.List;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -22,10 +24,10 @@ public class Task {
     private List<Session> sessions;  //time??
     private long[] taskDuration;  //  total time used on a 
     private final StringProperty hours = new SimpleStringProperty();
-    private String users;
-    private String associatedProjectName;
-    private float salary;
-    private String projectPayment;
+    private StringProperty users = new SimpleStringProperty();
+    private StringProperty associatedProjectName = new SimpleStringProperty();
+    private FloatProperty salary = new SimpleFloatProperty();
+    private StringProperty projectPayment = new SimpleStringProperty();
 
 
     
@@ -38,7 +40,7 @@ public class Task {
         this.desc.set(description);
         this.associatedProjectID = associatedProject;
         this.hours.set(hours);
-        this.associatedProjectName = associatedProjectName;
+        this.associatedProjectName.set(associatedProjectName);
     }
 
     public int getTaskID() {
@@ -74,19 +76,19 @@ public class Task {
     }
 
     public String getUsers() {
-        return users;
+        return this.users.get();
     }
 
     public void setUsers(String users) {
-        this.users = users;
+        this.users.set(users);
     }
    
     public String getAssociatedProjectName() {
-        return associatedProjectName;
+        return this.associatedProjectName.get();
     }
 
     public void setAssociatedProjectName(String associatedProjectName) {
-        this.associatedProjectName = associatedProjectName;
+        this.associatedProjectName.set(associatedProjectName);
     }
     public void setDesc(String desc)
     {
@@ -115,7 +117,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" + taskName + '}';
+        return this.associatedProjectName.get() + " : " + this.taskName.get();
     }
     public String getHours() {
         return hours.get();
@@ -133,19 +135,19 @@ public class Task {
     
     
     public float getSalary() {
-        return salary;
+        return this.salary.get();
     }
 
     public void setSalary(float salary) {
-        this.salary = salary;
+        this.salary.set(salary);
     }
     
     public String getProjectPayment() {
-        return projectPayment;
+        return this.projectPayment.get();
     }
 
     public void setProjectPayment(String projectPayment) {
-        this.projectPayment = projectPayment;
+        this.projectPayment.set(projectPayment);
     }
 
 

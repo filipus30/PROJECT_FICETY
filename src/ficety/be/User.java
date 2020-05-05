@@ -6,6 +6,16 @@
 package ficety.be;
 
 import java.util.List;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
@@ -13,87 +23,87 @@ import java.util.List;
  */
 public class User {
     
-    private int userID;
-    private String userName;
-    private String email;
-    private String password;
-    private float salary;  
-    private boolean isAdmin; 
-    private long totalTime;
-    private String niceTime;
+    private IntegerProperty userID = new SimpleIntegerProperty();
+    private StringProperty userName = new SimpleStringProperty();
+    private StringProperty email = new SimpleStringProperty();
+    private StringProperty password = new SimpleStringProperty();
+    private FloatProperty salary = new SimpleFloatProperty();  
+    private BooleanProperty isAdmin = new SimpleBooleanProperty(); 
+    private LongProperty totalTime = new SimpleLongProperty();
+    private StringProperty niceTime = new SimpleStringProperty();
 
 
     public User(int userID, String userName, String email, String password, float salary, boolean isAdmin) {
-        this.userID = userID;
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.salary = salary;
-        this.isAdmin = isAdmin;
+        this.userID.set(userID);
+        this.userName.set(userName);
+        this.email.set(email);
+        this.password.set(password);
+        this.salary.set(salary);
+        this.isAdmin.set(isAdmin);
     }
 
     
     public int getUserId() {
-        return userID;
+        return this.userID.get();
     }
 
     public void setUserId(int id) {
-        this.userID = userID;
+        this.userID.set(id);
     }
 
     public String getUserName() {
-        return userName;
+        return this.userName.get();
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.userName.set(userName);
     }
 
     public String getEmail() {
-        return email;
+        return this.email.get();
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email.set(email);
     }
 
     public String getPassword() {
-        return password;
+        return this.password.get();
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password.set(password);
     }
 
     public float getSalary() {
-        return salary;
+        return this.salary.get();
     }
 
     public void setSalary(float salary) {
-        this.salary = salary;
+        this.salary.set(salary);
     }
 
     public boolean getIsAdmin() {
-        return isAdmin;
+        return this.isAdmin.get();
     }
 
     public void setIsAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
+        this.isAdmin.set(isAdmin);
     }
     
     public long getTotalTime() {
-        return totalTime;
+        return this.totalTime.get();
     }
 
     public void setTotalTime(long totalTime) {
-        this.totalTime = totalTime;
+        this.totalTime.set(totalTime);
     }
     
     public String getNiceTime() {
-        return niceTime;
+        return this.niceTime.get();
     }
 
     public void setNiceTime(String niceTime) {
-        this.niceTime = niceTime;
+        this.niceTime.set(niceTime);
     }
 }
