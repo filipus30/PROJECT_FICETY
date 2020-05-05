@@ -42,6 +42,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.swing.JFrame;
 
@@ -175,6 +176,10 @@ public class UserViewController extends JFrame implements Initializable {
     private JFXTextField session_start;
     @FXML
     private JFXTextField session_stop;
+    @FXML
+    private Text label_task;
+    @FXML
+    private Text label_today;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -235,29 +240,15 @@ public class UserViewController extends JFrame implements Initializable {
         min = true;
     }
     
-    public void sizeExpantion(){
+   public void sizeExpantion(){
         
         
-        if(MaxWidth == 260){
-        
-        Stage stage = (Stage) bn_expandview.getScene().getWindow();
-        stage.setMaxHeight(488);
-        stage.setMaxWidth(777);
-        stage.setMinHeight(488);
-        stage.setMinWidth(777);
-        MaxWidth = 1044;
-     //  Sp_last3.setVisible(true);
-     ap.setVisible(true);
-            min = true;
-        
-        }
-        else{
             if(min == false){
                 Stage stage = (Stage) bn_expandview.getScene().getWindow();
-                stage.setMaxHeight(488);
-                stage.setMaxWidth(777);
-                stage.setMinHeight(488);
-                stage.setMinWidth(777);
+                stage.setMaxHeight(470);
+                stage.setMaxWidth(800);
+                stage.setMinHeight(470);
+                stage.setMinWidth(800);
                 MaxWidth = 1044;
              //   Sp_last3.setVisible(true);
               ap.setVisible(true);
@@ -265,18 +256,18 @@ public class UserViewController extends JFrame implements Initializable {
             }
             else{
                 Stage stage = (Stage) bn_expandview.getScene().getWindow();
-                stage.setMaxHeight(488);
-                stage.setMaxWidth(260);
-                stage.setMinHeight(488);
-                stage.setMinWidth(260);
+                stage.setMaxHeight(470);
+                stage.setMaxWidth(240);
+                stage.setMinHeight(470);
+                stage.setMinWidth(240);
                 MaxWidth = 260;
               //  Sp_last3.setVisible(true
                ap.setVisible(true);
-                min = true;
+                min = false;
             }
         }
        
-    }
+    
     public void toggelSize(){
         
         if(min == false){    
@@ -285,23 +276,36 @@ public class UserViewController extends JFrame implements Initializable {
            
                 debug("true");
                 Stage stage = (Stage) ap.getScene().getWindow();
-                stage.setMaxHeight(488);
-                stage.setMaxWidth(260);
-                stage.setMinHeight(488);
-                stage.setMinWidth(260);
-                MaxWidth = 260;
+                stage.setMaxHeight(470);
+                stage.setMaxWidth(800);
+                stage.setMinHeight(470);
+                stage.setMinWidth(800);
+                tb_toggle.setLayoutY(409);
+                bn_start_stop.setLayoutY(343);
+                lb_tasktime.setLayoutY(342);
+                lb_timetoday.setLayoutY(376);
+                label_task.setLayoutY(356);
+                label_today.setLayoutY(383);
+                
             }
         else{
                // Sp_last3.setVisible(false);
                 ap.setVisible(false);
+               //user_tabpane.setVisible(false);
                  min = false;
             
                 debug("false");
                 Stage stage = (Stage) ap.getScene().getWindow();
-                stage.setMaxHeight(248);
-                stage.setMaxWidth(255);
-                stage.setMinHeight(248);
-                stage.setMinWidth(255);
+                stage.setMaxHeight(208);
+                stage.setMaxWidth(240);
+                stage.setMinHeight(208);
+                stage.setMinWidth(240);
+                 tb_toggle.setLayoutY(120);
+                 bn_start_stop.setLayoutY(140);
+                 lb_tasktime.setLayoutY(150);
+                lb_timetoday.setLayoutY(170);
+                label_task.setLayoutY(164);
+                label_today.setLayoutY(180);
         }
     }
  
@@ -600,7 +604,4 @@ AnimationTimer timer = new AnimationTimer() {
        
     }
 
-    @FXML
-    private void show_admin(ActionEvent event) {
-    }
 }

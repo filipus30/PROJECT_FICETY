@@ -36,11 +36,11 @@
       <Button fx:id="bn_add" layoutX="186.0" layoutY="33.0" mnemonicParsing="false" onAction="#addTaskAndSetItRunning" text="Start" AnchorPane.leftAnchor="186.0" AnchorPane.topAnchor="35.0" />
       <TextField fx:id="search" layoutX="27.0" layoutY="73.0" prefHeight="25.0" prefWidth="162.0" promptText="Search" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="73.0" />
       <ToggleButton fx:id="tb_toggle" layoutX="189.0" layoutY="409.0" mnemonicParsing="false" onAction="#toggel_size" prefHeight="27.0" prefWidth="35.0" text="&lt;-" />
-      <Button fx:id="bn_start_stop" layoutX="16.0" layoutY="343.0" mnemonicParsing="false" onAction="#handle_startStop" prefHeight="40.0" prefWidth="81.0" text="Start/Stop" AnchorPane.bottomAnchor="106.0" AnchorPane.leftAnchor="16.0" />
-      <Label fx:id="lb_tasktime" layoutX="167.0" layoutY="342.0" text="00:00:00" AnchorPane.bottomAnchor="130.0" AnchorPane.leftAnchor="167.0" />
-      <Label fx:id="lb_timetoday" layoutX="167.0" layoutY="363.0" text="00:00:00" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="167.0" />
-      <Text layoutX="120.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Task" wrappingWidth="29.44921875" AnchorPane.bottomAnchor="130.2578125" AnchorPane.leftAnchor="120.0" />
-      <Text layoutX="117.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="today" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="117.0" />
+      <Button fx:id="bn_start_stop" layoutX="16.0" layoutY="343.0" mnemonicParsing="false" onAction="#handle_startStop" prefHeight="40.0" prefWidth="81.0" text="Start/Stop" />
+      <Label fx:id="lb_tasktime" layoutX="167.0" layoutY="342.0" text="00:00:00" />
+      <Label fx:id="lb_timetoday" layoutX="167.0" layoutY="363.0" text="00:00:00" />
+      <Text fx:id="label_task" layoutX="120.0" layoutY="356.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Task" wrappingWidth="29.44921875" />
+      <Text fx:id="label_today" layoutX="117.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="today" />
       <ToolBar layoutY="1.0" prefHeight="29.0" prefWidth="773.0" style="-fx-background-color: lightgrey;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
             <Label text="FICETY" />
@@ -49,7 +49,7 @@
             <Label fx:id="lb_loginuser" />
          </items>
       </ToolBar>
-      <Button fx:id="bn_expandview" layoutX="18.0" layoutY="409.0" mnemonicParsing="false" onAction="#handle_view" prefHeight="25.0" prefWidth="135.0" text="Show Overview" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="18.0" />
+      <Button fx:id="bn_expandview" layoutX="18.0" layoutY="409.0" mnemonicParsing="false" onAction="#handle_view" prefHeight="25.0" prefWidth="135.0" text="Show Overview" />
       <AnchorPane fx:id="ap" layoutX="21.0" layoutY="111.0">
          <children>
             <FlowPane fx:id="fp_last3task" prefHeight="194.0" prefWidth="200.0">
@@ -121,13 +121,13 @@
             </FlowPane>
          </children>
       </AnchorPane>
-      <TabPane layoutX="245.0" layoutY="27.0" prefHeight="423.0" prefWidth="552.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="66.0">
+      <TabPane fx:id="user_tabpane" layoutX="245.0" layoutY="29.0" prefHeight="460.0" prefWidth="552.0" side="LEFT" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="tab_pj" onSelectionChanged="#load_pj_tab" text="Projects">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="661.0">
                      <children>
-                        <TableView fx:id="Tbv_pj" prefHeight="423.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <TableView fx:id="Tbv_pj" prefHeight="403.0" prefWidth="519.0">
                           <columns>
                             <TableColumn fx:id="Col_pj_name" prefWidth="122.0" text="Name" />
                             <TableColumn fx:id="Col_pj_clint" prefWidth="123.0" text="Client" />
@@ -141,9 +141,9 @@
           </Tab>
           <Tab fx:id="tab_task" onSelectionChanged="#load_task_tab" text="Tasks">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="582.0">
+              <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="460.0" prefWidth="519.0">
                      <children>
-                        <TableView fx:id="tbv_task" layoutX="-3.0" onMouseClicked="#chooseSelectedTask" prefHeight="391.0" prefWidth="522.0" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="0.0">
+                        <TableView fx:id="tbv_task" layoutX="-3.0" onMouseClicked="#chooseSelectedTask" prefHeight="371.0" prefWidth="522.0">
                           <columns>
                             <TableColumn fx:id="Col_task_taskname" prefWidth="111.0" text="Task name" />
                               <TableColumn fx:id="Col_task_description" prefWidth="141.0" text="Description" />
@@ -151,26 +151,26 @@
                               <TableColumn fx:id="Col_task_myhours" prefWidth="143.0" text="Time Spent" />
                           </columns>
                         </TableView>
-                        <Label layoutX="6.0" layoutY="396.0" text="Task">
+                        <Label layoutY="381.0" text="Task">
                            <font>
                               <Font size="16.0" />
                            </font>
                         </Label>
-                        <JFXTextField fx:id="task_name" layoutX="43.0" layoutY="392.0" prefHeight="27.0" prefWidth="45.0" text="Name " />
-                        <JFXComboBox fx:id="cb_task_project" layoutX="98.0" layoutY="392.0" prefHeight="27.0" prefWidth="125.0" promptText="Project" />
-                        <JFXButton fx:id="bn_task_add" layoutX="362.0" layoutY="392.0" onAction="#addTask" style="-fx-background-color: lightgrey;" text="Add" />
-                        <JFXButton fx:id="bn_task_eddit" layoutX="405.0" layoutY="392.0" onAction="#editTask" style="-fx-background-color: lightgrey;" text="Edit" />
-                        <JFXButton fx:id="bn_task_delete" layoutX="447.0" layoutY="392.0" onAction="#deleteTask" style="-fx-background-color: lightgrey;" text="Delete" />
-                        <JFXTextField fx:id="task_description" layoutX="240.0" layoutY="392.0" prefHeight="27.0" prefWidth="112.0" text="Description" />
+                        <JFXTextField fx:id="task_name" layoutX="37.0" layoutY="377.0" prefHeight="27.0" prefWidth="45.0" text="Name " />
+                        <JFXComboBox fx:id="cb_task_project" layoutX="93.0" layoutY="377.0" prefHeight="27.0" prefWidth="125.0" promptText="Project" />
+                        <JFXButton fx:id="bn_task_add" layoutX="355.0" layoutY="377.0" onAction="#addTask" style="-fx-background-color: lightgrey;" text="Add" />
+                        <JFXButton fx:id="bn_task_eddit" layoutX="405.0" layoutY="377.0" onAction="#editTask" style="-fx-background-color: lightgrey;" text="Edit" />
+                        <JFXButton fx:id="bn_task_delete" layoutX="454.0" layoutY="377.0" onAction="#deleteTask" style="-fx-background-color: lightgrey;" text="Delete" />
+                        <JFXTextField fx:id="task_description" layoutX="231.0" layoutY="377.0" prefHeight="27.0" prefWidth="112.0" text="Description" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
             <Tab fx:id="tab_stat" text="Statistics">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="734.0">
+                  <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="406.0" prefWidth="519.0">
                      <children>
-                        <BarChart fx:id="stat_graf" prefHeight="393.0" prefWidth="494.0">
+                        <BarChart fx:id="stat_graf" prefHeight="349.0" prefWidth="494.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
@@ -178,10 +178,10 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </BarChart>
-                        <JFXComboBox fx:id="cb_stat_project" layoutX="43.0" layoutY="382.0" prefHeight="25.0" prefWidth="100.0" promptText="Client" />
-                        <JFXComboBox fx:id="cb_stat_task" layoutX="162.0" layoutY="382.0" prefHeight="25.0" prefWidth="103.0" promptText="Project" />
-                        <JFXDatePicker fx:id="dp_stat_from" layoutX="283.0" layoutY="379.0" prefHeight="28.0" prefWidth="95.0" />
-                        <JFXDatePicker fx:id="dp_stat_to" layoutX="378.0" layoutY="381.0" prefHeight="28.0" prefWidth="95.0" />
+                        <JFXComboBox fx:id="cb_stat_project" layoutX="14.0" layoutY="349.0" prefHeight="25.0" prefWidth="100.0" promptText="Client" />
+                        <JFXComboBox fx:id="cb_stat_task" layoutX="157.0" layoutY="349.0" prefHeight="25.0" prefWidth="103.0" promptText="Project" />
+                        <JFXDatePicker fx:id="dp_stat_from" layoutX="283.0" layoutY="348.0" prefHeight="28.0" prefWidth="95.0" />
+                        <JFXDatePicker fx:id="dp_stat_to" layoutX="378.0" layoutY="348.0" prefHeight="28.0" prefWidth="95.0" />
                         <Label fx:id="lb_stat_taskhours" layoutX="583.0" layoutY="381.0" prefHeight="27.0" prefWidth="75.0" text="Hour on Task" />
                         <Label fx:id="lb_stat_totalhours" layoutX="667.0" layoutY="381.0" prefHeight="27.0" prefWidth="75.0" text="Total Hours" />
                      </children>
@@ -191,9 +191,9 @@
 
             <Tab fx:id="tab_sesion" onSelectionChanged="#load_session_tab" text="Sessions">
                <content>
-                  <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="566.0">
+                  <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="418.0" prefWidth="519.0">
                      <children>
-                        <TableView fx:id="tbv_session" onMouseClicked="#chooseSession" prefHeight="383.0" prefWidth="520.0" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="0.0">
+                        <TableView fx:id="tbv_session" maxHeight="-Infinity" onMouseClicked="#chooseSession" prefHeight="365.0" prefWidth="520.0">
                            <columns>
                               <TableColumn fx:id="col_sesion_taskname" prefWidth="99.0" text="Task name" />
                               <TableColumn fx:id="col_sesion_start" prefWidth="153.0" text="Start" />
@@ -201,26 +201,26 @@
                               <TableColumn fx:id="col_sesion_myhours" prefWidth="134.0" text="Time Spent" />
                            </columns>
                         </TableView>
-                         <JFXButton layoutX="395.0" layoutY="384.0" onAction="#edit_session" style="-fx-background-color: lightgrey lightgrey;" text="Edit" />
-                        <JFXButton layoutX="453.0" layoutY="384.0" onAction="#delete_session" style="-fx-background-color: lightgrey lightgrey;" text="Delete" />
-                        <JFXTextField fx:id="session_start" layoutX="50.0" layoutY="384.0" prefHeight="27.0" prefWidth="148.0" text="Start" />
-                        <JFXTextField fx:id="session_stop" layoutX="222.0" layoutY="384.0" prefHeight="27.0" prefWidth="162.0" text="Stop" />
+                         <JFXButton layoutX="390.0" layoutY="371.0" onAction="#edit_session" style="-fx-background-color: lightgrey lightgrey;" text="Edit" />
+                        <JFXButton layoutX="447.0" layoutY="371.0" onAction="#delete_session" style="-fx-background-color: lightgrey lightgrey;" text="Delete" />
+                        <JFXTextField fx:id="session_start" layoutX="14.0" layoutY="371.0" prefHeight="27.0" prefWidth="148.0" text="Start" />
+                        <JFXTextField fx:id="session_stop" layoutX="186.0" layoutY="371.0" prefHeight="27.0" prefWidth="162.0" text="Stop" />
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="27.0" layoutY="456.0" mnemonicParsing="false" onAction="#show_admin" prefHeight="27.0" prefWidth="117.0" text="Admin Panel" />
-      <AnchorPane layoutX="245.0" layoutY="498.0" prefHeight="200.0" prefWidth="552.0">
+      <Button layoutX="18.0" layoutY="450.0" mnemonicParsing="false" onAction="#show_admin" prefHeight="27.0" prefWidth="117.0" text="Admin Panel" />
+      <AnchorPane layoutX="245.0" layoutY="489.0" prefHeight="216.0" prefWidth="552.0">
          <children>
-            <TabPane fx:id="admin_tab" layoutY="-172.0" prefHeight="358.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-172.0">
+            <TabPane fx:id="admin_tab" layoutY="-55.0" prefHeight="290.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="-19.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-55.0">
               <tabs>
                 <Tab onSelectionChanged="#load_admin_clients" text="Clients">
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="admin_clients" layoutX="116.0" layoutY="-47.0" prefHeight="167.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="admin_clients" layoutX="116.0" layoutY="-3.0" prefHeight="328.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-3.0">
                                 <columns>
                                   <TableColumn fx:id="col_client_name" prefWidth="75.0" text="Name" />
                                   <TableColumn fx:id="col_client_email" prefWidth="75.0" text="Email" />
