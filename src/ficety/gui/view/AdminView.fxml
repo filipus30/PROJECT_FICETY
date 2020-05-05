@@ -242,7 +242,8 @@
                                   <TableColumn fx:id="col_project_client" prefWidth="75.0" text="Client" />
                                     <TableColumn fx:id="col_project_contact" prefWidth="101.0" text="Contact Info" />
                                     <TableColumn fx:id="col_project_time" prefWidth="86.0" text="Time spent" />
-                                    <TableColumn fx:id="col_project_payment" prefWidth="104.0" text="Payment" />
+                                    <TableColumn fx:id="col_project_payment" prefWidth="83.0" text="Payment" />
+                                    <TableColumn prefWidth="131.0" text="Allocated hours" />
                                 </columns>
                               </TableView>
                            </children>
@@ -277,6 +278,7 @@
                                   <TableColumn fx:id="col_user_time" prefWidth="113.0" text="Total time" />
                                     <TableColumn fx:id="col_user_salary" prefWidth="75.0" text="\$ per hour" />
                                     <TableColumn fx:id="col_user_admin" prefWidth="75.0" text="Admin?" />
+                                    <TableColumn prefWidth="75.0" text="Email" />
                                 </columns>
                               </TableView>
                            </children>
