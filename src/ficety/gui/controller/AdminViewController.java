@@ -57,7 +57,7 @@ import javax.swing.JFrame;
  */
 public class AdminViewController extends JFrame implements Initializable {
     
-    private boolean debug = true;
+    private boolean debug = false;
     private Label label;
     @FXML
 
