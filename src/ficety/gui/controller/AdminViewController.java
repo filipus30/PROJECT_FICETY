@@ -33,6 +33,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -175,12 +176,22 @@ public class AdminViewController extends JFrame implements Initializable {
     private JFXTextField session_start;
     @FXML
     private JFXTextField session_stop;
+    @FXML
+    private TableView<?> admin_clients;
+    @FXML
+    private TableView<?> admin_projects;
+    @FXML
+    private TableView<?> admin_tasks;
+    @FXML
+    private TableView<?> admin_users;
+    @FXML
+    private TabPane admin_tab;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         UVM = new UserViewModel();
         lu = lu.getInstance();
-        
+        admin_tab.setVisible(false);
        datax = FXCollections.observableArrayList(UVM.getAllProjects());
        cb_project.getItems().addAll(datax);
        cb_task_project.getItems().addAll(datax);
@@ -602,6 +613,26 @@ AnimationTimer timer = new AnimationTimer() {
 
     @FXML
     private void show_admin(ActionEvent event) {
+        Stage stage = (Stage) bn_expandview.getScene().getWindow();
+        stage.setMaxHeight(700);
+        stage.setMinHeight(700);
+        admin_tab.setVisible(true);
+    }
+
+    @FXML
+    private void load_admin_clients(Event event) {
+    }
+
+    @FXML
+    private void load_admin_projects(Event event) {
+    }
+
+    @FXML
+    private void load_admin_tasks(Event event) {
+    }
+
+    @FXML
+    private void load_admin_users(Event event) {
     }
 
 

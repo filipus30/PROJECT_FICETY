@@ -43,7 +43,7 @@
       <Text layoutX="117.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="today" AnchorPane.bottomAnchor="109.0" AnchorPane.leftAnchor="117.0" />
       <ToolBar layoutY="1.0" prefHeight="29.0" prefWidth="773.0" style="-fx-background-color: lightgrey;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
-            <Label text="FICY" />
+            <Label text="FICETY" />
             <Label prefHeight="17.0" prefWidth="44.0" />
             <Label text="User:  " />
             <Label fx:id="lb_loginuser" />
@@ -121,13 +121,13 @@
             </FlowPane>
          </children>
       </AnchorPane>
-      <TabPane layoutX="245.0" layoutY="27.0" prefHeight="423.0" prefWidth="552.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <TabPane layoutX="245.0" layoutY="27.0" prefHeight="423.0" prefWidth="552.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="66.0">
         <tabs>
           <Tab fx:id="tab_pj" onSelectionChanged="#load_pj_tab" text="Projects">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="661.0">
                      <children>
-                        <TableView fx:id="Tbv_pj" prefHeight="422.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                        <TableView fx:id="Tbv_pj" prefHeight="423.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columns>
                             <TableColumn fx:id="Col_pj_name" prefWidth="122.0" text="Name" />
                             <TableColumn fx:id="Col_pj_clint" prefWidth="123.0" text="Client" />
@@ -212,5 +212,80 @@
         </tabs>
       </TabPane>
       <Button layoutX="27.0" layoutY="456.0" mnemonicParsing="false" onAction="#show_admin" prefHeight="27.0" prefWidth="117.0" text="Admin Panel" />
+      <AnchorPane layoutX="245.0" layoutY="498.0" prefHeight="200.0" prefWidth="552.0">
+         <children>
+            <TabPane fx:id="admin_tab" layoutY="-172.0" prefHeight="358.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-172.0">
+              <tabs>
+                <Tab onSelectionChanged="#load_admin_clients" text="Clients">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="admin_clients" layoutX="116.0" layoutY="-47.0" prefHeight="167.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="Name" />
+                                  <TableColumn prefWidth="75.0" text="Email" />
+                                    <TableColumn prefWidth="96.0" text="Nr of projects" />
+                                    <TableColumn prefWidth="106.0" text="Standard rate" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab onSelectionChanged="#load_admin_projects" text="Projects">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="admin_projects" layoutX="144.0" layoutY="-16.0" prefHeight="167.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="Name" />
+                                  <TableColumn prefWidth="75.0" text="Client" />
+                                    <TableColumn prefWidth="101.0" text="Contact Info" />
+                                    <TableColumn prefWidth="86.0" text="Time spent" />
+                                    <TableColumn prefWidth="75.0" text="Payment" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                  <Tab onSelectionChanged="#load_admin_tasks" text="Tasks">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="admin_tasks" layoutX="76.0" layoutY="-16.0" prefHeight="167.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="Task name" />
+                                  <TableColumn prefWidth="75.0" text="Project" />
+                                    <TableColumn prefWidth="75.0" text="User" />
+                                    <TableColumn prefWidth="75.0" text="User Rate" />
+                                    <TableColumn prefWidth="93.0" text="Total hours" />
+                                    <TableColumn prefWidth="87.0" text="Project rate" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab onSelectionChanged="#load_admin_users" text="Users">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TableView fx:id="admin_users" layoutX="152.0" layoutY="-39.0" prefHeight="167.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columns>
+                                  <TableColumn prefWidth="75.0" text="Name" />
+                                  <TableColumn prefWidth="113.0" text="Hours this week" />
+                                    <TableColumn prefWidth="75.0" text="\$ per hour" />
+                                    <TableColumn prefWidth="75.0" text="Admin?" />
+                                </columns>
+                              </TableView>
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
