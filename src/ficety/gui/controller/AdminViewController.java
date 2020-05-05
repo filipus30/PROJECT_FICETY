@@ -246,6 +246,10 @@ public class AdminViewController extends JFrame implements Initializable {
     private Text label_task;
     @FXML
     private Text label_today;
+    @FXML
+    private TableColumn<Project, Integer> col_project_allocatedhours;
+    @FXML
+    private TableColumn<User, String> col_user_email;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -721,6 +725,7 @@ AnimationTimer timer = new AnimationTimer() {
             col_project_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
             col_project_time.setCellValueFactory(new PropertyValueFactory<Project,String>("seconds"));
             col_project_payment.setCellValueFactory(new PropertyValueFactory<Project,String>("calPayment"));
+            col_project_allocatedhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("allocatedHours"));
             admin_projects.setItems(dataProject);
             loadProject= true;
         }
@@ -763,6 +768,7 @@ AnimationTimer timer = new AnimationTimer() {
             col_user_time.setCellValueFactory(new PropertyValueFactory<User, String>("niceTime"));
             col_user_salary.setCellValueFactory(new PropertyValueFactory<User ,Float>("salary"));
             col_user_admin.setCellValueFactory(new PropertyValueFactory<User, Boolean>("isAdmin"));
+            col_user_email.setCellValueFactory(new PropertyValueFactory<User,String>("email"));
             admin_users.setItems(dataUsers);
             loadUsers= true;
         }

@@ -243,7 +243,7 @@
                                     <TableColumn fx:id="col_project_contact" prefWidth="101.0" text="Contact Info" />
                                     <TableColumn fx:id="col_project_time" prefWidth="86.0" text="Time spent" />
                                     <TableColumn fx:id="col_project_payment" prefWidth="83.0" text="Payment" />
-                                    <TableColumn prefWidth="131.0" text="Allocated hours" />
+                                    <TableColumn fx:id="col_project_allocatedhours" prefWidth="131.0" text="Allocated hours" />
                                 </columns>
                               </TableView>
                            </children>
@@ -261,7 +261,7 @@
                                     <TableColumn fx:id="col_task_user" prefWidth="75.0" text="User" />
                                     <TableColumn fx:id="col_task_userRate" prefWidth="75.0" text="User Rate" />
                                     <TableColumn fx:id="col_task_time" prefWidth="93.0" text="Total hours" />
-                                    <TableColumn fx:id="col_task_projectRate" prefWidth="87.0" text="Task payment" />
+                                    <TableColumn fx:id="col_task_projectRate" prefWidth="127.0" text="Task payment" />
                                 </columns>
                               </TableView>
                            </children>
@@ -278,7 +278,7 @@
                                   <TableColumn fx:id="col_user_time" prefWidth="113.0" text="Total time" />
                                     <TableColumn fx:id="col_user_salary" prefWidth="75.0" text="\$ per hour" />
                                     <TableColumn fx:id="col_user_admin" prefWidth="75.0" text="Admin?" />
-                                    <TableColumn prefWidth="75.0" text="Email" />
+                                    <TableColumn fx:id="col_user_email" prefWidth="75.0" text="Email" />
                                 </columns>
                               </TableView>
                            </children>
