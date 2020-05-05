@@ -178,7 +178,7 @@ public class TaskDBDAO {
                             "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, P.Name AS PName, P.ProjectRate, P.AllocatedHours, " + 
                                     "U.Name AS UName, U.Salary, SUM(Datediff(SECOND, S.StartTime, S.FinishTime)) AS Total, " + 
                                     "ROW_NUMBER()OVER (PARTITION BY Tasks.Id ORDER BY P.Name) AS Corr " +
-                            "FROM Tasks" +
+                            "FROM Tasks " +
                                 "LEFT JOIN Sessions S ON Tasks.Id=S.AssociatedTask " +
                                 "LEFT JOIN Projects P ON Tasks.AssociatedProject=P.Id " +
                                 "LEFT JOIN Users U ON S.AssociatedUser=U.Id " +

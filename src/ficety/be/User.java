@@ -20,7 +20,7 @@ public class User {
     private float salary;  
     private boolean isAdmin; 
     private long totalTime;
-
+    private String niceTime;
 
 
     public User(int userID, String userName, String email, String password, float salary, boolean isAdmin) {
@@ -89,4 +89,11 @@ public class User {
         this.totalTime = totalTime;
     }
     
+    public String getNiceTime() {
+        return niceTime;
+    }
+
+    public void setNiceTime(String niceTime) {
+        this.niceTime = niceTime;
+    }
 }

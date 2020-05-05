@@ -222,10 +222,10 @@
                            <children>
                               <TableView fx:id="admin_clients" layoutX="116.0" layoutY="-47.0" prefHeight="167.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="Name" />
-                                  <TableColumn prefWidth="75.0" text="Email" />
-                                    <TableColumn prefWidth="96.0" text="Nr of projects" />
-                                    <TableColumn prefWidth="106.0" text="Standard rate" />
+                                  <TableColumn fx:id="col_client_name" prefWidth="75.0" text="Name" />
+                                  <TableColumn fx:id="col_client_email" prefWidth="75.0" text="Email" />
+                                    <TableColumn fx:id="col_client_projectNr" prefWidth="96.0" text="Nr of projects" />
+                                    <TableColumn fx:id="col_client_standardRate" prefWidth="106.0" text="Standard rate" />
                                 </columns>
                               </TableView>
                            </children>
@@ -238,11 +238,11 @@
                            <children>
                               <TableView fx:id="admin_projects" layoutX="144.0" layoutY="-16.0" prefHeight="167.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="Name" />
-                                  <TableColumn prefWidth="75.0" text="Client" />
-                                    <TableColumn prefWidth="101.0" text="Contact Info" />
-                                    <TableColumn prefWidth="86.0" text="Time spent" />
-                                    <TableColumn prefWidth="75.0" text="Payment" />
+                                  <TableColumn fx:id="col_project_name" prefWidth="75.0" text="Name" />
+                                  <TableColumn fx:id="col_project_client" prefWidth="75.0" text="Client" />
+                                    <TableColumn fx:id="col_project_contact" prefWidth="101.0" text="Contact Info" />
+                                    <TableColumn fx:id="col_project_time" prefWidth="86.0" text="Time spent" />
+                                    <TableColumn fx:id="col_project_payment" prefWidth="104.0" text="Payment" />
                                 </columns>
                               </TableView>
                            </children>
@@ -255,12 +255,12 @@
                            <children>
                               <TableView fx:id="admin_tasks" layoutX="76.0" layoutY="-16.0" prefHeight="167.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="Task name" />
-                                  <TableColumn prefWidth="75.0" text="Project" />
-                                    <TableColumn prefWidth="75.0" text="User" />
-                                    <TableColumn prefWidth="75.0" text="User Rate" />
-                                    <TableColumn prefWidth="93.0" text="Total hours" />
-                                    <TableColumn prefWidth="87.0" text="Project rate" />
+                                  <TableColumn fx:id="col_task_name" prefWidth="75.0" text="Task name" />
+                                  <TableColumn fx:id="col_task_project" prefWidth="75.0" text="Project" />
+                                    <TableColumn fx:id="col_task_user" prefWidth="75.0" text="User" />
+                                    <TableColumn fx:id="col_task_userRate" prefWidth="75.0" text="User Rate" />
+                                    <TableColumn fx:id="col_task_time" prefWidth="93.0" text="Total hours" />
+                                    <TableColumn fx:id="col_task_projectRate" prefWidth="87.0" text="Task payment" />
                                 </columns>
                               </TableView>
                            </children>
@@ -273,10 +273,10 @@
                            <children>
                               <TableView fx:id="admin_users" layoutX="152.0" layoutY="-39.0" prefHeight="167.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
-                                  <TableColumn prefWidth="75.0" text="Name" />
-                                  <TableColumn prefWidth="113.0" text="Hours this week" />
-                                    <TableColumn prefWidth="75.0" text="\$ per hour" />
-                                    <TableColumn prefWidth="75.0" text="Admin?" />
+                                  <TableColumn fx:id="col_user_name" prefWidth="75.0" text="Name" />
+                                  <TableColumn fx:id="col_user_time" prefWidth="113.0" text="Total time" />
+                                    <TableColumn fx:id="col_user_salary" prefWidth="75.0" text="\$ per hour" />
+                                    <TableColumn fx:id="col_user_admin" prefWidth="75.0" text="Admin?" />
                                 </columns>
                               </TableView>
                            </children>

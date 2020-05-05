@@ -194,8 +194,8 @@ public class UserDBDAO {
                                     "SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Users.Id) AS TotalTime, " + 
                                     "ROW_NUMBER() OVER(PARTITION BY Users.Id ORDER BY Users.Name) AS Corr " +
                                 "FROM Users " +
-                                    "LEFT JOIN Sessions ON Users.Id = Sessions.AssociatedUser" +
-                            ")Part" +
+                                    "LEFT JOIN Sessions ON Users.Id = Sessions.AssociatedUser " +
+                            ")Part " +
                             "WHERE part.Corr=1;";
             PreparedStatement pstmt = con.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
@@ -213,6 +213,10 @@ public class UserDBDAO {
                User tempUser = new User(userID, userName, email, password, salary, isAdmin);
                long time = rs.getLong("TotalTime");
                tempUser.setTotalTime(time);
+               String niceTime = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
+               tempUser.setNiceTime(niceTime);
+               
+               
                allUsers.add(tempUser);
             }    
         } catch (SQLException ex) {

@@ -100,7 +100,7 @@ public class ClientDBDAO {
             pstmt.setString(4, email);
             pstmt.setInt(5, editedClient.getId());
             pstmt.executeUpdate();  //Execute SQL query.
-            editedClient.setName(name);
+            editedClient.setClientName(name);
             editedClient.setImgLocation(logoImgLocation);
             editedClient.setStandardRate(standardRate);
             editedClient.setEmail(email);

@@ -9,14 +9,18 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import ficety.be.Client;
 import ficety.be.LoggedInUser;
 import ficety.be.Project;
 import ficety.be.Session;
 import ficety.be.Task;
+import ficety.be.User;
+import ficety.dal.ClientDBDAO;
 import ficety.gui.model.UserViewModel;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
@@ -138,8 +142,8 @@ public class AdminViewController extends JFrame implements Initializable {
     private TableColumn<Session, Integer> col_sesion_myhours;
     private ScrollPane Sp_last3;
     
-    private UserViewModel UVM;
-    private LoggedInUser lu;
+    private UserViewModel UVM = new UserViewModel();
+    private LoggedInUser lu = LoggedInUser.getInstance();
     int MaxWidth;
     boolean min;
     boolean isTimerRunning = false;
@@ -177,21 +181,67 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private JFXTextField session_stop;
     @FXML
-    private TableView<?> admin_clients;
+    private TableView<Client> admin_clients;
     @FXML
-    private TableView<?> admin_projects;
+    private TableColumn<Client, String> col_client_name;
     @FXML
-    private TableView<?> admin_tasks;
+    private TableColumn<Client, String> col_client_email;
     @FXML
-    private TableView<?> admin_users;
+    private TableColumn<Client, Integer> col_client_projectNr;
+    @FXML
+    private TableColumn<Client, Float> col_client_standardRate;
+    private boolean loadCli = false;
+    @FXML
+    private TableView<Project> admin_projects;
+    @FXML
+    private TableColumn<Project, String> col_project_name;
+    @FXML
+    private TableColumn<Project, String> col_project_client;
+    @FXML
+    private TableColumn<Project, String> col_project_contact;
+    @FXML
+    private TableColumn<Project, String> col_project_time;
+    @FXML
+    private TableColumn<Project, String> col_project_payment;
+    private boolean loadProject = false;
+    
+    
+    @FXML
+    private TableView<Task> admin_tasks;
+    @FXML
+    private TableColumn<Task, String> col_task_name;
+    @FXML
+    private TableColumn<Task, String> col_task_project;
+    @FXML
+    private TableColumn<Task, String> col_task_user;
+    @FXML
+    private TableColumn<Task, Float> col_task_userRate;
+    @FXML
+    private TableColumn<Task, String> col_task_time;
+    @FXML
+    private TableColumn<Task, String> col_task_projectRate;
+    
+    private boolean loadAdminTasks = false;
+    
+    @FXML
+    private TableView<User> admin_users;
+    
+    @FXML
+    private TableColumn<User, String> col_user_name;
+    @FXML
+    private TableColumn<User, String> col_user_time;
+    @FXML
+    private TableColumn<User, Float> col_user_salary;
+    @FXML
+    private TableColumn<User, Boolean> col_user_admin;
+    
+    private boolean loadUsers = false;
     @FXML
     private TabPane admin_tab;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        UVM = new UserViewModel();
-        lu = lu.getInstance();
-        admin_tab.setVisible(false);
+       admin_tab.setVisible(false);
        datax = FXCollections.observableArrayList(UVM.getAllProjects());
        cb_project.getItems().addAll(datax);
        cb_task_project.getItems().addAll(datax);
@@ -621,18 +671,84 @@ AnimationTimer timer = new AnimationTimer() {
 
     @FXML
     private void load_admin_clients(Event event) {
+        if(loadCli == false)
+        {
+            ArrayList<Client> list = UVM.getAllClients();
+            ObservableList<Client> dataClient =  FXCollections.observableArrayList(list);
+            col_client_name.setCellValueFactory(new PropertyValueFactory<Client,String>("clientName"));
+            col_client_email.setCellValueFactory(new PropertyValueFactory<Client,String>("email"));
+            col_client_projectNr.setCellValueFactory(new PropertyValueFactory<Client,Integer>("projectNr"));
+            col_client_standardRate.setCellValueFactory(new PropertyValueFactory<Client,Float>("standardRate"));
+            admin_clients.setItems(dataClient);
+            loadCli = true;
+        }
+        else
+        {
+            debug("Clients already loaded");
+        }
+        
     }
 
     @FXML
     private void load_admin_projects(Event event) {
+        if(loadProject == false)
+        {
+            ArrayList<Project> list = UVM.getAllProjects();
+            ObservableList<Project> dataProject =  FXCollections.observableArrayList(list);
+            col_project_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
+            col_project_client.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
+            col_project_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
+            col_project_time.setCellValueFactory(new PropertyValueFactory<Project,String>("seconds"));
+            col_project_payment.setCellValueFactory(new PropertyValueFactory<Project,String>("calPayment"));
+            admin_projects.setItems(dataProject);
+            loadProject= true;
+        }
+        else
+        {
+            debug("Projects already loaded");
+        }
+        
     }
 
     @FXML
     private void load_admin_tasks(Event event) {
+        if(loadAdminTasks == false)
+        {
+            List<Task> list = UVM.getAllTasksForAdmin();
+            ObservableList<Task> dataTasks =  FXCollections.observableArrayList(list);
+            col_task_name.setCellValueFactory(new PropertyValueFactory<Task,String>("taskName"));
+            col_task_project.setCellValueFactory(new PropertyValueFactory<Task,String>("associatedProjectName"));
+            col_task_user.setCellValueFactory(new PropertyValueFactory<Task ,String>("users"));
+            col_task_userRate.setCellValueFactory(new PropertyValueFactory<Task, Float>("salary"));
+            col_task_time.setCellValueFactory(new PropertyValueFactory<Task, String>("hours"));
+            col_task_projectRate.setCellValueFactory(new PropertyValueFactory<Task,String>("projectPayment"));
+            admin_tasks.setItems(dataTasks);
+            loadAdminTasks= true;
+        }
+        else
+        {
+            debug("tasks already loaded");
+        }
+        
     }
 
     @FXML
     private void load_admin_users(Event event) {
+        if(loadUsers == false)
+        {
+            List<User> list = UVM.getAllUsers();
+            ObservableList<User> dataUsers =  FXCollections.observableArrayList(list);
+            col_user_name.setCellValueFactory(new PropertyValueFactory<User,String>("userName"));
+            col_user_time.setCellValueFactory(new PropertyValueFactory<User, String>("niceTime"));
+            col_user_salary.setCellValueFactory(new PropertyValueFactory<User ,Float>("salary"));
+            col_user_admin.setCellValueFactory(new PropertyValueFactory<User, Boolean>("isAdmin"));
+            admin_users.setItems(dataUsers);
+            loadUsers= true;
+        }
+        else
+        {
+            debug("users already loaded");
+        }
     }
 
 
