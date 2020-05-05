@@ -11,9 +11,11 @@ import ficety.be.Session;
 import ficety.be.Task;
 import ficety.be.User;
 import ficety.bll.BllManager;
+import ficety.bll.Exporter;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.control.TableView;
 
 /**
  *
@@ -21,6 +23,7 @@ import java.util.List;
  */
 public class UserViewModel {
     private BllManager BllM = new BllManager();
+    private Exporter ex = new Exporter();
     
     //CLIENT related
     public Client addNewClientToDB(String clientName,float standardRate,String logoImgLocation,String email)
@@ -136,6 +139,9 @@ public class UserViewModel {
         BllM.removeSessionFromDB(sessionToDelete);
     }
     
-        
+      public void export(TableView<?> tableView,String exportName)
+      {
+          ex.export(tableView, exportName);
+      }
         
 }

@@ -13,6 +13,7 @@ import ficety.be.LoggedInUser;
 import ficety.be.Project;
 import ficety.be.Session;
 import ficety.be.Task;
+import ficety.bll.Exporter;
 import ficety.gui.model.UserViewModel;
 import java.net.URL;
 import java.sql.SQLException;
@@ -145,6 +146,7 @@ public class UserViewController extends JFrame implements Initializable {
     boolean isTimerRunning = false;
     boolean loaded = false;
     private long time = 0;
+    private int export = 3;
     @FXML
     private TableColumn<Task,String> Col_task_description;
     @FXML
@@ -180,6 +182,8 @@ public class UserViewController extends JFrame implements Initializable {
     private Text label_task;
     @FXML
     private Text label_today;
+    @FXML
+    private Button bn_exp;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -392,6 +396,7 @@ AnimationTimer timer = new AnimationTimer() {
 //        Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
 //        tbv_task.setItems(data);
 //        debug(data.size() + "");
+export = 1;
     }
 
     @FXML
@@ -407,7 +412,7 @@ AnimationTimer timer = new AnimationTimer() {
 //        tbv_session.setItems(data);
 //        cb_project.getSelectionModel().getSelectedItem();
 //      //  cb_project.getItems().addAll(c);
-       
+       export = 2;
     }
 
     @FXML
@@ -421,7 +426,7 @@ AnimationTimer timer = new AnimationTimer() {
 //         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
 //         Tbv_pj.setItems(data);}
         
-            
+            export = 3;
         
     }
     
@@ -604,4 +609,21 @@ AnimationTimer timer = new AnimationTimer() {
        
     }
 
+    @FXML
+    private void export_table(ActionEvent event) {
+        if(export ==3 )
+        UVM.export(Tbv_pj,search.getText());
+        else if(export ==2)
+        UVM.export(tbv_session,search.getText());
+        else if(export == 1)
+        UVM.export(tbv_task,search.getText());
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("File exported succesfully ! You can find it in your project folder");
+      alert.showAndWait();
+    }
+
+    
 }
