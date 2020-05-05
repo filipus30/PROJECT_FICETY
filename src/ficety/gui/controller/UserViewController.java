@@ -13,6 +13,7 @@ import ficety.be.LoggedInUser;
 import ficety.be.Project;
 import ficety.be.Session;
 import ficety.be.Task;
+import ficety.bll.Exporter;
 import ficety.gui.model.UserViewModel;
 import java.net.URL;
 import java.sql.SQLException;
@@ -42,6 +43,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javax.swing.JFrame;
 
@@ -144,6 +146,7 @@ public class UserViewController extends JFrame implements Initializable {
     boolean isTimerRunning = false;
     boolean loaded = false;
     private long time = 0;
+    private int export = 3;
     @FXML
     private TableColumn<Task,String> Col_task_description;
     @FXML
@@ -175,6 +178,12 @@ public class UserViewController extends JFrame implements Initializable {
     private JFXTextField session_start;
     @FXML
     private JFXTextField session_stop;
+    @FXML
+    private Text label_task;
+    @FXML
+    private Text label_today;
+    @FXML
+    private Button bn_exp;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -235,29 +244,15 @@ public class UserViewController extends JFrame implements Initializable {
         min = true;
     }
     
-    public void sizeExpantion(){
+   public void sizeExpantion(){
         
         
-        if(MaxWidth == 260){
-        
-        Stage stage = (Stage) bn_expandview.getScene().getWindow();
-        stage.setMaxHeight(488);
-        stage.setMaxWidth(777);
-        stage.setMinHeight(488);
-        stage.setMinWidth(777);
-        MaxWidth = 1044;
-     //  Sp_last3.setVisible(true);
-     ap.setVisible(true);
-            min = true;
-        
-        }
-        else{
             if(min == false){
                 Stage stage = (Stage) bn_expandview.getScene().getWindow();
-                stage.setMaxHeight(488);
-                stage.setMaxWidth(777);
-                stage.setMinHeight(488);
-                stage.setMinWidth(777);
+                stage.setMaxHeight(470);
+                stage.setMaxWidth(800);
+                stage.setMinHeight(470);
+                stage.setMinWidth(800);
                 MaxWidth = 1044;
              //   Sp_last3.setVisible(true);
               ap.setVisible(true);
@@ -265,18 +260,18 @@ public class UserViewController extends JFrame implements Initializable {
             }
             else{
                 Stage stage = (Stage) bn_expandview.getScene().getWindow();
-                stage.setMaxHeight(488);
-                stage.setMaxWidth(260);
-                stage.setMinHeight(488);
-                stage.setMinWidth(260);
+                stage.setMaxHeight(470);
+                stage.setMaxWidth(240);
+                stage.setMinHeight(470);
+                stage.setMinWidth(240);
                 MaxWidth = 260;
               //  Sp_last3.setVisible(true
                ap.setVisible(true);
-                min = true;
+                min = false;
             }
         }
        
-    }
+    
     public void toggelSize(){
         
         if(min == false){    
@@ -285,23 +280,36 @@ public class UserViewController extends JFrame implements Initializable {
            
                 debug("true");
                 Stage stage = (Stage) ap.getScene().getWindow();
-                stage.setMaxHeight(488);
-                stage.setMaxWidth(260);
-                stage.setMinHeight(488);
-                stage.setMinWidth(260);
-                MaxWidth = 260;
+                stage.setMaxHeight(470);
+                stage.setMaxWidth(800);
+                stage.setMinHeight(470);
+                stage.setMinWidth(800);
+                tb_toggle.setLayoutY(409);
+                bn_start_stop.setLayoutY(343);
+                lb_tasktime.setLayoutY(342);
+                lb_timetoday.setLayoutY(376);
+                label_task.setLayoutY(356);
+                label_today.setLayoutY(383);
+                
             }
         else{
                // Sp_last3.setVisible(false);
                 ap.setVisible(false);
+               //user_tabpane.setVisible(false);
                  min = false;
             
                 debug("false");
                 Stage stage = (Stage) ap.getScene().getWindow();
-                stage.setMaxHeight(248);
-                stage.setMaxWidth(255);
-                stage.setMinHeight(248);
-                stage.setMinWidth(255);
+                stage.setMaxHeight(208);
+                stage.setMaxWidth(240);
+                stage.setMinHeight(208);
+                stage.setMinWidth(240);
+                 tb_toggle.setLayoutY(120);
+                 bn_start_stop.setLayoutY(140);
+                 lb_tasktime.setLayoutY(150);
+                lb_timetoday.setLayoutY(170);
+                label_task.setLayoutY(164);
+                label_today.setLayoutY(180);
         }
     }
  
@@ -388,6 +396,7 @@ AnimationTimer timer = new AnimationTimer() {
 //        Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
 //        tbv_task.setItems(data);
 //        debug(data.size() + "");
+export = 1;
     }
 
     @FXML
@@ -403,7 +412,7 @@ AnimationTimer timer = new AnimationTimer() {
 //        tbv_session.setItems(data);
 //        cb_project.getSelectionModel().getSelectedItem();
 //      //  cb_project.getItems().addAll(c);
-       
+       export = 2;
     }
 
     @FXML
@@ -417,7 +426,7 @@ AnimationTimer timer = new AnimationTimer() {
 //         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
 //         Tbv_pj.setItems(data);}
         
-            
+            export = 3;
         
     }
     
@@ -601,6 +610,20 @@ AnimationTimer timer = new AnimationTimer() {
     }
 
     @FXML
-    private void show_admin(ActionEvent event) {
+    private void export_table(ActionEvent event) {
+        if(export ==3 )
+        UVM.export(Tbv_pj,search.getText());
+        else if(export ==2)
+        UVM.export(tbv_session,search.getText());
+        else if(export == 1)
+        UVM.export(tbv_task,search.getText());
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("File exported succesfully ! You can find it in your project folder");
+      alert.showAndWait();
     }
+
+    
 }

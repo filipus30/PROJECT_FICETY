@@ -34,13 +34,13 @@
       <TextField fx:id="tf_newtask" layoutX="102.0" layoutY="35.0" prefHeight="25.0" prefWidth="75.0" promptText="New Task" AnchorPane.leftAnchor="102.0" AnchorPane.topAnchor="35.0" />
       <ComboBox fx:id="cb_project" layoutX="16.0" layoutY="35.0" prefHeight="25.0" prefWidth="81.0" promptText="Project" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="35.0" />
       <Button fx:id="bn_add" layoutX="186.0" layoutY="33.0" mnemonicParsing="false" onAction="#addTaskAndSetItRunning" text="Start" AnchorPane.leftAnchor="186.0" AnchorPane.topAnchor="35.0" />
-      <TextField fx:id="search" layoutX="27.0" layoutY="73.0" prefHeight="25.0" prefWidth="162.0" promptText="Search" AnchorPane.leftAnchor="27.0" AnchorPane.topAnchor="73.0" />
+      <TextField fx:id="search" layoutX="16.0" layoutY="73.0" prefHeight="27.0" prefWidth="104.0" promptText="Search" text="Export Name" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="73.0" />
       <ToggleButton fx:id="tb_toggle" layoutX="189.0" layoutY="409.0" mnemonicParsing="false" onAction="#toggel_size" prefHeight="27.0" prefWidth="35.0" text="&lt;-" />
-      <Button fx:id="bn_start_stop" layoutX="16.0" layoutY="355.0" mnemonicParsing="false" onAction="#handle_startStop" prefHeight="40.0" prefWidth="81.0" text="Start/Stop" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="16.0" />
-      <Label fx:id="lb_tasktime" layoutX="178.0" layoutY="356.0" text="00:00:00" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="178.0" />
-      <Label fx:id="lb_timetoday" layoutX="178.0" layoutY="378.0" text="00:00:00" AnchorPane.bottomAnchor="55.0" AnchorPane.leftAnchor="178.0" />
-      <Text layoutX="120.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Task" wrappingWidth="29.44921875" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="120.0" />
-      <Text layoutX="122.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="today" AnchorPane.bottomAnchor="55.2578125" AnchorPane.leftAnchor="122.0" />
+      <Button fx:id="bn_start_stop" layoutX="16.0" layoutY="355.0" mnemonicParsing="false" onAction="#handle_startStop" prefHeight="40.0" prefWidth="81.0" text="Start/Stop" />
+      <Label fx:id="lb_tasktime" layoutX="178.0" layoutY="356.0" text="00:00:00" />
+      <Label fx:id="lb_timetoday" layoutX="178.0" layoutY="378.0" text="00:00:00" />
+      <Text fx:id="label_task" layoutX="120.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Task" wrappingWidth="29.44921875" />
+      <Text fx:id="label_today" layoutX="122.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="today" />
       <ToolBar layoutY="1.0" prefHeight="29.0" prefWidth="773.0" style="-fx-background-color: lightgrey;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
             <Label text="FICETY" />
@@ -49,7 +49,7 @@
             <Label fx:id="lb_loginuser" />
          </items>
       </ToolBar>
-      <Button fx:id="bn_expandview" layoutX="16.0" layoutY="409.0" mnemonicParsing="false" onAction="#handle_view" prefHeight="25.0" prefWidth="135.0" text="Show Overview" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="16.0" />
+      <Button fx:id="bn_expandview" layoutX="16.0" layoutY="409.0" mnemonicParsing="false" onAction="#handle_view" prefHeight="25.0" prefWidth="135.0" text="Show Overview" />
       <AnchorPane fx:id="ap" layoutX="21.0" layoutY="111.0">
          <children>
             <FlowPane fx:id="fp_last3task" prefHeight="194.0" prefWidth="200.0">
@@ -121,13 +121,13 @@
             </FlowPane>
          </children>
       </AnchorPane>
-      <TabPane layoutX="245.0" layoutY="27.0" prefHeight="423.0" prefWidth="552.0" side="LEFT" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <TabPane layoutX="245.0" layoutY="27.0" prefHeight="423.0" prefWidth="552.0" side="LEFT" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab fx:id="tab_pj" onSelectionChanged="#load_pj_tab" text="Projects">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="661.0">
                      <children>
-                        <TableView fx:id="Tbv_pj" prefHeight="422.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                        <TableView fx:id="Tbv_pj" prefHeight="422.0" prefWidth="519.0">
                           <columns>
                             <TableColumn fx:id="Col_pj_name" prefWidth="122.0" text="Name" />
                             <TableColumn fx:id="Col_pj_clint" prefWidth="123.0" text="Client" />
@@ -143,7 +143,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="582.0">
                      <children>
-                        <TableView fx:id="tbv_task" layoutX="-3.0" onMouseClicked="#chooseSelectedTask" prefHeight="391.0" prefWidth="522.0" AnchorPane.bottomAnchor="32.0" AnchorPane.rightAnchor="0.0">
+                        <TableView fx:id="tbv_task" layoutX="-3.0" onMouseClicked="#chooseSelectedTask" prefHeight="391.0" prefWidth="522.0">
                           <columns>
                             <TableColumn fx:id="Col_task_taskname" prefWidth="111.0" text="Task name" />
                               <TableColumn fx:id="Col_task_description" prefWidth="141.0" text="Description" />
@@ -193,7 +193,7 @@
                <content>
                   <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="566.0">
                      <children>
-                        <TableView fx:id="tbv_session" onMouseClicked="#chooseSession" prefHeight="383.0" prefWidth="520.0" AnchorPane.bottomAnchor="39.0" AnchorPane.rightAnchor="0.0">
+                        <TableView fx:id="tbv_session" onMouseClicked="#chooseSession" prefHeight="383.0" prefWidth="520.0">
                            <columns>
                               <TableColumn fx:id="col_sesion_taskname" prefWidth="99.0" text="Task name" />
                               <TableColumn fx:id="col_sesion_start" prefWidth="153.0" text="Start" />
@@ -211,5 +211,6 @@
             </Tab>
         </tabs>
       </TabPane>
+      <Button fx:id="bn_exp" layoutX="129.0" layoutY="73.0" mnemonicParsing="false" onAction="#export_table" text="Export Table" />
    </children>
 </AnchorPane>
