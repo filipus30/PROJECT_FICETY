@@ -186,9 +186,9 @@ public class BllManager implements IBLL {
     }
 
     @Override
-    public Session editSession(Session currentSession, LocalDateTime startTime, LocalDateTime finishTime)
+    public Session editSession(Session currentSession, String startTime, String finishTime,int id)
     {
-        return dalManager.editSession(currentSession, startTime, finishTime);
+        return dalManager.editSession(currentSession, startTime, finishTime,id);
     }
     
     @Override

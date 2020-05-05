@@ -27,6 +27,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -170,6 +171,10 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private JFXTextField task_description;
     private ObservableList<Project> datax;
+    @FXML
+    private JFXTextField session_start;
+    @FXML
+    private JFXTextField session_stop;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -403,8 +408,7 @@ AnimationTimer timer = new AnimationTimer() {
 
     @FXML
     private void load_pj_tab(Event event) throws InterruptedException {
-        if(loaded)
-            ;
+        
 //        {   List<Project> list = UVM.getAllProjectsForUserTab();
 //         ObservableList<Project> data =  FXCollections.observableArrayList(list);
 //         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
@@ -456,7 +460,7 @@ AnimationTimer timer = new AnimationTimer() {
             Task tmp = tbv_task.getSelectionModel().getSelectedItem();
             lu.setCurrentTask(tmp);
             task_name.setText(lu.getCurrentTask().getTaskName());
-            task_description.setText(lu.getCurrentTask().getDescription());
+            task_description.setText(lu.getCurrentTask().getDesc());
             for(int i = 0;i<datax.size();i++)
             {
                if(datax.get(i).getId() == lu.getCurrentTask().getAssociatedProjectID())
@@ -470,7 +474,7 @@ AnimationTimer timer = new AnimationTimer() {
     {
          ObservableList<Task> datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
-        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
+        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("desc"));
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
         tbv_task.setItems(datatask);
@@ -490,6 +494,27 @@ AnimationTimer timer = new AnimationTimer() {
         Tbv_pj.setItems(datapj);
         lb_loginuser.setText(lu.getName());
         
+    }
+     @FXML
+    private void chooseSession(Event event)
+    {
+        if(event.getSource().equals(tbv_session))
+        { Session ses = tbv_session.getSelectionModel().getSelectedItem();
+           session_start.setText(ses.getStartTime());
+           session_stop.setText(ses.getFinishTime());
+        }
+        
+    }
+    
+
+    @FXML
+    private void edit_session(ActionEvent event) {
+        UVM.editSession(tbv_session.getSelectionModel().getSelectedItem(),session_start.getText(),session_stop.getText(),tbv_session.getSelectionModel().getSelectedItem().getSessionID());
+    }
+
+    @FXML
+    private void delete_session(ActionEvent event) {
+        UVM.removeSessionFromDB(tbv_session.getSelectionModel().getSelectedItem());
     }
     
     private void debug (String msg)
@@ -512,14 +537,22 @@ AnimationTimer timer = new AnimationTimer() {
             }
             else 
             {
-                debug("You have forgotten to select a Project for the task you want to edit Install a popup for me!");
-            }
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Please select project for task you want to edit");
+      alert.showAndWait();}
+            
         }
         else
         {
-            debug("You have not entered a name for a task. Nothing changed. Install popup for me");
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Please enter name for task");
+      alert.showAndWait();}
         }
-    }
+    
 
     @FXML
     private void addTask(ActionEvent event)
@@ -531,15 +564,24 @@ AnimationTimer timer = new AnimationTimer() {
                 debug("Adding task to DB passing down stack");
                 UVM.addNewTaskToDB(task_name.getText(), task_description.getText(), cb_task_project.getSelectionModel().getSelectedItem());
                 lu.setCurrentTask(null);
+                UVM.startStopSession();
             }
             else 
             {
-                debug("You have forgotten to select a Project for the task you want to edit Install a popup for me!");
+               Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Please select project for task you want to edit");
+      alert.showAndWait();
             }
         }
         else
         {
-            debug("You have not entered a name for a task. Nothing changed. Install popup for me");
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Please enter name for task");
+      alert.showAndWait();
         }
     }
     
@@ -553,14 +595,12 @@ AnimationTimer timer = new AnimationTimer() {
                 UVM.removeTaskFromDB(lu.getCurrentTask());
                 lu.setCurrentTask(null);
             }
-            else 
-            {
-                debug("You have forgotten to select a Project for the task you want to edit Install a popup for me!");
-            }
+            
         }
-        else
-        {
-            debug("You have not entered a name for a task. Nothing changed. Install popup for me");
-        }
+       
+    }
+
+    @FXML
+    private void show_admin(ActionEvent event) {
     }
 }

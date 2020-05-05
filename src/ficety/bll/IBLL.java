@@ -49,7 +49,7 @@ public interface IBLL {
 // SessionDBDAO methods            
     public void startStopSession();
     public List<Session> getAllSessionsOfAUser();
-    public Session editSession(Session currentSession, LocalDateTime startTime, LocalDateTime finishTime);
+    public Session editSession(Session currentSession, String startTime, String finishTime, int id);
     public void removeSessionFromDB(Session sessionToDelete);
   
     

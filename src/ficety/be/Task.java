@@ -6,6 +6,8 @@
 package ficety.be;
 
 import java.util.List;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
@@ -13,13 +15,13 @@ import java.util.List;
  */
 public class Task {
     private int taskID;
-    private String taskName;
-    private String description;
+    private final StringProperty taskName = new SimpleStringProperty();
+    private SimpleStringProperty desc = new SimpleStringProperty();
     private int associatedProjectID;  // the project that the task is assigned to.
 //or  private List<int> associatedUserIDs;  // the people to whom the task is assigned to.
     private List<Session> sessions;  //time??
     private long[] taskDuration;  //  total time used on a 
-    private String hours;
+    private final StringProperty hours = new SimpleStringProperty();
     private String users;
     private String associatedProjectName;
     private float salary;
@@ -32,10 +34,10 @@ public class Task {
     
     public Task(int taskID, String name, String description, int associatedProject, String associatedProjectName, String hours) {
         this.taskID = taskID;
-        this.taskName = name;
-        this.description = description;
+        this.taskName.set(name);
+        this.desc.set(description);
         this.associatedProjectID = associatedProject;
-        this.hours = hours;
+        this.hours.set(hours);
         this.associatedProjectName = associatedProjectName;
     }
 
@@ -45,22 +47,6 @@ public class Task {
 
     public void setTaskID(int taskID) {
         this.taskID = taskID;
-    }
-
-    public String getTaskName() {
-        return taskName;
-    }
-
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getAssociatedProjectID() {
@@ -87,25 +73,12 @@ public class Task {
         this.taskDuration = taskDuration;
     }
 
-    public String getHours() {
-        return hours;
-    }
-
-    public void setHours(String hours) {
-        this.hours = hours;
-    }
-
     public String getUsers() {
         return users;
     }
 
     public void setUsers(String users) {
         this.users = users;
-    }
-
-    @Override
-    public String toString() {
-        return  taskName;
     }
    
     public String getAssociatedProjectName() {
@@ -115,6 +88,48 @@ public class Task {
     public void setAssociatedProjectName(String associatedProjectName) {
         this.associatedProjectName = associatedProjectName;
     }
+    public void setDesc(String desc)
+    {
+        this.desc.set(desc);
+    }
+    public String getDesc()
+    {
+        return this.desc.get();
+    }
+    
+    public StringProperty descProperty() 
+    {
+    return desc;
+    }
+    public String getTaskName() {
+        return taskName.get();
+    }
+
+    public void setTaskName(String value) {
+        taskName.set(value);
+    }
+
+    public StringProperty taskNameProperty() {
+        return taskName;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" + taskName + '}';
+    }
+    public String getHours() {
+        return hours.get();
+    }
+
+    public void setHours(String value) {
+        hours.set(value);
+    }
+
+    public StringProperty hoursProperty() {
+        return hours;
+    }
+    
+    
     
     
     public float getSalary() {
