@@ -24,7 +24,7 @@ public class Session {
     private final StringProperty finishTime = new SimpleStringProperty();
     private final StringProperty hours = new SimpleStringProperty();
     private String taskName;
-    
+    private String start,finish;
 //    private int sessionTime;  //  difference between start time and finish time ...maybe?
 
   
@@ -33,8 +33,10 @@ public class Session {
         this.sessionID = sessionID;
         this.associatedUserID = associatedUser;
         this.associatedTaskID = associatedTask;
-        String start = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(startTime);
-        String finish = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(finishTime);
+        if(startTime != null)
+        { start = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(startTime);}
+        if(finishTime != null)
+        { finish = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(finishTime);}
         this.startTime.set(start);
         this.finishTime.set(finish);
         this.hours.set(timespent);
