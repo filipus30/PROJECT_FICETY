@@ -97,10 +97,11 @@ public class UserDBDAO {
          
     public User editUser (User userToEdit, String userName, String email, String password, Float salary, boolean isAdmin) { 
     //  Edits a user in the User table of the database given the users new details.  
+        int userId = userToEdit.getUserId();
         try (  //Get a connection to the database.
             Connection con = dbc.getConnection()) {  
             //Create a prepared statement.
-            String sql = "UPDATE Users SET userName = ?, email = ?, password = ?, salary = ? , Admin = ? WHERE email = ?";
+            String sql = "UPDATE Users SET Name = ?, Email = ?, Password = ?, Salary = ? , Admin = ? WHERE Id = ?";
             PreparedStatement pstmt = con.prepareStatement(sql);
             //Set parameter values.
             pstmt.setString(1, userName);
@@ -111,6 +112,7 @@ public class UserDBDAO {
             if(isAdmin == true)
                 admin = 1;
             pstmt.setInt(5, admin);
+            pstmt.setInt(6, userId);
             //Execute SQL query.
             pstmt.executeUpdate();
             userToEdit.setUserName(userName);

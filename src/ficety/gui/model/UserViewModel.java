@@ -110,6 +110,11 @@ public class UserViewModel {
         return BllM.getAllUsers();
     }
     
+    public User editUser(User userToEdit, String userName, String email, String password, Float salary, boolean isAdmin)
+    {
+        return BllM.editUser(userToEdit, userName, email, password, salary, isAdmin);
+    }
+    
     
     //SESSION Related
     public void startStopSession()
