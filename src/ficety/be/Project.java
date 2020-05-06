@@ -6,6 +6,14 @@
 package ficety.be;
 
 import java.util.List;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.FloatProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
@@ -13,29 +21,29 @@ import java.util.List;
  */
 public class Project {
     private int projectID;
-    private String projectName;
-    private int associatedClientID;  // the person whom the task is assigned to.
-    private String phoneNr;
-    private float projectRate;
-    private int allocatedHours;
+    private StringProperty projectName = new SimpleStringProperty();
+    private IntegerProperty associatedClientID = new SimpleIntegerProperty();  // the person whom the task is assigned to.
+    private StringProperty phoneNr = new SimpleStringProperty();
+    private FloatProperty projectRate = new SimpleFloatProperty();
+    private IntegerProperty allocatedHours = new SimpleIntegerProperty();
     private List<Task> taskList;
-    private boolean isClosed;
-    private String clientIMG;
-    private String clientName;
-    private String seconds;
-    private String calPayment;
+    private BooleanProperty isClosed = new SimpleBooleanProperty();
+    private StringProperty clientIMG = new SimpleStringProperty();
+    private StringProperty clientName = new SimpleStringProperty();
+    private StringProperty seconds = new SimpleStringProperty();
+    private StringProperty calPayment = new SimpleStringProperty();
 
 
     public Project(int projectID, String projectName, int associatedClientID, String phoneNr, float projectRate, int allocatedHours, boolean isClosed, String clientIMG) {
         this.projectID = projectID;
-        this.projectName = projectName;
-        this.associatedClientID = associatedClientID;
-        this.phoneNr = phoneNr;
-        this.projectRate = projectRate;
-        this.allocatedHours = allocatedHours;
+        this.projectName.set(projectName);
+        this.associatedClientID.set(associatedClientID);
+        this.phoneNr.set(phoneNr);
+        this.projectRate.set(projectRate);
+        this.allocatedHours.set(allocatedHours);
        // this.taskList = taskList;
-        this.isClosed = isClosed;
-        this.clientIMG = clientIMG;
+        this.isClosed.set(isClosed);
+        this.clientIMG.set(clientIMG);
     }
 
     
@@ -48,35 +56,35 @@ public class Project {
     }
 
     public int associatedClientID() {
-        return associatedClientID;
+        return this.associatedClientID.get();
     }
 
     public void setAssociatedClient(int associatedClientID) {
-        this.associatedClientID = associatedClientID;
+        this.associatedClientID.set(associatedClientID);
     }
 
     public String getPhoneNr() {
-        return phoneNr;
+        return this.phoneNr.get();
     }
 
     public void setPhoneNr(String phoneNr) {
-        this.phoneNr = phoneNr;
+        this.phoneNr.set(phoneNr);
     }
 
     public float getProjectRate() {
-        return projectRate;
+        return this.projectRate.get();
     }
 
     public void setProjectRate(float projectRate) {
-        this.projectRate = projectRate;
+        this.projectRate.set(projectRate);
     }
 
      public int getAllocatedHours() {
-        return allocatedHours;
+        return this.allocatedHours.get();
     }
 
     public void setAllocatedHours(int allocatedHours) {
-        this.allocatedHours = allocatedHours;
+        this.allocatedHours.set(allocatedHours);
     }
 
     public List<Task> getTaskList() {
@@ -88,57 +96,57 @@ public class Project {
     }
 
     public boolean isClosed() {
-        return isClosed;
+        return this.isClosed.get();
     }
 
     public void setClosed(boolean isClosed) {
-        this.isClosed = isClosed;
+        this.isClosed.set(isClosed);
     }
     
     public String getClientIMG()
     {
-        return clientIMG;
+        return this.clientIMG.get();
     }
     public void setClientIMG(String clientIMG)
     {
-        this.clientIMG = clientIMG;
+        this.clientIMG.set(clientIMG);
     }
     
     public String getSeconds() {
-        return seconds;
+        return this.seconds.get();
     }
 
     public void setSeconds(String seconds) {
-        this.seconds = seconds;
+        this.seconds.set(seconds);
     }
 
     public String getClientName() {
-        return clientName;
+        return this.clientName.get();
     }
 
     public void setClientName(String clientName) {
-        this.clientName = clientName;
+        this.clientName.set(clientName);
     }
     
     @Override
     public String toString()
     {
-        return projectName;
+        return this.projectName.get();
     }
     public String getProjectName() {
-        return projectName;
+        return this.projectName.get();
     }
 
     public void setProjectName(String projectName) {
-        this.projectName = projectName;
+        this.projectName.set(projectName);
     }
 
     public String getCalPayment() {
-        return calPayment;
+        return this.calPayment.get();
     }
 
     public void setCalPayment(String calPayment) {
-        this.calPayment = calPayment;
+        this.calPayment.set(calPayment);
     }
     
 }

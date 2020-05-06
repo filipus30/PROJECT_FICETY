@@ -119,6 +119,11 @@ public class UserViewModel {
         return BllM.editUser(userToEdit, userName, email, password, salary, isAdmin);
     }
     
+    public User createUser(String userName, String email, String password, float salary, boolean isAdmin)
+    {
+        return BllM.addNewUserToDB(userName, email, password, salary, isAdmin);
+    }
+    
     
     //SESSION Related
     public Session startStopSession()
