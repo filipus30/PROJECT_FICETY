@@ -277,7 +277,7 @@ public class UserViewController extends JFrame implements Initializable {
         if(min == false){    
               //  Sp_last3.setVisible(true);
                 min = true;
-           
+                 ap.setVisible(true);
                 debug("true");
                 Stage stage = (Stage) ap.getScene().getWindow();
                 stage.setMaxHeight(470);
