@@ -676,8 +676,8 @@ AnimationTimer timer = new AnimationTimer() {
     private void show_admin(ActionEvent event) {
         if(admpanel == false)
         { Stage stage = (Stage) bn_expandview.getScene().getWindow();
-        stage.setMaxHeight(700);
-        stage.setMinHeight(700);
+        stage.setMaxHeight(800);
+        stage.setMinHeight(800);
         admin_tab.setVisible(true);
         admpanel = true;}
         else

@@ -43,7 +43,7 @@
       <Text fx:id="label_today" layoutX="117.0" layoutY="376.0" strokeType="OUTSIDE" strokeWidth="0.0" text="today" />
       <ToolBar layoutY="1.0" prefHeight="29.0" prefWidth="773.0" style="-fx-background-color: lightgrey;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
-            <Label text="FICETY" />
+            <Label text="EaST" />
             <Label prefHeight="17.0" prefWidth="44.0" />
             <Label text="User:  " />
             <Label fx:id="lb_loginuser" />
@@ -211,16 +211,15 @@
             </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="18.0" layoutY="450.0" mnemonicParsing="false" onAction="#show_admin" prefHeight="27.0" prefWidth="117.0" text="Admin Panel" />
-      <AnchorPane layoutX="245.0" layoutY="489.0" prefHeight="216.0" prefWidth="552.0">
+      <AnchorPane layoutX="-1.0" layoutY="489.0" prefHeight="281.0" prefWidth="798.0">
          <children>
-            <TabPane fx:id="admin_tab" layoutY="-55.0" prefHeight="290.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="-19.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-55.0">
+            <TabPane fx:id="admin_tab" layoutX="246.0" layoutY="-55.0" prefHeight="290.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="-19.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-55.0">
               <tabs>
                 <Tab onSelectionChanged="#load_admin_clients" text="Clients">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="257.0" prefWidth="794.0">
                            <children>
-                              <TableView fx:id="admin_clients" layoutX="116.0" layoutY="-3.0" prefHeight="328.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-3.0">
+                              <TableView fx:id="admin_clients" layoutY="-3.0" prefHeight="288.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_client_name" prefWidth="75.0" text="Name" />
                                   <TableColumn fx:id="col_client_email" prefWidth="75.0" text="Email" />
@@ -236,7 +235,7 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="admin_projects" layoutX="144.0" layoutY="-16.0" prefHeight="167.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="admin_projects" layoutX="144.0" layoutY="-16.0" prefHeight="285.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_project_name" prefWidth="75.0" text="Name" />
                                   <TableColumn fx:id="col_project_client" prefWidth="75.0" text="Client" />
@@ -254,7 +253,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="admin_tasks" layoutX="76.0" layoutY="-16.0" prefHeight="167.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="admin_tasks" layoutX="76.0" layoutY="-16.0" prefHeight="285.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_task_name" prefWidth="75.0" text="Task name" />
                                   <TableColumn fx:id="col_task_project" prefWidth="75.0" text="Project" />
@@ -272,7 +271,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="admin_users" layoutX="152.0" layoutY="-39.0" prefHeight="167.0" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="admin_users" layoutX="152.0" layoutY="1.0" prefHeight="284.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_user_name" prefWidth="75.0" text="Name" />
                                   <TableColumn fx:id="col_user_time" prefWidth="113.0" text="Total time" />
@@ -287,7 +286,13 @@
                   </Tab>
               </tabs>
             </TabPane>
+            <ImageView fitHeight="313.0" fitWidth="246.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/EaSY.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
+      <Button layoutX="18.0" layoutY="450.0" mnemonicParsing="false" onAction="#show_admin" prefHeight="27.0" prefWidth="117.0" text="Admin Panel" />
    </children>
 </AnchorPane>
