@@ -25,6 +25,7 @@ import ficety.be.User;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -51,12 +52,12 @@ public class SessionDBDAO {
      public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, LocalDateTime startTime) { 
     //  Adds a new session to the Session table of the database given the sessions details. Generates an id key
         String sql = "INSERT INTO Sessions(associatedUser, associatedTask, startTime, finishTime) VALUES (?,?,?,NULL)";
-        Session newSession = new Session(0, associatedUserID, associatedTaskID,null,null,"","");
+        Timestamp startTimeStamp = Timestamp.valueOf(startTime);
+        Session newSession = new Session(0, associatedUserID, associatedTaskID,startTimeStamp,null,"","");
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, associatedUserID);
             pstmt.setInt(2, associatedTaskID);
-            Timestamp startTimeStamp = Timestamp.valueOf(startTime);
             pstmt.setTimestamp(3, startTimeStamp);
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
@@ -109,7 +110,7 @@ public class SessionDBDAO {
         return allSessionsOfATask ;
     }
      
-    public void addFinishTimeToSession(Session currentSession, LocalDateTime finishTime) throws SQLException { 
+    public Session addFinishTimeToSession(Session currentSession, LocalDateTime finishTime) throws SQLException { 
     //  Adds a finishTime to a given Session   
         String sql ="UPDATE Sessions SET FinishTime = ? WHERE Id = ?;";
         try (Connection con = dbc.getConnection()) {
@@ -128,9 +129,12 @@ public class SessionDBDAO {
             else
             {
                 debug("Session Finishtime set correctly.");
+                Timestamp endtime = Timestamp.valueOf(finishTime);
+                String finish = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(endtime);
+                currentSession.setFinishTime(finish);
             }
         }
-        
+        return currentSession;
     }
     
 //        public Session editSession(Session sessionToEdit, LocalDateTime startTime, LocalDateTime finishTime){ 

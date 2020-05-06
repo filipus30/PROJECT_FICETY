@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.scene.control.TableView;
+import javafx.util.Pair;
 
 /**
  *
@@ -101,9 +102,9 @@ public class UserViewModel {
         return BllM.getAllTasksForAdmin();
     }
     
-    public void addNewTaskAndSetItRunning(String taskName, Project associatedProject)
+    public Pair <Task, Session> addNewTaskAndSetItRunning(String taskName, Project associatedProject)
     {
-        BllM.addNewTaskAndSetItRunning(taskName, associatedProject);
+        return BllM.addNewTaskAndSetItRunning(taskName, associatedProject);
     }
     
     
@@ -118,11 +119,16 @@ public class UserViewModel {
         return BllM.editUser(userToEdit, userName, email, password, salary, isAdmin);
     }
     
+    public User createUser(String userName, String email, String password, float salary, boolean isAdmin)
+    {
+        return BllM.addNewUserToDB(userName, email, password, salary, isAdmin);
+    }
+    
     
     //SESSION Related
-    public void startStopSession()
+    public Session startStopSession()
     {
-        BllM.startStopSession();
+        return BllM.startStopSession();
     }
     
      public List<Session> getAllSessionsOfAUser() {
