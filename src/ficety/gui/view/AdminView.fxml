@@ -143,7 +143,7 @@
             <content>
               <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="460.0" prefWidth="519.0">
                      <children>
-                        <TableView fx:id="tbv_task" layoutX="-3.0" onMouseClicked="#chooseSelectedTask" prefHeight="371.0" prefWidth="522.0">
+                        <TableView fx:id="tbv_task" layoutX="-10.0" onMouseClicked="#chooseSelectedTask" prefHeight="371.0" prefWidth="522.0">
                           <columns>
                             <TableColumn fx:id="Col_task_taskname" prefWidth="111.0" text="Task name" />
                               <TableColumn fx:id="Col_task_description" prefWidth="141.0" text="Description" />
@@ -219,7 +219,8 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="257.0" prefWidth="794.0">
                            <children>
-                              <TableView fx:id="admin_clients" layoutY="-3.0" prefHeight="288.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f4f4f4" height="40.0" layoutX="112.0" layoutY="282.0" stroke="BLACK" strokeType="INSIDE" width="552.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                              <TableView fx:id="admin_clients" layoutY="-3.0" onMouseClicked="#adm_choose_client" prefHeight="290.0" prefWidth="552.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_client_name" prefWidth="75.0" text="Name" />
                                   <TableColumn fx:id="col_client_email" prefWidth="75.0" text="Email" />
@@ -227,6 +228,11 @@
                                     <TableColumn fx:id="col_client_standardRate" prefWidth="106.0" text="Standard rate" />
                                 </columns>
                               </TableView>
+                              <JFXButton layoutX="479.0" layoutY="290.0" onAction="#adm_edit_client" style="-fx-background-color: lightgrey lightgrey;" text="Edit" />
+                              <JFXButton layoutX="428.0" layoutY="290.0" onAction="#adm_add_client" style="-fx-background-color: lightgrey lightgrey;" text="Add" />
+                              <TextField fx:id="tf_adm_client_standardRate" layoutX="273.0" layoutY="290.0" prefHeight="27.0" prefWidth="117.0" text="Standard Rate" />
+                              <TextField fx:id="tf_adm_client_email" layoutX="160.0" layoutY="290.0" prefHeight="27.0" prefWidth="81.0" text="Email" />
+                              <TextField fx:id="tf_adm_client_name" layoutX="32.0" layoutY="290.0" prefHeight="27.0" prefWidth="75.0" text="Name" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -235,7 +241,8 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="admin_projects" layoutX="144.0" layoutY="-16.0" prefHeight="285.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f4f4f4" height="40.0" stroke="BLACK" strokeType="INSIDE" width="552.0" AnchorPane.bottomAnchor="22.0" />
+                              <TableView fx:id="admin_projects" layoutX="144.0" layoutY="-16.0" onMouseClicked="#adm_choose_project" prefHeight="285.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_project_name" prefWidth="75.0" text="Name" />
                                   <TableColumn fx:id="col_project_client" prefWidth="75.0" text="Client" />
@@ -245,6 +252,13 @@
                                     <TableColumn fx:id="col_project_allocatedhours" prefWidth="131.0" text="Allocated hours" />
                                 </columns>
                               </TableView>
+                              <JFXButton layoutX="496.0" layoutY="286.0" onAction="#adm_edit_project" style="-fx-background-color: lightgrey lightgrey;" text="Edit" />
+                              <TextField fx:id="tf_adm_project_hours" layoutX="265.0" layoutY="286.0" prefHeight="27.0" prefWidth="57.0" text="Hours" />
+                              <JFXButton layoutX="444.0" layoutY="286.0" onAction="#adm_add_project" style="-fx-background-color: lightgrey lightgrey;" text="Add" />
+                              <TextField fx:id="tf_adm_project_contact" layoutX="179.0" layoutY="286.0" prefHeight="27.0" prefWidth="63.0" text="Contact" />
+                              <TextField fx:id="tf_adm_project_name" layoutX="13.0" layoutY="286.0" prefHeight="27.0" prefWidth="65.0" text="Name" />
+                              <JFXComboBox fx:id="cb_adm_project_client" layoutX="86.0" layoutY="286.0" prefHeight="27.0" prefWidth="81.0" promptText="Client" />
+                              <TextField fx:id="tf_adm_project_payment" layoutX="336.0" layoutY="286.0" prefHeight="27.0" prefWidth="74.0" text="Payment" />
                            </children>
                         </AnchorPane>
                   </content>
@@ -253,16 +267,26 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="admin_tasks" layoutX="76.0" layoutY="-16.0" prefHeight="285.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f4f4f4" height="40.0" stroke="BLACK" strokeType="INSIDE" width="552.0" AnchorPane.bottomAnchor="22.0" />
+                              <TableView fx:id="admin_tasks" layoutX="76.0" layoutY="-16.0" onMouseClicked="#adm_choose_task" prefHeight="285.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_task_name" prefWidth="75.0" text="Task name" />
                                   <TableColumn fx:id="col_task_project" prefWidth="75.0" text="Project" />
-                                    <TableColumn fx:id="col_task_user" prefWidth="75.0" text="User" />
-                                    <TableColumn fx:id="col_task_userRate" prefWidth="75.0" text="User Rate" />
-                                    <TableColumn fx:id="col_task_time" prefWidth="93.0" text="Total hours" />
-                                    <TableColumn fx:id="col_task_projectRate" prefWidth="127.0" text="Task payment" />
+                                    <TableColumn fx:id="col_task_user" prefWidth="59.0" text="User" />
+                                    <TableColumn fx:id="col_task_userRate" prefWidth="81.0" text="User Rate" />
+                                    <TableColumn fx:id="col_task_time" prefWidth="79.0" text="Total hours" />
+                                    <TableColumn fx:id="col_task_projectRate" prefWidth="99.0" text="Task payment" />
+                                    <TableColumn fx:id="col_task_description" prefWidth="83.0" text="Description" />
                                 </columns>
                               </TableView>
+                              <TextField fx:id="tf_adm_task_name" layoutX="9.0" layoutY="286.0" prefHeight="27.0" prefWidth="81.0" text="Task name" />
+                              <JFXComboBox fx:id="cb_adm_task_project" layoutX="97.0" layoutY="286.0" promptText="Project" />
+                              <JFXComboBox fx:id="cb_adm_task_user" layoutX="200.0" layoutY="286.0" promptText="User" />
+                              <TextField fx:id="tf_adm_task_rate" layoutX="283.0" layoutY="286.0" prefHeight="27.0" prefWidth="44.0" text="Rate" />
+                              <TextField fx:id="tf_adm_task_task_payment" layoutX="333.0" layoutY="286.0" prefHeight="27.0" prefWidth="35.0" text="\$$" />
+                              <JFXButton layoutX="446.0" layoutY="286.0" onAction="#adm_add_task" style="-fx-background-color: lightgrey;" text="Add" />
+                              <JFXButton layoutX="493.0" layoutY="286.0" onAction="#adm_edit_task" style="-fx-background-color: lightgrey;" text="Edit" />
+                              <TextField fx:id="tf_adm_task_task_description" layoutX="372.0" layoutY="286.0" prefHeight="27.0" prefWidth="57.0" text="Description" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -271,15 +295,24 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TableView fx:id="admin_users" layoutX="152.0" layoutY="1.0" prefHeight="284.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f4f4f4" height="40.0" stroke="BLACK" strokeType="INSIDE" width="552.0" AnchorPane.bottomAnchor="22.0" />
+                              <TableView fx:id="admin_users" layoutX="152.0" layoutY="1.0" onMouseClicked="#adm_choose_user" prefHeight="284.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_user_name" prefWidth="75.0" text="Name" />
                                   <TableColumn fx:id="col_user_time" prefWidth="113.0" text="Total time" />
                                     <TableColumn fx:id="col_user_salary" prefWidth="75.0" text="\$ per hour" />
                                     <TableColumn fx:id="col_user_admin" prefWidth="75.0" text="Admin?" />
                                     <TableColumn fx:id="col_user_email" prefWidth="75.0" text="Email" />
+                                    <TableColumn fx:id="col_user_password" prefWidth="138.0" text="Password" />
                                 </columns>
                               </TableView>
+                              <JFXButton layoutX="474.0" layoutY="286.0" onAction="#adm_edit_user" style="-fx-background-color: lightgrey;" text="Edit" />
+                              <JFXButton layoutX="414.0" layoutY="286.0" onAction="#adm_add_user" style="-fx-background-color: lightgrey;" text="Add" />
+                              <TextField fx:id="tf_adm_user_email" layoutX="320.0" layoutY="286.0" prefHeight="27.0" prefWidth="81.0" text="Email" />
+                              <TextField fx:id="tf_adm_user_payperh" layoutX="79.0" layoutY="286.0" prefHeight="27.0" prefWidth="75.0" text="\$ per H" />
+                              <TextField fx:id="tf_adm_user_name" layoutX="14.0" layoutY="286.0" prefHeight="27.0" prefWidth="57.0" text="Name" />
+                              <JFXComboBox fx:id="cb_adm_user_admin" layoutX="245.0" layoutY="286.0" prefHeight="27.0" prefWidth="57.0" promptText="Admin" />
+                              <TextField fx:id="tf_adm_user_password" layoutX="164.0" layoutY="286.0" prefHeight="27.0" prefWidth="74.0" text="Password" />
                            </children>
                         </AnchorPane>
                     </content>

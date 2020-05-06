@@ -83,6 +83,11 @@ public class Client {
     public void setProjectNr(int projectNr) {
         this.projectNr.set(projectNr);
     }
+
+    @Override
+    public String toString() {
+        return this.clientName.get();
+    }
     
     
 }

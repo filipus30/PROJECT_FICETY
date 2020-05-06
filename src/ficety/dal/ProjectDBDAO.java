@@ -35,7 +35,7 @@ public class ProjectDBDAO {
     
     public Project addNewProjectToDB(String projectName, Client client, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed){ 
     //  Adds a new Project to the DB, and returns the updated Project to the GUI
-        String sql = "INSERT INTO PROJECTS(projectName, associatedClientID, projectRate, hoursAllocated, closed) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO PROJECTS(projectName, associatedClientID,PhoneNr,projectRate, hoursAllocated, closed) VALUES (?,?,?,?,?,?)";
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, projectName);

@@ -45,6 +45,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
@@ -250,6 +251,48 @@ public class AdminViewController extends JFrame implements Initializable {
     private TableColumn<Project, Integer> col_project_allocatedhours;
     @FXML
     private TableColumn<User, String> col_user_email;
+    @FXML
+    private TextField tf_adm_client_standardRate;
+    @FXML
+    private TextField tf_adm_client_email;
+    @FXML
+    private TextField tf_adm_client_name;
+    @FXML
+    private TextField tf_adm_project_hours;
+    @FXML
+    private TextField tf_adm_project_contact;
+    @FXML
+    private TextField tf_adm_project_name;
+    @FXML
+    private JFXComboBox<Client> cb_adm_project_client;
+    @FXML
+    private TextField tf_adm_project_payment;
+    @FXML
+    private TextField tf_adm_task_name;
+    @FXML
+    private JFXComboBox<Project> cb_adm_task_project;
+    @FXML
+    private JFXComboBox<User> cb_adm_task_user;
+    @FXML
+    private TextField tf_adm_task_rate;
+    @FXML
+    private TextField tf_adm_task_task_payment;
+    @FXML
+    private TextField tf_adm_user_email;
+    @FXML
+    private TextField tf_adm_user_payperh;
+    @FXML
+    private TextField tf_adm_user_name;
+    @FXML
+    private JFXComboBox<User> cb_adm_user_admin;
+    @FXML
+    private TableColumn<Task, String> col_task_description;
+    @FXML
+    private TextField tf_adm_task_task_description;
+    @FXML
+    private TableColumn<User, String> col_user_password;
+    @FXML
+    private TextField tf_adm_user_password;
    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -748,6 +791,7 @@ AnimationTimer timer = new AnimationTimer() {
             col_task_userRate.setCellValueFactory(new PropertyValueFactory<Task, Float>("salary"));
             col_task_time.setCellValueFactory(new PropertyValueFactory<Task, String>("hours"));
             col_task_projectRate.setCellValueFactory(new PropertyValueFactory<Task,String>("projectPayment"));
+            col_task_description.setCellValueFactory(new PropertyValueFactory<Task,String>("desc"));
             admin_tasks.setItems(dataTasks);
             loadAdminTasks= true;
         }
@@ -769,6 +813,7 @@ AnimationTimer timer = new AnimationTimer() {
             col_user_salary.setCellValueFactory(new PropertyValueFactory<User ,Float>("salary"));
             col_user_admin.setCellValueFactory(new PropertyValueFactory<User, Boolean>("isAdmin"));
             col_user_email.setCellValueFactory(new PropertyValueFactory<User,String>("email"));
+            col_user_password.setCellValueFactory(new PropertyValueFactory<User,String>("password"));
             admin_users.setItems(dataUsers);
             loadUsers= true;
         }
@@ -776,6 +821,92 @@ AnimationTimer timer = new AnimationTimer() {
         {
             debug("users already loaded");
         }
+    }
+
+    @FXML
+    private void adm_choose_client(MouseEvent event) {
+        tf_adm_client_email.setText(admin_clients.getSelectionModel().getSelectedItem().getEmail());
+        tf_adm_client_name.setText(admin_clients.getSelectionModel().getSelectedItem().getClientName());
+        float f = admin_clients.getSelectionModel().getSelectedItem().getStandardRate();
+        String s= Float.toString(f);
+        tf_adm_client_standardRate.setText(s);
+    }
+
+    @FXML
+    private void adm_edit_client(ActionEvent event) {
+        UVM.editClient(admin_clients.getSelectionModel().getSelectedItem(),tf_adm_client_name.getText(),Float.valueOf(tf_adm_client_standardRate.getText()),admin_clients.getSelectionModel().getSelectedItem().getImgLocation(),tf_adm_client_email.getText());
+    }
+
+    @FXML
+    private void adm_add_client(ActionEvent event) {
+         UVM.addNewClientToDB(tf_adm_client_name.getText(),Float.valueOf(tf_adm_client_standardRate.getText()),admin_clients.getSelectionModel().getSelectedItem().getImgLocation(),tf_adm_client_email.getText());
+    }
+
+    @FXML
+    private void adm_choose_project(MouseEvent event) {
+    tf_adm_project_contact.setText(admin_projects.getSelectionModel().getSelectedItem().getPhoneNr());
+    tf_adm_project_hours.setText(admin_projects.getSelectionModel().getSelectedItem().getSeconds());
+    tf_adm_project_name.setText(admin_projects.getSelectionModel().getSelectedItem().getProjectName());
+    tf_adm_project_payment.setText(admin_projects.getSelectionModel().getSelectedItem().getCalPayment());
+     ArrayList<Client> list = UVM.getAllClients();
+            ObservableList<Client> admdataClient =  FXCollections.observableArrayList(list);
+            cb_adm_project_client.getItems().clear();
+    cb_adm_project_client.getItems().addAll(admdataClient);
+    }
+
+    @FXML
+    private void adm_edit_project(ActionEvent event) {
+        UVM.editProject(admin_projects.getSelectionModel().getSelectedItem(),tf_adm_project_name.getText(),cb_adm_project_client.getSelectionModel().getSelectedItem().getId(),Float.valueOf(tf_adm_project_payment.getText()),Integer.valueOf(tf_adm_project_hours.getText()),false,tf_adm_project_contact.getText());
+    }
+
+    @FXML
+    private void adm_add_project(ActionEvent event) {
+        UVM.addNewProjectToDB(tf_adm_project_name.getText(),cb_adm_project_client.getSelectionModel().getSelectedItem(),tf_adm_project_contact.getText(),Float.valueOf(tf_adm_project_payment.getText()),Integer.valueOf(tf_adm_project_hours.getText()), false);
+    }
+
+    @FXML
+    private void adm_choose_task(MouseEvent event) {
+        ArrayList<Project> list = UVM.getAllProjects();
+            ObservableList<Project> admdataProject =  FXCollections.observableArrayList(list);
+             List<User> zlist = UVM.getAllUsers();
+            ObservableList<User> admdataUsers =  FXCollections.observableArrayList(zlist);
+        tf_adm_task_name.setText(admin_tasks.getSelectionModel().getSelectedItem().getTaskName());
+        tf_adm_task_rate.setText(String.valueOf(admin_tasks.getSelectionModel().getSelectedItem().getSalary()));
+        tf_adm_task_task_payment.setText(admin_tasks.getSelectionModel().getSelectedItem().getProjectPayment());
+        tf_adm_task_task_description.setText(admin_tasks.getSelectionModel().getSelectedItem().getDesc());
+         cb_adm_task_project.getItems().clear();
+        cb_adm_task_user.getItems().clear();
+        cb_adm_task_project.getItems().addAll(admdataProject);
+        cb_adm_task_user.getItems().addAll(admdataUsers);
+    }
+
+    @FXML
+    private void adm_add_task(ActionEvent event) {
+        
+    }
+
+    @FXML
+    private void adm_edit_task(ActionEvent event) {
+        UVM.editTask(admin_tasks.getSelectionModel().getSelectedItem(),tf_adm_task_name.getText(),tf_adm_task_task_description.getText(),admin_tasks.getSelectionModel().getSelectedItem().getAssociatedProjectID());
+    }
+
+    @FXML
+    private void adm_choose_user(MouseEvent event) {
+        tf_adm_user_email.setText(admin_users.getSelectionModel().getSelectedItem().getEmail());
+        tf_adm_user_name.setText(admin_users.getSelectionModel().getSelectedItem().getUserName());
+        tf_adm_user_payperh.setText(String.valueOf(admin_users.getSelectionModel().getSelectedItem().getSalary()));
+        tf_adm_user_password.setText(admin_users.getSelectionModel().getSelectedItem().getPassword());
+      //  cb_adm_user_admin.getItems().addAll(c)
+    }
+
+    @FXML
+    private void adm_edit_user(ActionEvent event) {
+        UVM.editUser(admin_users.getSelectionModel().getSelectedItem(),tf_adm_user_name.getText(),tf_adm_user_email.getText(),tf_adm_user_password.getText(),Float.valueOf(tf_adm_user_payperh.getText()), false);
+    }
+
+    @FXML
+    private void adm_add_user(ActionEvent event) {
+        UVM.createUser(tf_adm_user_name.getText(),tf_adm_user_email.getText(),tf_adm_user_password.getText(),Float.valueOf(tf_adm_user_payperh.getText()), false);
     }
 
 

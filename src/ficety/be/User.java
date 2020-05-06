@@ -106,4 +106,11 @@ public class User {
     public void setNiceTime(String niceTime) {
         this.niceTime.set(niceTime);
     }
+
+    @Override
+    public String toString() {
+        return userName.get();
+    }
+    
+    
 }
