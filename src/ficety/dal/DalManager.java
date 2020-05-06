@@ -164,13 +164,14 @@ public class DalManager implements DalFaçade {
     }
     
     @Override
-    public void addFinishTimeToSession(Session currentSession, LocalDateTime finishTime)
+    public Session addFinishTimeToSession(Session currentSession, LocalDateTime finishTime)
     {
         try {
-            sessionDBDao.addFinishTimeToSession(currentSession, finishTime);
+            return sessionDBDao.addFinishTimeToSession(currentSession, finishTime);
         } catch (SQLException ex) {
             Logger.getLogger(DalManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return null;
     }
     
 

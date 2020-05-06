@@ -45,6 +45,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 import javax.swing.JFrame;
 
 
@@ -327,7 +328,7 @@ public class UserViewController extends JFrame implements Initializable {
     private void addTaskAndSetItRunning(ActionEvent event) {
         Project associatedProject = cb_project.getSelectionModel().getSelectedItem();
         String taskName = tf_newtask.getText();
-        UVM.addNewTaskAndSetItRunning(taskName, associatedProject);
+        Pair<Task, Session> temp = UVM.addNewTaskAndSetItRunning(taskName, associatedProject);
         if(isTimerRunning)
         {
             timer.stop();
@@ -342,7 +343,7 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private void handle_startStop(ActionEvent event) {
 
-        UVM.startStopSession();
+        Session temp = UVM.startStopSession();
         if(isTimerRunning){
             timer.stop();
         isTimerRunning = false;}
@@ -573,7 +574,7 @@ export = 1;
                 debug("Adding task to DB passing down stack");
                 UVM.addNewTaskToDB(task_name.getText(), task_description.getText(), cb_task_project.getSelectionModel().getSelectedItem());
                 lu.setCurrentTask(null);
-                UVM.startStopSession();
+                Session temp = UVM.startStopSession();
             }
             else 
             {

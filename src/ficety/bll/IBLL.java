@@ -13,6 +13,7 @@ import ficety.be.Session;
 import ficety.be.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javafx.util.Pair;
 
 /**
  *
@@ -41,13 +42,13 @@ public interface IBLL {
     public Task addNewTaskToDB(String taskName, Project associatedProject);
     public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID);
     public void removeTaskFromDB(Task taskToDelete);
-    public void addNewTaskAndSetItRunning(String taskName, Project associatedProject);
+    public Pair<Task, Session> addNewTaskAndSetItRunning(String taskName, Project associatedProject);
     public List<Task> getTasksForUserInfo();
     public List<Task> getAllTasksForAdmin();
   
 
 // SessionDBDAO methods            
-    public void startStopSession();
+    public Session startStopSession();
     public List<Session> getAllSessionsOfAUser();
     public Session editSession(Session currentSession, String startTime, String finishTime, int id);
     public void removeSessionFromDB(Session sessionToDelete);

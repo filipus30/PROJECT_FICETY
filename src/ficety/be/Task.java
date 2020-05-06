@@ -20,9 +20,7 @@ public class Task {
     private final StringProperty taskName = new SimpleStringProperty();
     private SimpleStringProperty desc = new SimpleStringProperty();
     private int associatedProjectID;  // the project that the task is assigned to.
-//or  private List<int> associatedUserIDs;  // the people to whom the task is assigned to.
     private List<Session> sessions;  //time??
-    private long[] taskDuration;  //  total time used on a 
     private final StringProperty hours = new SimpleStringProperty();
     private StringProperty users = new SimpleStringProperty();
     private StringProperty associatedProjectName = new SimpleStringProperty();
@@ -65,14 +63,6 @@ public class Task {
 
     public void setSessions(List<Session> sessions) {
         this.sessions = sessions;
-    }
-
-    public long[] getTaskDuration() {
-        return taskDuration;
-    }
-
-    public void setTaskDuration(long[] taskDuration) {
-        this.taskDuration = taskDuration;
     }
 
     public String getUsers() {

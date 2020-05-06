@@ -15,6 +15,7 @@ import ficety.be.User;
 import ficety.dal.DalManager;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javafx.util.Pair;
 
 /**
  *
@@ -137,23 +138,30 @@ public class BllManager implements IBLL {
     }        
     
     @Override
-    public void addNewTaskAndSetItRunning(String taskName, Project associatedProject)
+    public Pair<Task, Session> addNewTaskAndSetItRunning(String taskName, Project associatedProject)
     {
-        if(lu.getCurrentSession() != null)
+        Session tempSession;
+        if(lu.getCurrentSession() != null) //If we have a sesssion in progress.
         {
-            dalManager.addFinishTimeToSession(lu.getCurrentSession(), LocalDateTime.now());
-            lu.setCurrentSession(null);
+            tempSession = dalManager.addFinishTimeToSession(lu.getCurrentSession(), LocalDateTime.now());
+            lu.setCurrentSession(null);          
+        }
+        else
+        {
+            tempSession =  startStopSession();
         }
         Task currentTask = addNewTaskToDB(taskName, associatedProject);
         lu.setCurrentTask(currentTask);
-        startStopSession();
+        //Session curSession = startStopSession();
+        Pair<Task, Session> temp = new Pair(currentTask, tempSession);
+        return temp;
     }
 
     
     
 // SessionDBDAO methods                    
     @Override
-    public void startStopSession() {
+    public Session startStopSession() {
         LocalDateTime now = LocalDateTime.now(); //The time right now
         int userID = lu.getId();
         Session thisSession = lu.getCurrentSession();
@@ -166,14 +174,16 @@ public class BllManager implements IBLL {
             Session newSession = dalManager.addNewSessionToDB(userID, currentTaskId, now); //Add the session to DB.
             debug("SessionID = " + newSession.getSessionID());//DEBUG MESSAGE
             lu.setCurrentSession(newSession); //Set the current Session active
+            return newSession;
 
                        
         }
         else//IF there is a current session runnign then we only need to stop it.
         {
             //Session currentSession = lu.getCurrentSession();
-            dalManager.addFinishTimeToSession(thisSession, now); //Add the end time.
             lu.setCurrentSession(null);
+            return dalManager.addFinishTimeToSession(thisSession, now); //Add the end time.
+            
 
         }
         
