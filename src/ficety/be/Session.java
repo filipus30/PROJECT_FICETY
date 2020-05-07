@@ -23,7 +23,7 @@ public class Session {
     private final StringProperty startTime = new SimpleStringProperty();
     private final StringProperty finishTime = new SimpleStringProperty();
     private final StringProperty hours = new SimpleStringProperty();
-    private String taskName;
+    private StringProperty taskName = new SimpleStringProperty();
     private String start,finish;
 //    private int sessionTime;  //  difference between start time and finish time ...maybe?
 
@@ -40,7 +40,7 @@ public class Session {
         this.startTime.set(start);
         this.finishTime.set(finish);
         this.hours.set(timespent);
-        this.taskName = taskName;
+        this.taskName.set(taskName);
     }
 
    
@@ -68,12 +68,18 @@ public class Session {
     public void setAssociatedTaskID(int associatedTaskID) {
         this.associatedTaskID = associatedTaskID;
     }
-     public String getTaskName() {
+    
+    public StringProperty taskNameProperty()
+    {
         return taskName;
+    }
+    
+    public String getTaskName() {
+        return this.taskName.get();
     }
 
     public void setTaskName(String taskName) {
-        this.taskName = taskName;
+        this.taskName.set(taskName);
     }
 public String getStartTime() {
         return startTime.get();

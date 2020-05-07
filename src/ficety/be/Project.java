@@ -55,12 +55,22 @@ public class Project {
         this.projectID = projectID;
     }
 
-    public int associatedClientID() {
+    public IntegerProperty associatedClientIDProperty()
+    {
+        return associatedClientID;
+    }
+    
+    public int getAssociatedClientID() {
         return this.associatedClientID.get();
     }
 
-    public void setAssociatedClient(int associatedClientID) {
+    public void setAssociatedClientID(int associatedClientID) {
         this.associatedClientID.set(associatedClientID);
+    }
+    
+    public StringProperty PhoneNrProperty()
+    {
+        return phoneNr;
     }
 
     public String getPhoneNr() {
@@ -71,12 +81,22 @@ public class Project {
         this.phoneNr.set(phoneNr);
     }
 
+    public FloatProperty projectRateProperty()
+    {
+        return projectRate;
+    }
+    
     public float getProjectRate() {
         return this.projectRate.get();
     }
 
     public void setProjectRate(float projectRate) {
         this.projectRate.set(projectRate);
+    }
+    
+    public IntegerProperty allocatedHoursProperty()
+    {
+        return allocatedHours;
     }
 
      public int getAllocatedHours() {
@@ -95,12 +115,22 @@ public class Project {
         this.taskList = taskList;
     }
 
-    public boolean isClosed() {
+    public BooleanProperty isClosedProperty()
+    {
+        return isClosed;
+    }
+    
+    public boolean getIsClosed() {
         return this.isClosed.get();
     }
 
-    public void setClosed(boolean isClosed) {
+    public void setIsClosed(boolean isClosed) {
         this.isClosed.set(isClosed);
+    }
+    
+    public StringProperty ClientIMGProperty()
+    {
+        return clientIMG;
     }
     
     public String getClientIMG()
@@ -112,6 +142,11 @@ public class Project {
         this.clientIMG.set(clientIMG);
     }
     
+    public StringProperty secondsProperty()
+    {
+        return seconds;
+    }
+    
     public String getSeconds() {
         return this.seconds.get();
     }
@@ -120,6 +155,11 @@ public class Project {
         this.seconds.set(seconds);
     }
 
+    public StringProperty clientNameProperty()
+    {
+        return clientName;
+    }
+    
     public String getClientName() {
         return this.clientName.get();
     }
@@ -133,6 +173,12 @@ public class Project {
     {
         return this.projectName.get();
     }
+    
+    public StringProperty ProjectNameProperty()
+    {
+        return projectName;
+    }    
+    
     public String getProjectName() {
         return this.projectName.get();
     }
@@ -141,6 +187,12 @@ public class Project {
         this.projectName.set(projectName);
     }
 
+    
+    public StringProperty calPaymentProperty()
+    {
+        return calPayment;
+    }    
+    
     public String getCalPayment() {
         return this.calPayment.get();
     }

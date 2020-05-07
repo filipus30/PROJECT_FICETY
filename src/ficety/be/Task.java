@@ -7,7 +7,9 @@ package ficety.be;
 
 import java.util.List;
 import javafx.beans.property.FloatProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -19,7 +21,7 @@ public class Task {
     private int taskID;
     private final StringProperty taskName = new SimpleStringProperty();
     private SimpleStringProperty desc = new SimpleStringProperty();
-    private int associatedProjectID;  // the project that the task is assigned to.
+    private IntegerProperty associatedProjectID = new SimpleIntegerProperty();  // the project that the task is assigned to.
     private List<Session> sessions;  //time??
     private final StringProperty hours = new SimpleStringProperty();
     private StringProperty users = new SimpleStringProperty();
@@ -36,10 +38,11 @@ public class Task {
         this.taskID = taskID;
         this.taskName.set(name);
         this.desc.set(description);
-        this.associatedProjectID = associatedProject;
+        this.associatedProjectID.set(associatedProject);
         this.hours.set(hours);
         this.associatedProjectName.set(associatedProjectName);
     }
+    
 
     public int getTaskID() {
         return taskID;
@@ -48,13 +51,18 @@ public class Task {
     public void setTaskID(int taskID) {
         this.taskID = taskID;
     }
-
-    public int getAssociatedProjectID() {
+    
+    public IntegerProperty associatedProjectIDProperty()
+    {
         return associatedProjectID;
     }
 
+    public int getAssociatedProjectID() {
+        return this.associatedProjectID.get();
+    }
+
     public void setAssociatedProjectID(int associatedProjectID) {
-        this.associatedProjectID = associatedProjectID;
+        this.associatedProjectID.set(associatedProjectID);
     }
 
     public List<Session> getSessions() {
@@ -63,6 +71,11 @@ public class Task {
 
     public void setSessions(List<Session> sessions) {
         this.sessions = sessions;
+    }
+    
+    public StringProperty usersProperty()
+    {
+        return users;
     }
 
     public String getUsers() {
@@ -73,6 +86,11 @@ public class Task {
         this.users.set(users);
     }
    
+    public StringProperty associatedProjectName()
+    {
+        return associatedProjectName;
+    }
+    
     public String getAssociatedProjectName() {
         return this.associatedProjectName.get();
     }
@@ -122,7 +140,10 @@ public class Task {
     }
     
     
-    
+    public FloatProperty salaryProperty()
+    {
+        return salary;
+    }
     
     public float getSalary() {
         return this.salary.get();
@@ -130,6 +151,11 @@ public class Task {
 
     public void setSalary(float salary) {
         this.salary.set(salary);
+    }
+    
+    public StringProperty projectPayment()
+    {
+        return projectPayment;
     }
     
     public String getProjectPayment() {

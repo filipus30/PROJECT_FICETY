@@ -35,6 +35,10 @@ public class Client {
         this.email.set(email);
     }
 
+    public IntegerProperty clientIDProperty()
+    {
+        return clientID;
+    }
     
     public int getId() {
         return this.clientID.get();
@@ -44,6 +48,11 @@ public class Client {
         this.clientID.set(clientID);
     }
 
+    public StringProperty clientNameProperty()
+    {
+        return clientName;
+    }
+    
     public String getClientName() {
         return this.clientName.get();
     }
@@ -52,6 +61,11 @@ public class Client {
         this.clientName.set(clientName);
     }
 
+    public StringProperty imgLocationProperty()
+    {
+        return imgLocation;
+    }
+    
     public String getImgLocation() {
         return this.imgLocation.get();
     }
@@ -60,6 +74,11 @@ public class Client {
         this.imgLocation.set(imgLocation);
     }
 
+    public FloatProperty standardRateProperty()
+    {
+        return standardRate;
+    }
+    
     public float getStandardRate() {
         return this.standardRate.get();
     }
@@ -67,13 +86,23 @@ public class Client {
     public void setStandardRate(float standardRate) {
         this.standardRate.set(standardRate);
     }
-
+    
+    public StringProperty emailProperty()
+    {
+        return email;
+    }
+    
     public String getEmail() {
         return this.email.get();
     }
 
     public void setEmail(String email) {
         this.email.set(email);
+    }
+    
+    public IntegerProperty projectNrProperty()
+    {
+        return projectNr;
     }
     
     public int getProjectNr() {
