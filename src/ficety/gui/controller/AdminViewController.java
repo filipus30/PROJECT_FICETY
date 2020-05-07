@@ -473,15 +473,15 @@ public class AdminViewController extends JFrame implements Initializable {
 
     @FXML
     private void handle_startStop(ActionEvent event) {
+        
+        if(added)
+        { 
+            
         datasession.add(UVM.startStopSession());
-//        if(added)
-//        { 
-//            
-//        datasession.add(UVM.startStopSession());
-//        added = false;}
-//        else{
-//        UVM.startStopSession();
-//        added = true;}
+        added = false;}
+        else{
+        UVM.startStopSession();
+        added = true;}
         if(isTimerRunning){
             timer.stop();
         isTimerRunning = false;}
