@@ -172,7 +172,8 @@ public class BllManager implements IBLL {
             
             Task currentTask = lu.getCurrentTask(); //get the selected task
             int currentTaskId = currentTask.getTaskID();
-            Session newSession = dalManager.addNewSessionToDB(userID, currentTaskId, now); //Add the session to DB.
+            String taskName = currentTask.getTaskName();
+            Session newSession = dalManager.addNewSessionToDB(userID, currentTaskId, taskName, now); //Add the session to DB.
             debug("SessionID = " + newSession.getSessionID());//DEBUG MESSAGE
             lu.setCurrentSession(newSession); //Set the current Session active
             return newSession;

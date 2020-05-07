@@ -49,11 +49,11 @@ public class SessionDBDAO {
 
     
     
-     public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, LocalDateTime startTime) { 
+     public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, String taskName, LocalDateTime startTime) { 
     //  Adds a new session to the Session table of the database given the sessions details. Generates an id key
         String sql = "INSERT INTO Sessions(associatedUser, associatedTask, startTime, finishTime) VALUES (?,?,?,NULL)";
         Timestamp startTimeStamp = Timestamp.valueOf(startTime);
-        Session newSession = new Session(0, associatedUserID, associatedTaskID,startTimeStamp,null,"","");
+        Session newSession = new Session(0, associatedUserID, associatedTaskID,startTimeStamp,null,"",taskName);
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setInt(1, associatedUserID);

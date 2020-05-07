@@ -140,8 +140,8 @@ public class DalManager implements DalFaçade {
     
 // SessionDBDAO methods                
     @Override
-    public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, LocalDateTime startTime) {
-        return sessionDBDao.addNewSessionToDB(associatedUserID, associatedTaskID, startTime);
+    public Session addNewSessionToDB(int associatedUserID, int associatedTaskID, String taskName, LocalDateTime startTime) {
+        return sessionDBDao.addNewSessionToDB(associatedUserID, associatedTaskID, taskName, startTime);
     }
     
     @Override
