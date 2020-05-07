@@ -68,6 +68,8 @@ public class AdminViewController extends JFrame implements Initializable {
     private ArrayList<Client> clientlist;
     private List<User> userlist ;
     private ObservableList<User> dataUsers ;
+    @FXML
+    private Button bn_exp;
     
     public AdminViewController()
     {
@@ -171,6 +173,7 @@ public class AdminViewController extends JFrame implements Initializable {
     boolean loaded = false;
     private long time = 0;
     private boolean admpanel = false;
+    private int export = 3;
     @FXML
     private TableColumn<Task,String> Col_task_description;
     @FXML
@@ -522,6 +525,7 @@ AnimationTimer timer = new AnimationTimer() {
 //        Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
 //        tbv_task.setItems(data);
 //        debug(data.size() + "");
+export = 1;
     }
 
     @FXML
@@ -537,6 +541,7 @@ AnimationTimer timer = new AnimationTimer() {
 //        tbv_session.setItems(data);
 //        cb_project.getSelectionModel().getSelectedItem();
 //      //  cb_project.getItems().addAll(c);
+export = 2;
        
     }
 
@@ -550,6 +555,7 @@ AnimationTimer timer = new AnimationTimer() {
 //         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
 //         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
 //         Tbv_pj.setItems(data);}
+export = 3;
         
             
         
@@ -949,6 +955,22 @@ AnimationTimer timer = new AnimationTimer() {
     @FXML
     private void adm_add_user(ActionEvent event) {
         dataUsers.add(UVM.createUser(tf_adm_user_name.getText(),tf_adm_user_email.getText(),tf_adm_user_password.getText(),Float.valueOf(tf_adm_user_payperh.getText()), false));
+    }
+
+    @FXML
+    private void export_table(ActionEvent event) {
+        if(export ==3 )
+        UVM.export(Tbv_pj,search.getText());
+        else if(export ==2)
+        UVM.export(tbv_session,search.getText());
+        else if(export == 1)
+        UVM.export(tbv_task,search.getText());
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("File exported succesfully ! You can find it in your project folder");
+      alert.showAndWait();
     }
 
 
