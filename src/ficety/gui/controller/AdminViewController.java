@@ -356,9 +356,9 @@ public class AdminViewController extends JFrame implements Initializable {
         
             if(min == false){
                 Stage stage = (Stage) bn_expandview.getScene().getWindow();
-                stage.setMaxHeight(500);
+                stage.setMaxHeight(550); //prev 500
                 stage.setMaxWidth(800);
-                stage.setMinHeight(500);
+                stage.setMinHeight(480); //prev 500
                 stage.setMinWidth(800);
                 MaxWidth = 1044;
              //   Sp_last3.setVisible(true);
@@ -367,10 +367,10 @@ public class AdminViewController extends JFrame implements Initializable {
             }
             else{
                 Stage stage = (Stage) bn_expandview.getScene().getWindow();
-                stage.setMaxHeight(500);
-                stage.setMaxWidth(240);
-                stage.setMinHeight(500);
-                stage.setMinWidth(240);
+                stage.setMaxHeight(550); //prev 500
+                stage.setMaxWidth(260); //prev 240
+                stage.setMinHeight(480);
+                stage.setMinWidth(255);
                 MaxWidth = 260;
               //  Sp_last3.setVisible(true
                ap.setVisible(true);
@@ -385,11 +385,11 @@ public class AdminViewController extends JFrame implements Initializable {
               //  Sp_last3.setVisible(true);
                 min = true;
                 ap.setVisible(true);
-                debug("true");
+                debug("Size toggle true");
                 Stage stage = (Stage) ap.getScene().getWindow();
-                stage.setMaxHeight(500);
-                stage.setMaxWidth(800);
-                stage.setMinHeight(500);
+                stage.setMaxHeight(550); //prev 500
+                stage.setMaxWidth(800); 
+                stage.setMinHeight(530); //prev 500
                 stage.setMinWidth(800);
                 tb_toggle.setLayoutY(409);
                 bn_start_stop.setLayoutY(343);
@@ -405,18 +405,18 @@ public class AdminViewController extends JFrame implements Initializable {
                //user_tabpane.setVisible(false);
                  min = false;
             
-                debug("false");
+                debug("Size toggle false");
                 Stage stage = (Stage) ap.getScene().getWindow();
-                stage.setMaxHeight(208);
-                stage.setMaxWidth(240);
-                stage.setMinHeight(208);
-                stage.setMinWidth(240);
-                 tb_toggle.setLayoutY(120);
-                 bn_start_stop.setLayoutY(140);
-                 lb_tasktime.setLayoutY(150);
-                lb_timetoday.setLayoutY(170);
-                label_task.setLayoutY(164);
-                label_today.setLayoutY(180);
+                stage.setMaxHeight(230); //prev 208
+                stage.setMaxWidth(260); //prev 340
+                stage.setMinHeight(230);
+                stage.setMinWidth(260);
+                 tb_toggle.setLayoutY(100); // - 20 px all the way down
+                 bn_start_stop.setLayoutY(120);
+                 lb_tasktime.setLayoutY(130);
+                lb_timetoday.setLayoutY(150);
+                label_task.setLayoutY(144);
+                label_today.setLayoutY(160);
         }
     }
  
@@ -719,16 +719,16 @@ AnimationTimer timer = new AnimationTimer() {
     private void show_admin(ActionEvent event) {
         if(admpanel == false)
         { Stage stage = (Stage) bn_expandview.getScene().getWindow();
-        stage.setMaxHeight(800);
-        stage.setMinHeight(800);
+        stage.setMaxHeight(830);
+        stage.setMinHeight(830); //prev 900
         admin_tab.setVisible(true);
         admpanel = true;}
         else
         {
              Stage stage = (Stage) bn_expandview.getScene().getWindow();
-        stage.setMaxHeight(500);
+        stage.setMaxHeight(530);//prev 500
         stage.setMaxWidth(800);
-        stage.setMinHeight(500);
+        stage.setMinHeight(520); //prev 500
         stage.setMinWidth(800);
         admin_tab.setVisible(false);
         admpanel = false;

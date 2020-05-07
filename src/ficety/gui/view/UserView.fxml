@@ -127,7 +127,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="661.0">
                      <children>
-                        <TableView fx:id="Tbv_pj" prefHeight="422.0" prefWidth="519.0">
+                        <TableView fx:id="Tbv_pj" layoutX="3.0" prefHeight="422.0" prefWidth="516.0">
                           <columns>
                             <TableColumn fx:id="Col_pj_name" prefWidth="122.0" text="Name" />
                             <TableColumn fx:id="Col_pj_clint" prefWidth="123.0" text="Client" />
@@ -143,7 +143,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="582.0">
                      <children>
-                        <TableView fx:id="tbv_task" layoutX="-3.0" onMouseClicked="#chooseSelectedTask" prefHeight="391.0" prefWidth="522.0">
+                        <TableView fx:id="tbv_task" layoutX="3.0" onMouseClicked="#chooseSelectedTask" prefHeight="391.0" prefWidth="516.0">
                           <columns>
                             <TableColumn fx:id="Col_task_taskname" prefWidth="111.0" text="Task name" />
                               <TableColumn fx:id="Col_task_description" prefWidth="141.0" text="Description" />

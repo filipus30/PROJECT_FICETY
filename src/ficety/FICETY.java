@@ -25,8 +25,8 @@ public class FICETY extends Application {
         
         stage.setScene(scene);
         stage.show();
-        stage.setMaxHeight(488);
-        stage.setMaxWidth(260);
+        stage.setMaxHeight(250);
+        stage.setMaxWidth(500);
         
     }
 
