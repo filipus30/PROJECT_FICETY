@@ -25,14 +25,15 @@ public class BllManager implements IBLL {
 
     private boolean debug = false;
 // private DalManager dalManager;
-    
+     private DalManager dalManager ;
+    private LoggedInUser lu;
     public BllManager()
     {
-       // dalManager = new DalManager();
+        dalManager = new DalManager();
+    lu = LoggedInUser.getInstance();
     }
 
-    private DalManager dalManager = new DalManager();
-    private LoggedInUser lu = LoggedInUser.getInstance();
+    
 
 //CLientDBDAO methods
     @Override

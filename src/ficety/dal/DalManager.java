@@ -23,15 +23,19 @@ import java.util.ArrayList;
  * @author Trigger, Filip, Cecillia and Alan
  */
 public class DalManager implements DalFaçade {
-    private ProjectDBDAO projectDBDao = new ProjectDBDAO();
-    private TaskDBDAO taskDBDao = new TaskDBDAO();
-    private SessionDBDAO sessionDBDao = new SessionDBDAO();
-    private UserDBDAO userDBDao = new UserDBDAO();
-    private ClientDBDAO clientDBDao = new ClientDBDAO();
+    private ProjectDBDAO projectDBDao ;
+    private TaskDBDAO taskDBDao ;
+    private SessionDBDAO sessionDBDao ;
+    private UserDBDAO userDBDao ;
+    private ClientDBDAO clientDBDao ;
     
   public DalManager()
   {
-       
+    projectDBDao = new ProjectDBDAO();
+    taskDBDao = new TaskDBDAO();
+    sessionDBDao = new SessionDBDAO();
+    userDBDao = new UserDBDAO();
+    clientDBDao = new ClientDBDAO();
  }
 //ClientDBDAO methods
     @Override
