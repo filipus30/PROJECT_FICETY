@@ -23,7 +23,7 @@ import javafx.beans.property.StringProperty;
  */
 public class User {
     
-    private IntegerProperty userID = new SimpleIntegerProperty();
+    private int userID;
     private StringProperty userName = new SimpleStringProperty();
     private StringProperty email = new SimpleStringProperty();
     private StringProperty password = new SimpleStringProperty();
@@ -34,7 +34,7 @@ public class User {
 
 
     public User(int userID, String userName, String email, String password, float salary, boolean isAdmin) {
-        this.userID.set(userID);
+        this.userID = userID;
         this.userName.set(userName);
         this.email.set(email);
         this.password.set(password);
@@ -44,13 +44,18 @@ public class User {
 
     
     public int getUserId() {
-        return this.userID.get();
+        return userID;
     }
 
     public void setUserId(int id) {
-        this.userID.set(id);
+        this.userID = id;
     }
 
+    public StringProperty userNameProperty()
+    {
+        return userName;
+    }
+    
     public String getUserName() {
         return this.userName.get();
     }
@@ -59,6 +64,11 @@ public class User {
         this.userName.set(userName);
     }
 
+    public StringProperty emailProperty()
+    {
+        return email;
+    }
+    
     public String getEmail() {
         return this.email.get();
     }
@@ -67,6 +77,11 @@ public class User {
         this.email.set(email);
     }
 
+    public StringProperty passwordProperty()
+    {
+        return password;
+    }
+    
     public String getPassword() {
         return this.password.get();
     }
@@ -75,6 +90,11 @@ public class User {
         this.password.set(password);
     }
 
+    public FloatProperty salaryProperty()
+    {
+        return salary;
+    }
+    
     public float getSalary() {
         return this.salary.get();
     }
@@ -83,12 +103,22 @@ public class User {
         this.salary.set(salary);
     }
 
+    public BooleanProperty isAdminProperty()
+    {
+        return isAdmin;
+    }
+    
     public boolean getIsAdmin() {
         return this.isAdmin.get();
     }
 
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin.set(isAdmin);
+    }
+
+    public LongProperty totalTimeProperty()
+    {
+        return totalTime;
     }
     
     public long getTotalTime() {
@@ -97,6 +127,11 @@ public class User {
 
     public void setTotalTime(long totalTime) {
         this.totalTime.set(totalTime);
+    }
+    
+    public StringProperty niceTimeProperty()
+    {
+        return niceTime;
     }
     
     public String getNiceTime() {

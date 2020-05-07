@@ -92,10 +92,10 @@ public class ProjectDBDAO {
             
             pstmt.executeUpdate();  //Execute SQL query.
             editedProject.setProjectName(projectName);
-            editedProject.setAssociatedClient(associatedClientID);  
+            editedProject.setAssociatedClientID(associatedClientID);  
             editedProject.setProjectRate(projectRate);
             editedProject.setAllocatedHours(allocatedHours);
-            editedProject.setClosed(isClosed);
+            editedProject.setIsClosed(isClosed);
             editedProject.setPhoneNr(phoneNr);
             return editedProject;
         } catch (SQLServerException ex) {
