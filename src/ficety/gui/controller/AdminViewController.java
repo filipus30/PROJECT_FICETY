@@ -58,7 +58,7 @@ import javax.swing.JFrame;
  * @author Trigger
  */
 public class AdminViewController extends JFrame implements Initializable {
-    
+
     private boolean debug = false;
     private Label label;
     private UserViewModel UVM ;
@@ -72,7 +72,7 @@ public class AdminViewController extends JFrame implements Initializable {
     boolean added = true;
     @FXML
     private Button bn_exp;
-    
+
     public AdminViewController()
     {
         MaxWidth = 260;
@@ -167,7 +167,7 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private TableColumn<Session, Integer> col_sesion_myhours;
     private ScrollPane Sp_last3;
-    
+
    // private UserViewModel UVM = new UserViewModel();
     private LoggedInUser lu = LoggedInUser.getInstance();
     int MaxWidth;
@@ -232,8 +232,8 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private TableColumn<Project, String> col_project_payment;
     private boolean loadProject = false;
-    
-    
+
+
     @FXML
     private TableView<Task> admin_tasks;
     @FXML
@@ -248,12 +248,12 @@ public class AdminViewController extends JFrame implements Initializable {
     private TableColumn<Task, String> col_task_time;
     @FXML
     private TableColumn<Task, String> col_task_projectRate;
-    
+
     private boolean loadAdminTasks = false;
-    
+
     @FXML
     private TableView<User> admin_users;
-    
+
     @FXML
     private TableColumn<User, String> col_user_name;
     @FXML
@@ -262,7 +262,7 @@ public class AdminViewController extends JFrame implements Initializable {
     private TableColumn<User, Float> col_user_salary;
     @FXML
     private TableColumn<User, Boolean> col_user_admin;
-    
+
     private boolean loadUsers = false;
     @FXML
     private TabPane admin_tab;
@@ -318,10 +318,10 @@ public class AdminViewController extends JFrame implements Initializable {
     private TableColumn<User, String> col_user_password;
     @FXML
     private TextField tf_adm_user_password;
-    
-    
-    
-   
+
+
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        admin_tab.setVisible(false);
@@ -331,7 +331,7 @@ public class AdminViewController extends JFrame implements Initializable {
        ObservableList<Project> last3data = FXCollections.observableArrayList(UVM.get3RecentProjects());
        loadAll();
        if(last3data.size() >= 1)
-       { 
+       {
        ObservableList<Task> tasklist1 = FXCollections.observableArrayList(last3data.get(0).getTaskList());
        Image image1 = new Image(last3data.get(0).getClientIMG(), 50, 50, false, false);
        jcb1.getItems().addAll(tasklist1);
@@ -342,7 +342,7 @@ public class AdminViewController extends JFrame implements Initializable {
        jcb2.setVisible(false);
        jcb3.setVisible(false);}
        if (last3data.size() >= 2)
-       { 
+       {
        txtpj2.setVisible(true);
        jcb2.setVisible(true);
        ObservableList<Task> tasklist2 = FXCollections.observableArrayList(last3data.get(1).getTaskList());
@@ -361,8 +361,8 @@ public class AdminViewController extends JFrame implements Initializable {
        txtpj3.setText(last3data.get(2).getProjectName());
        Image image3 = new Image(last3data.get(2).getClientIMG(), 50, 50, false, false);
        img3.setImage(image3);}
-        
-        
+
+
 //         List<Project> list = UVM.getAllProjectsForUserTab();
 //         ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
 //         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
@@ -371,14 +371,14 @@ public class AdminViewController extends JFrame implements Initializable {
 //         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
 //         Tbv_pj.setItems(datapj);
          loaded = true;
-        
-    }    
 
-   
-    
+    }
+
+
+
     public void sizeExpantion(){
-        
-        
+
+
             if(min == false){
                 Stage stage = (Stage) bn_expandview.getScene().getWindow();
                 stage.setMaxHeight(550); //prev 500
@@ -402,18 +402,18 @@ public class AdminViewController extends JFrame implements Initializable {
                 min = false;
             }
         }
-       
-    
+
+
     public void toggelSize(){
-        
-        if(min == false){    
+
+        if(min == false){
               //  Sp_last3.setVisible(true);
                 min = true;
                 ap.setVisible(true);
                 debug("Size toggle true");
                 Stage stage = (Stage) ap.getScene().getWindow();
                 stage.setMaxHeight(550); //prev 500
-                stage.setMaxWidth(800); 
+                stage.setMaxWidth(800);
                 stage.setMinHeight(530); //prev 500
                 stage.setMinWidth(800);
                 tb_toggle.setLayoutY(409);
@@ -422,14 +422,14 @@ public class AdminViewController extends JFrame implements Initializable {
                 lb_timetoday.setLayoutY(376);
                 label_task.setLayoutY(356);
                 label_today.setLayoutY(383);
-                
+
             }
         else{
                // Sp_last3.setVisible(false);
                 ap.setVisible(false);
                //user_tabpane.setVisible(false);
                  min = false;
-            
+
                 debug("Size toggle false");
                 Stage stage = (Stage) ap.getScene().getWindow();
                 stage.setMaxHeight(230); //prev 208
@@ -444,7 +444,7 @@ public class AdminViewController extends JFrame implements Initializable {
                 label_today.setLayoutY(160);
         }
     }
- 
+
     @FXML
     private void handle_view(ActionEvent event) {
         sizeExpantion();
@@ -454,7 +454,7 @@ public class AdminViewController extends JFrame implements Initializable {
     private void toggel_size(ActionEvent event) {
         toggelSize();
     }
-    
+
         @FXML
     private void addTaskAndSetItRunning(ActionEvent event) {
         Project associatedProject = cb_project.getSelectionModel().getSelectedItem();
@@ -468,14 +468,14 @@ public class AdminViewController extends JFrame implements Initializable {
         }
         timer.start();
         isTimerRunning = true;
-       
+
     }
 
     @FXML
     private void handle_startStop(ActionEvent event) {
         //datasession.add(UVM.startStopSession());
         if(added)
-        { 
+        {
         datasession.add(UVM.startStopSession());
         added = false;
         }
@@ -483,7 +483,7 @@ public class AdminViewController extends JFrame implements Initializable {
         UVM.startStopSession();
         added = true;
         }
-        
+
         if(isTimerRunning){
             timer.stop();
         isTimerRunning = false;}
@@ -491,7 +491,7 @@ public class AdminViewController extends JFrame implements Initializable {
         timer.start();
         isTimerRunning = true;}
     }
-    
+
 AnimationTimer timer = new AnimationTimer() {
     private long timestamp;
     private long timefortotal;
@@ -525,7 +525,7 @@ AnimationTimer timer = new AnimationTimer() {
             lb_timetoday.setText(timetotal);
         }
     }
-    
+
 };
 
     @FXML
@@ -542,7 +542,7 @@ export = 1;
 
     @FXML
     private void load_session_tab(Event event) throws SQLException {
-       
+
      //  Timestamp n
      //   Session s = new Session(3,3,3,now,now,0,"");
 //        ObservableList<Session> data =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
@@ -554,12 +554,12 @@ export = 1;
 //        cb_project.getSelectionModel().getSelectedItem();
 //      //  cb_project.getItems().addAll(c);
 export = 2;
-       
+
     }
 
     @FXML
     private void load_pj_tab(Event event) throws InterruptedException {
-        
+
 //        {   List<Project> list = UVM.getAllProjectsForUserTab();
 //         ObservableList<Project> data =  FXCollections.observableArrayList(list);
 //         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
@@ -568,11 +568,11 @@ export = 2;
 //         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
 //         Tbv_pj.setItems(data);}
 export = 3;
-        
-            
-        
+
+
+
     }
-    
+
     @FXML //On the task selection for both the Task-tab as well as the Tasks INSIDE 3 most recent projects.
     private void chooseSelectedTask(Event event)
     {
@@ -586,7 +586,7 @@ export = 3;
                 time = 0;
             }
         }
-        
+
         else if(event.getSource().equals(jcb2)) //From Second recent Project
         {
             if(jcb2.getValue() != null)
@@ -596,7 +596,7 @@ export = 3;
                 lu.setCurrentTask(tmp);
             }
         }
-        
+
         else if(event.getSource().equals(jcb3)) //From Third recent Project
         {
             if(jcb3.getValue() != null)
@@ -618,8 +618,8 @@ export = 3;
                if(datax.get(i).getId() == lu.getCurrentTask().getAssociatedProjectID())
                    cb_task_project.getSelectionModel().select(datax.get(i));
             }
-            
-            
+
+
         }
     }
     private void loadAll()
@@ -645,7 +645,7 @@ export = 3;
         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
         Tbv_pj.setItems(datapj);
         lb_loginuser.setText(lu.getName());
-        
+
     }
      @FXML
     private void chooseSession(Event event)
@@ -655,9 +655,9 @@ export = 3;
            session_start.setText(ses.getStartTime());
            session_stop.setText(ses.getFinishTime());
         }
-        
+
     }
-    
+
 
     @FXML
     private void edit_session(ActionEvent event) {
@@ -668,7 +668,7 @@ export = 3;
     private void delete_session(ActionEvent event) {
         UVM.removeSessionFromDB(tbv_session.getSelectionModel().getSelectedItem());
     }
-    
+
     private void debug (String msg)
     {
         if(debug == true)
@@ -687,14 +687,14 @@ export = 3;
                 UVM.editTask(lu.getCurrentTask(), task_name.getText(), task_description.getText() , cb_task_project.getSelectionModel().getSelectedItem().getId() );
                 lu.setCurrentTask(null);
             }
-            else 
+            else
             {
                Alert alert = new Alert(Alert.AlertType.INFORMATION);
       alert.setTitle("Information Dialog");
       alert.setHeaderText(null);
       alert.setContentText("Please select project for task you want to edit");
       alert.showAndWait();}
-            
+
         }
         else
         {
@@ -704,7 +704,7 @@ export = 3;
       alert.setContentText("Please enter name for task");
       alert.showAndWait();}
         }
-    
+
 
     @FXML
     private void addTask(ActionEvent event)
@@ -718,7 +718,7 @@ export = 3;
                 lu.setCurrentTask(null);
                 UVM.startStopSession();
             }
-            else 
+            else
             {
                Alert alert = new Alert(Alert.AlertType.INFORMATION);
       alert.setTitle("Information Dialog");
@@ -736,7 +736,7 @@ export = 3;
       alert.showAndWait();
         }
     }
-    
+
     @FXML
     private void deleteTask(ActionEvent event) {
         if(task_name.getText() != null)
@@ -747,9 +747,9 @@ export = 3;
                 UVM.removeTaskFromDB(lu.getCurrentTask());
                 lu.setCurrentTask(null);
             }
-            
+
         }
-       
+
     }
 
     @FXML
@@ -769,16 +769,16 @@ export = 3;
         stage.setMinWidth(800);
         admin_tab.setVisible(false);
         admpanel = false;
-                
+
                 }
-       
+
     }
 
     @FXML
     private void load_admin_clients(Event event) {
         if(loadCli == false)
         {
-            
+
             col_client_name.setCellValueFactory(new PropertyValueFactory<Client,String>("clientName"));
             col_client_email.setCellValueFactory(new PropertyValueFactory<Client,String>("email"));
             col_client_projectNr.setCellValueFactory(new PropertyValueFactory<Client,Integer>("projectNr"));
@@ -790,7 +790,7 @@ export = 3;
         {
             debug("Clients already loaded");
         }
-        
+
     }
 
     @FXML
@@ -812,7 +812,7 @@ export = 3;
         {
             debug("Projects already loaded");
         }
-        
+
     }
 
     @FXML
@@ -835,14 +835,14 @@ export = 3;
         {
             debug("tasks already loaded");
         }
-        
+
     }
 
     @FXML
     private void load_admin_users(Event event) {
         if(loadUsers == false)
         {
-           
+
             col_user_name.setCellValueFactory(new PropertyValueFactory<User,String>("userName"));
             col_user_time.setCellValueFactory(new PropertyValueFactory<User, String>("niceTime"));
             col_user_salary.setCellValueFactory(new PropertyValueFactory<User ,Float>("salary"));
@@ -892,7 +892,7 @@ export = 3;
             {
                if(admdataClient.get(i).getClientName().equals(admin_projects.getSelectionModel().getSelectedItem().getClientName()))
                  cb_adm_project_client.getSelectionModel().select(admdataClient.get(i));
-                
+
             }
     }
 
@@ -934,7 +934,7 @@ export = 3;
 
     @FXML
     private void adm_add_task(ActionEvent event) {
-        
+
     }
 
     @FXML
@@ -950,18 +950,18 @@ export = 3;
         tf_adm_user_password.setText(admin_users.getSelectionModel().getSelectedItem().getPassword());
          cb_adm_user_admin.getItems().clear();
         cb_adm_user_admin.getItems().addAll(true,false);
-       
+
         if(admin_users.getSelectionModel().getSelectedItem().getIsAdmin() == true)
             cb_adm_user_admin.getSelectionModel().select(true);
         else if(admin_users.getSelectionModel().getSelectedItem().getIsAdmin() == false)
             cb_adm_user_admin.getSelectionModel().select(false);
-                
+
     }
 
     @FXML
     private void adm_edit_user(ActionEvent event) {
         UVM.editUser(admin_users.getSelectionModel().getSelectedItem(),tf_adm_user_name.getText(),tf_adm_user_email.getText(),tf_adm_user_password.getText(),Float.valueOf(tf_adm_user_payperh.getText()), false);
-        
+
     }
 
     @FXML
@@ -978,7 +978,7 @@ export = 3;
         else if(export == 1)
         UVM.export(tbv_task,search.getText());
          Alert alert = new Alert(Alert.AlertType.INFORMATION);
-         
+
       alert.setTitle("Information Dialog");
       alert.setHeaderText(null);
       alert.setContentText("File exported succesfully ! You can find it in your project folder");
