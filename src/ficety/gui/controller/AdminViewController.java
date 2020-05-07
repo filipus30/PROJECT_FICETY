@@ -68,6 +68,8 @@ public class AdminViewController extends JFrame implements Initializable {
     private ArrayList<Client> clientlist;
     private List<User> userlist ;
     private ObservableList<User> dataUsers ;
+    private ObservableList<Session> datasession;
+    boolean added = true;
     @FXML
     private Button bn_exp;
     
@@ -82,6 +84,7 @@ public class AdminViewController extends JFrame implements Initializable {
       dataClient =  FXCollections.observableArrayList(clientlist);
       userlist = UVM.getAllUsers();
       dataUsers =  FXCollections.observableArrayList(userlist);
+      datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
     }
     @FXML
     private TextField tf_newtask;
@@ -470,8 +473,15 @@ public class AdminViewController extends JFrame implements Initializable {
 
     @FXML
     private void handle_startStop(ActionEvent event) {
-
-        UVM.startStopSession();
+        datasession.add(UVM.startStopSession());
+//        if(added)
+//        { 
+//            
+//        datasession.add(UVM.startStopSession());
+//        added = false;}
+//        else{
+//        UVM.startStopSession();
+//        added = true;}
         if(isTimerRunning){
             timer.stop();
         isTimerRunning = false;}
@@ -618,7 +628,7 @@ export = 3;
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
         tbv_task.setItems(datatask);
-        ObservableList<Session> datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
+        //datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
         col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
         col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
         col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));

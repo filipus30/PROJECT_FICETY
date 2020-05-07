@@ -19,15 +19,17 @@ import javafx.beans.property.StringProperty;
  */
 public class Task {
     private int taskID;
-    private final StringProperty taskName = new SimpleStringProperty();
     private SimpleStringProperty desc = new SimpleStringProperty();
     private IntegerProperty associatedProjectID = new SimpleIntegerProperty();  // the project that the task is assigned to.
     private List<Session> sessions;  //time??
-    private final StringProperty hours = new SimpleStringProperty();
+    private StringProperty hours = new SimpleStringProperty();
     private StringProperty users = new SimpleStringProperty();
     private StringProperty associatedProjectName = new SimpleStringProperty();
     private FloatProperty salary = new SimpleFloatProperty();
     private StringProperty projectPayment = new SimpleStringProperty();
+    private final StringProperty taskName = new SimpleStringProperty();
+
+    
 
 
     
@@ -111,17 +113,6 @@ public class Task {
     {
     return desc;
     }
-    public String getTaskName() {
-        return taskName.get();
-    }
-
-    public void setTaskName(String value) {
-        taskName.set(value);
-    }
-
-    public StringProperty taskNameProperty() {
-        return taskName;
-    }
 
     @Override
     public String toString() {
@@ -167,6 +158,17 @@ public class Task {
     }
 
 
+    public String getTaskName() {
+        return taskName.get();
+    }
 
+    public void setTaskName(String value) {
+        taskName.set(value);
+    }
+
+    public StringProperty taskNameProperty() {
+        return taskName;
+    }
+    
 
 }

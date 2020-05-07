@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -22,7 +23,7 @@ public class Session {
     private int associatedTaskID;  // the Task whom the Session is assigned to.
     private final StringProperty startTime = new SimpleStringProperty();
     private final StringProperty finishTime = new SimpleStringProperty();
-    private final StringProperty hours = new SimpleStringProperty();
+    private StringProperty hours = new SimpleStringProperty();
     private StringProperty taskName = new SimpleStringProperty();
     private String start,finish;
 //    private int sessionTime;  //  difference between start time and finish time ...maybe?
@@ -39,7 +40,17 @@ public class Session {
         { finish = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(finishTime);}
         this.startTime.set(start);
         this.finishTime.set(finish);
+//        if( startTime != null && finishTime != null)
+//        {
+//            long millis = finishTime.getTime() - startTime.getTime();
+//            String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
+//            TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
+//            TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));
+//            this.hours.set(hms);
+//        }  
+//        else
         this.hours.set(timespent);
+        
         this.taskName.set(taskName);
     }
 
