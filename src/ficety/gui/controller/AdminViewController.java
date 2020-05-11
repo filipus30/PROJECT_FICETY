@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,6 +36,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -50,6 +54,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javax.swing.JFrame;
 
 
@@ -72,6 +77,8 @@ public class AdminViewController extends JFrame implements Initializable {
     boolean added = true;
     @FXML
     private Button bn_exp;
+    @FXML
+    private TableColumn col_task_bill;
 
     public AdminViewController()
     {
@@ -614,6 +621,33 @@ export = 3;
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("desc"));
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
+        col_task_bill.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Task, CheckBox>, ObservableValue<CheckBox>>() {
+
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<Task, CheckBox> arg0) {
+                Task user = arg0.getValue();
+
+                CheckBox checkBox = new CheckBox();
+
+                checkBox.selectedProperty().setValue(user.getBillable());
+
+
+
+                checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    public void changed(ObservableValue<? extends Boolean> ov,
+                            Boolean old_val, Boolean new_val) {
+
+                        user.setBillable(new_val);
+
+                    }
+                });
+
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+
+            }
+
+        });
         tbv_task.setItems(datatask);
         //datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
         col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
