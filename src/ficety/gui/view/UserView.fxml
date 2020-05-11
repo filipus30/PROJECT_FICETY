@@ -145,10 +145,11 @@
                      <children>
                         <TableView fx:id="tbv_task" layoutX="3.0" onMouseClicked="#chooseSelectedTask" prefHeight="391.0" prefWidth="516.0">
                           <columns>
-                            <TableColumn fx:id="Col_task_taskname" prefWidth="111.0" text="Task name" />
-                              <TableColumn fx:id="Col_task_description" prefWidth="141.0" text="Description" />
-                            <TableColumn fx:id="Col_task_project" minWidth="0.0" prefWidth="125.0" text="Project" />
-                              <TableColumn fx:id="Col_task_myhours" prefWidth="143.0" text="Time Spent" />
+                            <TableColumn fx:id="Col_task_taskname" prefWidth="96.0" text="Task name" />
+                              <TableColumn fx:id="Col_task_description" prefWidth="137.0" text="Description" />
+                            <TableColumn fx:id="Col_task_project" minWidth="0.0" prefWidth="73.0" text="Project" />
+                              <TableColumn fx:id="Col_task_myhours" prefWidth="114.0" text="Time Spent" />
+                              <TableColumn fx:id="col_task_bill" prefWidth="95.0" text="Billable" />
                           </columns>
                         </TableView>
                         <Label layoutX="6.0" layoutY="396.0" text="Task">

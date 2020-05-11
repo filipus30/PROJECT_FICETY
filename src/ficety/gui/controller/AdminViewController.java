@@ -268,7 +268,7 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private TableColumn<User, Float> col_user_salary;
     @FXML
-    private TableColumn<User, Boolean> col_user_admin;
+    private TableColumn col_user_admin;
 
     private boolean loadUsers = false;
     @FXML
@@ -867,7 +867,33 @@ export = 3;
             col_user_name.setCellValueFactory(new PropertyValueFactory<User,String>("userName"));
             col_user_time.setCellValueFactory(new PropertyValueFactory<User, String>("niceTime"));
             col_user_salary.setCellValueFactory(new PropertyValueFactory<User ,Float>("salary"));
-            col_user_admin.setCellValueFactory(new PropertyValueFactory<User, Boolean>("isAdmin"));
+            col_user_admin.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, CheckBox>, ObservableValue<CheckBox>>() {
+
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<User, CheckBox> arg0) {
+                User user = arg0.getValue();
+
+                CheckBox checkBox = new CheckBox();
+
+                checkBox.selectedProperty().setValue(user.getIsAdmin());
+
+
+
+                checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    public void changed(ObservableValue<? extends Boolean> ov,
+                            Boolean old_val, Boolean new_val) {
+
+                        user.setIsAdmin(new_val);
+
+                    }
+                });
+
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+
+            }
+
+        });
             col_user_email.setCellValueFactory(new PropertyValueFactory<User,String>("email"));
             col_user_password.setCellValueFactory(new PropertyValueFactory<User,String>("password"));
             admin_users.setItems(dataUsers);
