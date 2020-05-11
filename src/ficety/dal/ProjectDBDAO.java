@@ -256,6 +256,7 @@ public class ProjectDBDAO {
             
             allProjects.add(project);
         }
+        
         return allProjects;  
         } catch (SQLException ex) {
             Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);

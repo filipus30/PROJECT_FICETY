@@ -459,7 +459,8 @@ public class AdminViewController extends JFrame implements Initializable {
     private void addTaskAndSetItRunning(ActionEvent event) {
         Project associatedProject = cb_project.getSelectionModel().getSelectedItem();
         String taskName = tf_newtask.getText();
-        UVM.addNewTaskAndSetItRunning(taskName, associatedProject);
+        boolean taskBillable = true;
+        UVM.addNewTaskAndSetItRunning(taskName, taskBillable, associatedProject);
         if(isTimerRunning)
         {
             timer.stop();
@@ -714,7 +715,9 @@ export = 3;
             if(cb_task_project != null)
             {
                 debug("Adding task to DB passing down stack");
-                UVM.addNewTaskToDB(task_name.getText(), task_description.getText(), cb_task_project.getSelectionModel().getSelectedItem());
+                boolean taskBillable = true; //NEEDS EDITING IMPORTANT
+                debug("TaskBillable hardcoded to true.");
+                UVM.addNewTaskToDB(task_name.getText(), task_description.getText(), taskBillable, cb_task_project.getSelectionModel().getSelectedItem());
                 lu.setCurrentTask(null);
                 UVM.startStopSession();
             }

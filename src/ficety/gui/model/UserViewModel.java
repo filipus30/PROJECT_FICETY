@@ -80,8 +80,8 @@ public class UserViewModel {
     
     //TASK Related
     
-    public Task addNewTaskToDB(String taskName, String taskDesc, Project associatedProject) {
-        return BllM.addNewTaskToDB(taskName, taskDesc, associatedProject);
+    public Task addNewTaskToDB(String taskName, String taskDesc, boolean isBillable, Project associatedProject) {
+        return BllM.addNewTaskToDB(taskName, taskDesc, isBillable, associatedProject);
     }
     
     public Task editTask(Task editedTask, String taskName, String description, int associatedProjectID) {
@@ -102,9 +102,9 @@ public class UserViewModel {
         return BllM.getAllTasksForAdmin();
     }
     
-    public Pair <Task, Session> addNewTaskAndSetItRunning(String taskName, Project associatedProject)
+    public Pair <Task, Session> addNewTaskAndSetItRunning(String taskName, boolean isBillable, Project associatedProject)
     {
-        return BllM.addNewTaskAndSetItRunning(taskName, associatedProject);
+        return BllM.addNewTaskAndSetItRunning(taskName, isBillable, associatedProject);
     }
     
     
