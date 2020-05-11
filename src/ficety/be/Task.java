@@ -168,15 +168,15 @@ public class Task {
         return taskName;
     }
     
-    private boolean getBillable() {
+    public boolean getBillable() {
         return billable.get();
     }
 
-    private void setBillable(boolean value) {
+    public void setBillable(boolean value) {
         billable.set(value);
     }
 
-    private BooleanProperty billableProperty() {
+    public BooleanProperty billableProperty() {
         return billable;
     }
 

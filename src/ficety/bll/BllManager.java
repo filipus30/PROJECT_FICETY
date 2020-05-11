@@ -161,6 +161,7 @@ public class BllManager implements IBLL {
     @Override
     public Session startStopSession() {
         LocalDateTime now = LocalDateTime.now(); //The time right now
+        
         int userID = lu.getId();
         Session thisSession = lu.getCurrentSession();
 

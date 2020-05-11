@@ -9,18 +9,24 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import ficety.be.Client;
 import ficety.be.LoggedInUser;
 import ficety.be.Project;
 import ficety.be.Session;
 import ficety.be.Task;
+import ficety.be.User;
 import ficety.bll.Exporter;
 import ficety.gui.model.UserViewModel;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,6 +36,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -39,12 +46,14 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.Pair;
 import javax.swing.JFrame;
 
@@ -148,6 +157,20 @@ public class UserViewController extends JFrame implements Initializable {
     boolean loaded = false;
     private long time = 0;
     private int export = 3;
+    boolean added = true;
+     private ObservableList<Task> dataTasks;
+    private ObservableList<Client> dataClient;
+    private List<Task> tasklist;
+    private ArrayList<Client> clientlist;
+    private List<User> userlist ;
+    private ObservableList<User> dataUsers ;
+    private ObservableList<Session> datasession;
+    @FXML
+    private TableColumn col_task_bill;
+    
+   
+        
+    
     @FXML
     private TableColumn<Task,String> Col_task_description;
     @FXML
@@ -190,6 +213,15 @@ public class UserViewController extends JFrame implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         UVM = new UserViewModel();
         lu = lu.getInstance();
+         MaxWidth = 260;
+        min = true;
+     tasklist = UVM.getAllTasksForAdmin();
+     dataTasks =  FXCollections.observableArrayList(tasklist);
+      clientlist = UVM.getAllClients();
+      dataClient =  FXCollections.observableArrayList(clientlist);
+      userlist = UVM.getAllUsers();
+      dataUsers =  FXCollections.observableArrayList(userlist);
+      datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
         
        datax = FXCollections.observableArrayList(UVM.getAllProjects());
        cb_project.getItems().addAll(datax);
@@ -240,11 +272,7 @@ public class UserViewController extends JFrame implements Initializable {
         
     }    
 
-    public UserViewController() {
-        MaxWidth = 260;
-        min = true;
-    }
-    
+   
    public void sizeExpantion(){
         
         
@@ -344,13 +372,23 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private void handle_startStop(ActionEvent event) {
 
-        Session temp = UVM.startStopSession();
+         if(added)
+        {
+        datasession.add(UVM.startStopSession());
+        added = false;
+        }
+        else{
+        UVM.startStopSession();
+        added = true;
+        }
+
         if(isTimerRunning){
             timer.stop();
         isTimerRunning = false;}
         else{
         timer.start();
         isTimerRunning = true;}
+
     }
     
 AnimationTimer timer = new AnimationTimer() {
@@ -482,14 +520,50 @@ export = 1;
         }
     }
     private void loadAll()
-    {
-         ObservableList<Task> datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
+    {  tbv_task.setEditable(true);
+	// allows the individual cells to be selected
+	tbv_task.getSelectionModel().cellSelectionEnabledProperty().set(true);
+         dataTasks =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
+        Col_task_taskname.setCellFactory(TextFieldTableCell.forTableColumn());
+        Col_task_taskname.setOnEditCommit(
+                (TableColumn.CellEditEvent<Task, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setTaskName(t.getNewValue())
+                );
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("desc"));
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
-        tbv_task.setItems(datatask);
-        ObservableList<Session> datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
+        col_task_bill.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Task, CheckBox>, ObservableValue<CheckBox>>() {
+
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<Task, CheckBox> arg0) {
+                Task user = arg0.getValue();
+
+                CheckBox checkBox = new CheckBox();
+
+                checkBox.selectedProperty().setValue(user.getBillable());
+
+
+
+                checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    public void changed(ObservableValue<? extends Boolean> ov,
+                            Boolean old_val, Boolean new_val) {
+
+                        user.setBillable(new_val);
+
+                    }
+                });
+
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+
+            }
+
+        });
+        tbv_task.setItems(dataTasks);
+        datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
         col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
         col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
         col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
@@ -573,6 +647,7 @@ export = 1;
             if(cb_task_project != null)
             {
                 debug("Adding task to DB passing down stack");
+
                 boolean taskBillable = true; //NEEDS FIXING!
                 UVM.addNewTaskToDB(task_name.getText(), task_description.getText(), taskBillable, cb_task_project.getSelectionModel().getSelectedItem());
                 lu.setCurrentTask(null);

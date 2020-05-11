@@ -35,9 +35,9 @@ public class Session {
         this.associatedUserID = associatedUser;
         this.associatedTaskID = associatedTask;
         if(startTime != null)
-        { start = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(startTime);}
+        { start = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(startTime);}
         if(finishTime != null)
-        { finish = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(finishTime);}
+        { finish = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(finishTime);}
         this.startTime.set(start);
         this.finishTime.set(finish);
 //        if( startTime != null && finishTime != null)

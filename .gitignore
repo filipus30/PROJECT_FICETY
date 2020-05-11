@@ -38,3 +38,6 @@ nbdist/
 .nb-gradle/
 
 # End of https://www.gitignore.io/api/java,netbeans
+.DS_Store
+nbproject/private/configs/Run_in_Browser.properties
+nbproject/private/private.properties

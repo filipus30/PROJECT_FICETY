@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -33,6 +36,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -43,6 +47,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -50,6 +55,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javax.swing.JFrame;
 
 
@@ -72,6 +78,8 @@ public class AdminViewController extends JFrame implements Initializable {
     boolean added = true;
     @FXML
     private Button bn_exp;
+    @FXML
+    private TableColumn col_task_bill;
 
     public AdminViewController()
     {
@@ -261,7 +269,7 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private TableColumn<User, Float> col_user_salary;
     @FXML
-    private TableColumn<User, Boolean> col_user_admin;
+    private TableColumn col_user_admin;
 
     private boolean loadUsers = false;
     @FXML
@@ -474,8 +482,7 @@ public class AdminViewController extends JFrame implements Initializable {
 
     @FXML
     private void handle_startStop(ActionEvent event) {
-        //datasession.add(UVM.startStopSession());
-        if(added)
+      if(added)
         {
         datasession.add(UVM.startStopSession());
         added = false;
@@ -491,7 +498,7 @@ public class AdminViewController extends JFrame implements Initializable {
         else{
         timer.start();
         isTimerRunning = true;}
-    }
+          }
 
 AnimationTimer timer = new AnimationTimer() {
     private long timestamp;
@@ -624,12 +631,48 @@ export = 3;
         }
     }
     private void loadAll()
-    {
+    {   tbv_task.setEditable(true);
+	// allows the individual cells to be selected
+	tbv_task.getSelectionModel().cellSelectionEnabledProperty().set(true);
          ObservableList<Task> datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
-        Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
+         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
+         Col_task_taskname.setCellFactory(TextFieldTableCell.forTableColumn());
+         Col_task_taskname.setOnEditCommit(
+                (TableColumn.CellEditEvent<Task, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setTaskName(t.getNewValue())
+                );
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("desc"));
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
+        col_task_bill.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Task, CheckBox>, ObservableValue<CheckBox>>() {
+
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<Task, CheckBox> arg0) {
+                Task user = arg0.getValue();
+
+                CheckBox checkBox = new CheckBox();
+
+                checkBox.selectedProperty().setValue(user.getBillable());
+
+
+
+                checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    public void changed(ObservableValue<? extends Boolean> ov,
+                            Boolean old_val, Boolean new_val) {
+
+                        user.setBillable(new_val);
+
+                    }
+                });
+
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+
+            }
+
+        });
         tbv_task.setItems(datatask);
         //datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
         col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
@@ -849,7 +892,33 @@ export = 3;
             col_user_name.setCellValueFactory(new PropertyValueFactory<User,String>("userName"));
             col_user_time.setCellValueFactory(new PropertyValueFactory<User, String>("niceTime"));
             col_user_salary.setCellValueFactory(new PropertyValueFactory<User ,Float>("salary"));
-            col_user_admin.setCellValueFactory(new PropertyValueFactory<User, Boolean>("isAdmin"));
+            col_user_admin.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, CheckBox>, ObservableValue<CheckBox>>() {
+
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<User, CheckBox> arg0) {
+                User user = arg0.getValue();
+
+                CheckBox checkBox = new CheckBox();
+
+                checkBox.selectedProperty().setValue(user.getIsAdmin());
+
+
+
+                checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    public void changed(ObservableValue<? extends Boolean> ov,
+                            Boolean old_val, Boolean new_val) {
+
+                        user.setIsAdmin(new_val);
+
+                    }
+                });
+
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+
+            }
+
+        });
             col_user_email.setCellValueFactory(new PropertyValueFactory<User,String>("email"));
             col_user_password.setCellValueFactory(new PropertyValueFactory<User,String>("password"));
             admin_users.setItems(dataUsers);

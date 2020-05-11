@@ -130,10 +130,10 @@ public class SessionDBDAO {
             {
                 debug("Session Finishtime set correctly.");
                 Timestamp endtime = Timestamp.valueOf(finishTime);
-                String finish = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(endtime);
+                String finish = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(endtime);
                 currentSession.setFinishTime(finish);
                 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date parsedDate = dateFormat.parse(currentSession.getStartTime());
                 Timestamp starttime = new java.sql.Timestamp(parsedDate.getTime());
                 
