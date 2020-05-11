@@ -137,7 +137,7 @@ public class SessionDBDAO {
                 Date parsedDate = dateFormat.parse(currentSession.getStartTime());
                 Timestamp starttime = new java.sql.Timestamp(parsedDate.getTime());
                 
-                long millis = endtime.getTime() - starttime.getTime() - 43200000;
+                long millis = endtime.getTime() - starttime.getTime();
                 String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(millis),
                     TimeUnit.MILLISECONDS.toMinutes(millis) - TimeUnit.HOURS.toMinutes(TimeUnit.MILLISECONDS.toHours(millis)),
                     TimeUnit.MILLISECONDS.toSeconds(millis) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis)));

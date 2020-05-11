@@ -106,13 +106,13 @@ public class BllManager implements IBLL {
     
 // TaskDBDAO methods                
     @Override
-    public Task addNewTaskToDB(String taskName, String taskDesc, Project associatedProject) {
-        return dalManager.addNewTaskToDB(taskName, taskDesc, associatedProject);
+    public Task addNewTaskToDB(String taskName, String taskDesc, boolean isBillable, Project associatedProject) {
+        return dalManager.addNewTaskToDB(taskName, taskDesc, isBillable, associatedProject);
     }
 
     @Override
-    public Task addNewTaskToDB(String taskName, Project associatedProject) {
-        return dalManager.addNewTaskToDB(taskName, associatedProject);
+    public Task addNewTaskToDB(String taskName, boolean isBillable, Project associatedProject) {
+        return dalManager.addNewTaskToDB(taskName, isBillable, associatedProject);
     }
     
     @Override
@@ -139,7 +139,7 @@ public class BllManager implements IBLL {
     }        
     
     @Override
-    public Pair<Task, Session> addNewTaskAndSetItRunning(String taskName, Project associatedProject)
+    public Pair<Task, Session> addNewTaskAndSetItRunning(String taskName, boolean isBillable, Project associatedProject)
     {
         Session tempSession;
         if(lu.getCurrentSession() != null) //If we have a sesssion in progress.
@@ -147,13 +147,10 @@ public class BllManager implements IBLL {
             tempSession = dalManager.addFinishTimeToSession(lu.getCurrentSession(), LocalDateTime.now());
             lu.setCurrentSession(null);          
         }
-        else
-        {
-            tempSession =  startStopSession();
-        }
-        Task currentTask = addNewTaskToDB(taskName, associatedProject);
+        
+        Task currentTask = addNewTaskToDB(taskName, isBillable, associatedProject);
         lu.setCurrentTask(currentTask);
-        //Session curSession = startStopSession();
+        tempSession = startStopSession();
         Pair<Task, Session> temp = new Pair(currentTask, tempSession);
         return temp;
     }

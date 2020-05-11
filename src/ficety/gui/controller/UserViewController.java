@@ -347,7 +347,8 @@ public class UserViewController extends JFrame implements Initializable {
     private void addTaskAndSetItRunning(ActionEvent event) {
         Project associatedProject = cb_project.getSelectionModel().getSelectedItem();
         String taskName = tf_newtask.getText();
-        Pair<Task, Session> temp = UVM.addNewTaskAndSetItRunning(taskName, associatedProject);
+        boolean taskBillable = true;
+        Pair<Task, Session> temp = UVM.addNewTaskAndSetItRunning(taskName, taskBillable, associatedProject);
         if(isTimerRunning)
         {
             timer.stop();
@@ -601,7 +602,9 @@ export = 1;
             if(cb_task_project != null)
             {
                 debug("Adding task to DB passing down stack");
-                dataTasks.add(UVM.addNewTaskToDB(task_name.getText(), task_description.getText(), cb_task_project.getSelectionModel().getSelectedItem()));
+
+                boolean taskBillable = true; //NEEDS FIXING!
+                UVM.addNewTaskToDB(task_name.getText(), task_description.getText(), taskBillable, cb_task_project.getSelectionModel().getSelectedItem());
                 lu.setCurrentTask(null);
                 Session temp = UVM.startStopSession();
             }
