@@ -201,10 +201,13 @@ public class ProjectDBDAO {
       
       public ArrayList<Project> getAllProjects()
       {
-          ArrayList<Project> allProjectsForUser = new ArrayList();
+          ArrayList<Project> allProjects = new ArrayList();
           String sql ="SELECT Part.* " + 
-                        "FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, " + 
-                                "Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Tasks.Id) AS TotalTime, " + 
+                        "FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, " + 
+                                "Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, " + 
+                                "Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, " + 
+                                "SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) " + 
+                                    "OVER(PARTITION BY Tasks.Id) AS TotalTime, " + 
                                 "ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr " + 
                             "FROM Projects " + 
                             "JOIN Clients ON Projects.AssociatedClient=Clients.Id " + 
@@ -251,13 +254,13 @@ public class ProjectDBDAO {
                 project.setCalPayment(payment + "fixed rate");
             }
             
-            allProjectsForUser.add(project);
+            allProjects.add(project);
         }
-        return allProjectsForUser;  
+        return allProjects;  
         } catch (SQLException ex) {
             Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return allProjectsForUser;
+        return allProjects;
       
       }
       
