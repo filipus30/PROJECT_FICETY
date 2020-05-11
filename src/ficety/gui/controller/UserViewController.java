@@ -46,6 +46,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -157,7 +158,7 @@ public class UserViewController extends JFrame implements Initializable {
     private long time = 0;
     private int export = 3;
     boolean added = true;
-      private ObservableList<Task> dataTasks;
+     private ObservableList<Task> dataTasks;
     private ObservableList<Client> dataClient;
     private List<Task> tasklist;
     private ArrayList<Client> clientlist;
@@ -166,18 +167,10 @@ public class UserViewController extends JFrame implements Initializable {
     private ObservableList<Session> datasession;
     @FXML
     private TableColumn col_task_bill;
-    private UserViewController()
-    {
-         MaxWidth = 260;
-        min = true;
-      tasklist = UVM.getAllTasksForAdmin();
-      dataTasks =  FXCollections.observableArrayList(tasklist);
-      clientlist = UVM.getAllClients();
-      dataClient =  FXCollections.observableArrayList(clientlist);
-      userlist = UVM.getAllUsers();
-      dataUsers =  FXCollections.observableArrayList(userlist);
-      datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
-    }
+    
+   
+        
+    
     @FXML
     private TableColumn<Task,String> Col_task_description;
     @FXML
@@ -220,6 +213,15 @@ public class UserViewController extends JFrame implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         UVM = new UserViewModel();
         lu = lu.getInstance();
+         MaxWidth = 260;
+        min = true;
+     tasklist = UVM.getAllTasksForAdmin();
+     dataTasks =  FXCollections.observableArrayList(tasklist);
+      clientlist = UVM.getAllClients();
+      dataClient =  FXCollections.observableArrayList(clientlist);
+      userlist = UVM.getAllUsers();
+      dataUsers =  FXCollections.observableArrayList(userlist);
+      datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
         
        datax = FXCollections.observableArrayList(UVM.getAllProjects());
        cb_project.getItems().addAll(datax);
@@ -518,9 +520,18 @@ export = 1;
         }
     }
     private void loadAll()
-    {
+    {  tbv_task.setEditable(true);
+	// allows the individual cells to be selected
+	tbv_task.getSelectionModel().cellSelectionEnabledProperty().set(true);
          dataTasks =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
+        Col_task_taskname.setCellFactory(TextFieldTableCell.forTableColumn());
+        Col_task_taskname.setOnEditCommit(
+                (TableColumn.CellEditEvent<Task, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setTaskName(t.getNewValue())
+                );
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("desc"));
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));

@@ -47,6 +47,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -615,9 +616,18 @@ export = 3;
         }
     }
     private void loadAll()
-    {
+    {   tbv_task.setEditable(true);
+	// allows the individual cells to be selected
+	tbv_task.getSelectionModel().cellSelectionEnabledProperty().set(true);
          ObservableList<Task> datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
-        Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
+         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
+         Col_task_taskname.setCellFactory(TextFieldTableCell.forTableColumn());
+         Col_task_taskname.setOnEditCommit(
+                (TableColumn.CellEditEvent<Task, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setTaskName(t.getNewValue())
+                );
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("desc"));
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
