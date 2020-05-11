@@ -34,19 +34,25 @@ public class TaskDBDAO {
   //          sessionDBDao = new SessionDBDAO();
     }        
 
-    public Task addNewTaskToDB(String taskName, Project associatedProject){ 
+    public Task addNewTaskToDB(String taskName, boolean isBillable, Project associatedProject){ 
     //  Adds a new Task to the DB, and returns the updated Project to the GUI
         debug("Trying to create task name " + taskName);
-        String sql = "INSERT INTO Tasks (Name, Description, AssociatedProject) VALUES (?,?,?)";
+        String sql = "INSERT INTO Tasks (Name, Description, AssociatedProject, billable) VALUES (?,?,?,?)";
         int associatedProjectID = associatedProject.getId();
         String associatedProjectName = associatedProject.getProjectName();
-        Task newTask = new Task(0, taskName, " ", associatedProjectID, associatedProjectName, "");
+        Task newTask = new Task(0, taskName, " ", isBillable, associatedProjectID, associatedProjectName, "");
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, taskName);
             String description = " ";
             pstmt.setString(2, description);
             pstmt.setInt(3, associatedProjectID);
+            int billable = 1;
+            if(isBillable == false)
+            {
+                billable = 0;
+            }
+            pstmt.setInt(4, billable);
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating Task failed, no rows affected.");
@@ -66,18 +72,24 @@ public class TaskDBDAO {
         return newTask;
     }
     
-        public Task addNewTaskToDB(String taskName, String taskDesc, Project associatedProject){ 
+        public Task addNewTaskToDB(String taskName, String taskDesc, boolean isBillable, Project associatedProject){ 
     //  Adds a new Task to the DB, and returns the updated Project to the GUI
         debug("Trying to create task name " + taskName);
-        String sql = "INSERT INTO Tasks (Name, Description, AssociatedProject) VALUES (?,?,?)";
+        String sql = "INSERT INTO Tasks (Name, Description, AssociatedProject, Billable) VALUES (?,?,?,?)";
         int associatedProjectID = associatedProject.getId();
         String associatedProjectName = associatedProject.getProjectName();
-        Task newTask = new Task(0, taskName, taskDesc, associatedProjectID, associatedProjectName, "");
+        Task newTask = new Task(0, taskName, taskDesc, isBillable, associatedProjectID, associatedProjectName, "");
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, taskName);
             pstmt.setString(2, taskDesc);
             pstmt.setInt(3, associatedProjectID);
+            int billable = 1;
+            if(isBillable == false)
+            {
+                billable = 0;
+            }
+            pstmt.setInt(4, billable);
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating Task failed, no rows affected.");
@@ -140,12 +152,12 @@ public class TaskDBDAO {
               List<Task> alltasks = new ArrayList();
         try(Connection con = dbc.getConnection()) {
            // String sql = "Select Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(MINUTE, S.StartTime, S.FinishTime)) AS Total from Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask where Tasks.Id= '3' AND S.AssociatedUser = '?' GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description;";
-           String sql = "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, P.Name AS PName, SUM(Datediff(SECOND, S.StartTime, S.FinishTime)) AS Total " + 
+           String sql = "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.Billable, P.Name AS PName, SUM(Datediff(SECOND, S.StartTime, S.FinishTime)) AS Total " + 
                         "FROM Tasks " + 
                             "LEFT JOIN Sessions S ON Tasks.Id=S.AssociatedTask " + 
                             "LEFT JOIN Projects P ON Tasks.AssociatedProject=P.Id " + 
                         "WHERE S.AssociatedUser = ? " + 
-                        "GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id, P.Name";
+                        "GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id, Tasks.Billable, P.Name";
            PreparedStatement pstmt = con.prepareStatement(sql);   
             pstmt.setInt(1,user);
              pstmt.execute();
@@ -154,13 +166,19 @@ public class TaskDBDAO {
             {
                 int taskId = rs.getInt("id");
                 String taskName =  rs.getString("Name");
-                String description =  rs.getString("Description");   
+                String description =  rs.getString("Description");
+                boolean isBillable = false;
+                int billable = rs.getInt("Billable");
+                if(billable == 1)
+                {
+                    isBillable = true;
+                }
                 int associatedProjectID = rs.getInt("associatedProject");
                 String associatedProjectName = rs.getString("PName");
                 int time = rs.getInt("Total");
                // String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
               String timee = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
-                alltasks.add(new Task(taskId, taskName, description, associatedProjectID, associatedProjectName, timee));
+                alltasks.add(new Task(taskId, taskName, description, isBillable, associatedProjectID, associatedProjectName, timee));
                
             }    
         } catch (SQLException ex) {
@@ -175,14 +193,14 @@ public class TaskDBDAO {
         try(Connection con = dbc.getConnection()) {
            // String sql = "Select Tasks.Name, Tasks.AssociatedProject, Tasks.Description, SUM(Datediff(MINUTE, S.StartTime, S.FinishTime)) AS Total from Tasks JOIN Sessions S ON Tasks.Id=S.AssociatedTask where Tasks.Id= '3' AND S.AssociatedUser = '?' GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description;";
            String sql = "Select part.* FROM( " +
-                            "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, P.Name AS PName, P.ProjectRate, P.AllocatedHours, " + 
+                            "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.Billable, P.Name AS PName, P.ProjectRate, P.AllocatedHours, " + 
                                     "U.Name AS UName, U.Salary, SUM(Datediff(SECOND, S.StartTime, S.FinishTime)) AS Total, " + 
                                     "ROW_NUMBER()OVER (PARTITION BY Tasks.Id ORDER BY P.Name) AS Corr " +
                             "FROM Tasks " +
                                 "LEFT JOIN Sessions S ON Tasks.Id=S.AssociatedTask " +
                                 "LEFT JOIN Projects P ON Tasks.AssociatedProject=P.Id " +
                                 "LEFT JOIN Users U ON S.AssociatedUser=U.Id " +
-                            "GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id, P.Name, P.AllocatedHours, P.ProjectRate, U.Name, U.Salary) part " +
+                            "GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id, Tasks.Billable, P.Name, P.AllocatedHours, P.ProjectRate, U.Name, U.Salary) part " +
                             "WHERE part.Corr = 1;";
            PreparedStatement pstmt = con.prepareStatement(sql);   
              pstmt.execute();
@@ -191,14 +209,20 @@ public class TaskDBDAO {
             {
                 int taskId = rs.getInt("id");
                 String taskName =  rs.getString("Name");
-                String description =  rs.getString("Description");   
+                String description =  rs.getString("Description");
+                boolean isBillable = false;
+                int billable = rs.getInt("Billable");
+                if(billable == 1)
+                {
+                    isBillable = true;
+                }
                 int associatedProjectID = rs.getInt("associatedProject");
                 String associatedProjectName = rs.getString("PName");
                 int time = rs.getInt("Total");
                // String timee = String.format("%02d:%02d:%02d",time/3600 ,time / 60, time % 60);
                
                 String timee = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
-                Task tempTask = new Task(taskId, taskName, description, associatedProjectID, associatedProjectName, timee);
+                Task tempTask = new Task(taskId, taskName, description, isBillable, associatedProjectID, associatedProjectName, timee);
                 String user = rs.getString("UName");
                 tempTask.setUsers(user);
                 float salary = rs.getFloat("Salary");
@@ -232,7 +256,7 @@ public class TaskDBDAO {
     public void addTasksToProject(Project p)
     {
         ArrayList<Task> pTasks = new ArrayList();
-        String sql = "SELECT T.Id, T.Name, T.Description, P.Name as PName FROM Tasks T JOIN Projects P ON T.AssociatedProject=P.Id WHERE AssociatedProject = ?";
+        String sql = "SELECT T.Id, T.Name, T.Description, T.Billable, P.Name as PName FROM Tasks T JOIN Projects P ON T.AssociatedProject=P.Id WHERE AssociatedProject = ?";
         try(Connection con = dbc.getConnection())
         {
             PreparedStatement pstmt = con.prepareStatement(sql);
@@ -246,9 +270,15 @@ public class TaskDBDAO {
                int taskId = rs.getInt("Id");
                String taskName = rs.getString("Name");
                String taskDesc = rs.getString("Description");
+               boolean isBillable = false;
+               int billable = rs.getInt("Billable");
+               if(billable == 1)
+               {
+                   isBillable = true;
+               }
                String associatedProjectName = rs.getString("PName");
                
-               Task newTask = new Task(taskId, taskName, taskDesc, projectId, associatedProjectName, "");
+               Task newTask = new Task(taskId, taskName, taskDesc, isBillable, projectId, associatedProjectName, "");
                pTasks.add(newTask);
             }
             p.setTaskList(pTasks);

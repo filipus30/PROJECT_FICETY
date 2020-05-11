@@ -6,8 +6,10 @@
 package ficety.be;
 
 import java.util.List;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -28,21 +30,17 @@ public class Task {
     private FloatProperty salary = new SimpleFloatProperty();
     private StringProperty projectPayment = new SimpleStringProperty();
     private final StringProperty taskName = new SimpleStringProperty();
+    private final BooleanProperty billable = new SimpleBooleanProperty();
 
     
-
-
-    
-    
-
-    
-    public Task(int taskID, String name, String description, int associatedProject, String associatedProjectName, String hours) {
+    public Task(int taskID, String name, String description, boolean billable, int associatedProject, String associatedProjectName, String hours) {
         this.taskID = taskID;
         this.taskName.set(name);
         this.desc.set(description);
         this.associatedProjectID.set(associatedProject);
         this.hours.set(hours);
         this.associatedProjectName.set(associatedProjectName);
+        this.billable.set(billable);
     }
     
 
@@ -170,5 +168,16 @@ public class Task {
         return taskName;
     }
     
+    private boolean getBillable() {
+        return billable.get();
+    }
+
+    private void setBillable(boolean value) {
+        billable.set(value);
+    }
+
+    private BooleanProperty billableProperty() {
+        return billable;
+    }
 
 }

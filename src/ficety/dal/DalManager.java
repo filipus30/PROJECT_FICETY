@@ -102,13 +102,13 @@ public class DalManager implements DalFaçade {
     
 // TaskDBDAO methods            
     @Override
-    public Task addNewTaskToDB(String taskName, String taskDesc, Project associatedProject) {
-        return taskDBDao.addNewTaskToDB(taskName, taskDesc, associatedProject);
+    public Task addNewTaskToDB(String taskName, String taskDesc, boolean isBillable, Project associatedProject) {
+        return taskDBDao.addNewTaskToDB(taskName, taskDesc, isBillable, associatedProject);
     }
     
     @Override
-    public Task addNewTaskToDB(String taskName, Project associatedProject) {
-        return taskDBDao.addNewTaskToDB(taskName, associatedProject);
+    public Task addNewTaskToDB(String taskName, boolean isBillable, Project associatedProject) {
+        return taskDBDao.addNewTaskToDB(taskName, isBillable, associatedProject);
     }
     
     @Override
