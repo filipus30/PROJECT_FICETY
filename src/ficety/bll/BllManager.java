@@ -147,12 +147,10 @@ public class BllManager implements IBLL {
             tempSession = dalManager.addFinishTimeToSession(lu.getCurrentSession(), LocalDateTime.now());
             lu.setCurrentSession(null);          
         }
-        else
-        {
-            tempSession =  startStopSession();
-        }
+        
         Task currentTask = addNewTaskToDB(taskName, associatedProject);
         lu.setCurrentTask(currentTask);
+        tempSession =  startStopSession();
         //Session curSession = startStopSession();
         Pair<Task, Session> temp = new Pair(currentTask, tempSession);
         return temp;
