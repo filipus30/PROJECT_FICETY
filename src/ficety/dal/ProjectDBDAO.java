@@ -154,7 +154,8 @@ public class ProjectDBDAO {
           ArrayList<Project> allProjectsForUser = new ArrayList();
           String sql ="SELECT Part.* " + 
                         "FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, "+ 
-                                "Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Tasks.Id) AS TotalTime, " +
+                                "Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, " + 
+                                "SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Tasks.Id) AS TotalTime, " +
                                 "ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr " +
                             "FROM Projects " + 
                                 "JOIN Clients ON Projects.AssociatedClient=Clients.Id " + 
@@ -202,17 +203,31 @@ public class ProjectDBDAO {
       public ArrayList<Project> getAllProjects()
       {
           ArrayList<Project> allProjects = new ArrayList();
-          String sql ="SELECT Part.* " + 
-                        "FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, " + 
-                                "Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, " + 
-                                "Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, " + 
-                                "SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) " + 
-                                    "OVER(PARTITION BY Tasks.Id) AS TotalTime, " + 
-                                "ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr " + 
-                            "FROM Projects " + 
-                            "JOIN Clients ON Projects.AssociatedClient=Clients.Id " + 
-                            "JOIN Tasks ON Projects.Id=Tasks.AssociatedProject " + 
-                            "LEFT JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask)Part " + 
+          String sql ="SELECT Part.*  " +
+                        "FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, " +
+                        "Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, " +
+                        "Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, " +
+                        "Temp.BillableTime, " +
+                        "Temp2.TotalTime, " +
+                        "ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr " +
+                        "FROM Projects " +
+                            "JOIN Clients ON Projects.AssociatedClient=Clients.Id  " +
+                            "JOIN Tasks ON Projects.Id=Tasks.AssociatedProject " +
+                            "LEFT JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask " +
+                            "JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY Projects.Id) AS BillableTime , " +
+                                    "Projects.Name " +
+                                "FROM Sessions " +
+                                "JOIN Tasks ON  Sessions.AssociatedTask = Tasks.Id " +
+                                "JOIN Projects ON Projects.Id = Tasks.AssociatedProject " +
+                                "WHERE Tasks.Billable = 1 " + 
+                            ") Temp ON Temp.Name = Projects.Name " +
+                            "JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY Projects.Id) AS TotalTime , " +
+                                    "Projects.Name " +
+                                "FROM Sessions " +
+                                "JOIN Tasks ON  Sessions.AssociatedTask = Tasks.Id " +
+                                "JOIN Projects ON Projects.Id = Tasks.AssociatedProject " +
+                            ") Temp2 ON Temp2.Name = Projects.Name " +
+                        ") Part " +
                         "WHERE part.Corr=1;";
       
           try ( Connection con = dbc.getConnection()) {
@@ -237,9 +252,10 @@ public class ProjectDBDAO {
             project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed, clientIMG);
             String ClientName = rs.getString("CName");
             project.setClientName(ClientName);
-            int time = rs.getInt("TotalTime");
-             String timee = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
+            int totalTime = rs.getInt("TotalTime");
+            String timee = String.format("%02d:%02d:%02d", totalTime / 3600, (totalTime % 3600) / 60, totalTime % 60);
             project.setSeconds(timee);
+            int time = rs.getInt("BillableTime");
             if(allocatedHours > 0)
             {
                 double hours = time/3600;
