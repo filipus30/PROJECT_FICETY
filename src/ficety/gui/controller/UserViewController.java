@@ -9,15 +9,18 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
+import ficety.be.Client;
 import ficety.be.LoggedInUser;
 import ficety.be.Project;
 import ficety.be.Session;
 import ficety.be.Task;
+import ficety.be.User;
 import ficety.bll.Exporter;
 import ficety.gui.model.UserViewModel;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
@@ -148,6 +151,26 @@ public class UserViewController extends JFrame implements Initializable {
     boolean loaded = false;
     private long time = 0;
     private int export = 3;
+    boolean added = true;
+      private ObservableList<Task> dataTasks;
+    private ObservableList<Client> dataClient;
+    private List<Task> tasklist;
+    private ArrayList<Client> clientlist;
+    private List<User> userlist ;
+    private ObservableList<User> dataUsers ;
+    private ObservableList<Session> datasession;
+    private UserViewController()
+    {
+         MaxWidth = 260;
+        min = true;
+      tasklist = UVM.getAllTasksForAdmin();
+      dataTasks =  FXCollections.observableArrayList(tasklist);
+      clientlist = UVM.getAllClients();
+      dataClient =  FXCollections.observableArrayList(clientlist);
+      userlist = UVM.getAllUsers();
+      dataUsers =  FXCollections.observableArrayList(userlist);
+      datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
+    }
     @FXML
     private TableColumn<Task,String> Col_task_description;
     @FXML
@@ -240,11 +263,7 @@ public class UserViewController extends JFrame implements Initializable {
         
     }    
 
-    public UserViewController() {
-        MaxWidth = 260;
-        min = true;
-    }
-    
+   
    public void sizeExpantion(){
         
         
@@ -343,13 +362,23 @@ public class UserViewController extends JFrame implements Initializable {
     @FXML
     private void handle_startStop(ActionEvent event) {
 
-        Session temp = UVM.startStopSession();
+         if(added)
+        {
+        datasession.add(UVM.startStopSession());
+        added = false;
+        }
+        else{
+        UVM.startStopSession();
+        added = true;
+        }
+
         if(isTimerRunning){
             timer.stop();
         isTimerRunning = false;}
         else{
         timer.start();
         isTimerRunning = true;}
+
     }
     
 AnimationTimer timer = new AnimationTimer() {
@@ -482,13 +511,13 @@ export = 1;
     }
     private void loadAll()
     {
-         ObservableList<Task> datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
+         dataTasks =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
         Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("desc"));
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
-        tbv_task.setItems(datatask);
-        ObservableList<Session> datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
+        tbv_task.setItems(dataTasks);
+        datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
         col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
         col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
         col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
@@ -572,7 +601,7 @@ export = 1;
             if(cb_task_project != null)
             {
                 debug("Adding task to DB passing down stack");
-                UVM.addNewTaskToDB(task_name.getText(), task_description.getText(), cb_task_project.getSelectionModel().getSelectedItem());
+                dataTasks.add(UVM.addNewTaskToDB(task_name.getText(), task_description.getText(), cb_task_project.getSelectionModel().getSelectedItem()));
                 lu.setCurrentTask(null);
                 Session temp = UVM.startStopSession();
             }
