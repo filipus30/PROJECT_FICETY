@@ -46,6 +46,11 @@ public class DalManager implements DalFaçade {
     }
     
     @Override
+    public ArrayList<Coordinates> getAllClientsForAdminBar(String startTime, String finishTime) {
+      return clientDBDao.getAllClientsForAdminBar(startTime, finishTime);
+    }
+    
+    @Override
     public ArrayList<Client> getAllClients()
     {
         return clientDBDao.getAllClients();
@@ -85,7 +90,10 @@ public class DalManager implements DalFaçade {
     public ArrayList<Coordinates> getAllProjectsForUserBar(int userId, String startTime, String finishTime) {
         return projectDBDao.getAllProjectsForUserBar(userId, startTime, finishTime);
     }
-
+   @Override
+    public ArrayList<Coordinates> getSingleProjectForAdmBar(String startTime, String finishTime, int projectId) {
+       return projectDBDao.getSingleProjectForAdmBar(startTime, finishTime, projectId);
+    }
     @Override
     public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr) {
         return projectDBDao.editProject(editedProject, projectName, associatedClientID, projectRate, allocatedHours, isClosed, phoneNr);
@@ -230,6 +238,10 @@ public class DalManager implements DalFaçade {
     {
         return userDBDao.getAllUsers();
     }
+
+   
+
+    
 
     
 

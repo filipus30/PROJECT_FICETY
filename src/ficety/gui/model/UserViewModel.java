@@ -37,6 +37,10 @@ public class UserViewModel {
     {
         return BllM.getAllClients();
     }
+    public ArrayList<Coordinates> getAllClientsForAdminBar(String startTime,String finishTime)
+    {
+        return BllM.getAllClientsForAdminBar(startTime, finishTime);
+    }
   
     public ArrayList<Coordinates> getSingleClientForAdminBar(String startTime, String finishTime, int clientId) 
     {
@@ -58,7 +62,10 @@ public class UserViewModel {
     {
         return BllM.addNewProjectToDB(projectName, associatedClient, phoneNr, projectRate, hoursAllocated, isClosed);
     }
-    
+     public ArrayList<Coordinates> getSingleProjectForAdmBar(String startTime,String finishTime,int projectId)
+     {
+         return BllM.getSingleProjectForAdmBar(startTime, finishTime, projectId);
+     }
     public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr) {
         return BllM.editProject(editedProject, projectName, associatedClientID, projectRate, allocatedHours, isClosed, phoneNr);
     }

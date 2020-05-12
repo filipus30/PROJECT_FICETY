@@ -157,13 +157,7 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private Tab tab_stat;
     @FXML
-    private JFXComboBox<?> cb_stat_project;
-    @FXML
     private JFXComboBox<?> cb_stat_task;
-    @FXML
-    private JFXDatePicker dp_stat_from;
-    @FXML
-    private JFXDatePicker dp_stat_to;
     @FXML
     private Label lb_stat_taskhours;
     @FXML
@@ -1063,7 +1057,7 @@ export = 3;
 
     @FXML
     private void load_stat_tab(Event event) {
-       // showSingleClientForAdmGraph();
+     
         
     }
     private void showAllprojectsForGraph()
@@ -1108,9 +1102,33 @@ export = 3;
          stat_graph.setLegendVisible(false);
     }
     
+    private void showAllClientsForAdmGraph()
+    {
+           ArrayList<Coordinates> list = UVM.getAllClientsForAdminBar("2020-05-1","2020-05-31");
+        XYChart.Series series = new XYChart.Series();
+       stat_graph.setAnimated(false);
+ 
+        for(int i = 0;i<list.size();i++)
+        { 
+            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),list.get(i).getY()));
+        }
+        stat_graph.getData().add(series);
+         stat_graph.setLegendVisible(false);
+    }
     
     
-    
-    
+     private void showSingleProjectForAdmGraph()
+    {
+           ArrayList<Coordinates> list = UVM.getSingleProjectForAdmBar("2020-05-1","2020-05-31",4);
+        XYChart.Series series = new XYChart.Series();
+       stat_graph.setAnimated(false);
+ 
+        for(int i = 0;i<list.size();i++)
+        { 
+            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),list.get(i).getY()));
+        }
+        stat_graph.getData().add(series);
+         stat_graph.setLegendVisible(false);
+    }
     
 }

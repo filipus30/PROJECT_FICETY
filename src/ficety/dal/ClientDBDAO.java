@@ -168,5 +168,41 @@ public class ClientDBDAO {
        return list;
       }
     
+      public ArrayList<Coordinates> getAllClientsForAdminBar(String startTime,String finishTime)
+      {
+          ArrayList<Coordinates> list = new ArrayList();
+       String sql = "Select Part.*\n" +
+"    FROM (SELECT Temp.DayTime, SUM(DateDiff(SECOND, S.StartTime, S.FinishTime)) OVER(Partition BY Temp.dayTime) AS UserTime,\n" +
+"   			 ROW_NUMBER() OVER(PARTITION BY Temp.dayTime ORDER BY Temp.dayTime) AS Corr\n" +
+"   		 FROM Sessions S\n" +
+"   		 JOIN (Select Id, DAY(StartTime) AS dayTime FROM Sessions) Temp ON Temp.Id = S.Id\n" +
+"   		 WHERE S.StartTime >= Convert(datetime2(7), ?)\n" +
+"   		 AND S.FinishTime <= Convert(datetime2(7), ?)\n" +
+"   		 ) Part\n" +
+"\n" +
+"   		 WHERE\n" +
+"   			 Corr = 1;";
+       try ( Connection con = dbc.getConnection()) {
+        //Create a prepared statement.
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        //Set parameter values.
+        pstmt.setString(1, startTime);
+        pstmt.setString(2, finishTime);
+        ResultSet rs = pstmt.executeQuery();
+        while(rs.next())
+        {
+            int x = rs.getInt("DayTime");
+            int y = rs.getInt("UserTime");
+            Coordinates c = new Coordinates(x,y);
+            list.add(c);
+            
+        }
+     
+      
+      } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return list;
+      }
 }
 

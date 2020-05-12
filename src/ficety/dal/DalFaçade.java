@@ -32,6 +32,7 @@ public interface DalFaçade {
     public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email);
     public void deleteClient(Client clientToDelete);
     public ArrayList<Coordinates> getSingleClientForAdminBar(String startTime,String finishTime,int clientId);
+    public ArrayList<Coordinates> getAllClientsForAdminBar(String startTime,String finishTime);
     
        
 // ProjectDBDAO methods    
@@ -43,6 +44,7 @@ public interface DalFaçade {
     public void deleteProject(Project projectToDelete);
     public ArrayList<Coordinates> getAllProjectsForUserBar(int userId,String startTime,String finishTime);
     public ArrayList<Coordinates> getSingleProjectForUserBar(int userId,String startTime,String finishTime,int projectId);
+    public ArrayList<Coordinates> getSingleProjectForAdmBar(String startTime,String finishTime,int projectId);
     
 // TaskDBDAO methods 
     public Task addNewTaskToDB(String taskName, String TaskDesc, boolean isbillable, Project associatedProject);

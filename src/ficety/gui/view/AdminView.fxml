@@ -181,8 +181,7 @@
                           </yAxis>
                         </LineChart>
                         <JFXComboBox fx:id="cb_stat_task" layoutX="14.0" layoutY="368.0" prefHeight="25.0" prefWidth="103.0" promptText="Project" />
-                        <JFXButton fx:id="bn_week" layoutX="228.0" layoutY="368.0" text="Last Week" />
-                        <JFXButton fx:id="bn_month" layoutX="141.0" layoutY="368.0" text="Last Month" />
+                        <JFXComboBox layoutX="233.0" layoutY="368.0" promptText="Time Period" />
                      </children>
                   </AnchorPane>
                </content>

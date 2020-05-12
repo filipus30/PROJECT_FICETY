@@ -42,6 +42,10 @@ public class BllManager implements IBLL {
     {
         return dalManager.addNewClientToDB(clientName, standardRate, logoImgLocation, email);
     }
+    @Override
+    public ArrayList<Coordinates> getAllClientsForAdminBar(String startTime, String finishTime) {
+      return dalManager.getAllClientsForAdminBar(startTime, finishTime);
+    }
      @Override
     public ArrayList<Coordinates> getSingleClientForAdminBar(String startTime, String finishTime, int clientId) {
       return dalManager.getSingleClientForAdminBar(startTime, finishTime, clientId);
@@ -71,6 +75,11 @@ public class BllManager implements IBLL {
         return dalManager.addNewProjectToDB(projectName, associatedClient, phoneNr, projectRate, hoursAllocated, isClosed);
     }
     
+    @Override
+    public ArrayList<Coordinates> getSingleProjectForAdmBar(String startTime, String finishTime, int projectId) {
+        return dalManager.getSingleProjectForAdmBar(startTime, finishTime, projectId);
+    }
+
  @Override
     public ArrayList<Coordinates> getSingleProjectForUserBar(int userId, String startTime, String finishTime, int projectId) {
       return dalManager.getSingleProjectForUserBar(userId, startTime, finishTime, projectId);
@@ -258,6 +267,9 @@ public class BllManager implements IBLL {
             System.out.println(msg);
         }
     }
+
+  
+   
 
    
 
