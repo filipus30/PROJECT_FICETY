@@ -62,7 +62,12 @@ public class DalManager implements DalFaçade {
     {
         clientDBDao.deleteClient(clientToDelete);
     }
-  
+    
+  @Override
+    public ArrayList<Coordinates> getSingleClientForAdminBar(String startTime, String finishTime, int clientId) 
+    {
+        return clientDBDao.getSingleClientForAdminBar(startTime, finishTime, clientId);
+    }
  // ProjectDBDAO methods       
     @Override
     public Project addNewProjectToDB(String projectName, Client associatedClient, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed) {
@@ -225,6 +230,8 @@ public class DalManager implements DalFaçade {
     {
         return userDBDao.getAllUsers();
     }
+
+    
 
    
 

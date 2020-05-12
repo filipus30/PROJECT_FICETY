@@ -31,6 +31,7 @@ public interface DalFaçade {
     public ArrayList<Client> getAllClients();
     public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email);
     public void deleteClient(Client clientToDelete);
+    public ArrayList<Coordinates> getSingleClientForAdminBar(String startTime,String finishTime,int clientId);
     
        
 // ProjectDBDAO methods    

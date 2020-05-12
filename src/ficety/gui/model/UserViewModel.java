@@ -38,6 +38,10 @@ public class UserViewModel {
         return BllM.getAllClients();
     }
   
+    public ArrayList<Coordinates> getSingleClientForAdminBar(String startTime, String finishTime, int clientId) 
+    {
+       return BllM.getSingleClientForAdminBar(startTime, finishTime, clientId);
+    }
     public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email)
     {
         return BllM.editClient(editedClient, name, standardRate, logoImgLocation, email);

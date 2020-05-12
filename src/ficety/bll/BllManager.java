@@ -42,7 +42,10 @@ public class BllManager implements IBLL {
     {
         return dalManager.addNewClientToDB(clientName, standardRate, logoImgLocation, email);
     }
-    
+     @Override
+    public ArrayList<Coordinates> getSingleClientForAdminBar(String startTime, String finishTime, int clientId) {
+      return dalManager.getSingleClientForAdminBar(startTime, finishTime, clientId);
+    }
     @Override
     public ArrayList<Client> getAllClients()
     {
@@ -255,6 +258,8 @@ public class BllManager implements IBLL {
             System.out.println(msg);
         }
     }
+
+   
 
    
 

@@ -1063,6 +1063,7 @@ export = 3;
 
     @FXML
     private void load_stat_tab(Event event) {
+       // showSingleClientForAdmGraph();
         
     }
     private void showAllprojectsForGraph()
@@ -1093,7 +1094,19 @@ export = 3;
          stat_graph.setLegendVisible(false);
     }
     
-    
+    private void showSingleClientForAdmGraph()
+    {
+         ArrayList<Coordinates> list = UVM.getSingleClientForAdminBar("2020-05-1","2020-05-31",54);
+        XYChart.Series series = new XYChart.Series();
+       stat_graph.setAnimated(false);
+ 
+        for(int i = 0;i<list.size();i++)
+        { 
+            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),list.get(i).getY()));
+        }
+        stat_graph.getData().add(series);
+         stat_graph.setLegendVisible(false);
+    }
     
     
     
