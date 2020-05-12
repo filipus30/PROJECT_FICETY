@@ -6,6 +6,7 @@
 package ficety.gui.model;
 
 import ficety.be.Client;
+import ficety.be.Coordinates;
 import ficety.be.Project;
 import ficety.be.Session;
 import ficety.be.Task;
@@ -63,6 +64,10 @@ public class UserViewModel {
         return BllM.get3RecentProjectsForUser();
     }
     
+    public ArrayList<Coordinates> getSingleProjectForUserBar(int userId,String startTime,String finishTime,int projectId)
+    {
+        return BllM.getSingleProjectForUserBar(userId, startTime, finishTime, projectId);
+    }
     public ArrayList<Project> getAllProjectsForUserTab()
     {
         return BllM.getAllProjectsForUserTab();
@@ -78,6 +83,10 @@ public class UserViewModel {
         BllM.deleteProject(projectToDelete);
     }
     
+   public ArrayList<Coordinates> getAllProjectsForUserBar(int userId,String startTime,String finishTime)
+   {
+      return BllM.getAllProjectsForUserBar(userId, startTime, finishTime);
+   }
     //TASK Related
     
     public Task addNewTaskToDB(String taskName, String taskDesc, boolean isBillable, Project associatedProject) {

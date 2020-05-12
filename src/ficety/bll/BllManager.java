@@ -6,6 +6,7 @@
 package ficety.bll;
 
 import ficety.be.Client;
+import ficety.be.Coordinates;
 import ficety.be.LoggedInUser;
 import java.util.List;
 import ficety.be.Project;
@@ -66,7 +67,11 @@ public class BllManager implements IBLL {
     public Project addNewProjectToDB(String projectName, Client associatedClient, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed) {
         return dalManager.addNewProjectToDB(projectName, associatedClient, phoneNr, projectRate, hoursAllocated, isClosed);
     }
-
+    
+ @Override
+    public ArrayList<Coordinates> getSingleProjectForUserBar(int userId, String startTime, String finishTime, int projectId) {
+      return dalManager.getSingleProjectForUserBar(userId, startTime, finishTime, projectId);
+    }
     @Override
     public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr) {
         return dalManager.editProject(editedProject, projectName, associatedClientID, projectRate, allocatedHours, isClosed, phoneNr);
@@ -101,6 +106,10 @@ public class BllManager implements IBLL {
     public void deleteProject(Project projectToDelete)
     {
         dalManager.deleteProject(projectToDelete);
+    }
+    @Override
+    public ArrayList<Coordinates> getAllProjectsForUserBar(int userId, String startTime, String finishTime) {
+     return dalManager.getAllProjectsForUserBar(userId, startTime, finishTime);
     }
     
     
@@ -246,4 +255,8 @@ public class BllManager implements IBLL {
             System.out.println(msg);
         }
     }
+
+   
+
+    
 }

@@ -6,6 +6,7 @@
 package ficety.dal;
 
 import ficety.be.Client;
+import ficety.be.Coordinates;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -39,7 +40,8 @@ public interface DalFaçade {
     public ArrayList<Project> getAllProjectsForUserTab(int userID);
     public ArrayList<Project> getAllProjects();
     public void deleteProject(Project projectToDelete);
-
+    public ArrayList<Coordinates> getAllProjectsForUserBar(int userId,String startTime,String finishTime);
+    public ArrayList<Coordinates> getSingleProjectForUserBar(int userId,String startTime,String finishTime,int projectId);
     
 // TaskDBDAO methods 
     public Task addNewTaskToDB(String taskName, String TaskDesc, boolean isbillable, Project associatedProject);

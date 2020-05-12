@@ -16,8 +16,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import ficety.be.Client;
+import ficety.be.Coordinates;
 import ficety.be.Project;
 import ficety.be.Task;
+import java.security.Timestamp;
 
 /**
  *
@@ -301,5 +303,90 @@ public class ProjectDBDAO {
           {
               System.out.println(msg);
           }
+      }
+      
+      public ArrayList<Coordinates> getAllProjectsForUserBar(int userId,String startTime,String finishTime)
+      {
+          ArrayList<Coordinates> list = new ArrayList();
+       String sql = "Select Part.*\n" +
+"    FROM (SELECT U.Name as UserName, Temp.DayTime, SUM(DateDiff(SECOND, S.StartTime, S.FinishTime)) OVER(Partition BY Temp.dayTime) AS UserTime,\n" +
+"   			 ROW_NUMBER() OVER(PARTITION BY Temp.dayTime ORDER BY U.Name) AS Corr\n" +
+"   		 FROM Users U\n" +
+"   		 LEFT JOIN Sessions S ON U.Id = S.AssociatedUser\n" +
+"   		 JOIN Tasks T ON T.Id = S.AssociatedTask\n" +
+"   		 JOIN (Select Id, DAY(StartTime) AS dayTime FROM Sessions) Temp ON Temp.Id = S.Id\n" +
+"   		 WHERE U.Id = ?\n" +
+"   		 AND S.StartTime >= Convert(datetime2(7), ?)\n" +
+"   		 AND S.FinishTime <= Convert(datetime2(7), ?)\n" +
+"   		 ) Part\n" +
+"\n" +
+"   		 WHERE\n" +
+"   			 Corr = 1;";
+       try ( Connection con = dbc.getConnection()) {
+        //Create a prepared statement.
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        //Set parameter values.
+        pstmt.setInt(1, userId);
+        pstmt.setString(2, startTime);
+        pstmt.setString(3, finishTime);
+        ResultSet rs = pstmt.executeQuery();
+        while(rs.next())
+        {
+            int x = rs.getInt("DayTime");
+            int y = rs.getInt("UserTime");
+            Coordinates c = new Coordinates(x,y);
+            list.add(c);
+            
+        }
+     
+      
+      } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return list;
+      }
+      
+      public ArrayList<Coordinates> getSingleProjectForUserBar(int userId,String startTime,String finishTime,int projectId)
+      {
+          ArrayList<Coordinates> list = new ArrayList();
+       String sql = "Select Part.*\n" +
+"    FROM (SELECT P.Name as ProjectName,  Temp.DayTime, SUM(DateDiff(SECOND, S.StartTime, S.FinishTime)) OVER(Partition BY Temp.dayTime) AS UserTime,\n" +
+"   			 ROW_NUMBER() OVER(PARTITION BY Temp.dayTime ORDER BY U.Name) AS Corr\n" +
+"   		 FROM Users U\n" +
+"   		 LEFT JOIN Sessions S ON U.Id = S.AssociatedUser\n" +
+"   		 JOIN Tasks T ON T.Id = S.AssociatedTask\n" +
+"   		 JOIN Projects P ON T.AssociatedProject = P.Id\n" +
+"   		 JOIN (Select Id, DAY(StartTime) AS dayTime FROM Sessions) Temp ON Temp.Id = S.Id\n" +
+"   		 WHERE U.Id = ?\n" +
+"   		 AND S.StartTime >= Convert(datetime2(7), ?)\n" +
+"   		 AND S.FinishTime <= Convert(datetime2(7), ?)\n" +
+"   		 AND P.Id = ?\n" +
+"   		 ) Part\n" +
+"\n" +
+"   		 WHERE\n" +
+"   			 Corr = 1;";
+       try ( Connection con = dbc.getConnection()) {
+        //Create a prepared statement.
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        //Set parameter values.
+        pstmt.setInt(1, userId);
+        pstmt.setString(2, startTime);
+        pstmt.setString(3, finishTime);
+        pstmt.setInt(4, projectId);
+        ResultSet rs = pstmt.executeQuery();
+        while(rs.next())
+        {
+            int x = rs.getInt("DayTime");
+            int y = rs.getInt("UserTime");
+            Coordinates c = new Coordinates(x,y);
+            list.add(c);
+            
+        }
+     
+      
+      } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+       return list;
       }
 }

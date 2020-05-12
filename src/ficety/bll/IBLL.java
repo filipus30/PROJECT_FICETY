@@ -6,6 +6,7 @@
 package ficety.bll;
 
 import ficety.be.Client;
+import ficety.be.Coordinates;
 import java.util.List;
 import ficety.be.Project;
 import ficety.be.Task;
@@ -35,7 +36,8 @@ public interface IBLL {
     public ArrayList<Project> getAllProjectsForUserTab();
     public ArrayList<Project> getAllProjects();
     public void deleteProject(Project projectToDelete);
-
+    public ArrayList<Coordinates> getAllProjectsForUserBar(int userId,String startTime,String finishTime);
+    public ArrayList<Coordinates> getSingleProjectForUserBar(int userId,String startTime,String finishTime,int projectId);
     
 // TaskDBDAO methods        
     public Task addNewTaskToDB(String taskName, String taskDesc, boolean isBillable, Project associatedProject);

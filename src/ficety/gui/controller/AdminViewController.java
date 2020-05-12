@@ -10,6 +10,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import ficety.be.Client;
+import ficety.be.Coordinates;
 import ficety.be.LoggedInUser;
 import ficety.be.Project;
 import ficety.be.Session;
@@ -34,6 +35,9 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -80,6 +84,8 @@ public class AdminViewController extends JFrame implements Initializable {
     private Button bn_exp;
     @FXML
     private TableColumn col_task_bill;
+    @FXML
+    private LineChart<String,Integer> stat_graph;
 
     public AdminViewController()
     {
@@ -150,8 +156,6 @@ public class AdminViewController extends JFrame implements Initializable {
     private JFXButton bn_task_delete;
     @FXML
     private Tab tab_stat;
-    @FXML
-    private BarChart<?, ?> stat_graf;
     @FXML
     private JFXComboBox<?> cb_stat_project;
     @FXML
@@ -1057,5 +1061,43 @@ export = 3;
       alert.showAndWait();
     }
 
+    @FXML
+    private void load_stat_tab(Event event) {
+        
+    }
+    private void showAllprojectsForGraph()
+    {
+        ArrayList<Coordinates> list = UVM.getAllProjectsForUserBar(1,"2020-05-1","2020-05-31");
+        XYChart.Series series = new XYChart.Series();
+       stat_graph.setAnimated(false);
+ 
+        for(int i = 0;i<list.size();i++)
+        { 
+            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),list.get(i).getY()));
+        }
+        stat_graph.getData().add(series);
+         stat_graph.setLegendVisible(false);
+    }
 
+    private void showSelectedProjectForGraph()
+    {
+        ArrayList<Coordinates> list = UVM.getSingleProjectForUserBar(1,"2020-05-1","2020-05-31",4);
+        XYChart.Series series = new XYChart.Series();
+       stat_graph.setAnimated(false);
+ 
+        for(int i = 0;i<list.size();i++)
+        { 
+            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),list.get(i).getY()));
+        }
+        stat_graph.getData().add(series);
+         stat_graph.setLegendVisible(false);
+    }
+    
+    
+    
+    
+    
+    
+    
+    
 }

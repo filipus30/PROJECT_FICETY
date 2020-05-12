@@ -6,6 +6,7 @@
 package ficety.dal;
 
 import ficety.be.Client;
+import ficety.be.Coordinates;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -70,7 +71,16 @@ public class DalManager implements DalFaçade {
 
     }
     
+     @Override
+    public ArrayList<Coordinates> getSingleProjectForUserBar(int userId, String startTime, String finishTime, int projectId) {
+        return projectDBDao.getSingleProjectForUserBar(userId, startTime, finishTime, projectId);
+    }
     
+    @Override
+    public ArrayList<Coordinates> getAllProjectsForUserBar(int userId, String startTime, String finishTime) {
+        return projectDBDao.getAllProjectsForUserBar(userId, startTime, finishTime);
+    }
+
     @Override
     public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr) {
         return projectDBDao.editProject(editedProject, projectName, associatedClientID, projectRate, allocatedHours, isClosed, phoneNr);
@@ -216,5 +226,8 @@ public class DalManager implements DalFaçade {
         return userDBDao.getAllUsers();
     }
 
+   
+
+    
     
 }
