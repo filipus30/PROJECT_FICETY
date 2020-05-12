@@ -212,16 +212,16 @@ public class ProjectDBDAO {
                         "ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr " +
                         "FROM Projects " +
                             "JOIN Clients ON Projects.AssociatedClient=Clients.Id  " +
-                            "JOIN Tasks ON Projects.Id=Tasks.AssociatedProject " +
+                            "LEFT JOIN Tasks ON Projects.Id=Tasks.AssociatedProject " +
                             "LEFT JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask " +
-                            "JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY Projects.Id) AS BillableTime , " +
+                            "LEFT JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY Projects.Id) AS BillableTime , " +
                                     "Projects.Name " +
                                 "FROM Sessions " +
                                 "JOIN Tasks ON  Sessions.AssociatedTask = Tasks.Id " +
                                 "JOIN Projects ON Projects.Id = Tasks.AssociatedProject " +
                                 "WHERE Tasks.Billable = 1 " + 
                             ") Temp ON Temp.Name = Projects.Name " +
-                            "JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY Projects.Id) AS TotalTime , " +
+                            "LEFT JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY Projects.Id) AS TotalTime , " +
                                     "Projects.Name " +
                                 "FROM Sessions " +
                                 "JOIN Tasks ON  Sessions.AssociatedTask = Tasks.Id " +
