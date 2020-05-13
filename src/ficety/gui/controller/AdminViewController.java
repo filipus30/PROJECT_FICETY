@@ -20,7 +20,12 @@ import ficety.dal.ClientDBDAO;
 import ficety.gui.model.UserViewModel;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -79,7 +84,10 @@ public class AdminViewController extends JFrame implements Initializable {
     private List<User> userlist ;
     private ObservableList<User> dataUsers ;
     private ObservableList<Session> datasession;
+    private ObservableList<Project> choosedatauser;
     boolean added = true;
+    boolean datepicked = false;
+    boolean admdatepicked = false;
     @FXML
     private Button bn_exp;
     @FXML
@@ -92,6 +100,14 @@ public class AdminViewController extends JFrame implements Initializable {
     private BarChart<?, ?> stat_bar;
     @FXML
     private BarChart<?, ?> adm_stat_bar;
+    @FXML
+    private JFXComboBox<String> cb_stat_time;
+    @FXML
+    private LineChart<String,Integer> stat_adm_graph;
+    @FXML
+    private JFXComboBox<String> cb_stat_adm_time;
+    @FXML
+    private JFXComboBox<Client> cb_stat_adm_task;
 
     public AdminViewController()
     {
@@ -105,6 +121,7 @@ public class AdminViewController extends JFrame implements Initializable {
       userlist = UVM.getAllUsers();
       dataUsers =  FXCollections.observableArrayList(userlist);
       datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
+      choosedatauser =  FXCollections.observableArrayList(UVM.getAllProjects());
     }
     @FXML
     private TextField tf_newtask;
@@ -163,7 +180,7 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private Tab tab_stat;
     @FXML
-    private JFXComboBox<?> cb_stat_task;
+    private JFXComboBox<Project> cb_stat_task;
     @FXML
     private Label lb_stat_taskhours;
     @FXML
@@ -1063,12 +1080,18 @@ export = 3;
 
     @FXML
     private void load_stat_tab(Event event) {
+        if(cb_stat_task.getItems().isEmpty())
+        {  Project p = new Project(0,"All Projects",0,"",0,0,false,"");
+        choosedatauser.add(0,p);
+        cb_stat_task.getItems().addAll(choosedatauser);
+        cb_stat_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");}
+        
      
         
     }
-    private void showAllprojectsForGraph()
+    private void showAllprojectsForGraph(String startTime,String finishTime)
     {
-        ArrayList<Coordinates> list = UVM.getAllProjectsForUserGraph(1,"2020-05-1","2020-05-31");
+        ArrayList<Coordinates> list = UVM.getAllProjectsForUserGraph(lu.getId(),startTime,finishTime);
         XYChart.Series series = new XYChart.Series();
        stat_graph.setAnimated(false);
  
@@ -1080,9 +1103,9 @@ export = 3;
          stat_graph.setLegendVisible(false);
     }
 
-    private void showSelectedProjectForGraph()
+    private void showSelectedProjectForGraph(String startTime,String finishTime,int projectId)
     {
-        ArrayList<Coordinates> list = UVM.getSingleProjectForUserGraph(1,"2020-05-1","2020-05-31",4);
+        ArrayList<Coordinates> list = UVM.getSingleProjectForUserGraph(lu.getId(),startTime,finishTime,projectId);
         XYChart.Series series = new XYChart.Series();
        stat_graph.setAnimated(false);
  
@@ -1094,32 +1117,32 @@ export = 3;
          stat_graph.setLegendVisible(false);
     }
     
-    private void showSingleClientForAdmGraph()
+    private void showSingleClientForAdmGraph(String startTime,String finishTime,int clientId)
     {
-         ArrayList<Coordinates> list = UVM.getSingleClientForAdminGraph("2020-05-1","2020-05-31",54);
+         ArrayList<Coordinates> list = UVM.getSingleClientForAdminGraph(startTime,finishTime,clientId);
         XYChart.Series series = new XYChart.Series();
-       stat_graph.setAnimated(false);
+       stat_adm_graph.setAnimated(false);
  
         for(int i = 0;i<list.size();i++)
         { 
             series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),list.get(i).getY()));
         }
-        stat_graph.getData().add(series);
-         stat_graph.setLegendVisible(false);
+        stat_adm_graph.getData().add(series);
+         stat_adm_graph.setLegendVisible(false);
     }
     
-    private void showAllClientsForAdmGraph()
+    private void showAllClientsForAdmGraph(String startTime,String finishTime)
     {
-           ArrayList<Coordinates> list = UVM.getAllClientsForAdminGraph("2020-05-1","2020-05-31");
+           ArrayList<Coordinates> list = UVM.getAllClientsForAdminGraph(startTime,finishTime);
         XYChart.Series series = new XYChart.Series();
-       stat_graph.setAnimated(false);
+       stat_adm_graph.setAnimated(false);
  
         for(int i = 0;i<list.size();i++)
         { 
             series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),list.get(i).getY()));
         }
-        stat_graph.getData().add(series);
-         stat_graph.setLegendVisible(false);
+        stat_adm_graph.getData().add(series);
+         stat_adm_graph.setLegendVisible(false);
     }
     
     
@@ -1143,6 +1166,138 @@ export = 3;
 
     @FXML
     private void load_admin_column(Event event) {
+    }
+
+    @FXML
+    private void show_linechart(ActionEvent event) {
+        datepicked = true;
+       showLineChart();
+          
+    }
+
+    
+    
+    private void showLineChart()
+    {
+         String startTime = "";
+        String finishTime = "";
+        if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Last Month"))
+        {
+           LocalDate today = LocalDate.now();  // Retrieve the date now
+           LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
+          startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
+          finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
+        }       
+        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
+        {
+            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+            finishTime = String.valueOf(LocalDate.now());
+          ;
+        }
+        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+           LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
+          startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
+          finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
+        }
+        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Current Week"))
+        {
+             LocalDate today = LocalDate.now();  // Retrieve the date now
+             startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
+             finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
+             
+        }
+        
+        
+        if(cb_stat_task.getSelectionModel().getSelectedItem().getProjectName().equals("All Projects"))
+        {
+            stat_graph.getData().clear();
+            showAllprojectsForGraph(startTime, finishTime);
+        }
+        else
+        {
+             stat_graph.getData().clear();
+          int id = cb_stat_task.getSelectionModel().getSelectedItem().getId();
+            showSelectedProjectForGraph(startTime, finishTime,id);          
+        }
+    }
+    
+    private void showAdmLineChart()
+    {
+         String startTime = "";
+        String finishTime = "";
+        if(cb_stat_adm_time.getSelectionModel().getSelectedItem().equals("Last Month"))
+        {
+           LocalDate today = LocalDate.now();  // Retrieve the date now
+           LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
+          startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
+          finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date  
+         
+        }       
+        else if(cb_stat_adm_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
+        {
+            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+            finishTime = String.valueOf(LocalDate.now());
+         
+        }
+        else if(cb_stat_adm_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+           LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
+          startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
+          finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
+     
+        }
+        else if(cb_stat_adm_time.getSelectionModel().getSelectedItem().equals("Current Week"))
+        {
+             LocalDate today = LocalDate.now();  // Retrieve the date now
+             startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
+             finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
+            
+        }
+        
+        
+        if(cb_stat_adm_task.getSelectionModel().getSelectedItem().getClientName().equals("All Clients"))
+        {
+            stat_adm_graph.getData().clear();
+            showAllClientsForAdmGraph(startTime, finishTime);
+        }
+        else
+        {
+             stat_adm_graph.getData().clear();
+          int id = cb_stat_adm_task.getSelectionModel().getSelectedItem().getId();
+           showSingleClientForAdmGraph(startTime,finishTime,id);  
+        }
+    }
+    
+    @FXML
+    private void show_after_date(ActionEvent event) {
+        if(datepicked)
+            showLineChart();
+    }
+
+    @FXML
+    private void admin_showlinechart(ActionEvent event) {
+        showAdmLineChart();
+        admdatepicked = true;
+    }
+
+    @FXML
+    private void adm_show_afterdate(ActionEvent event) {
+        if(admdatepicked)
+            showAdmLineChart();
+    }
+
+    @FXML
+    private void load_admin_linechart(Event event) {
+        if(cb_stat_adm_time.getItems().isEmpty())
+        {    
+            Client c = new Client(0,"All Clients","",0,"");
+        cb_stat_adm_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");
+        cb_stat_adm_task.getItems().addAll(dataClient);
+        cb_stat_adm_task.getItems().add(0,c);
+                }
     }
     
 }
