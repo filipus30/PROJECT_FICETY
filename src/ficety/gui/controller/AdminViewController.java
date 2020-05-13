@@ -1296,7 +1296,7 @@ export = 3;
             Client c = new Client(0,"All Clients","",0,"");
         cb_stat_adm_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");
         cb_stat_adm_task.getItems().addAll(dataClient);
-        cb_stat_adm_task.getItems().add(c);
+        cb_stat_adm_task.getItems().add(0,c);
                 }
     }
     
