@@ -56,6 +56,7 @@ public class UserViewModel {
         BllM.deleteClient(clientToDelete);
     }
     
+
     //PROJECT Related
     
     public Project addNewProjectToDB(String projectName, Client associatedClient, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed)
@@ -98,6 +99,8 @@ public class UserViewModel {
    {
       return BllM.getAllProjectsForUserGraph(userId, startTime, finishTime);
    }
+   
+   
     //TASK Related
     
     public Task addNewTaskToDB(String taskName, String taskDesc, boolean isBillable, Project associatedProject) {

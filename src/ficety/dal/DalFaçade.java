@@ -33,6 +33,8 @@ public interface DalFaçade {
     public void deleteClient(Client clientToDelete);
     public ArrayList<Coordinates> getSingleClientForAdminGraph(String startTime,String finishTime,int clientId);
     public ArrayList<Coordinates> getAllClientsForAdminGraph(String startTime,String finishTime);
+    public ArrayList<Coordinates> getAllClientsForAdmBar(String startTime, String finishTime);
+    public ArrayList<Coordinates> getOneClientForAdmBar(int clientId, String startTime, String finishTime);
     
        
 // ProjectDBDAO methods    
@@ -45,6 +47,10 @@ public interface DalFaçade {
     public ArrayList<Coordinates> getAllProjectsForUserGraph(int userId,String startTime,String finishTime);
     public ArrayList<Coordinates> getSingleProjectForUserGraph(int userId,String startTime,String finishTime,int projectId);
     public ArrayList<Coordinates> getSingleProjectForAdmGraph(String startTime,String finishTime,int projectId);
+    public ArrayList<Coordinates> getAllProjectsForAdmBar(String startTime, String finishTime);
+    public ArrayList<Coordinates> getOneProjectForAdmBar(int ProjectId, String startTime, String finishTime);
+    public ArrayList<Coordinates> getAllProjectsForUsrBar(int currentUser, String startTime, String finishTime);
+    public ArrayList<Coordinates> getOneProjectForUsrBar(int currentUser, int ProjectId, String startTime, String finishTime); 
     
 // TaskDBDAO methods 
     public Task addNewTaskToDB(String taskName, String TaskDesc, boolean isbillable, Project associatedProject);
@@ -71,7 +77,8 @@ public interface DalFaçade {
     public User editUser (User userToEdit, String userName, String email, String password, Float salary, boolean isAdmin); 
     public void removeUserFromDB(User userToDelete);
     public ArrayList<User> getAllUsers();
-    
+    public ArrayList<Coordinates> getAllUsersForAdmBar(String startTime, String finishTime);
+    public ArrayList<Coordinates> getOneUserForAdmBar(int userId, String startTime, String finishTime);
     
     
     

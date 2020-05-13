@@ -6,6 +6,7 @@
 package ficety.dal;
 
 import com.microsoft.sqlserver.jdbc.SQLServerException;
+import ficety.be.Coordinates;
 import ficety.be.LoggedInUser;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -232,4 +233,71 @@ public class UserDBDAO {
             System.out.println(msg);
         }
     }
+    
+    public ArrayList<Coordinates> getAllUsersForAdmBar(String startTime, String finishTime) //For simple barchart, bar is usertime.
+      {
+          ArrayList<Coordinates> usrCol = new ArrayList();
+          String sql = "Select Part.*\n" +
+                        "FROM (SELECT U.Name as UserName, SUM(DateDiff(SECOND, S.StartTime, S.FinishTime)) OVER(Partition BY U.Id) AS UserTime,\n" +
+                                    "ROW_NUMBER() OVER(PARTITION BY U.Id ORDER BY U.Name) AS Corr\n" +
+                                "FROM Users U\n" +
+                                "LEFT JOIN Sessions S ON U.Id = S.AssociatedUser\n" +
+                                "WHERE S.StartTime >= Convert(datetime2(7), '2020-01-30')\n" +
+                        ") Part\n" +
+                        "WHERE Corr = 1;";
+          try(Connection con = dbc.getConnection())
+          {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, startTime);
+            pstmt.setString(2, finishTime);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next())
+            {
+                String user = rs.getString("UserName");
+                String subUser = "N/A";
+                long userTime = rs.getLong("UserTime");
+                Coordinates temp = new Coordinates(user, subUser, userTime);
+                usrCol.add(temp);
+            }
+          } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          return usrCol;
+    }
+    
+    public ArrayList<Coordinates> getOneUserForAdmBar(int userId, String startTime, String finishTime) //For complex barchart, topBar is user subBar is taskName.
+      {
+          ArrayList<Coordinates> usrCol = new ArrayList();
+          String sql = "Select Part.*\n" +
+                        "FROM (SELECT T.Name AS TaskName, U.Name as UserName, SUM(DateDiff(SECOND, S.StartTime, S.FinishTime)) OVER(Partition BY T.Id) AS TaskTime,\n" +
+                                    "ROW_NUMBER() OVER(PARTITION BY T.Id ORDER BY U.Name) AS Corr\n" +
+                                "FROM Users U\n" +
+                                "LEFT JOIN Sessions S ON U.Id = S.AssociatedUser\n" +
+                                "JOIN Tasks T ON T.Id = S.AssociatedTask\n" +
+                                "WHERE S.StartTime >= Convert(datetime2(7), ?)\n" +
+                                "AND S.StartTime <= Convert(datetime2(7), ?)\n" +
+                                "AND U.Id = ?\n" +
+                        ") Part\n" +
+                        "WHERE Corr = 1;";
+          try(Connection con = dbc.getConnection())
+          {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, startTime);
+            pstmt.setString(2, finishTime);
+            pstmt.setInt(3, userId);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next())
+            {
+                String user = rs.getString("UserName");
+                String task = rs.getString("TaskName");
+                long taskTime = rs.getLong("TaskTime");
+                Coordinates temp = new Coordinates(user, task, taskTime);
+                usrCol.add(temp);
+            }
+          } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          return usrCol;
+    }    
+
 }
