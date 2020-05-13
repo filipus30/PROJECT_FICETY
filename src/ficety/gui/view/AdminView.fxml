@@ -181,8 +181,9 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </LineChart>
-                        <JFXComboBox fx:id="cb_stat_task" layoutX="14.0" layoutY="368.0" prefHeight="25.0" prefWidth="103.0" promptText="Project" />
-                        <JFXComboBox layoutX="233.0" layoutY="368.0" promptText="Time Period" />
+                        <JFXComboBox fx:id="cb_stat_task" layoutX="14.0" layoutY="368.0" prefHeight="25.0" prefWidth="103.0" promptText="Select Data" />
+                        <JFXComboBox fx:id="cb_stat_time" layoutX="371.0" layoutY="368.0" onAction="#show_linechart" promptText="Time Period" />
+                        <JFXComboBox fx:id="cb_hid_user" layoutX="163.0" layoutY="368.0" />
                      </children>
                   </AnchorPane>
                </content>

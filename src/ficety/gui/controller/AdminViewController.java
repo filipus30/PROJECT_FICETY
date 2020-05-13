@@ -79,6 +79,7 @@ public class AdminViewController extends JFrame implements Initializable {
     private List<User> userlist ;
     private ObservableList<User> dataUsers ;
     private ObservableList<Session> datasession;
+    private ObservableList<Project> choosedatauser;
     boolean added = true;
     @FXML
     private Button bn_exp;
@@ -92,6 +93,10 @@ public class AdminViewController extends JFrame implements Initializable {
     private BarChart<?, ?> stat_bar;
     @FXML
     private BarChart<?, ?> adm_stat_bar;
+    @FXML
+    private JFXComboBox<?> cb_stat_time;
+    @FXML
+    private JFXComboBox<?> cb_hid_user;
 
     public AdminViewController()
     {
@@ -105,6 +110,7 @@ public class AdminViewController extends JFrame implements Initializable {
       userlist = UVM.getAllUsers();
       dataUsers =  FXCollections.observableArrayList(userlist);
       datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
+      choosedatauser =  FXCollections.observableArrayList(UVM.getAllProjects());
     }
     @FXML
     private TextField tf_newtask;
@@ -163,7 +169,7 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private Tab tab_stat;
     @FXML
-    private JFXComboBox<?> cb_stat_task;
+    private JFXComboBox<Project> cb_stat_task;
     @FXML
     private Label lb_stat_taskhours;
     @FXML
@@ -1063,6 +1069,9 @@ export = 3;
 
     @FXML
     private void load_stat_tab(Event event) {
+        Project p = new Project(0,"AllProjects",0,"",0,0,false,"");
+        choosedatauser.add(0,p);
+        cb_stat_task.getItems().addAll(choosedatauser);
      
         
     }
@@ -1143,6 +1152,10 @@ export = 3;
 
     @FXML
     private void load_admin_column(Event event) {
+    }
+
+    @FXML
+    private void show_linechart(ActionEvent event) {
     }
     
 }
