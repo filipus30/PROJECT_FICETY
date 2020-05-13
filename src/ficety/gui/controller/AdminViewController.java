@@ -20,7 +20,12 @@ import ficety.dal.ClientDBDAO;
 import ficety.gui.model.UserViewModel;
 import java.net.URL;
 import java.sql.SQLException;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -81,6 +86,7 @@ public class AdminViewController extends JFrame implements Initializable {
     private ObservableList<Session> datasession;
     private ObservableList<Project> choosedatauser;
     boolean added = true;
+    boolean datepicked = false;
     @FXML
     private Button bn_exp;
     @FXML
@@ -94,9 +100,7 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private BarChart<?, ?> adm_stat_bar;
     @FXML
-    private JFXComboBox<?> cb_stat_time;
-    @FXML
-    private JFXComboBox<?> cb_hid_user;
+    private JFXComboBox<String> cb_stat_time;
 
     public AdminViewController()
     {
@@ -1069,15 +1073,16 @@ export = 3;
 
     @FXML
     private void load_stat_tab(Event event) {
-        Project p = new Project(0,"AllProjects",0,"",0,0,false,"");
+        Project p = new Project(0,"All Projects",0,"",0,0,false,"");
         choosedatauser.add(0,p);
         cb_stat_task.getItems().addAll(choosedatauser);
+        cb_stat_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");
      
         
     }
-    private void showAllprojectsForGraph()
+    private void showAllprojectsForGraph(String startTime,String finishTime)
     {
-        ArrayList<Coordinates> list = UVM.getAllProjectsForUserGraph(1,"2020-05-1","2020-05-31");
+        ArrayList<Coordinates> list = UVM.getAllProjectsForUserGraph(lu.getId(),startTime,finishTime);
         XYChart.Series series = new XYChart.Series();
        stat_graph.setAnimated(false);
  
@@ -1089,9 +1094,9 @@ export = 3;
          stat_graph.setLegendVisible(false);
     }
 
-    private void showSelectedProjectForGraph()
+    private void showSelectedProjectForGraph(String startTime,String finishTime,int projectId)
     {
-        ArrayList<Coordinates> list = UVM.getSingleProjectForUserGraph(1,"2020-05-1","2020-05-31",4);
+        ArrayList<Coordinates> list = UVM.getSingleProjectForUserGraph(lu.getId(),startTime,finishTime,projectId);
         XYChart.Series series = new XYChart.Series();
        stat_graph.setAnimated(false);
  
@@ -1156,6 +1161,63 @@ export = 3;
 
     @FXML
     private void show_linechart(ActionEvent event) {
+        datepicked = true;
+       showChart();
+          
+    }
+
+    
+    
+    private void showChart()
+    {
+         String startTime = "";
+        String finishTime = "";
+        if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Last Month"))
+        {
+           LocalDate today = LocalDate.now();  // Retrieve the date now
+           LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
+          startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
+          finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
+        }       
+        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
+        {
+            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+            finishTime = String.valueOf(LocalDate.now());
+        }
+        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+           LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
+          startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
+          finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
+        }
+        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Current Week"))
+        {
+             LocalDate today = LocalDate.now();  // Retrieve the date now
+             startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
+             finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
+        }
+        
+        
+        if(cb_stat_task.getSelectionModel().getSelectedItem().getProjectName().equals("All Projects"))
+        {
+            stat_graph.getData().clear();
+            showAllprojectsForGraph(startTime, finishTime);
+        }
+        else
+        {
+             stat_graph.getData().clear();
+          int id = cb_stat_task.getSelectionModel().getSelectedItem().getId();
+            showSelectedProjectForGraph(startTime, finishTime,id);          
+        }
+    }
+    
+    
+    
+    @FXML
+    private void show_after_date(ActionEvent event) {
+        if(datepicked)
+            showChart();
     }
     
 }
