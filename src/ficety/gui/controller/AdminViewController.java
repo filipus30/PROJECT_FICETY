@@ -86,6 +86,12 @@ public class AdminViewController extends JFrame implements Initializable {
     private TableColumn col_task_bill;
     @FXML
     private LineChart<String,Integer> stat_graph;
+    @FXML
+    private Tab tab_column;
+    @FXML
+    private BarChart<?, ?> stat_bar;
+    @FXML
+    private BarChart<?, ?> adm_stat_bar;
 
     public AdminViewController()
     {
@@ -1062,7 +1068,7 @@ export = 3;
     }
     private void showAllprojectsForGraph()
     {
-        ArrayList<Coordinates> list = UVM.getAllProjectsForUserBar(1,"2020-05-1","2020-05-31");
+        ArrayList<Coordinates> list = UVM.getAllProjectsForUserGraph(1,"2020-05-1","2020-05-31");
         XYChart.Series series = new XYChart.Series();
        stat_graph.setAnimated(false);
  
@@ -1076,7 +1082,7 @@ export = 3;
 
     private void showSelectedProjectForGraph()
     {
-        ArrayList<Coordinates> list = UVM.getSingleProjectForUserBar(1,"2020-05-1","2020-05-31",4);
+        ArrayList<Coordinates> list = UVM.getSingleProjectForUserGraph(1,"2020-05-1","2020-05-31",4);
         XYChart.Series series = new XYChart.Series();
        stat_graph.setAnimated(false);
  
@@ -1090,7 +1096,7 @@ export = 3;
     
     private void showSingleClientForAdmGraph()
     {
-         ArrayList<Coordinates> list = UVM.getSingleClientForAdminBar("2020-05-1","2020-05-31",54);
+         ArrayList<Coordinates> list = UVM.getSingleClientForAdminGraph("2020-05-1","2020-05-31",54);
         XYChart.Series series = new XYChart.Series();
        stat_graph.setAnimated(false);
  
@@ -1104,7 +1110,7 @@ export = 3;
     
     private void showAllClientsForAdmGraph()
     {
-           ArrayList<Coordinates> list = UVM.getAllClientsForAdminBar("2020-05-1","2020-05-31");
+           ArrayList<Coordinates> list = UVM.getAllClientsForAdminGraph("2020-05-1","2020-05-31");
         XYChart.Series series = new XYChart.Series();
        stat_graph.setAnimated(false);
  
@@ -1119,7 +1125,7 @@ export = 3;
     
      private void showSingleProjectForAdmGraph()
     {
-           ArrayList<Coordinates> list = UVM.getSingleProjectForAdmBar("2020-05-1","2020-05-31",4);
+           ArrayList<Coordinates> list = UVM.getSingleProjectForAdmGraph("2020-05-1","2020-05-31",4);
         XYChart.Series series = new XYChart.Series();
        stat_graph.setAnimated(false);
  
@@ -1129,6 +1135,14 @@ export = 3;
         }
         stat_graph.getData().add(series);
          stat_graph.setLegendVisible(false);
+    }
+
+    @FXML
+    private void load_column_tab(Event event) {
+    }
+
+    @FXML
+    private void load_admin_column(Event event) {
     }
     
 }

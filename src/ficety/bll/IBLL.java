@@ -27,8 +27,8 @@ public interface IBLL {
     public ArrayList<Client> getAllClients();
     public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email);
     public void deleteClient(Client clientToDelete);
-    public ArrayList<Coordinates> getSingleClientForAdminBar(String startTime,String finishTime,int clientId);
-    public ArrayList<Coordinates> getAllClientsForAdminBar(String startTime,String finishTime);
+    public ArrayList<Coordinates> getSingleClientForAdminGraph(String startTime,String finishTime,int clientId);
+    public ArrayList<Coordinates> getAllClientsForAdminGraph(String startTime,String finishTime);
        
 // ProjectDBDAO methods    
     public Project addNewProjectToDB(String projectName, Client associatedClient, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed);
@@ -37,9 +37,9 @@ public interface IBLL {
     public ArrayList<Project> getAllProjectsForUserTab();
     public ArrayList<Project> getAllProjects();
     public void deleteProject(Project projectToDelete);
-    public ArrayList<Coordinates> getAllProjectsForUserBar(int userId,String startTime,String finishTime);
-    public ArrayList<Coordinates> getSingleProjectForUserBar(int userId,String startTime,String finishTime,int projectId);
-    public ArrayList<Coordinates> getSingleProjectForAdmBar(String startTime,String finishTime,int projectId);
+    public ArrayList<Coordinates> getAllProjectsForUserGraph(int userId,String startTime,String finishTime);
+    public ArrayList<Coordinates> getSingleProjectForUserGraph(int userId,String startTime,String finishTime,int projectId);
+    public ArrayList<Coordinates> getSingleProjectForAdmGraph(String startTime,String finishTime,int projectId);
     
 // TaskDBDAO methods        
     public Task addNewTaskToDB(String taskName, String taskDesc, boolean isBillable, Project associatedProject);

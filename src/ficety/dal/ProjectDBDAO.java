@@ -305,7 +305,7 @@ public class ProjectDBDAO {
           }
       }
       
-      public ArrayList<Coordinates> getAllProjectsForUserBar(int userId,String startTime,String finishTime)
+      public ArrayList<Coordinates> getAllProjectsForUserGraph(int userId,String startTime,String finishTime)
       {
           ArrayList<Coordinates> list = new ArrayList();
        String sql = "Select Part.*\n" +
@@ -346,7 +346,7 @@ public class ProjectDBDAO {
        return list;
       }
       
-      public ArrayList<Coordinates> getSingleProjectForUserBar(int userId,String startTime,String finishTime,int projectId)
+      public ArrayList<Coordinates> getSingleProjectForUserGraph(int userId,String startTime,String finishTime,int projectId)
       {
           ArrayList<Coordinates> list = new ArrayList();
        String sql = "Select Part.*\n" +
@@ -390,7 +390,7 @@ public class ProjectDBDAO {
        return list;
       }
       
-      public ArrayList<Coordinates> getSingleProjectForAdmBar(String startTime,String finishTime,int projectId)
+      public ArrayList<Coordinates> getSingleProjectForAdmGraph(String startTime,String finishTime,int projectId)
       {
           ArrayList<Coordinates> list = new ArrayList();
        String sql = "Select Part.*\n" +

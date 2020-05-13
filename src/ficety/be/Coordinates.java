@@ -18,7 +18,6 @@ public class Coordinates {
         this.x = x;
         this.y = y;
     }
-
     public int getX() {
         return x;
     }

@@ -126,7 +126,7 @@ public class ClientDBDAO {
         }
        
     }
-     public ArrayList<Coordinates> getSingleClientForAdminBar(String startTime,String finishTime,int clientId)
+     public ArrayList<Coordinates> getSingleClientForAdminGraph(String startTime,String finishTime,int clientId)
       {
           ArrayList<Coordinates> list = new ArrayList();
        String sql = "Select Part.*\n" +
@@ -168,7 +168,7 @@ public class ClientDBDAO {
        return list;
       }
     
-      public ArrayList<Coordinates> getAllClientsForAdminBar(String startTime,String finishTime)
+      public ArrayList<Coordinates> getAllClientsForAdminGraph(String startTime,String finishTime)
       {
           ArrayList<Coordinates> list = new ArrayList();
        String sql = "Select Part.*\n" +

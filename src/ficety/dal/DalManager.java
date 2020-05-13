@@ -46,8 +46,8 @@ public class DalManager implements DalFaçade {
     }
     
     @Override
-    public ArrayList<Coordinates> getAllClientsForAdminBar(String startTime, String finishTime) {
-      return clientDBDao.getAllClientsForAdminBar(startTime, finishTime);
+    public ArrayList<Coordinates> getAllClientsForAdminGraph(String startTime, String finishTime) {
+      return clientDBDao.getAllClientsForAdminGraph(startTime, finishTime);
     }
     
     @Override
@@ -69,9 +69,9 @@ public class DalManager implements DalFaçade {
     }
     
   @Override
-    public ArrayList<Coordinates> getSingleClientForAdminBar(String startTime, String finishTime, int clientId) 
+    public ArrayList<Coordinates> getSingleClientForAdminGraph(String startTime, String finishTime, int clientId) 
     {
-        return clientDBDao.getSingleClientForAdminBar(startTime, finishTime, clientId);
+        return clientDBDao.getSingleClientForAdminGraph(startTime, finishTime, clientId);
     }
  // ProjectDBDAO methods       
     @Override
@@ -82,17 +82,17 @@ public class DalManager implements DalFaçade {
     }
     
      @Override
-    public ArrayList<Coordinates> getSingleProjectForUserBar(int userId, String startTime, String finishTime, int projectId) {
-        return projectDBDao.getSingleProjectForUserBar(userId, startTime, finishTime, projectId);
+    public ArrayList<Coordinates> getSingleProjectForUserGraph(int userId, String startTime, String finishTime, int projectId) {
+        return projectDBDao.getSingleProjectForUserGraph(userId, startTime, finishTime, projectId);
     }
     
     @Override
-    public ArrayList<Coordinates> getAllProjectsForUserBar(int userId, String startTime, String finishTime) {
-        return projectDBDao.getAllProjectsForUserBar(userId, startTime, finishTime);
+    public ArrayList<Coordinates> getAllProjectsForUserGraph(int userId, String startTime, String finishTime) {
+        return projectDBDao.getAllProjectsForUserGraph(userId, startTime, finishTime);
     }
    @Override
-    public ArrayList<Coordinates> getSingleProjectForAdmBar(String startTime, String finishTime, int projectId) {
-       return projectDBDao.getSingleProjectForAdmBar(startTime, finishTime, projectId);
+    public ArrayList<Coordinates> getSingleProjectForAdmGraph(String startTime, String finishTime, int projectId) {
+       return projectDBDao.getSingleProjectForAdmGraph(startTime, finishTime, projectId);
     }
     @Override
     public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr) {

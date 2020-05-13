@@ -43,12 +43,12 @@ public class BllManager implements IBLL {
         return dalManager.addNewClientToDB(clientName, standardRate, logoImgLocation, email);
     }
     @Override
-    public ArrayList<Coordinates> getAllClientsForAdminBar(String startTime, String finishTime) {
-      return dalManager.getAllClientsForAdminBar(startTime, finishTime);
+    public ArrayList<Coordinates> getAllClientsForAdminGraph(String startTime, String finishTime) {
+      return dalManager.getAllClientsForAdminGraph(startTime, finishTime);
     }
      @Override
-    public ArrayList<Coordinates> getSingleClientForAdminBar(String startTime, String finishTime, int clientId) {
-      return dalManager.getSingleClientForAdminBar(startTime, finishTime, clientId);
+    public ArrayList<Coordinates> getSingleClientForAdminGraph(String startTime, String finishTime, int clientId) {
+      return dalManager.getSingleClientForAdminGraph(startTime, finishTime, clientId);
     }
     @Override
     public ArrayList<Client> getAllClients()
@@ -76,13 +76,13 @@ public class BllManager implements IBLL {
     }
     
     @Override
-    public ArrayList<Coordinates> getSingleProjectForAdmBar(String startTime, String finishTime, int projectId) {
-        return dalManager.getSingleProjectForAdmBar(startTime, finishTime, projectId);
+    public ArrayList<Coordinates> getSingleProjectForAdmGraph(String startTime, String finishTime, int projectId) {
+        return dalManager.getSingleProjectForAdmGraph(startTime, finishTime, projectId);
     }
 
  @Override
-    public ArrayList<Coordinates> getSingleProjectForUserBar(int userId, String startTime, String finishTime, int projectId) {
-      return dalManager.getSingleProjectForUserBar(userId, startTime, finishTime, projectId);
+    public ArrayList<Coordinates> getSingleProjectForUserGraph(int userId, String startTime, String finishTime, int projectId) {
+      return dalManager.getSingleProjectForUserGraph(userId, startTime, finishTime, projectId);
     }
     @Override
     public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr) {
@@ -120,8 +120,8 @@ public class BllManager implements IBLL {
         dalManager.deleteProject(projectToDelete);
     }
     @Override
-    public ArrayList<Coordinates> getAllProjectsForUserBar(int userId, String startTime, String finishTime) {
-     return dalManager.getAllProjectsForUserBar(userId, startTime, finishTime);
+    public ArrayList<Coordinates> getAllProjectsForUserGraph(int userId, String startTime, String finishTime) {
+     return dalManager.getAllProjectsForUserGraph(userId, startTime, finishTime);
     }
     
     

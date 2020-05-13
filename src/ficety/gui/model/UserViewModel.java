@@ -37,14 +37,14 @@ public class UserViewModel {
     {
         return BllM.getAllClients();
     }
-    public ArrayList<Coordinates> getAllClientsForAdminBar(String startTime,String finishTime)
+    public ArrayList<Coordinates> getAllClientsForAdminGraph(String startTime,String finishTime)
     {
-        return BllM.getAllClientsForAdminBar(startTime, finishTime);
+        return BllM.getAllClientsForAdminGraph(startTime, finishTime);
     }
   
-    public ArrayList<Coordinates> getSingleClientForAdminBar(String startTime, String finishTime, int clientId) 
+    public ArrayList<Coordinates> getSingleClientForAdminGraph(String startTime, String finishTime, int clientId) 
     {
-       return BllM.getSingleClientForAdminBar(startTime, finishTime, clientId);
+       return BllM.getSingleClientForAdminGraph(startTime, finishTime, clientId);
     }
     public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email)
     {
@@ -62,9 +62,9 @@ public class UserViewModel {
     {
         return BllM.addNewProjectToDB(projectName, associatedClient, phoneNr, projectRate, hoursAllocated, isClosed);
     }
-     public ArrayList<Coordinates> getSingleProjectForAdmBar(String startTime,String finishTime,int projectId)
+     public ArrayList<Coordinates> getSingleProjectForAdmGraph(String startTime,String finishTime,int projectId)
      {
-         return BllM.getSingleProjectForAdmBar(startTime, finishTime, projectId);
+         return BllM.getSingleProjectForAdmGraph(startTime, finishTime, projectId);
      }
     public Project editProject(Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr) {
         return BllM.editProject(editedProject, projectName, associatedClientID, projectRate, allocatedHours, isClosed, phoneNr);
@@ -75,9 +75,9 @@ public class UserViewModel {
         return BllM.get3RecentProjectsForUser();
     }
     
-    public ArrayList<Coordinates> getSingleProjectForUserBar(int userId,String startTime,String finishTime,int projectId)
+    public ArrayList<Coordinates> getSingleProjectForUserGraph(int userId,String startTime,String finishTime,int projectId)
     {
-        return BllM.getSingleProjectForUserBar(userId, startTime, finishTime, projectId);
+        return BllM.getSingleProjectForUserGraph(userId, startTime, finishTime, projectId);
     }
     public ArrayList<Project> getAllProjectsForUserTab()
     {
@@ -94,9 +94,9 @@ public class UserViewModel {
         BllM.deleteProject(projectToDelete);
     }
     
-   public ArrayList<Coordinates> getAllProjectsForUserBar(int userId,String startTime,String finishTime)
+   public ArrayList<Coordinates> getAllProjectsForUserGraph(int userId,String startTime,String finishTime)
    {
-      return BllM.getAllProjectsForUserBar(userId, startTime, finishTime);
+      return BllM.getAllProjectsForUserGraph(userId, startTime, finishTime);
    }
     //TASK Related
     
