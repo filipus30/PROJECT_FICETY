@@ -67,6 +67,19 @@ public class BllManager implements IBLL {
     {
         dalManager.deleteClient(clientToDelete);
     }
+    
+    @Override
+    public ArrayList<Coordinates> getAllClientsForAdmBar(String startTime, String finishTime)
+    {
+        return dalManager.getAllClientsForAdmBar(startTime, finishTime);
+    }
+    
+    @Override
+    public ArrayList<Coordinates> getOneClientForAdmBar(Client client, String startTime, String finishTime)
+    {
+        int clientId = client.getId();
+        return dalManager.getOneClientForAdmBar(clientId, startTime, finishTime);
+    }
   
     
  // ProjectDBDAO methods           
@@ -80,7 +93,7 @@ public class BllManager implements IBLL {
         return dalManager.getSingleProjectForAdmGraph(startTime, finishTime, projectId);
     }
 
- @Override
+    @Override
     public ArrayList<Coordinates> getSingleProjectForUserGraph(int userId, String startTime, String finishTime, int projectId) {
       return dalManager.getSingleProjectForUserGraph(userId, startTime, finishTime, projectId);
     }
@@ -122,6 +135,34 @@ public class BllManager implements IBLL {
     @Override
     public ArrayList<Coordinates> getAllProjectsForUserGraph(int userId, String startTime, String finishTime) {
      return dalManager.getAllProjectsForUserGraph(userId, startTime, finishTime);
+    }
+    
+    @Override
+    public ArrayList<Coordinates> getAllProjectsForAdmBar(String startTime, String finishTime)
+    {
+        return dalManager.getAllProjectsForAdmBar(startTime, finishTime);
+    }
+    
+    @Override
+    public ArrayList<Coordinates> getOneProjectForAdmBar(Project project, String startTime, String finishTime)
+    {
+        int projectId = project.getId();
+        return dalManager.getOneProjectForAdmBar(projectId, startTime, finishTime);
+    }
+    
+    @Override
+    public ArrayList<Coordinates> getAllProjectsForUsrBar(String startTime, String finishTime)
+    {
+        int currentUser = lu.getId();
+        return dalManager.getAllProjectsForUsrBar(currentUser, startTime, finishTime);
+    }
+    
+    @Override
+    public ArrayList<Coordinates> getOneProjectForUsrBar(Project project, String startTime, String finishTime)
+    {
+        int currentUser = lu.getId();
+        int projectId = project.getId();
+        return dalManager.getOneProjectForUsrBar(currentUser, projectId, startTime, finishTime);
     }
     
     
@@ -259,6 +300,26 @@ public class BllManager implements IBLL {
     {
         return dalManager.getAllUsers();
     }
+    
+    @Override
+    public ArrayList<Coordinates> getAllUsersForAdmBar(String startTime, String finishTime)
+    {
+        return dalManager.getAllUsersForAdmBar(startTime, finishTime);
+    }
+    
+    @Override
+    public ArrayList<Coordinates> getOneUserForAdmBar(User user, String startTime, String finishTime)
+    {
+        int userId = user.getUserId();
+        return dalManager.getOneUserForAdmBar(userId, startTime, finishTime);
+    }
+    
+    
+    
+    
+    
+    
+    
     
     private void debug(String msg)
     {

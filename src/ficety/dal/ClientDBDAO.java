@@ -204,5 +204,77 @@ public class ClientDBDAO {
         }
        return list;
       }
+      
+    public ArrayList<Coordinates> getAllClientsForAdmBar(String startTime, String finishTime) //For complex barchart top is user sub is project
+      {
+          ArrayList<Coordinates> cliCol = new ArrayList();
+          String sql = "Select Part.*\n" +
+                        "FROM (SELECT P.Name AS ProjectName, C.Name as ClientName, SUM(DateDiff(SECOND, S.StartTime, S.FinishTime)) OVER(Partition BY P.Id) AS ProjectTime,\n" +
+                                        "ROW_NUMBER() OVER(PARTITION BY P.Id ORDER BY C.Name) AS Corr\n" +
+                                "FROM Clients C\n" +
+                                "LEFT JOIN Projects P ON C.Id = P.AssociatedClient\n" +
+                                "LEFT JOIN Tasks T ON P.Id = T.AssociatedProject\n" +
+                                "LEFT JOIN Sessions S ON T.Id = S.AssociatedTask\n" +
+                                "WHERE S.StartTime >= Convert(datetime2(7), ?)\n" +
+                                "AND S.StartTime <= Convert(datetime2(7), ?)\n" +
+                        ") Part\n" +
+                        "WHERE Corr = 1;";
+          try(Connection con = dbc.getConnection())
+          {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, startTime);
+            pstmt.setString(2, finishTime);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next())
+            {
+                String client = rs.getString("ClientName");
+                String project = rs.getString("ProjectName");
+                long taskTime = rs.getLong("ProjectTime");
+                Coordinates temp = new Coordinates(client, project, taskTime);
+                cliCol.add(temp);
+            }
+          } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          return cliCol;
+    }
+    
+    public ArrayList<Coordinates> getOneClientForAdmBar(int clientId, String startTime, String finishTime) //For complex barchart top is project sub is user.
+      {
+          ArrayList<Coordinates> cliCol = new ArrayList();
+          String sql = "Select Part.*\n" +
+                        "FROM (SELECT P.Name AS ProjectName, C.Name as ClientName, S.AssociatedUser, U.Name as UserName, SUM(DateDiff(SECOND, S.StartTime, S.FinishTime)) OVER(Partition BY S.AssociatedUser) AS UserTime,\n" +
+                                    "ROW_NUMBER() OVER(PARTITION BY S.AssociatedUser ORDER BY P.Name) AS Corr\n" +
+                                "FROM Clients C\n" +
+                                "LEFT JOIN Projects P ON C.Id = P.AssociatedClient\n" +
+                                "LEFT JOIN Tasks T ON P.Id = T.AssociatedProject\n" +
+                                "LEFT JOIN Sessions S ON T.Id = S.AssociatedTask\n" +
+                                "Join Users U ON S.AssociatedUser = U.Id\n" +
+                                "WHERE S.StartTime >= Convert(datetime2(7), ?)\n" +
+                                "WHERE S.StartTime <= Convert(datetime2(7), ?)\n" +
+                                "AND C.Id = 54\n" +
+                        ") Part\n" +
+                        "WHERE Corr = 1;";
+          try(Connection con = dbc.getConnection())
+          {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, startTime);
+            pstmt.setString(2, finishTime);
+            pstmt.setInt(3, clientId);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next())
+            {
+                String project = rs.getString("ProjectName");
+                String user = rs.getString("UserName");
+                long taskTime = rs.getLong("UserTime");
+                Coordinates temp = new Coordinates(project, user, taskTime);
+                cliCol.add(temp);
+            }
+          } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          return cliCol;
+    }
+      
 }
 

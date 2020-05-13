@@ -305,7 +305,7 @@ public class ProjectDBDAO {
           }
       }
       
-      public ArrayList<Coordinates> getAllProjectsForUserGraph(int userId,String startTime,String finishTime)
+    public ArrayList<Coordinates> getAllProjectsForUserGraph(int userId,String startTime,String finishTime)
       {
           ArrayList<Coordinates> list = new ArrayList();
        String sql = "Select Part.*\n" +
@@ -346,7 +346,7 @@ public class ProjectDBDAO {
        return list;
       }
       
-      public ArrayList<Coordinates> getSingleProjectForUserGraph(int userId,String startTime,String finishTime,int projectId)
+    public ArrayList<Coordinates> getSingleProjectForUserGraph(int userId,String startTime,String finishTime,int projectId)
       {
           ArrayList<Coordinates> list = new ArrayList();
        String sql = "Select Part.*\n" +
@@ -390,7 +390,7 @@ public class ProjectDBDAO {
        return list;
       }
       
-      public ArrayList<Coordinates> getSingleProjectForAdmGraph(String startTime,String finishTime,int projectId)
+    public ArrayList<Coordinates> getSingleProjectForAdmGraph(String startTime,String finishTime,int projectId)
       {
           ArrayList<Coordinates> list = new ArrayList();
        String sql = "Select Part.*\n" +
@@ -430,4 +430,145 @@ public class ProjectDBDAO {
         }
        return list;
       }
+      
+    public ArrayList<Coordinates> getAllProjectsForAdmBar(String startTime, String finishTime) //For complex barchart
+      {
+          ArrayList<Coordinates> projCol = new ArrayList();
+          String sql = "Select Part.*\n" +
+                            "FROM (SELECT P.Name AS ProjectName, T.Name as TaskName, T.Id, SUM(DateDiff(SECOND, S.StartTime, S.FinishTime)) OVER(Partition BY T.Id) AS TaskTime,\n" +
+                                        "ROW_NUMBER() OVER(PARTITION BY T.Id ORDER BY P.Name) AS Corr\n" +
+                                    "FROM Projects P\n" +
+                                    "LEFT JOIN Tasks T ON P.Id = T.AssociatedProject\n" +
+                                    "LEFT JOIN Sessions S ON T.Id = S.AssociatedTask\n" +
+                                    "WHERE S.StartTime >= CONVERT(datetime2(7), ?)\n" +
+                                    "AND S.StartTime <= CONVERT(datetime2(7), ?) \n" +
+                            ") Part\n" +
+                        "WHERE Corr = 1;";
+          try(Connection con = dbc.getConnection())
+          {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, startTime);
+            pstmt.setString(2, finishTime);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next())
+            {
+                String project = rs.getString("ProjectName");
+                String task = rs.getString("TaskName");
+                long taskTime = rs.getLong("TaskTime");
+                Coordinates temp = new Coordinates(project, task, taskTime);
+                projCol.add(temp);
+            }
+          } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          return projCol;
+    }
+      
+    public ArrayList<Coordinates> getOneProjectForAdmBar(int projectId, String startTime, String finishTime) //For simple barChart
+      {
+          ArrayList<Coordinates> projCol = new ArrayList();
+          String sql = "Select Part.*\n" +
+                            "FROM (SELECT P.Name AS ProjectName, T.Name as TaskName, T.Id, SUM(DateDiff(SECOND, S.StartTime, S.FinishTime)) OVER(Partition BY T.Id) AS TaskTime,\n" +
+                                        "ROW_NUMBER() OVER(PARTITION BY T.Id ORDER BY P.Name) AS Corr\n" +
+                                    "FROM Projects P\n" +
+                                    "LEFT JOIN Tasks T ON P.Id = T.AssociatedProject\n" +
+                                    "LEFT JOIN Sessions S ON T.Id = S.AssociatedTask\n" +
+                                    "WHERE P.Id = ?\n" +
+                                    "AND S.StartTime >= Convert(datetime2(7), ?)\n" +
+                                    "AND S.StartTime <= Convert(datetime2(7), ?)\n" +
+                            ") Part\n" +
+                            "WHERE Corr = 1;";
+          try(Connection con = dbc.getConnection())
+          {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, projectId);
+            pstmt.setString(2, startTime);
+            pstmt.setString(3, finishTime);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next())
+            {
+                String project = rs.getString("ProjectName");
+                String task = rs.getString("TaskName");
+                long taskTime = rs.getLong("TaskTime");
+                Coordinates temp = new Coordinates(project, task, taskTime);
+                projCol.add(temp);
+            }
+          } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          return projCol;
+      }
+            
+    public ArrayList<Coordinates> getAllProjectsForUsrBar(int currentUser, String startTime, String finishTime) //For complex barchart
+      {
+          ArrayList<Coordinates> projCol = new ArrayList();
+          String sql = "Select Part.*\n" +
+                            "FROM (SELECT P.Name AS ProjectName, T.Name as TaskName, T.Id, SUM(DateDiff(SECOND, S.StartTime, S.FinishTime)) OVER(Partition BY T.Id) AS TaskTime,\n" +
+                                        "ROW_NUMBER() OVER(PARTITION BY T.Id ORDER BY P.Name) AS Corr\n" +
+                                    "FROM Projects P\n" +
+                                    "JOIN Tasks T ON P.Id = T.AssociatedProject\n" +
+                                    "JOIN Sessions S ON T.Id = S.AssociatedTask\n" +
+                                    "WHERE S.AssociatedUser = ?\n" +
+                                    "AND S.StartTime >= CONVERT(datetime2(7), ?)\n" +
+                                    "AND S.StartTime <= CONVERT(datetime2(7), ?) \n" +
+                            ") Part\n" +
+                        "WHERE Corr = 1;";
+          try(Connection con = dbc.getConnection())
+          {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, currentUser);
+            pstmt.setString(2, startTime);
+            pstmt.setString(3, finishTime);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next())
+            {
+                String project = rs.getString("ProjectName");
+                String task = rs.getString("TaskName");
+                long taskTime = rs.getLong("TaskTime");
+                Coordinates temp = new Coordinates(project, task, taskTime);
+                projCol.add(temp);
+            }
+          } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          return projCol;
+    }
+    
+    public ArrayList<Coordinates> getOneProjectForUsrBar(int currentUser, int projectId, String startTime, String finishTime) //For simple barChart
+      {
+          ArrayList<Coordinates> projCol = new ArrayList();
+          String sql = "Select Part.*\n" +
+                            "FROM (SELECT P.Name AS ProjectName, T.Name as TaskName, T.Id, SUM(DateDiff(SECOND, S.StartTime, S.FinishTime)) OVER(Partition BY T.Id) AS TaskTime,\n" +
+                                        "ROW_NUMBER() OVER(PARTITION BY T.Id ORDER BY P.Name) AS Corr\n" +
+                                    "FROM Projects P\n" +
+                                    "JOIN Tasks T ON P.Id = T.AssociatedProject\n" +
+                                    "JOIN Sessions S ON T.Id = S.AssociatedTask\n" +
+                                    "WHERE S.AssociatedUser = ?\n" +
+                                    "AND P.Id = ?\n" +
+                                    "AND S.StartTime >= Convert(datetime2(7), ?)\n" +
+                                    "AND S.StartTime <= Convert(datetime2(7), ?)\n" +
+                            ") Part\n" +
+                            "WHERE Corr = 1;";
+          try(Connection con = dbc.getConnection())
+          {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setInt(1, currentUser);
+            pstmt.setInt(2, projectId);
+            pstmt.setString(3, startTime);
+            pstmt.setString(4, finishTime);
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next())
+            {
+                String project = rs.getString("ProjectName");
+                String task = rs.getString("TaskName");
+                long taskTime = rs.getLong("TaskTime");
+                Coordinates temp = new Coordinates(project, task, taskTime);
+                projCol.add(temp);
+            }
+          } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+          return projCol;
+      }
+     
 }

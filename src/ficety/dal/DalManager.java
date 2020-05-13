@@ -68,11 +68,26 @@ public class DalManager implements DalFaçade {
         clientDBDao.deleteClient(clientToDelete);
     }
     
-  @Override
+    @Override
     public ArrayList<Coordinates> getSingleClientForAdminGraph(String startTime, String finishTime, int clientId) 
     {
         return clientDBDao.getSingleClientForAdminGraph(startTime, finishTime, clientId);
     }
+    
+    @Override
+    public ArrayList<Coordinates> getAllClientsForAdmBar(String startTime, String finishTime)
+    {
+        return clientDBDao.getAllClientsForAdmBar(startTime, finishTime);
+    }
+    
+    @Override
+    public ArrayList<Coordinates> getOneClientForAdmBar(int clientId, String startTime, String finishTime)
+    {
+        return clientDBDao.getOneClientForAdmBar(clientId, startTime, finishTime);
+    }
+    
+    
+    
  // ProjectDBDAO methods       
     @Override
     public Project addNewProjectToDB(String projectName, Client associatedClient, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed) {
@@ -122,6 +137,33 @@ public class DalManager implements DalFaçade {
     {
         projectDBDao.deleteProject(projectToDelete);
     }
+    
+    @Override
+    public ArrayList<Coordinates> getAllProjectsForAdmBar(String startTime, String finishTime)
+    {
+        return projectDBDao.getAllProjectsForAdmBar(startTime, finishTime);
+    }
+    
+    @Override
+    public ArrayList<Coordinates> getOneProjectForAdmBar(int projectId, String startTime, String finishTime)
+    {
+        return projectDBDao.getOneProjectForAdmBar(projectId, startTime, finishTime);
+    }
+    
+    @Override
+    public ArrayList<Coordinates> getAllProjectsForUsrBar(int currentUser, String startTime, String finishTime)
+    {
+        return projectDBDao.getAllProjectsForUsrBar(currentUser, startTime, finishTime);
+    }
+    
+    @Override
+    public ArrayList<Coordinates> getOneProjectForUsrBar(int currentUser, int projectId, String startTime, String finishTime)
+    {
+        return projectDBDao.getOneProjectForUsrBar(currentUser, projectId, startTime, finishTime);
+    }
+    
+    
+    
     
 // TaskDBDAO methods            
     @Override
@@ -238,7 +280,18 @@ public class DalManager implements DalFaçade {
     {
         return userDBDao.getAllUsers();
     }
-
+    
+    @Override
+    public ArrayList<Coordinates> getAllUsersForAdmBar(String startTime, String finishTime)
+    {
+        return userDBDao.getAllUsersForAdmBar(startTime, finishTime);
+    }
+    
+    @Override
+    public ArrayList<Coordinates> getOneUserForAdmBar(int userId, String startTime, String finishTime)
+    {
+        return userDBDao.getOneUserForAdmBar(userId, startTime, finishTime);
+    }
    
 
     

@@ -29,6 +29,9 @@ public interface IBLL {
     public void deleteClient(Client clientToDelete);
     public ArrayList<Coordinates> getSingleClientForAdminGraph(String startTime,String finishTime,int clientId);
     public ArrayList<Coordinates> getAllClientsForAdminGraph(String startTime,String finishTime);
+    public ArrayList<Coordinates> getAllClientsForAdmBar(String startTime, String finishTime);
+    public ArrayList<Coordinates> getOneClientForAdmBar(Client client, String startTime, String finishTime);
+    
        
 // ProjectDBDAO methods    
     public Project addNewProjectToDB(String projectName, Client associatedClient, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed);
@@ -40,6 +43,10 @@ public interface IBLL {
     public ArrayList<Coordinates> getAllProjectsForUserGraph(int userId,String startTime,String finishTime);
     public ArrayList<Coordinates> getSingleProjectForUserGraph(int userId,String startTime,String finishTime,int projectId);
     public ArrayList<Coordinates> getSingleProjectForAdmGraph(String startTime,String finishTime,int projectId);
+    public ArrayList<Coordinates> getAllProjectsForAdmBar(String startTime, String finishTime);
+    public ArrayList<Coordinates> getOneProjectForAdmBar(Project project, String startTime, String finishTime);
+    public ArrayList<Coordinates> getAllProjectsForUsrBar(String startTime, String finishTime);
+    public ArrayList<Coordinates> getOneProjectForUsrBar(Project project, String startTime, String finishTime); 
     
 // TaskDBDAO methods        
     public Task addNewTaskToDB(String taskName, String taskDesc, boolean isBillable, Project associatedProject);
@@ -64,7 +71,8 @@ public interface IBLL {
     public User editUser (User userToEdit, String userName, String email, String password, Float salary, boolean isAdmin); 
     public void removeUserFromDB(User userToDelete);
     public ArrayList<User> getAllUsers();
-    
+    public ArrayList<Coordinates> getAllUsersForAdmBar(String startTime, String finishTime);
+    public ArrayList<Coordinates> getOneUserForAdmBar(User user, String startTime, String finishTime);
     
     
     
