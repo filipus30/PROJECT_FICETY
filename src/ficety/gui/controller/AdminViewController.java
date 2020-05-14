@@ -382,8 +382,8 @@ public class AdminViewController extends JFrame implements Initializable {
                   ComboBox c = new ComboBox();
                   c.getItems().addAll(tasklist1);
                   c.setLayoutY(30);
-                  c.setMinWidth(222);
-                  c.setMaxWidth(222);
+                  c.setMinWidth(237);
+                  c.setMaxWidth(237);
                   c.setPromptText("Select Task");
                   Pane p = new Pane();
                   Label l = new Label();
