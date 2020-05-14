@@ -88,6 +88,9 @@ public class AdminViewController extends JFrame implements Initializable {
     boolean added = true;
     boolean datepicked = false;
     boolean admdatepicked = false;
+    
+    boolean barUsrDataPicked = false;
+    boolean barUsrTimePicked = false;
     @FXML
     private Button bn_exp;
     @FXML
@@ -348,6 +351,11 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private TextField tf_adm_user_password;
 
+    @FXML
+    private JFXComboBox<Project> cb_bar_usr_data;
+    
+    @FXML
+    private JFXComboBox<String> cb_bar_usr_time;
 
 
 
@@ -1162,10 +1170,28 @@ export = 3;
 
     @FXML
     private void load_column_tab(Event event) {
+        if(cb_bar_usr_data.getItems().isEmpty())
+        {  
+            Project p = new Project(-1,"All Projects",0,"",0,0,false,"");
+            ArrayList<Project> projectsUsr = UVM.getAllProjectsForUserTab();
+            projectsUsr.add(0,p);
+            cb_bar_usr_data.getItems().addAll(projectsUsr);
+            cb_bar_usr_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");
+        }
+        
     }
 
     @FXML
     private void load_admin_column(Event event) {
+        if(cb_bar_usr_data.getItems().isEmpty())
+        {  
+            Project p = new Project(-1,"All Projects",0,"",0,0,false,"");
+            ArrayList<Project> projectsAdmBar = UVM.getAllProjects();
+            projectsAdmBar.add(0,p);
+            cb_bar_usr_data.getItems().addAll(projectsAdmBar);
+            cb_bar_usr_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");
+        }
+        
     }
 
     @FXML
@@ -1299,5 +1325,81 @@ export = 3;
         cb_stat_adm_task.getItems().add(0,c);
                 }
     }
+
+    @FXML
+    private void selectDataBarUsr(ActionEvent event) {
+        barUsrDataPicked = true;
+        if(barUsrTimePicked)
+        {
+            showUsrBarChart();
+        }
+    
+    }
+
+    @FXML
+    private void selectTimeBarUsr(ActionEvent event) {
+        barUsrTimePicked = true;
+        if(barUsrDataPicked)
+        {
+            showUsrBarChart();
+        }
+    }
+
+    private void showUsrBarChart() {
+        String startTime = "";
+        String finishTime = "";
+        if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Last Month"))
+        {
+           LocalDate today = LocalDate.now();  // Retrieve the date now
+           LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
+          startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
+          finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
+        }       
+        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
+        {
+            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+            finishTime = String.valueOf(LocalDate.now());
+          ;
+        }
+        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+           LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
+          startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
+          finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
+        }
+        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Current Week"))
+        {
+             LocalDate today = LocalDate.now();  // Retrieve the date now
+             startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
+             finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
+             
+        }
+        
+        
+        if(cb_stat_task.getSelectionModel().getSelectedItem().getProjectName().equals("All Projects"))
+        {
+            stat_graph.getData().clear();
+            showAllprojectsBarUsr(startTime, finishTime);
+        }
+        else
+        {
+             stat_graph.getData().clear();
+          Project p = cb_stat_task.getSelectionModel().getSelectedItem();
+            showOneProjectBarUsr(p, startTime, finishTime);          
+        }
+    }
+
+    private void showAllprojectsBarUsr(String startTime, String finishTime) {
+        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+    }
+
+    private void showOneProjectBarUsr(Project p, String startTime, String finishTime) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
     
 }

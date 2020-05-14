@@ -56,6 +56,17 @@ public class UserViewModel {
         BllM.deleteClient(clientToDelete);
     }
     
+    public ArrayList<Coordinates> getAllClientsForAdmBar(String startTime, String finishTime)
+    {
+        return BllM.getAllClientsForAdmBar(startTime, finishTime);
+    }
+    
+    public ArrayList<Coordinates> getOneClientForAdmBar(Client client, String startTime, String finishTime)
+    {
+        
+        return BllM.getOneClientForAdmBar(client, startTime, finishTime);
+    }
+    
 
     //PROJECT Related
     
@@ -99,6 +110,28 @@ public class UserViewModel {
    {
       return BllM.getAllProjectsForUserGraph(userId, startTime, finishTime);
    }
+   
+   
+    public ArrayList<Coordinates> getAllProjectsForAdmBar(String startTime, String finishTime)
+    {
+        return BllM.getAllProjectsForAdmBar(startTime, finishTime);
+    }
+    
+
+    public ArrayList<Coordinates> getOneProjectForAdmBar(Project project, String startTime, String finishTime)
+    {
+        return BllM.getOneProjectForAdmBar(project, startTime, finishTime);
+    }
+    
+    public ArrayList<Coordinates> getAllProjectsForUsrBar(String startTime, String finishTime)
+    {
+        return BllM.getAllProjectsForUsrBar(startTime, finishTime);
+    }
+    
+    public ArrayList<Coordinates> getOneProjectForUsrBar(Project project, String startTime, String finishTime)
+    {
+        return BllM.getOneProjectForUsrBar(project, startTime, finishTime);
+    }   
    
    
     //TASK Related
@@ -145,6 +178,16 @@ public class UserViewModel {
     public User createUser(String userName, String email, String password, float salary, boolean isAdmin)
     {
         return BllM.addNewUserToDB(userName, email, password, salary, isAdmin);
+    }
+    
+    public ArrayList<Coordinates> getAllUsersForAdmBar(String startTime, String finishTime)
+    {
+        return BllM.getAllUsersForAdmBar(startTime, finishTime);
+    }
+    
+    public ArrayList<Coordinates> getOneUserForAdmBar(User user, String startTime, String finishTime)
+    {
+        return BllM.getOneUserForAdmBar(user, startTime, finishTime);
     }
     
     
