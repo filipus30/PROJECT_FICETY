@@ -112,7 +112,7 @@ public class ProjectDBDAO {
       public ArrayList<Project> get3RecentProjectsForUser(int loggedInUserKey)
       {
         ArrayList<Project> recentProjects = new ArrayList();
-        String sql = "Select TOP(3) part.* " + 
+        String sql = "Select  part.* " + 
                 "FROM (Select Projects.Id, Projects.Name, Projects.ProjectRate, Projects.AssociatedClient, Projects.Closed, Projects.Phonenr, Projects.AllocatedHours, " +
                         "Clients.LogoImgLocation, Sessions.FinishTime, ROW_NUMBER() OVER(Partition BY Projects.Id ORDER BY Sessions.FinishTime) Corr " + 
                     "FROM Projects " +

@@ -1,7 +1,10 @@
-/*
- * Empty Stylesheet file.
- */
 
-.mainFxmlClass {
 
+
+
+.tab-header-background {
+    -fx-background-color: #5cb4fd;
 }
+    
+    
+

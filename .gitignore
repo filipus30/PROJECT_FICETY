@@ -42,3 +42,4 @@ nbdist/
 nbproject/private/configs/Run_in_Browser.properties
 nbproject/private/private.properties
 nbproject/private/private.properties
+*.xls

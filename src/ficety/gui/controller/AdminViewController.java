@@ -63,7 +63,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
@@ -125,6 +131,8 @@ public class AdminViewController extends JFrame implements Initializable {
     private Tab Col_chart_adm_tab;
     @FXML
     private AnchorPane col_tab_anchor;
+    @FXML
+    private AnchorPane scrollpane;
 
 
     public AdminViewController()
@@ -150,7 +158,7 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private TextField search;
     @FXML
-    private ToggleButton tb_toggle;
+    private JFXButton tb_toggle;
     @FXML
     private Button bn_start_stop;
     @FXML
@@ -161,8 +169,6 @@ public class AdminViewController extends JFrame implements Initializable {
     private Label lb_loginuser;
     @FXML
     private Button bn_expandview;
-    @FXML
-    private FlowPane fp_last3task;
     @FXML
     private Tab tab_pj;
     @FXML
@@ -185,16 +191,8 @@ public class AdminViewController extends JFrame implements Initializable {
     private TableColumn<Task,Integer> Col_task_project;
     @FXML
     private TableColumn<Task, Integer> Col_task_myhours;
-    @FXML
     private JFXTextField task_name;
-    @FXML
     private JFXComboBox<Project> cb_task_project;
-    @FXML
-    private JFXButton bn_task_add;
-    @FXML
-    private JFXButton bn_task_eddit;
-    @FXML
-    private JFXButton bn_task_delete;
     @FXML
     private Tab tab_stat;
     @FXML
@@ -230,30 +228,18 @@ public class AdminViewController extends JFrame implements Initializable {
     private TableView<Session> tbv_session;
     @FXML
     private AnchorPane ap;
-    @FXML
     private JFXButton txtpj1;
-    @FXML
     private ImageView img1;
-    @FXML
     private JFXComboBox<Task> jcb1;
-    @FXML
     private JFXButton txtpj2;
-    @FXML
     private ImageView img2;
-    @FXML
     private JFXComboBox<Task> jcb2;
-    @FXML
     private JFXButton txtpj3;
-    @FXML
     private ImageView img3;
-    @FXML
     private JFXComboBox<Task> jcb3;
-    @FXML
     private JFXTextField task_description;
     private ObservableList<Project> datax;
-    @FXML
     private JFXTextField session_start;
-    @FXML
     private JFXTextField session_stop;
     @FXML
     private TableView<Client> admin_clients;
@@ -379,53 +365,39 @@ public class AdminViewController extends JFrame implements Initializable {
        admin_tab.setVisible(false);
        datax = FXCollections.observableArrayList(UVM.getAllProjects());
        cb_project.getItems().addAll(datax);
-       cb_task_project.getItems().addAll(datax);
-       ObservableList<Project> last3data = FXCollections.observableArrayList(UVM.get3RecentProjects());
-       loadAll();
-       if(last3data.size() >= 1)
-       {
-       ObservableList<Task> tasklist1 = FXCollections.observableArrayList(last3data.get(0).getTaskList());
-       Image image1 = new Image(last3data.get(0).getClientIMG(), 50, 50, false, false);
-       jcb1.getItems().addAll(tasklist1);
-       txtpj1.setText(last3data.get(0).getProjectName());
-       img1.setImage(image1);
-       txtpj2.setVisible(false);
-       txtpj3.setVisible(false);
-       jcb2.setVisible(false);
-       jcb3.setVisible(false);}
-       if (last3data.size() >= 2)
-       {
-       txtpj2.setVisible(true);
-       jcb2.setVisible(true);
-       ObservableList<Task> tasklist2 = FXCollections.observableArrayList(last3data.get(1).getTaskList());
-       jcb2.getItems().addAll(tasklist2);
-       txtpj2.setText(last3data.get(1).getProjectName());
-       Image image2 = new Image(last3data.get(1).getClientIMG(), 50, 50, false, false);
-       img2.setImage(image2);
-       txtpj3.setVisible(false);
-       jcb3.setVisible(false);}
-       if (last3data.size() == 3)
-       {
-       txtpj3.setVisible(true);
-       jcb3.setVisible(true);
-       ObservableList<Task> tasklist3 = FXCollections.observableArrayList(last3data.get(2).getTaskList());
-       jcb3.getItems().addAll(tasklist3);
-       txtpj3.setText(last3data.get(2).getProjectName());
-       Image image3 = new Image(last3data.get(2).getClientIMG(), 50, 50, false, false);
-       img3.setImage(image3);}
-
-
-//         List<Project> list = UVM.getAllProjectsForUserTab();
-//         ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
-//         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
-//         Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
-//         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
-//         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
-//         Tbv_pj.setItems(datapj);
+//       cb_task_project.getItems().addAll(datax);
+       
+   loadButtons();
          loaded = true;
 
     }
-
+    public void loadButtons()
+    {
+        ObservableList<Project> last3data = FXCollections.observableArrayList(UVM.get3RecentProjects());
+       loadAll();
+      
+              for(int i =0;i<last3data.size();i++)
+              {
+                  ObservableList<Task> tasklist1 = FXCollections.observableArrayList(last3data.get(i).getTaskList());
+                  ComboBox c = new ComboBox();
+                  c.getItems().addAll(tasklist1);
+                  c.setLayoutY(30);
+                  c.setMinWidth(222);
+                  c.setMaxWidth(222);
+                  c.setPromptText("Select Task");
+                  Pane p = new Pane();
+                  Label l = new Label();
+                  l.setText(last3data.get(i).getProjectName());
+                  l.setTextFill(Color.WHITE);
+                  l.setFont(new Font("Arial", 24));
+                  l.setMinWidth(220);
+                  p.getChildren().addAll(l,c);
+                  p.setLayoutY(i*58);
+                  p.setStyle("-fx-background-color:#256FA8;-fx-border-color: WHITE;");
+                  scrollpane.getChildren().add(p);
+                  scrollpane.setStyle("-fx-background-color:#5cb4fd");
+              }
+    }
 
 
     public void sizeExpantion(){
@@ -747,12 +719,10 @@ export = 3;
     }
 
 
-    @FXML
     private void edit_session(ActionEvent event) {
         UVM.editSession(tbv_session.getSelectionModel().getSelectedItem(),session_start.getText(),session_stop.getText(),tbv_session.getSelectionModel().getSelectedItem().getSessionID());
     }
 
-    @FXML
     private void delete_session(ActionEvent event) {
         UVM.removeSessionFromDB(tbv_session.getSelectionModel().getSelectedItem());
     }
@@ -765,7 +735,6 @@ export = 3;
         }
     }
 
-    @FXML
     private void editTask(ActionEvent event) {
         if(task_name.getText() != null)
         {
@@ -794,7 +763,6 @@ export = 3;
         }
 
 
-    @FXML
     private void addTask(ActionEvent event)
     {
         if(task_name.getText() != null)
@@ -827,7 +795,6 @@ export = 3;
         }
     }
 
-    @FXML
     private void deleteTask(ActionEvent event) {
         if(task_name.getText() != null)
         {
