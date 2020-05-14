@@ -8,6 +8,7 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -212,16 +213,16 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <BarChart fx:id="stat_bar" layoutX="10.0" layoutY="8.0" prefHeight="375.0" prefWidth="519.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <JFXComboBox fx:id="cb_bar_usr_data" layoutX="48.0" layoutY="362.0" onAction="#selectDataBarUsr" promptText="Select Data" />
+                        <JFXComboBox fx:id="cb_bar_usr_time" layoutX="260.0" layoutY="362.0" onAction="#selectTimeBarUsr" promptText="Time period" />
+                        <StackedBarChart fx:id="stat_bar" prefHeight="375.0" prefWidth="519.0" AnchorPane.bottomAnchor="85.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
                           </xAxis>
                           <yAxis>
                             <NumberAxis side="LEFT" />
                           </yAxis>
-                        </BarChart>
-                        <JFXComboBox fx:id="cb_bar_usr_data" layoutX="48.0" layoutY="362.0" onAction="#selectDataBarUsr" promptText="Select Data" />
-                        <JFXComboBox fx:id="cb_bar_usr_time" layoutX="260.0" layoutY="362.0" onAction="#selectTimeBarUsr" promptText="Time period" />
+                        </StackedBarChart>
                      </children>
                   </AnchorPane>
               </content>

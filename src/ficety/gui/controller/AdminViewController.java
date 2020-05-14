@@ -29,6 +29,7 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
@@ -42,6 +43,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -100,7 +102,7 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private Tab tab_column;
     @FXML
-    private BarChart<?, ?> stat_bar;
+    private StackedBarChart<String, Integer> stat_bar;
     @FXML
     private BarChart<?, ?> adm_stat_bar;
     @FXML
@@ -1338,6 +1340,7 @@ export = 3;
 
     @FXML
     private void selectTimeBarUsr(ActionEvent event) {
+        showAllprojectsBarUsr("","");
         barUsrTimePicked = true;
         if(barUsrDataPicked)
         {
@@ -1391,11 +1394,26 @@ export = 3;
     }
 
     private void showAllprojectsBarUsr(String startTime, String finishTime) {
-        
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int k = 0;
+       ArrayList<Coordinates> list = UVM.getAllProjectsForUsrBar("2020-05-1","2020-05-31");
+        XYChart.Series series = new XYChart.Series();
+       stat_bar.setAnimated(false);
+       int size = list.size();
+      XYChart.Series<String, Integer>[] seriesArray = Stream.<XYChart.Series<String, Integer>>generate(XYChart.Series::new).limit(size).toArray(XYChart.Series[]::new);
+
+ for(int j = 0;j<list.size();j++)
+    {
+      
+            seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getTopBar(),((int)list.get(j).getTaskSeconds())));
+        stat_bar.getData().add(seriesArray[j]);
         
     }
-
+   stat_bar.setLegendVisible(false);
+    }
+    
+    
+    
+    
     private void showOneProjectBarUsr(Project p, String startTime, String finishTime) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
