@@ -220,8 +220,8 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </BarChart>
-                        <JFXComboBox layoutX="48.0" layoutY="362.0" promptText="Select Data" />
-                        <JFXComboBox layoutX="260.0" layoutY="362.0" promptText="Time period" />
+                        <JFXComboBox fx:id="cb_bar_usr_data" layoutX="48.0" layoutY="362.0" onAction="#selectDataBarUsr" promptText="Select Data" />
+                        <JFXComboBox fx:id="cb_bar_usr_time" layoutX="260.0" layoutY="362.0" onAction="#selectTimeBarUsr" promptText="Time period" />
                      </children>
                   </AnchorPane>
               </content>

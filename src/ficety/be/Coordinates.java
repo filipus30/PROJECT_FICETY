@@ -44,19 +44,19 @@ public class Coordinates {
         this.y = y;
     }
     
-    public String getProject() {
+    public String getTopBar() {
         return topBar;
     }
 
-    public void setProject(String project) {
+    public void topBar(String project) {
         this.topBar = project;
     }
 
-    public String getTask() {
+    public String getSubBar() {
         return subBar;
     }
 
-    public void setTask(String task) {
+    public void setsubBar(String task) {
         this.subBar = task;
     }
 
