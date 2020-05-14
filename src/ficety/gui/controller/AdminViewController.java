@@ -93,6 +93,10 @@ public class AdminViewController extends JFrame implements Initializable {
     
     boolean barUsrDataPicked = false;
     boolean barUsrTimePicked = false;
+    
+    boolean barAdmDataPicked = false;
+    boolean barAdmTimePicked = false;
+    
     @FXML
     private Button bn_exp;
     @FXML
@@ -104,8 +108,6 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private StackedBarChart<String, Integer> stat_bar;
     @FXML
-    private BarChart<?, ?> adm_stat_bar;
-    @FXML
     private JFXComboBox<String> cb_stat_time;
     @FXML
     private LineChart<String,Integer> stat_adm_graph;
@@ -113,6 +115,17 @@ public class AdminViewController extends JFrame implements Initializable {
     private JFXComboBox<String> cb_stat_adm_time;
     @FXML
     private JFXComboBox<Client> cb_stat_adm_task;
+    @FXML
+    private StackedBarChart<String, Integer> adm_stack_bar;
+    @FXML
+    private JFXComboBox<String> cb_bar_adm_data;
+    @FXML
+    private JFXComboBox<String> cb_bar_adm_time;
+    @FXML
+    private Tab Col_chart_adm_tab;
+    @FXML
+    private AnchorPane col_tab_anchor;
+
 
     public AdminViewController()
     {
@@ -1185,13 +1198,13 @@ export = 3;
 
     @FXML
     private void load_admin_column(Event event) {
-        if(cb_bar_usr_data.getItems().isEmpty())
+        if(cb_bar_adm_data.getItems().isEmpty())
         {  
             Project p = new Project(-1,"All Projects",0,"",0,0,false,"");
             ArrayList<Project> projectsAdmBar = UVM.getAllProjects();
             projectsAdmBar.add(0,p);
-            cb_bar_usr_data.getItems().addAll(projectsAdmBar);
-            cb_bar_usr_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");
+            cb_bar_adm_data.getItems().addAll("Clients", "Projects", "Users");
+            cb_bar_adm_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");
         }
         
     }
@@ -1340,7 +1353,6 @@ export = 3;
 
     @FXML
     private void selectTimeBarUsr(ActionEvent event) {
-        showAllprojectsBarUsr("","");
         barUsrTimePicked = true;
         if(barUsrDataPicked)
         {
@@ -1351,27 +1363,27 @@ export = 3;
     private void showUsrBarChart() {
         String startTime = "";
         String finishTime = "";
-        if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Last Month"))
+        if(cb_bar_usr_time.getSelectionModel().getSelectedItem().equals("Last Month"))
         {
            LocalDate today = LocalDate.now();  // Retrieve the date now
            LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
           startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
           finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
         }       
-        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
+        else if(cb_bar_usr_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
         {
             startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
             finishTime = String.valueOf(LocalDate.now());
           ;
         }
-        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
+        else if(cb_bar_usr_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
         {
             LocalDate today = LocalDate.now();  // Retrieve the date now
            LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
           startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
           finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
         }
-        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Current Week"))
+        else if(cb_bar_usr_time.getSelectionModel().getSelectedItem().equals("Current Week"))
         {
              LocalDate today = LocalDate.now();  // Retrieve the date now
              startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
@@ -1380,44 +1392,395 @@ export = 3;
         }
         
         
-        if(cb_stat_task.getSelectionModel().getSelectedItem().getProjectName().equals("All Projects"))
+        if(cb_bar_usr_data.getSelectionModel().getSelectedItem().getProjectName().equals("All Projects"))
         {
-            stat_graph.getData().clear();
+            stat_bar.getData().clear();
             showAllprojectsBarUsr(startTime, finishTime);
         }
         else
         {
-             stat_graph.getData().clear();
-          Project p = cb_stat_task.getSelectionModel().getSelectedItem();
+             stat_bar.getData().clear();
+          Project p = cb_bar_usr_data.getSelectionModel().getSelectedItem();
             showOneProjectBarUsr(p, startTime, finishTime);          
         }
     }
 
     private void showAllprojectsBarUsr(String startTime, String finishTime) {
+        stat_bar.getData().clear();
         int k = 0;
-       ArrayList<Coordinates> list = UVM.getAllProjectsForUsrBar("2020-05-1","2020-05-31");
+        ArrayList<Coordinates> list = UVM.getAllProjectsForUsrBar(startTime, finishTime);
         XYChart.Series series = new XYChart.Series();
-       stat_bar.setAnimated(false);
-       int size = list.size();
-      XYChart.Series<String, Integer>[] seriesArray = Stream.<XYChart.Series<String, Integer>>generate(XYChart.Series::new).limit(size).toArray(XYChart.Series[]::new);
+        stat_bar.setAnimated(false);
+        int size = list.size();
+        XYChart.Series<String, Integer>[] seriesArray = Stream.<XYChart.Series<String, Integer>>generate(XYChart.Series::new).limit(size).toArray(XYChart.Series[]::new);
 
- for(int j = 0;j<list.size();j++)
-    {
-      
-            seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getTopBar(),((int)list.get(j).getTaskSeconds())));
-        stat_bar.getData().add(seriesArray[j]);
+        for(int j = 0;j<list.size();j++)
+        {
+
+            seriesArray[j].setName(list.get(j).getSubBar());
+            long time = list.get(j).getTaskSeconds();
+            debug("Time in seconds " + time);
+            int hours = Math.round(time/3600);
+            debug("After rounding: " + hours);
+            seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getTopBar(),hours));
+            stat_bar.getData().add(seriesArray[j]);
         
-    }
-   stat_bar.setLegendVisible(false);
+        }
+        stat_bar.setLegendVisible(true);
     }
     
     
     
     
     private void showOneProjectBarUsr(Project p, String startTime, String finishTime) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        stat_bar.getData().clear();
+        int k = 0;
+        ArrayList<Coordinates> list = UVM.getOneProjectForUsrBar(p, startTime, finishTime);
+        XYChart.Series series = new XYChart.Series();
+        stat_bar.setAnimated(false);
+        int size = list.size();
+        XYChart.Series<String, Integer>[] seriesArray = Stream.<XYChart.Series<String, Integer>>generate(XYChart.Series::new).limit(size).toArray(XYChart.Series[]::new);
+
+        for(int j = 0;j<list.size();j++)
+        {
+
+            long time = list.get(j).getTaskSeconds();
+            debug("Time in seconds " + time);
+            int hours = Math.round(time/3600);
+            debug("After rounding: " + hours);
+            seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getSubBar(),hours));
+            stat_bar.getData().add(seriesArray[j]);
+        
+        }
+        stat_bar.setLegendVisible(false);
+    }
+
+    @FXML
+    private void selectDataBarAdm(ActionEvent event) {
+        if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Clients"))
+        {
+            ComboBox<Client> cb_bar_adm_data2 = new JFXComboBox<Client>();
+            ArrayList<Client> clients = UVM.getAllClients();
+            Client c = new Client(-1, "All Clients", "", 0, "");
+            clients.add(0, c);
+            cb_bar_adm_data2.getItems().addAll(clients);
+            col_tab_anchor.getChildren().add(cb_bar_adm_data2);
+            cb_bar_adm_data2.setOnAction(e -> {
+                barAdmDataPicked = true;
+                if(barAdmTimePicked)
+                {
+                    Client tempclient = cb_bar_adm_data2.getSelectionModel().getSelectedItem();
+                    showAdmBarChart(tempclient);
+                }
+            });
+        }
+        else if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Projects"))
+        {
+            ComboBox<Project> cb_bar_adm_data2 = new JFXComboBox<Project>();
+            ArrayList<Project> projects = UVM.getAllProjects();
+            Project p = new Project(-1, "All Projects", 0, "", 0, 0, false, "");
+            projects.add(0, p);
+            cb_bar_adm_data2.getItems().addAll(projects);
+            col_tab_anchor.getChildren().add(cb_bar_adm_data2);
+            cb_bar_adm_data2.setOnAction(e -> {
+                barAdmDataPicked = true;
+                if(barAdmTimePicked)
+                {
+                    Project tempproject = cb_bar_adm_data2.getSelectionModel().getSelectedItem();
+                    showAdmBarChart(tempproject);
+                }
+            });
+        }
+        if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Users"))
+        {
+            ComboBox<User> cb_bar_adm_data2 = new JFXComboBox<User>();
+            ArrayList<User> users = UVM.getAllUsers();
+            User u = new User(-1, "All Users", "", "", 0, false);
+            users.add(0, u);
+            cb_bar_adm_data2.getItems().addAll(users);
+            col_tab_anchor.getChildren().add(cb_bar_adm_data2);
+            cb_bar_adm_data2.setOnAction(e -> {
+                barAdmDataPicked = true;
+                if(barAdmTimePicked)
+                {
+                    User tempuser = cb_bar_adm_data2.getSelectionModel().getSelectedItem();
+                    showAdmBarChart(tempuser);
+                }
+            });
+            
+        }
+        
+        
+    }
+
+    @FXML
+    private void selectTimeBarAdm(ActionEvent event) {
+        barAdmTimePicked = true;
+    }
+
+    private void showAdmBarChart(Client c) {
+        String startTime = "";
+        String finishTime = "";
+        if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Month"))
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
+            startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
+            finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
+        }       
+        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
+        {
+            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+            finishTime = String.valueOf(LocalDate.now());
+        }
+        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
+            startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
+            finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
+        }
+        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Week"))
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
+            finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
+             
+        }
+        
+        if(c.getClientName().equals("All Clients"))
+        {
+            adm_stack_bar.getData().clear();
+            showAllClientsBarAdm(startTime, finishTime);
+        }
+        else
+        {
+            adm_stack_bar.getData().clear();
+            showOneClientBarAdm(c, startTime, finishTime);          
+        }     
     }
     
+        private void showAdmBarChart(Project p) {
+        String startTime = "";
+        String finishTime = "";
+        if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Month"))
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
+            startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
+            finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
+        }       
+        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
+        {
+            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+            finishTime = String.valueOf(LocalDate.now());
+        }
+        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
+            startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
+            finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
+        }
+        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Week"))
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
+            finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
+             
+        }
+        if(p.getProjectName().equals("All Projects"))
+        {
+            adm_stack_bar.getData().clear();
+            showAllprojectsBarAdm(startTime, finishTime);
+        }
+        else
+        {
+            adm_stack_bar.getData().clear();
+            showOneProjectBarAdm(p, startTime, finishTime);          
+        }        
+    }
     
-    
+        private void showAdmBarChart(User u) {
+        String startTime = "";
+        String finishTime = "";
+        if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Month"))
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
+            startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
+            finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
+        }       
+        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
+        {
+            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+            finishTime = String.valueOf(LocalDate.now());
+        }
+        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
+            startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
+            finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
+        }
+        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Week"))
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
+            finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
+             
+        }
+        if(u.getUserName().equals("All Users"))
+        {
+            adm_stack_bar.getData().clear();
+            showAllUsersBarAdm(startTime, finishTime);
+        }
+        else
+        {
+            adm_stack_bar.getData().clear();
+            showOneUserBarAdm(u, startTime, finishTime);          
+        }              
+    }
+
+    private void showAllprojectsBarAdm(String startTime, String finishTime) {
+        adm_stack_bar.getData().clear();
+        int k = 0;
+        ArrayList<Coordinates> list = UVM.getAllProjectsForAdmBar(startTime, finishTime);
+        XYChart.Series series = new XYChart.Series();
+        adm_stack_bar.setAnimated(false);
+        int size = list.size();
+        XYChart.Series<String, Integer>[] seriesArray = Stream.<XYChart.Series<String, Integer>>generate(XYChart.Series::new).limit(size).toArray(XYChart.Series[]::new);
+
+        for(int j = 0;j<list.size();j++)
+        {
+
+            seriesArray[j].setName(list.get(j).getSubBar());
+            long time = list.get(j).getTaskSeconds();
+            debug("Time in seconds " + time);
+            int hours = Math.round(time/3600);
+            debug("After rounding: " + hours);
+            seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getTopBar(),hours));
+            adm_stack_bar.getData().add(seriesArray[j]);
+        
+        }
+        adm_stack_bar.setLegendVisible(true);
+    }
+
+    private void showOneProjectBarAdm(Project p, String startTime, String finishTime) {
+        adm_stack_bar.getData().clear();
+        int k = 0;
+        ArrayList<Coordinates> list = UVM.getOneProjectForAdmBar(p, startTime, finishTime);
+        XYChart.Series series = new XYChart.Series();
+        adm_stack_bar.setAnimated(false);
+        int size = list.size();
+        XYChart.Series<String, Integer>[] seriesArray = Stream.<XYChart.Series<String, Integer>>generate(XYChart.Series::new).limit(size).toArray(XYChart.Series[]::new);
+
+        for(int j = 0;j<list.size();j++)
+        {
+
+            long time = list.get(j).getTaskSeconds();
+            debug("Time in seconds " + time);
+            int hours = Math.round(time/3600);
+            debug("After rounding: " + hours);
+            seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getSubBar(),hours));
+            adm_stack_bar.getData().add(seriesArray[j]);
+        
+        }
+        adm_stack_bar.setLegendVisible(false);
+    }
+
+    private void showAllClientsBarAdm(String startTime, String finishTime) {
+        adm_stack_bar.getData().clear();
+        int k = 0;
+        ArrayList<Coordinates> list = UVM.getAllClientsForAdmBar(startTime, finishTime);
+        XYChart.Series series = new XYChart.Series();
+        adm_stack_bar.setAnimated(false);
+        int size = list.size();
+        XYChart.Series<String, Integer>[] seriesArray = Stream.<XYChart.Series<String, Integer>>generate(XYChart.Series::new).limit(size).toArray(XYChart.Series[]::new);
+
+        for(int j = 0;j<list.size();j++)
+        {
+
+            seriesArray[j].setName(list.get(j).getSubBar());
+            long time = list.get(j).getTaskSeconds();
+            debug("Time in seconds " + time);
+            int hours = Math.round(time/3600);
+            debug("After rounding: " + hours);
+            seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getTopBar(),hours));
+            adm_stack_bar.getData().add(seriesArray[j]);
+        
+        }
+        adm_stack_bar.setLegendVisible(true);
+    }
+
+    private void showOneClientBarAdm(Client c, String startTime, String finishTime) {
+        adm_stack_bar.getData().clear();
+        int k = 0;
+        ArrayList<Coordinates> list = UVM.getOneClientForAdmBar(c, startTime, finishTime);
+        XYChart.Series series = new XYChart.Series();
+        adm_stack_bar.setAnimated(false);
+        int size = list.size();
+        XYChart.Series<String, Integer>[] seriesArray = Stream.<XYChart.Series<String, Integer>>generate(XYChart.Series::new).limit(size).toArray(XYChart.Series[]::new);
+
+        for(int j = 0;j<list.size();j++)
+        {
+
+            seriesArray[j].setName(list.get(j).getSubBar());
+            long time = list.get(j).getTaskSeconds();
+            debug("Time in seconds " + time);
+            int hours = Math.round(time/3600);
+            debug("After rounding: " + hours);
+            seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getTopBar(),hours));
+            adm_stack_bar.getData().add(seriesArray[j]);
+        
+        }
+        adm_stack_bar.setLegendVisible(true);
+    }
+
+    private void showAllUsersBarAdm(String startTime, String finishTime) {
+        adm_stack_bar.getData().clear();
+        int k = 0;
+        ArrayList<Coordinates> list = UVM.getAllUsersForAdmBar(startTime, finishTime);
+        XYChart.Series series = new XYChart.Series();
+        adm_stack_bar.setAnimated(false);
+        int size = list.size();
+        XYChart.Series<String, Integer>[] seriesArray = Stream.<XYChart.Series<String, Integer>>generate(XYChart.Series::new).limit(size).toArray(XYChart.Series[]::new);
+
+        for(int j = 0;j<list.size();j++)
+        {
+
+            long time = list.get(j).getTaskSeconds();
+            debug("Time in seconds " + time);
+            int hours = Math.round(time/3600);
+            debug("After rounding: " + hours);
+            seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getSubBar(),hours));
+            adm_stack_bar.getData().add(seriesArray[j]);
+        
+        }
+        adm_stack_bar.setLegendVisible(false);
+    }
+
+    private void showOneUserBarAdm(User u, String startTime, String finishTime) {
+        adm_stack_bar.getData().clear();
+        int k = 0;
+        ArrayList<Coordinates> list = UVM.getOneUserForAdmBar(u, startTime, finishTime);
+        XYChart.Series series = new XYChart.Series();
+        adm_stack_bar.setAnimated(false);
+        int size = list.size();
+        XYChart.Series<String, Integer>[] seriesArray = Stream.<XYChart.Series<String, Integer>>generate(XYChart.Series::new).limit(size).toArray(XYChart.Series[]::new);
+
+        for(int j = 0;j<list.size();j++)
+        {
+
+            seriesArray[j].setName(list.get(j).getSubBar());
+            long time = list.get(j).getTaskSeconds();
+            debug("Time in seconds " + time);
+            int hours = Math.round(time/3600);
+            debug("After rounding: " + hours);
+            seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getTopBar(),hours));
+            adm_stack_bar.getData().add(seriesArray[j]);
+        
+        }
+        adm_stack_bar.setLegendVisible(true);
+    }
 }

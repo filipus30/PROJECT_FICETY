@@ -158,10 +158,10 @@ public class BllManager implements IBLL {
     }
     
     @Override
-    public ArrayList<Coordinates> getOneProjectForUsrBar(Project project, String startTime, String finishTime)
+    public ArrayList<Coordinates> getOneProjectForUsrBar(Project p, String startTime, String finishTime)
     {
         int currentUser = lu.getId();
-        int projectId = project.getId();
+        int projectId = p.getId();
         return dalManager.getOneProjectForUsrBar(currentUser, projectId, startTime, finishTime);
     }
     

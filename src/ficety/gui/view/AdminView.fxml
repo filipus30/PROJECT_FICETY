@@ -4,7 +4,6 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
@@ -335,18 +334,20 @@
                         </AnchorPane>
                     </content>
                   </Tab>
-                  <Tab onSelectionChanged="#load_admin_column" text="Column Chart">
+                  <Tab fx:id="Col_chart_adm_tab" onSelectionChanged="#load_admin_column" text="Column Chart">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                      <AnchorPane fx:id="col_tab_anchor" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <BarChart fx:id="adm_stat_bar" layoutY="26.0" prefHeight="341.5" prefWidth="552.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <StackedBarChart fx:id="adm_stack_bar" prefHeight="311.0" prefWidth="552.0">
                                 <xAxis>
                                   <CategoryAxis side="BOTTOM" />
                                 </xAxis>
                                 <yAxis>
                                   <NumberAxis side="LEFT" />
                                 </yAxis>
-                              </BarChart>
+                              </StackedBarChart>
+                              <JFXComboBox fx:id="cb_bar_adm_data" layoutX="79.0" layoutY="303.0" onAction="#selectDataBarAdm" promptText="Select Data Type" />
+                              <JFXComboBox fx:id="cb_bar_adm_time" layoutX="366.0" layoutY="303.0" onAction="#selectTimeBarAdm" promptText="Time period" />
                            </children>
                         </AnchorPane>
                     </content>

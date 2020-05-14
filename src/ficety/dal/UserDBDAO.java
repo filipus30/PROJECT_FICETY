@@ -253,8 +253,8 @@ public class UserDBDAO {
             ResultSet rs = pstmt.executeQuery();
             while(rs.next())
             {
-                String user = rs.getString("UserName");
-                String subUser = "N/A";
+                String subUser = rs.getString("UserName");
+                String user = "N/A";
                 long userTime = rs.getLong("UserTime");
                 Coordinates temp = new Coordinates(user, subUser, userTime);
                 usrCol.add(temp);
