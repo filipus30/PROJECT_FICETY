@@ -40,9 +40,9 @@ public class DalManager implements DalFaçade {
  }
 //ClientDBDAO methods
     @Override
-    public Client addNewClientToDB(String clientName,float standardRate,String logoImgLocation,String email)
+    public Client addNewClientToDB(String clientName,float standardRate,String email)
     {
-        return clientDBDao.addNewClientToDB(clientName, standardRate, logoImgLocation, email);
+        return clientDBDao.addNewClientToDB(clientName, standardRate, email);
     }
     
     @Override
@@ -57,9 +57,9 @@ public class DalManager implements DalFaçade {
     }
   
     @Override
-    public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email)
+    public Client editClient (Client editedClient,String name,float standardRate,String email)
     {
-        return clientDBDao.editClient(editedClient, name, standardRate, logoImgLocation, email);
+        return clientDBDao.editClient(editedClient, name, standardRate, email);
     }
     
     @Override

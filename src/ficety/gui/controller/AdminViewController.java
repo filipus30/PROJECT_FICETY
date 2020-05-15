@@ -952,12 +952,12 @@ export = 3;
 
     @FXML
     private void adm_edit_client(ActionEvent event) {
-        UVM.editClient(admin_clients.getSelectionModel().getSelectedItem(),tf_adm_client_name.getText(),Float.valueOf(tf_adm_client_standardRate.getText()),admin_clients.getSelectionModel().getSelectedItem().getImgLocation(),tf_adm_client_email.getText());
+        UVM.editClient(admin_clients.getSelectionModel().getSelectedItem(),tf_adm_client_name.getText(),Float.valueOf(tf_adm_client_standardRate.getText()),tf_adm_client_email.getText());
     }
 
     @FXML
     private void adm_add_client(ActionEvent event) {
-       Client c =  UVM.addNewClientToDB(tf_adm_client_name.getText(),Float.valueOf(tf_adm_client_standardRate.getText()),"",tf_adm_client_email.getText());
+       Client c =  UVM.addNewClientToDB(tf_adm_client_name.getText(),Float.valueOf(tf_adm_client_standardRate.getText()),tf_adm_client_email.getText());
          dataClient.add(c);
     }
 
@@ -1071,7 +1071,7 @@ export = 3;
     @FXML
     private void load_stat_tab(Event event) {
         if(cb_stat_task.getItems().isEmpty())
-        {  Project p = new Project(0,"All Projects",0,"",0,0,false,"");
+        {  Project p = new Project(0,"All Projects",0,"",0,0,false);
         choosedatauser.add(0,p);
         cb_stat_task.getItems().addAll(choosedatauser);
         cb_stat_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");}
@@ -1154,7 +1154,7 @@ export = 3;
     private void load_column_tab(Event event) {
         if(cb_bar_usr_data.getItems().isEmpty())
         {  
-            Project p = new Project(-1,"All Projects",0,"",0,0,false,"");
+            Project p = new Project(-1,"All Projects",0,"",0,0,false);
             ArrayList<Project> projectsUsr = UVM.getAllProjectsForUserTab();
             projectsUsr.add(0,p);
             cb_bar_usr_data.getItems().addAll(projectsUsr);
@@ -1167,7 +1167,7 @@ export = 3;
     private void load_admin_column(Event event) {
         if(cb_bar_adm_data.getItems().isEmpty())
         {  
-            Project p = new Project(-1,"All Projects",0,"",0,0,false,"");
+            Project p = new Project(-1,"All Projects",0,"",0,0,false);
             ArrayList<Project> projectsAdmBar = UVM.getAllProjects();
             projectsAdmBar.add(0,p);
             cb_bar_adm_data.getItems().addAll("Clients", "Projects", "Users");
@@ -1301,7 +1301,7 @@ export = 3;
     private void load_admin_linechart(Event event) {
         if(cb_stat_adm_time.getItems().isEmpty())
         {    
-            Client c = new Client(0,"All Clients","",0,"");
+            Client c = new Client(0,"All Clients",0,"");
         cb_stat_adm_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");
         cb_stat_adm_task.getItems().addAll(dataClient);
         cb_stat_adm_task.getItems().add(0,c);
@@ -1428,7 +1428,7 @@ export = 3;
         {
             ComboBox<Client> cb_bar_adm_data2 = new JFXComboBox<Client>();
             ArrayList<Client> clients = UVM.getAllClients();
-            Client c = new Client(-1, "All Clients", "", 0, "");
+            Client c = new Client(-1, "All Clients", 0, "");
             clients.add(0, c);
             cb_bar_adm_data2.getItems().addAll(clients);
             col_tab_anchor.getChildren().add(cb_bar_adm_data2);
@@ -1445,7 +1445,7 @@ export = 3;
         {
             ComboBox<Project> cb_bar_adm_data2 = new JFXComboBox<Project>();
             ArrayList<Project> projects = UVM.getAllProjects();
-            Project p = new Project(-1, "All Projects", 0, "", 0, 0, false, "");
+            Project p = new Project(-1, "All Projects", 0, "", 0, 0, false);
             projects.add(0, p);
             cb_bar_adm_data2.getItems().addAll(projects);
             col_tab_anchor.getChildren().add(cb_bar_adm_data2);
@@ -1486,34 +1486,10 @@ export = 3;
     }
 
     private void showAdmBarChart(Client c) {
-        String startTime = "";
-        String finishTime = "";
-        if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Month"))
-        {
-            LocalDate today = LocalDate.now();  // Retrieve the date now
-            LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
-            startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
-            finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
-        }       
-        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
-        {
-            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
-            finishTime = String.valueOf(LocalDate.now());
-        }
-        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
-        {
-            LocalDate today = LocalDate.now();  // Retrieve the date now
-            LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
-            startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
-            finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
-        }
-        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Week"))
-        {
-            LocalDate today = LocalDate.now();  // Retrieve the date now
-            startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
-            finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
-             
-        }
+        String[] times = getAdminBarTimes();
+        String startTime = times[0];
+        String finishTime = times[1];
+        
         
         if(c.getClientName().equals("All Clients"))
         {
@@ -1528,34 +1504,10 @@ export = 3;
     }
     
         private void showAdmBarChart(Project p) {
-        String startTime = "";
-        String finishTime = "";
-        if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Month"))
-        {
-            LocalDate today = LocalDate.now();  // Retrieve the date now
-            LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
-            startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
-            finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
-        }       
-        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
-        {
-            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
-            finishTime = String.valueOf(LocalDate.now());
-        }
-        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
-        {
-            LocalDate today = LocalDate.now();  // Retrieve the date now
-            LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
-            startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
-            finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
-        }
-        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Week"))
-        {
-            LocalDate today = LocalDate.now();  // Retrieve the date now
-            startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
-            finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
-             
-        }
+        String[] times = getAdminBarTimes();
+        String startTime = times[0];
+        String finishTime = times[1];
+        
         if(p.getProjectName().equals("All Projects"))
         {
             adm_stack_bar.getData().clear();
@@ -1569,34 +1521,10 @@ export = 3;
     }
     
         private void showAdmBarChart(User u) {
-        String startTime = "";
-        String finishTime = "";
-        if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Month"))
-        {
-            LocalDate today = LocalDate.now();  // Retrieve the date now
-            LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
-            startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
-            finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
-        }       
-        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
-        {
-            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
-            finishTime = String.valueOf(LocalDate.now());
-        }
-        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
-        {
-            LocalDate today = LocalDate.now();  // Retrieve the date now
-            LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
-            startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
-            finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
-        }
-        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Week"))
-        {
-            LocalDate today = LocalDate.now();  // Retrieve the date now
-            startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
-            finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
-             
-        }
+        String[] times = getAdminBarTimes();
+        String startTime = times[0];
+        String finishTime = times[1];
+        
         if(u.getUserName().equals("All Users"))
         {
             adm_stack_bar.getData().clear();
@@ -1749,5 +1677,39 @@ export = 3;
         
         }
         adm_stack_bar.setLegendVisible(true);
+    }
+
+    private String[] getAdminBarTimes() {
+        String startTime = "";
+        String finishTime ="";
+       if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Month"))
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
+            startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
+            finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
+        }       
+        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
+        {
+            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+            finishTime = String.valueOf(LocalDate.now());
+        }
+        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
+            startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
+            finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
+        }
+        else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Week"))
+        {
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
+            finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
+             
+        } 
+       String[] dates = {startTime, finishTime};
+       return dates;
+       
     }
 }

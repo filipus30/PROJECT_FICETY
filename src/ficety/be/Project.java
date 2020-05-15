@@ -28,13 +28,12 @@ public class Project {
     private IntegerProperty allocatedHours = new SimpleIntegerProperty();
     private List<Task> taskList;
     private BooleanProperty isClosed = new SimpleBooleanProperty();
-    private StringProperty clientIMG = new SimpleStringProperty();
     private StringProperty clientName = new SimpleStringProperty();
     private StringProperty seconds = new SimpleStringProperty();
     private StringProperty calPayment = new SimpleStringProperty();
 
 
-    public Project(int projectID, String projectName, int associatedClientID, String phoneNr, float projectRate, int allocatedHours, boolean isClosed, String clientIMG) {
+    public Project(int projectID, String projectName, int associatedClientID, String phoneNr, float projectRate, int allocatedHours, boolean isClosed) {
         this.projectID = projectID;
         this.projectName.set(projectName);
         this.associatedClientID.set(associatedClientID);
@@ -43,7 +42,6 @@ public class Project {
         this.allocatedHours.set(allocatedHours);
        // this.taskList = taskList;
         this.isClosed.set(isClosed);
-        this.clientIMG.set(clientIMG);
     }
 
     
@@ -126,20 +124,6 @@ public class Project {
 
     public void setIsClosed(boolean isClosed) {
         this.isClosed.set(isClosed);
-    }
-    
-    public StringProperty ClientIMGProperty()
-    {
-        return clientIMG;
-    }
-    
-    public String getClientIMG()
-    {
-        return this.clientIMG.get();
-    }
-    public void setClientIMG(String clientIMG)
-    {
-        this.clientIMG.set(clientIMG);
     }
     
     public StringProperty secondsProperty()

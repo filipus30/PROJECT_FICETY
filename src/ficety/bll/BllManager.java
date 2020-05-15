@@ -38,9 +38,9 @@ public class BllManager implements IBLL {
 
 //CLientDBDAO methods
     @Override
-    public Client addNewClientToDB(String clientName,float standardRate,String logoImgLocation,String email)
+    public Client addNewClientToDB(String clientName,float standardRate,String email)
     {
-        return dalManager.addNewClientToDB(clientName, standardRate, logoImgLocation, email);
+        return dalManager.addNewClientToDB(clientName, standardRate, email);
     }
     @Override
     public ArrayList<Coordinates> getAllClientsForAdminGraph(String startTime, String finishTime) {
@@ -57,9 +57,9 @@ public class BllManager implements IBLL {
     }
   
     @Override
-    public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email)
+    public Client editClient (Client editedClient,String name,float standardRate, String email)
     {
-        return dalManager.editClient(editedClient, name, standardRate, logoImgLocation, email);
+        return dalManager.editClient(editedClient, name, standardRate, email);
     }
     
     @Override
