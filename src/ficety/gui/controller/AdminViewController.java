@@ -1136,7 +1136,8 @@ export = 3;
  
         for(int i = 0;i<list.size();i++)
         { 
-            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),list.get(i).getY()));
+            int hours = Math.round(list.get(i).getY()/3600);
+            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),hours));
         }
         stat_graph.getData().add(series);
          stat_graph.setLegendVisible(false);
@@ -1185,9 +1186,9 @@ export = 3;
     }
     
     
-     private void showSingleProjectForAdmGraph()
+     private void showSingleProjectForAdmGraph(String startTime,String finishTime)
     {
-           ArrayList<Coordinates> list = UVM.getSingleProjectForAdmGraph("2020-05-1","2020-05-31",4);
+           ArrayList<Coordinates> list = UVM.getSingleProjectForAdmGraph(startTime,finishTime,lu.getId());
         XYChart.Series series = new XYChart.Series();
        stat_graph.setAnimated(false);
  
