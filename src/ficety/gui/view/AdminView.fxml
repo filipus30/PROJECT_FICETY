@@ -123,8 +123,6 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <JFXComboBox fx:id="cb_bar_usr_data" layoutX="48.0" layoutY="348.0" onAction="#selectDataBarUsr" promptText="Select Data" />
-                        <JFXComboBox fx:id="cb_bar_usr_time" layoutX="260.0" layoutY="348.0" onAction="#selectTimeBarUsr" promptText="Time period" />
                         <StackedBarChart fx:id="stat_bar" prefHeight="375.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <xAxis>
                             <CategoryAxis side="BOTTOM" />
@@ -133,6 +131,8 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </StackedBarChart>
+                        <JFXComboBox fx:id="cb_bar_usr_data" layoutX="48.0" layoutY="348.0" onAction="#selectDataBarUsr" promptText="Select Data" />
+                        <JFXComboBox fx:id="cb_bar_usr_time" layoutX="260.0" layoutY="348.0" onAction="#selectTimeBarUsr" promptText="Time period" />
                      </children>
                   </AnchorPane>
               </content>
@@ -291,7 +291,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <ScrollPane layoutY="77.0" prefHeight="258.0" prefWidth="240.0">
+      <ScrollPane fx:id="scroll" layoutY="77.0" prefHeight="258.0" prefWidth="240.0">
         <content>
           <AnchorPane fx:id="scrollpane" minHeight="0.0" minWidth="0.0" prefHeight="255.0" prefWidth="238.0" />
         </content>

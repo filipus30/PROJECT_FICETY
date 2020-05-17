@@ -133,6 +133,8 @@ public class AdminViewController extends JFrame implements Initializable {
     private AnchorPane col_tab_anchor;
     @FXML
     private AnchorPane scrollpane;
+    @FXML
+    private ScrollPane scroll;
 
 
     public AdminViewController()
@@ -363,7 +365,7 @@ public class AdminViewController extends JFrame implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        admin_tab.setVisible(false);
-       datax = FXCollections.observableArrayList(UVM.getAllProjects());
+       datax = FXCollections.observableArrayList(UVM.get3RecentProjects());
        cb_project.getItems().addAll(datax);
 //       cb_task_project.getItems().addAll(datax);
        
@@ -379,21 +381,26 @@ public class AdminViewController extends JFrame implements Initializable {
               for(int i =0;i<last3data.size();i++)
               {
                   ObservableList<Task> tasklist1 = FXCollections.observableArrayList(last3data.get(i).getTaskList());
-                  ComboBox c = new ComboBox();
+                  ComboBox<Task> c = new ComboBox();
                   c.getItems().addAll(tasklist1);
                   c.setLayoutY(30);
                   c.setMinWidth(237);
                   c.setMaxWidth(237);
                   c.setPromptText("Select Task");
+                  c.setOnAction((e) -> {
+                   Task tmp = c.getSelectionModel().getSelectedItem();
+               //    lu.setCurrentTask(tmp);
+                      System.out.println(tmp.getTaskName());
+        });
                   Pane p = new Pane();
                   Label l = new Label();
                   l.setText(last3data.get(i).getProjectName());
                   l.setTextFill(Color.WHITE);
                   l.setFont(new Font("Arial", 24));
                   l.setMinWidth(220);
-                  p.getChildren().addAll(l,c);
-                  p.setLayoutY(i*58);
-                  p.setStyle("-fx-background-color:#256FA8;-fx-border-color: WHITE;");
+                 p.getChildren().addAll(l,c);
+                 p.setLayoutY(i*58);
+                 p.setStyle("-fx-background-color:#256FA8;-fx-border-color: WHITE;");
                   scrollpane.getChildren().add(p);
                   scrollpane.setStyle("-fx-background-color:#5cb4fd");
               }
@@ -446,6 +453,7 @@ public class AdminViewController extends JFrame implements Initializable {
                 lb_timetoday.setLayoutY(376);
                 label_task.setLayoutY(356);
                 label_today.setLayoutY(383);
+                scroll.setVisible(true);
 
             }
         else{
@@ -456,16 +464,19 @@ public class AdminViewController extends JFrame implements Initializable {
 
                 debug("Size toggle false");
                 Stage stage = (Stage) ap.getScene().getWindow();
-                stage.setMaxHeight(230); //prev 208
-                stage.setMaxWidth(260); //prev 340
-                stage.setMinHeight(230);
-                stage.setMinWidth(260);
-                 tb_toggle.setLayoutY(100); // - 20 px all the way down
-                 bn_start_stop.setLayoutY(120);
-                 lb_tasktime.setLayoutY(130);
-                lb_timetoday.setLayoutY(150);
-                label_task.setLayoutY(144);
-                label_today.setLayoutY(160);
+                stage.setMaxHeight(180); //prev 208
+                stage.setMaxWidth(245); //prev 340
+                stage.setMinHeight(180);
+                stage.setMinWidth(245);
+                 tb_toggle.setLayoutY(80); // - 20 px all the way down
+                 bn_start_stop.setLayoutY(105);
+                 lb_tasktime.setLayoutY(110);
+                lb_timetoday.setLayoutY(130);
+                label_task.setLayoutY(129);
+                label_today.setLayoutY(145);
+               
+               scroll.setVisible(false);
+                
         }
     }
 
@@ -476,6 +487,7 @@ public class AdminViewController extends JFrame implements Initializable {
 
     @FXML
     private void toggel_size(ActionEvent event) {
+        
         toggelSize();
     }
 
