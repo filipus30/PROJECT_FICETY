@@ -231,10 +231,8 @@ public class UserViewController extends JFrame implements Initializable {
        if(last3data.size() >= 1)
        { 
        ObservableList<Task> tasklist1 = FXCollections.observableArrayList(last3data.get(0).getTaskList());
-       Image image1 = new Image(last3data.get(0).getClientIMG(), 50, 50, false, false);
-       jcb1.getItems().addAll(tasklist1);
+              jcb1.getItems().addAll(tasklist1);
        txtpj1.setText(last3data.get(0).getProjectName());
-       img1.setImage(image1);
        txtpj2.setVisible(false);
        txtpj3.setVisible(false);
        jcb2.setVisible(false);
@@ -246,8 +244,6 @@ public class UserViewController extends JFrame implements Initializable {
        ObservableList<Task> tasklist2 = FXCollections.observableArrayList(last3data.get(1).getTaskList());
        jcb2.getItems().addAll(tasklist2);
        txtpj2.setText(last3data.get(1).getProjectName());
-       Image image2 = new Image(last3data.get(1).getClientIMG(), 50, 50, false, false);
-       img2.setImage(image2);
        txtpj3.setVisible(false);
        jcb3.setVisible(false);}
        if (last3data.size() == 3)
@@ -256,9 +252,7 @@ public class UserViewController extends JFrame implements Initializable {
        jcb3.setVisible(true);
        ObservableList<Task> tasklist3 = FXCollections.observableArrayList(last3data.get(2).getTaskList());
        jcb3.getItems().addAll(tasklist3);
-       txtpj3.setText(last3data.get(2).getProjectName());
-       Image image3 = new Image(last3data.get(2).getClientIMG(), 50, 50, false, false);
-       img3.setImage(image3);}
+       txtpj3.setText(last3data.get(2).getProjectName());}
         
         
 //         List<Project> list = UVM.getAllProjectsForUserTab();

@@ -19,7 +19,6 @@ import javafx.beans.property.StringProperty;
 public class Client {
     private IntegerProperty clientID = new SimpleIntegerProperty();
     private StringProperty clientName = new SimpleStringProperty();
-    private StringProperty imgLocation = new SimpleStringProperty();
     private FloatProperty standardRate = new SimpleFloatProperty();
     private StringProperty email = new SimpleStringProperty();
     private IntegerProperty  projectNr = new SimpleIntegerProperty();
@@ -27,10 +26,9 @@ public class Client {
 
 
     
-    public Client(int id, String clientName, String imgLocation, float standardRate, String email) {
+    public Client(int id, String clientName, float standardRate, String email) {
         this.clientID.set(id);
         this.clientName.set(clientName);
-        this.imgLocation.set(imgLocation);
         this.standardRate.set(standardRate);
         this.email.set(email);
     }
@@ -59,19 +57,6 @@ public class Client {
 
     public void setClientName(String clientName) {
         this.clientName.set(clientName);
-    }
-
-    public StringProperty imgLocationProperty()
-    {
-        return imgLocation;
-    }
-    
-    public String getImgLocation() {
-        return this.imgLocation.get();
-    }
-
-    public void setImgLocation(String imgLocation) {
-        this.imgLocation.set(imgLocation);
     }
 
     public FloatProperty standardRateProperty()

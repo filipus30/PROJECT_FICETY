@@ -56,8 +56,7 @@ public class ProjectDBDAO {
             }
             try (ResultSet generatedKeys = pstmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    String clientIMG = client.getImgLocation();
-                    Project newProject = new Project(0, projectName, associatedClientID, phoneNr, projectRate, hoursAllocated, isClosed, clientIMG);
+                    Project newProject = new Project(0, projectName, associatedClientID, phoneNr, projectRate, hoursAllocated, isClosed);
                     newProject.setId((int) generatedKeys.getLong(1));
                     return newProject;
                 } else {
@@ -114,11 +113,10 @@ public class ProjectDBDAO {
         ArrayList<Project> recentProjects = new ArrayList();
         String sql = "Select  part.* " + 
                 "FROM (Select Projects.Id, Projects.Name, Projects.ProjectRate, Projects.AssociatedClient, Projects.Closed, Projects.Phonenr, Projects.AllocatedHours, " +
-                        "Clients.LogoImgLocation, Sessions.FinishTime, ROW_NUMBER() OVER(Partition BY Projects.Id ORDER BY Sessions.FinishTime) Corr " + 
+                        "Sessions.FinishTime, ROW_NUMBER() OVER(Partition BY Projects.Id ORDER BY Sessions.FinishTime) Corr " + 
                     "FROM Projects " +
                     "JOIN Tasks ON Projects.Id = Tasks.AssociatedProject  " + 
                     "JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask " + 
-                    "JOIN Clients On Projects.AssociatedClient = Clients.Id " + 
                     "WHERE Sessions.AssociatedUser = ? AND Closed = 0) part " + 
                 "WHERE part.Corr=1";
         try ( Connection con = dbc.getConnection()) {
@@ -139,9 +137,8 @@ public class ProjectDBDAO {
             boolean isClosed = false;
             if(closed == 1)
             isClosed = true;
-            String clientIMG = rs.getString("LogoImgLocation");
             Project project; 
-            project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed, clientIMG);
+            project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed);
             recentProjects.add(project);
         }
         return recentProjects;  
@@ -156,7 +153,7 @@ public class ProjectDBDAO {
           ArrayList<Project> allProjectsForUser = new ArrayList();
           String sql ="SELECT Part.* " + 
                         "FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, "+ 
-                                "Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, " + 
+                                "Clients.Name AS CName, Tasks.Id AS TId, " + 
                                 "SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Tasks.Id) AS TotalTime, " +
                                 "ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr " +
                             "FROM Projects " + 
@@ -164,7 +161,8 @@ public class ProjectDBDAO {
                                 "JOIN Tasks ON Projects.Id=Tasks.AssociatedProject " + 
                                 "JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask " + 
                             "WHERE Sessions.AssociatedUser = ?)Part " + 
-                        "WHERE part.Corr=1;";
+                        "WHERE part.Corr=1" +
+                        "ORDER BY Part.Closed ASC;";
       
           try ( Connection con = dbc.getConnection()) {
         //Create a prepared statement.
@@ -184,9 +182,8 @@ public class ProjectDBDAO {
             boolean isClosed = false;
             if(closed == 1)
             isClosed = true;
-            String clientIMG = rs.getString("LogoImgLocation");
             Project project; 
-            project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed, clientIMG);
+            project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed);
             String ClientName = rs.getString("CName");
             project.setClientName(ClientName);
             int time = rs.getInt("TotalTime");
@@ -208,7 +205,7 @@ public class ProjectDBDAO {
           String sql ="SELECT Part.*  " +
                         "FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, " +
                         "Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, " +
-                        "Clients.Name AS CName, Clients.LogoImgLocation, Tasks.Id AS TId, " +
+                        "Clients.Name AS CName, Tasks.Id AS TId, " +
                         "Temp.BillableTime, " +
                         "Temp2.TotalTime, " +
                         "ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr " +
@@ -230,7 +227,8 @@ public class ProjectDBDAO {
                                 "JOIN Projects ON Projects.Id = Tasks.AssociatedProject " +
                             ") Temp2 ON Temp2.Name = Projects.Name " +
                         ") Part " +
-                        "WHERE part.Corr=1;";
+                        "WHERE part.Corr=1" + 
+                        "ORDER BY Part.Closed ASC;";
       
           try ( Connection con = dbc.getConnection()) {
         //Create a prepared statement.
@@ -249,9 +247,8 @@ public class ProjectDBDAO {
             boolean isClosed = false;
             if(closed == 1)
             isClosed = true;
-            String clientIMG = rs.getString("LogoImgLocation");
             Project project; 
-            project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed, clientIMG);
+            project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed);
             String ClientName = rs.getString("CName");
             project.setClientName(ClientName);
             int totalTime = rs.getInt("TotalTime");

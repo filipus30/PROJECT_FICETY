@@ -30,16 +30,15 @@ public class ClientDBDAO {
         dbc = new DBConnection();
     }
     
-    public Client addNewClientToDB(String clientName,float standardRate,String logoImgLocation,String email) { 
+    public Client addNewClientToDB(String clientName,float standardRate,String email) { 
     //  Adds a new Client to the DB, and returns the updated Client to the GUI
-        String sql = "INSERT INTO Clients(Name, logoImgLocation, standardRate, email) VALUES (?,?,?,?)";
-        Client newClient = new Client(0,clientName,logoImgLocation,standardRate,email);
+        String sql = "INSERT INTO Clients(Name, standardRate, email) VALUES (?,?,?)";
+        Client newClient = new Client(0,clientName,standardRate,email);
         try (Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             pstmt.setString(1, clientName);
-            pstmt.setString(2, logoImgLocation);
-            pstmt.setFloat(3, standardRate);
-            pstmt.setString(4, email);
+            pstmt.setFloat(2, standardRate);
+            pstmt.setString(3, email);
             int affectedRows = pstmt.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating Client failed, no rows affected.");
@@ -65,7 +64,7 @@ public class ClientDBDAO {
         try(Connection con = dbc.getConnection()){
             String sql = "SELECT part.* " +
                             "FROM ( " +
-                                    "SELECT C.Id, C.Name, C.Email, C.StandardRate, C.LogoImgLocation, Count(P.Id) OVER (PARTITION BY C.Id) AS PNr, "+ 
+                                    "SELECT C.Id, C.Name, C.Email, C.StandardRate, Count(P.Id) OVER (PARTITION BY C.Id) AS PNr, "+ 
                                                 "ROW_NUMBER() OVER (PARTITION BY C.Id ORDER BY C.Name) AS Corr " +
                                         "FROM Clients C " +
                                         "LEFT JOIN Projects P ON C.Id = P.AssociatedClient) part " +
@@ -76,11 +75,10 @@ public class ClientDBDAO {
             {
                 int clientID =  rs.getInt("id");
                 String clientName = rs.getString("name");
-                String logoImgLocation = rs.getString("logoImgLocation");
                 float standardRate = rs.getFloat("standardRate");
                 String email = rs.getString("email");
                 int projectNr = rs.getInt("PNr");
-                Client tempClient = new Client(clientID,clientName,logoImgLocation,standardRate,email);
+                Client tempClient = new Client(clientID,clientName,standardRate,email);
                 tempClient.setProjectNr(projectNr);
                 allClients.add(tempClient); 
             }    
@@ -90,19 +88,17 @@ public class ClientDBDAO {
         return allClients;
     }
     
-    public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email) { 
+    public Client editClient (Client editedClient,String name,float standardRate,String email) { 
     //  Edits a client  
-        String sql = "UPDATE Clients SET Name = ?, StandardRate = ?, LogoImgLocation = ?, Email = ? WHERE Id = ?";
+        String sql = "UPDATE Clients SET Name = ?, StandardRate = ?, Email = ? WHERE Id = ?";
         try ( Connection con = dbc.getConnection()) {
             PreparedStatement pstmt = con.prepareStatement(sql);
             pstmt.setString(1, name);
             pstmt.setFloat(2, standardRate);
-            pstmt.setString(3, logoImgLocation);
-            pstmt.setString(4, email);
-            pstmt.setInt(5, editedClient.getId());
+            pstmt.setString(3, email);
+            pstmt.setInt(4, editedClient.getId());
             pstmt.executeUpdate();  //Execute SQL query.
             editedClient.setClientName(name);
-            editedClient.setImgLocation(logoImgLocation);
             editedClient.setStandardRate(standardRate);
             editedClient.setEmail(email);
             return editedClient;

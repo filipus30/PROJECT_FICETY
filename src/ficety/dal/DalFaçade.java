@@ -27,9 +27,9 @@ import java.util.ArrayList;
 public interface DalFaçade {
 
 //ClientDBDAO methods
-    public Client addNewClientToDB(String clientName,float standardRate,String logoImgLocation,String email);
+    public Client addNewClientToDB(String clientName,float standardRate,String email);
     public ArrayList<Client> getAllClients();
-    public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email);
+    public Client editClient (Client editedClient,String name,float standardRate,String email);
     public void deleteClient(Client clientToDelete);
     public ArrayList<Coordinates> getSingleClientForAdminGraph(String startTime,String finishTime,int clientId);
     public ArrayList<Coordinates> getAllClientsForAdminGraph(String startTime,String finishTime);

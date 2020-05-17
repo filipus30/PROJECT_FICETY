@@ -28,9 +28,9 @@ public class UserViewModel {
     private Exporter ex = new Exporter();
     
     //CLIENT related
-    public Client addNewClientToDB(String clientName,float standardRate,String logoImgLocation,String email)
+    public Client addNewClientToDB(String clientName,float standardRate,String email)
     {
-        return BllM.addNewClientToDB(clientName, standardRate, logoImgLocation, email);
+        return BllM.addNewClientToDB(clientName, standardRate, email);
     }
     
     public ArrayList<Client> getAllClients()
@@ -46,9 +46,9 @@ public class UserViewModel {
     {
        return BllM.getSingleClientForAdminGraph(startTime, finishTime, clientId);
     }
-    public Client editClient (Client editedClient,String name,float standardRate,String logoImgLocation, String email)
+    public Client editClient (Client editedClient,String name,float standardRate,String email)
     {
-        return BllM.editClient(editedClient, name, standardRate, logoImgLocation, email);
+        return BllM.editClient(editedClient, name, standardRate, email);
     }
     
     public void deleteClient(Client clientToDelete)
