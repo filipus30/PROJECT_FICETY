@@ -1120,7 +1120,8 @@ export = 3;
     @FXML
     private void load_stat_tab(Event event) {
         if(cb_stat_task.getItems().isEmpty())
-        {  Project p = new Project(0,"All Projects",0,"",0,0,false,"");
+        {  
+        Project p = new Project(0,"All Projects",0,"",0,0,false);
         cb_stat_task.getItems().addAll(datax);
         cb_stat_task.getItems().add(0, p);
         cb_stat_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");}
