@@ -208,9 +208,9 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private TableColumn<Session, Integer> col_sesion_taskname;
     @FXML
-    private TableColumn<Session, LocalDateTime> col_sesion_start;
+    private TableColumn<Session, String> col_sesion_start;
     @FXML
-    private TableColumn<Session, LocalDateTime> col_sesion_stop;
+    private TableColumn<Session, String> col_sesion_stop;
     @FXML
     private TableColumn<Session, Integer> col_sesion_myhours;
     private ScrollPane Sp_last3;
@@ -647,7 +647,7 @@ export = 3;
             debug("TableView selected.");//DEBUG MESSAGE
             Task tmp = tbv_task.getSelectionModel().getSelectedItem();
             lu.setCurrentTask(tmp);
-            task_name.setText(lu.getCurrentTask().getTaskName());
+            //task_name.setText(lu.getCurrentTask().getTaskName());
             task_description.setText(lu.getCurrentTask().getDesc());
             for(int i = 0;i<datax.size();i++)
             {
@@ -658,6 +658,8 @@ export = 3;
 
         }
     }
+    
+     
     private void loadAll()
     {   tbv_task.setEditable(true);
 	// allows the individual cells to be selected
@@ -672,6 +674,13 @@ export = 3;
                     ).setTaskName(t.getNewValue())
                 );
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("desc"));
+        Col_task_description.setCellFactory(TextFieldTableCell.forTableColumn());
+        col_task_description.setOnEditCommit(
+                (TableColumn.CellEditEvent<Task, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setDesc(t.getNewValue())
+                );
         Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
         col_task_bill.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Task, CheckBox>, ObservableValue<CheckBox>>() {
@@ -704,8 +713,22 @@ export = 3;
         tbv_task.setItems(datatask);
         //datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
         col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
-        col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
-        col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
+        col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,String>("startTime"));
+        col_sesion_start.setCellFactory(TextFieldTableCell.forTableColumn());
+        col_sesion_start.setOnEditCommit(
+                (TableColumn.CellEditEvent<Session, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setStartTime(t.getNewValue())
+                );
+        col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,String>("finishTime"));
+        col_sesion_stop.setCellFactory(TextFieldTableCell.forTableColumn());
+        col_sesion_stop.setOnEditCommit(
+                (TableColumn.CellEditEvent<Session, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setFinishTime(t.getNewValue())
+                );
         col_sesion_myhours.setCellValueFactory(new PropertyValueFactory<Session,Integer>("hours"));
         tbv_session.setItems(datasession);
         cb_project.getSelectionModel().getSelectedItem();
@@ -869,8 +892,22 @@ export = 3;
             //ArrayList<Project> list = UVM.getAllProjects();
           //  ObservableList<Project> dataProject =  FXCollections.observableArrayList(list);
             col_project_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
+            col_project_name.setCellFactory(TextFieldTableCell.forTableColumn());
+            col_project_name.setOnEditCommit(
+                (TableColumn.CellEditEvent<Project, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setProjectName(t.getNewValue())
+                );
             col_project_client.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
             col_project_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
+            col_project_contact.setCellFactory(TextFieldTableCell.forTableColumn());
+            col_project_contact.setOnEditCommit(
+                (TableColumn.CellEditEvent<Project, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setPhoneNr(t.getNewValue())
+                );
             col_project_time.setCellValueFactory(new PropertyValueFactory<Project,String>("seconds"));
             col_project_payment.setCellValueFactory(new PropertyValueFactory<Project,String>("calPayment"));
             col_project_allocatedhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("allocatedHours"));
@@ -1084,8 +1121,8 @@ export = 3;
     private void load_stat_tab(Event event) {
         if(cb_stat_task.getItems().isEmpty())
         {  Project p = new Project(0,"All Projects",0,"",0,0,false,"");
-        choosedatauser.add(0,p);
-        cb_stat_task.getItems().addAll(choosedatauser);
+        cb_stat_task.getItems().addAll(datax);
+        cb_stat_task.getItems().add(0, p);
         cb_stat_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");}
         
      

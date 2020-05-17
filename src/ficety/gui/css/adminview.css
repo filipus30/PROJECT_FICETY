@@ -7,4 +7,8 @@
 }
     
     
-
+.bn_start_stop
+{
+    -fx-background-image: url('https://cdn.onlinewebfonts.com/svg/img_496684.png');
+     -fx-background-size: 80px;
+}
