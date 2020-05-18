@@ -1520,59 +1520,90 @@ export = 3;
 
     @FXML
     private void selectDataBarAdm(ActionEvent event) {
+        ComboBox<Client> cb_bar_adm_dataClient= new JFXComboBox<Client>();
+        ComboBox<Project> cb_bar_adm_dataProject = new JFXComboBox<Project>();
+        ComboBox<User> cb_bar_adm_dataUser = new JFXComboBox<User>();
+        
         if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Clients"))
         {
-            ComboBox<Client> cb_bar_adm_data2 = new JFXComboBox<Client>();
-            cb_bar_adm_data2.setLayoutY(290);
-            cb_bar_adm_data2.setLayoutX(370);
+            
+            
+            if(col_tab_anchor.getChildren().contains(cb_bar_adm_dataProject))
+            {
+              col_tab_anchor.getChildren().remove(cb_bar_adm_dataProject);
+            }    
+                
+            if(col_tab_anchor.getChildren().contains(cb_bar_adm_dataUser))
+            {
+                col_tab_anchor.getChildren().remove(cb_bar_adm_dataUser);
+            }
+            
+            cb_bar_adm_dataClient.setLayoutY(290);
+            cb_bar_adm_dataClient.setLayoutX(370);
             ArrayList<Client> clients = UVM.getAllClients();
             Client c = new Client(-1, "All Clients", 0, "");
             clients.add(0, c);
-            cb_bar_adm_data2.getItems().addAll(clients);
-            col_tab_anchor.getChildren().add(cb_bar_adm_data2);
-            cb_bar_adm_data2.setOnAction(e -> {
+            cb_bar_adm_dataClient.getItems().addAll(clients);
+            col_tab_anchor.getChildren().add(cb_bar_adm_dataClient);
+            cb_bar_adm_dataClient.setOnAction(e -> {
                 barAdmDataPicked = true;
                 if(barAdmTimePicked)
                 {
-                    Client tempclient = cb_bar_adm_data2.getSelectionModel().getSelectedItem();
+                    Client tempclient = cb_bar_adm_dataClient.getSelectionModel().getSelectedItem();
                     showAdmBarChart(tempclient);
                 }
             });
         }
         else if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Projects"))
         {
-            ComboBox<Project> cb_bar_adm_data2 = new JFXComboBox<Project>();
-            cb_bar_adm_data2.setLayoutY(290);
-            cb_bar_adm_data2.setLayoutX(370);
+            if(col_tab_anchor.getChildren().contains(cb_bar_adm_dataClient))
+            {
+              col_tab_anchor.getChildren().remove(cb_bar_adm_dataClient);
+            }    
+                
+            if(col_tab_anchor.getChildren().contains(cb_bar_adm_dataUser))
+            {
+                col_tab_anchor.getChildren().remove(cb_bar_adm_dataUser);
+            }
+            cb_bar_adm_dataProject.setLayoutY(290);
+            cb_bar_adm_dataProject.setLayoutX(370);
             ArrayList<Project> projects = UVM.getAllProjects();
             Project p = new Project(-1, "All Projects", 0, "", 0, 0, false);
             projects.add(0, p);
-            cb_bar_adm_data2.getItems().addAll(projects);
-            col_tab_anchor.getChildren().add(cb_bar_adm_data2);
-            cb_bar_adm_data2.setOnAction(e -> {
+            cb_bar_adm_dataProject.getItems().addAll(projects);
+            col_tab_anchor.getChildren().add(cb_bar_adm_dataProject);
+            cb_bar_adm_dataProject.setOnAction(e -> {
                 barAdmDataPicked = true;
                 if(barAdmTimePicked)
                 {
-                    Project tempproject = cb_bar_adm_data2.getSelectionModel().getSelectedItem();
+                    Project tempproject = cb_bar_adm_dataProject.getSelectionModel().getSelectedItem();
                     showAdmBarChart(tempproject);
                 }
             });
         }
         if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Users"))
         {
-            ComboBox<User> cb_bar_adm_data2 = new JFXComboBox<User>();
-            cb_bar_adm_data2.setLayoutY(290);
-            cb_bar_adm_data2.setLayoutX(370);
+            if(col_tab_anchor.getChildren().contains(cb_bar_adm_dataProject))
+            {
+              col_tab_anchor.getChildren().remove(cb_bar_adm_dataProject);
+            }    
+                
+            if(col_tab_anchor.getChildren().contains(cb_bar_adm_dataClient))
+            {
+                col_tab_anchor.getChildren().remove(cb_bar_adm_dataClient);
+            }
+            cb_bar_adm_dataUser.setLayoutY(290);
+            cb_bar_adm_dataUser.setLayoutX(370);
             ArrayList<User> users = UVM.getAllUsers();
             User u = new User(-1, "All Users", "", "", 0, false);
             users.add(0, u);
-            cb_bar_adm_data2.getItems().addAll(users);
-            col_tab_anchor.getChildren().add(cb_bar_adm_data2);
-            cb_bar_adm_data2.setOnAction(e -> {
+            cb_bar_adm_dataUser.getItems().addAll(users);
+            col_tab_anchor.getChildren().add(cb_bar_adm_dataUser);
+            cb_bar_adm_dataUser.setOnAction(e -> {
                 barAdmDataPicked = true;
                 if(barAdmTimePicked)
                 {
-                    User tempuser = cb_bar_adm_data2.getSelectionModel().getSelectedItem();
+                    User tempuser = cb_bar_adm_dataUser.getSelectionModel().getSelectedItem();
                     showAdmBarChart(tempuser);
                 }
             });

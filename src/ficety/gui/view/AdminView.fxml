@@ -131,8 +131,6 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </StackedBarChart>
-                        <JFXComboBox fx:id="cb_bar_usr_data" layoutX="48.0" layoutY="348.0" onAction="#selectDataBarUsr" promptText="Select Data" />
-                        <JFXComboBox fx:id="cb_bar_usr_time" layoutX="260.0" layoutY="348.0" onAction="#selectTimeBarUsr" promptText="Time period" />
                      </children>
                   </AnchorPane>
               </content>
@@ -306,5 +304,7 @@
       <JFXButton layoutX="70.0" layoutY="462.0" onAction="#show_admin" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Admin Panel" textFill="WHITE" />
       <TextField fx:id="search" layoutX="549.0" layoutY="410.0" prefHeight="27.0" prefWidth="96.0" promptText="Search" text="Export Name" AnchorPane.leftAnchor="549.0" AnchorPane.topAnchor="410.0" />
       <JFXButton fx:id="bn_exp" layoutX="677.0" layoutY="410.0" onAction="#export_table" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Export Table" textFill="WHITE" />
+      <JFXComboBox fx:id="cb_bar_usr_data" layoutX="297.0" layoutY="408.0" onAction="#selectDataBarUsr" promptText="Select Data" />
+      <JFXComboBox fx:id="cb_bar_usr_time" layoutX="417.0" layoutY="408.0" onAction="#selectTimeBarUsr" promptText="Time period" />
    </children>
 </AnchorPane>

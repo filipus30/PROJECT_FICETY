@@ -242,7 +242,8 @@ public class UserDBDAO {
                                     "ROW_NUMBER() OVER(PARTITION BY U.Id ORDER BY U.Name) AS Corr\n" +
                                 "FROM Users U\n" +
                                 "LEFT JOIN Sessions S ON U.Id = S.AssociatedUser\n" +
-                                "WHERE S.StartTime >= Convert(datetime2(7), '2020-01-30')\n" +
+                                "WHERE S.StartTime >= Convert(datetime2(7), ?)\n" +
+                                "AND S.StartTime <= Convert(datetime2(7), ?)\n" +
                         ") Part\n" +
                         "WHERE Corr = 1;";
           try(Connection con = dbc.getConnection())
