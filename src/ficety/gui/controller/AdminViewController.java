@@ -1894,11 +1894,11 @@ export = 3;
             debug("Time in seconds " + time);
             int hours = Math.round(time/3600);
             debug("After rounding: " + hours);
-            seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getTopBar(),hours));
+            seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getSubBar(),hours));
             adm_stack_bar.getData().add(seriesArray[j]);
         
         }
-        adm_stack_bar.setLegendVisible(true);
+        adm_stack_bar.setLegendVisible(false);
     }
 
     private String[] getAdminBarTimes() {

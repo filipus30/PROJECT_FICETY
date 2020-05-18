@@ -247,8 +247,8 @@ public class ClientDBDAO {
                                 "LEFT JOIN Sessions S ON T.Id = S.AssociatedTask\n" +
                                 "Join Users U ON S.AssociatedUser = U.Id\n" +
                                 "WHERE S.StartTime >= Convert(datetime2(7), ?)\n" +
-                                "WHERE S.StartTime <= Convert(datetime2(7), ?)\n" +
-                                "AND C.Id = 54\n" +
+                                "AND S.StartTime <= Convert(datetime2(7), ?)\n" +
+                                "AND C.Id = ? \n" +
                         ") Part\n" +
                         "WHERE Corr = 1;";
           try(Connection con = dbc.getConnection())
