@@ -156,7 +156,6 @@
                                     <TableColumn fx:id="col_client_standardRate" prefWidth="106.0" text="Standard rate" />
                                 </columns>
                               </TableView>
-                              <JFXButton layoutX="479.0" layoutY="290.0" onAction="#adm_edit_client" style="-fx-background-color: lightgrey lightgrey;" text="Edit" />
                               <JFXButton layoutX="428.0" layoutY="290.0" onAction="#adm_add_client" style="-fx-background-color: lightgrey lightgrey;" text="Add" />
                               <TextField fx:id="tf_adm_client_standardRate" layoutX="273.0" layoutY="290.0" prefHeight="27.0" prefWidth="117.0" text="Standard Rate" />
                               <TextField fx:id="tf_adm_client_email" layoutX="160.0" layoutY="290.0" prefHeight="27.0" prefWidth="81.0" text="Email" />
@@ -180,7 +179,6 @@
                                     <TableColumn fx:id="col_project_allocatedhours" prefWidth="131.0" text="Allocated hours" />
                                 </columns>
                               </TableView>
-                              <JFXButton layoutX="496.0" layoutY="286.0" onAction="#adm_edit_project" style="-fx-background-color: lightgrey lightgrey;" text="Edit" />
                               <TextField fx:id="tf_adm_project_hours" layoutX="265.0" layoutY="286.0" prefHeight="27.0" prefWidth="57.0" text="Hours" />
                               <JFXButton layoutX="444.0" layoutY="286.0" onAction="#adm_add_project" style="-fx-background-color: lightgrey lightgrey;" text="Add" />
                               <TextField fx:id="tf_adm_project_contact" layoutX="179.0" layoutY="286.0" prefHeight="27.0" prefWidth="63.0" text="Contact" />
@@ -213,7 +211,6 @@
                               <TextField fx:id="tf_adm_task_rate" layoutX="283.0" layoutY="286.0" prefHeight="27.0" prefWidth="44.0" text="Rate" />
                               <TextField fx:id="tf_adm_task_task_payment" layoutX="333.0" layoutY="286.0" prefHeight="27.0" prefWidth="35.0" text="\$$" />
                               <JFXButton layoutX="446.0" layoutY="286.0" onAction="#adm_add_task" style="-fx-background-color: lightgrey;" text="Add" />
-                              <JFXButton layoutX="493.0" layoutY="286.0" onAction="#adm_edit_task" style="-fx-background-color: lightgrey;" text="Edit" />
                               <TextField fx:id="tf_adm_task_task_description" layoutX="372.0" layoutY="286.0" prefHeight="27.0" prefWidth="57.0" text="Description" />
                            </children>
                         </AnchorPane>
@@ -234,7 +231,6 @@
                                     <TableColumn fx:id="col_user_password" prefWidth="138.0" text="Password" />
                                 </columns>
                               </TableView>
-                              <JFXButton layoutX="474.0" layoutY="286.0" onAction="#adm_edit_user" style="-fx-background-color: lightgrey;" text="Edit" />
                               <JFXButton layoutX="414.0" layoutY="286.0" onAction="#adm_add_user" style="-fx-background-color: lightgrey;" text="Add" />
                               <TextField fx:id="tf_adm_user_email" layoutX="320.0" layoutY="286.0" prefHeight="27.0" prefWidth="81.0" text="Email" />
                               <TextField fx:id="tf_adm_user_payperh" layoutX="79.0" layoutY="286.0" prefHeight="27.0" prefWidth="75.0" text="\$ per H" />

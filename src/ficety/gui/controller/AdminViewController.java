@@ -73,6 +73,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.StringConverter;
 import javax.swing.JFrame;
 
 
@@ -424,9 +425,9 @@ public class AdminViewController extends JFrame implements Initializable {
             else{
                 Stage stage = (Stage) bn_expandview.getScene().getWindow();
                 stage.setMaxHeight(550); //prev 500
-                stage.setMaxWidth(260); //prev 240
+                stage.setMaxWidth(240); //prev 240
                 stage.setMinHeight(480);
-                stage.setMinWidth(255);
+                stage.setMinWidth(235);
                 MaxWidth = 260;
               //  Sp_last3.setVisible(true
                ap.setVisible(true);
@@ -443,9 +444,9 @@ public class AdminViewController extends JFrame implements Initializable {
                 ap.setVisible(true);
                 debug("Size toggle true");
                 Stage stage = (Stage) ap.getScene().getWindow();
-                stage.setMaxHeight(550); //prev 500
+                stage.setMaxHeight(530); //prev 500
                 stage.setMaxWidth(800);
-                stage.setMinHeight(530); //prev 500
+                stage.setMinHeight(510); //prev 500
                 stage.setMinWidth(800);
                 tb_toggle.setLayoutY(409);
                 bn_start_stop.setLayoutY(343);
@@ -454,6 +455,8 @@ public class AdminViewController extends JFrame implements Initializable {
                 label_task.setLayoutY(356);
                 label_today.setLayoutY(383);
                 scroll.setVisible(true);
+                admin_tab.setVisible(false);
+                admpanel = false;
 
             }
         else{
@@ -738,6 +741,13 @@ export = 3;
         Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
+         Col_pj_name.setCellFactory(TextFieldTableCell.forTableColumn());
+       Col_pj_name.setOnEditCommit(
+                (TableColumn.CellEditEvent<Project, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setProjectName(t.getNewValue())
+                );
         Tbv_pj.setItems(datapj);
         lb_loginuser.setText(lu.getName());
 
@@ -855,9 +865,9 @@ export = 3;
         else
         {
              Stage stage = (Stage) bn_expandview.getScene().getWindow();
-        stage.setMaxHeight(530);//prev 500
+        stage.setMaxHeight(510);//prev 500
         stage.setMaxWidth(800);
-        stage.setMinHeight(520); //prev 500
+        stage.setMinHeight(500); //prev 500
         stage.setMinWidth(800);
         admin_tab.setVisible(false);
         admpanel = false;
@@ -872,9 +882,42 @@ export = 3;
         {
 
             col_client_name.setCellValueFactory(new PropertyValueFactory<Client,String>("clientName"));
+             col_client_name.setCellFactory(TextFieldTableCell.forTableColumn());
+        col_client_name.setOnEditCommit(
+                (TableColumn.CellEditEvent<Client, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setClientName(t.getNewValue())
+                );
             col_client_email.setCellValueFactory(new PropertyValueFactory<Client,String>("email"));
+            col_client_email.setCellFactory(TextFieldTableCell.forTableColumn());
+        col_client_email.setOnEditCommit(
+                (TableColumn.CellEditEvent<Client, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setEmail(t.getNewValue())
+                );
             col_client_projectNr.setCellValueFactory(new PropertyValueFactory<Client,Integer>("projectNr"));
+           
             col_client_standardRate.setCellValueFactory(new PropertyValueFactory<Client,Float>("standardRate"));
+            col_client_standardRate.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Float>() {
+        @Override
+        public String toString(Float t) {
+            return t.toString();
+        }
+
+        @Override
+        public Float fromString(String string) {
+            return Float.parseFloat(string);
+        }
+    }));
+           
+        col_client_standardRate.setOnEditCommit(
+                (TableColumn.CellEditEvent<Client, Float> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setStandardRate(t.getNewValue())
+                );
             admin_clients.setItems(dataClient);
             loadCli = true;
         }
