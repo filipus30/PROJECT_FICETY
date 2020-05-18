@@ -138,7 +138,11 @@ public class AdminViewController extends JFrame implements Initializable {
     private ScrollPane scroll;
 private ObservableList<Client> admdataClient;
     @FXML
-    private TableColumn<?, ?> col_task_bill1;
+    private TableColumn col_task_bill1;
+    @FXML
+    private TableColumn col_pj_closed;
+    @FXML
+    private TableColumn col_pj_closed1;
 
     public AdminViewController()
     {
@@ -753,6 +757,33 @@ export = 3;
                             t.getTablePosition().getRow())
                     ).setProjectName(t.getNewValue())
                 );
+        col_pj_closed.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Project, CheckBox>, ObservableValue<CheckBox>>() {
+
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<Project, CheckBox> arg0) {
+                Project user = arg0.getValue();
+
+                CheckBox checkBox = new CheckBox();
+
+                checkBox.selectedProperty().setValue(user.getIsClosed());
+
+
+
+                checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    public void changed(ObservableValue<? extends Boolean> ov,
+                            Boolean old_val, Boolean new_val) {
+
+                        user.setIsClosed(new_val);
+
+                    }
+                });
+
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+
+            }
+
+        });
         Tbv_pj.setItems(datapj);
         lb_loginuser.setText(lu.getName());
 
@@ -961,6 +992,33 @@ export = 3;
             col_project_allocatedhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("allocatedHours"));
              ArrayList<Project> list = UVM.getAllProjects();
              ObservableList<Project> dataProject =  FXCollections.observableArrayList(list);
+             col_pj_closed1.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Project, CheckBox>, ObservableValue<CheckBox>>() {
+
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<Project, CheckBox> arg0) {
+                Project user = arg0.getValue();
+
+                CheckBox checkBox = new CheckBox();
+
+                checkBox.selectedProperty().setValue(user.getIsClosed());
+
+
+
+                checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    public void changed(ObservableValue<? extends Boolean> ov,
+                            Boolean old_val, Boolean new_val) {
+
+                        user.setIsClosed(new_val);
+
+                    }
+                });
+
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+
+            }
+
+        });
             admin_projects.setItems(dataProject);
             loadProject= true;
         }
@@ -984,6 +1042,33 @@ export = 3;
             col_task_time.setCellValueFactory(new PropertyValueFactory<Task, String>("hours"));
             col_task_projectRate.setCellValueFactory(new PropertyValueFactory<Task,String>("projectPayment"));
             col_task_description.setCellValueFactory(new PropertyValueFactory<Task,String>("desc"));
+             col_task_bill1.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Task, CheckBox>, ObservableValue<CheckBox>>() {
+
+            @Override
+            public ObservableValue<CheckBox> call(
+                    TableColumn.CellDataFeatures<Task, CheckBox> arg0) {
+                Task user = arg0.getValue();
+
+                CheckBox checkBox = new CheckBox();
+
+                checkBox.selectedProperty().setValue(user.getBillable());
+
+
+
+                checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                    public void changed(ObservableValue<? extends Boolean> ov,
+                            Boolean old_val, Boolean new_val) {
+
+                        user.setBillable(new_val);
+
+                    }
+                });
+
+                return new SimpleObjectProperty<CheckBox>(checkBox);
+
+            }
+
+        });
             admin_tasks.setItems(dataTasks);
             loadAdminTasks= true;
         }

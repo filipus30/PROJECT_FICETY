@@ -55,10 +55,11 @@
                      <children>
                         <TableView fx:id="Tbv_pj" editable="true" prefHeight="375.0" prefWidth="519.0">
                           <columns>
-                            <TableColumn fx:id="Col_pj_name" prefWidth="122.0" text="Name" />
-                            <TableColumn fx:id="Col_pj_clint" prefWidth="123.0" text="Client" />
-                              <TableColumn fx:id="Col_pj_contact" prefWidth="137.0" text="Contact info" />
-                              <TableColumn fx:id="Col_pj_myhours" prefWidth="134.0" text="Time spent" />
+                            <TableColumn fx:id="Col_pj_name" prefWidth="102.0" text="Name" />
+                            <TableColumn fx:id="Col_pj_clint" prefWidth="95.0" text="Client" />
+                              <TableColumn fx:id="Col_pj_contact" prefWidth="114.0" text="Contact info" />
+                              <TableColumn fx:id="Col_pj_myhours" prefWidth="148.0" text="Time spent" />
+                              <TableColumn fx:id="col_pj_closed" prefWidth="61.0" text="Closed" />
                           </columns>
                         </TableView>
                      </children>
@@ -151,9 +152,9 @@
                               <TableView fx:id="admin_clients" editable="true" layoutY="-3.0" onMouseClicked="#adm_choose_client" prefHeight="290.0" prefWidth="552.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_client_name" prefWidth="75.0" text="Name" />
-                                  <TableColumn fx:id="col_client_email" prefWidth="75.0" text="Email" />
-                                    <TableColumn fx:id="col_client_projectNr" prefWidth="96.0" text="Nr of projects" />
-                                    <TableColumn fx:id="col_client_standardRate" prefWidth="106.0" text="Standard rate" />
+                                  <TableColumn fx:id="col_client_email" prefWidth="128.0" text="Email" />
+                                    <TableColumn fx:id="col_client_projectNr" prefWidth="125.0" text="Nr of projects" />
+                                    <TableColumn fx:id="col_client_standardRate" prefWidth="223.0" text="Standard rate" />
                                 </columns>
                               </TableView>
                               <JFXButton layoutX="428.0" layoutY="290.0" onAction="#adm_add_client" style="-fx-background-color: lightgrey lightgrey;" text="Add" />
@@ -176,7 +177,8 @@
                                     <TableColumn fx:id="col_project_contact" prefWidth="101.0" text="Contact Info" />
                                     <TableColumn fx:id="col_project_time" prefWidth="86.0" text="Time spent" />
                                     <TableColumn fx:id="col_project_payment" prefWidth="83.0" text="Payment" />
-                                    <TableColumn fx:id="col_project_allocatedhours" prefWidth="131.0" text="Allocated hours" />
+                                    <TableColumn fx:id="col_project_allocatedhours" prefWidth="77.0" text="Allocated hours" />
+                                    <TableColumn fx:id="col_pj_closed1" prefWidth="61.0" text="Closed" />
                                 </columns>
                               </TableView>
                               <TextField fx:id="tf_adm_project_hours" layoutX="265.0" layoutY="286.0" prefHeight="27.0" prefWidth="57.0" text="Hours" />
