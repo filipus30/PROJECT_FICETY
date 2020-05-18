@@ -748,6 +748,12 @@ export = 3;
         ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
         Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
+        col_client_standardRate.setOnEditCommit(
+                (TableColumn.CellEditEvent<Client, Float> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setStandardRate(t.getNewValue())
+                );
         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
          Col_pj_name.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -1300,7 +1306,8 @@ export = 3;
  
         for(int i = 0;i<list.size();i++)
         { 
-            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),list.get(i).getY()));
+             int hours = Math.round(list.get(i).getY()/3600);
+            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),hours));
         }
         stat_adm_graph.getData().add(series);
          stat_adm_graph.setLegendVisible(false);
@@ -1314,7 +1321,8 @@ export = 3;
  
         for(int i = 0;i<list.size();i++)
         { 
-            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),list.get(i).getY()));
+             int hours = Math.round(list.get(i).getY()/3600);
+            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),hours));
         }
         stat_adm_graph.getData().add(series);
          stat_adm_graph.setLegendVisible(false);
@@ -1329,7 +1337,8 @@ export = 3;
  
         for(int i = 0;i<list.size();i++)
         { 
-            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),list.get(i).getY()));
+             int hours = Math.round(list.get(i).getY()/3600);
+            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),hours));
         }
         stat_graph.getData().add(series);
          stat_graph.setLegendVisible(false);
