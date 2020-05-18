@@ -199,10 +199,11 @@
                                   <TableColumn fx:id="col_task_name" prefWidth="75.0" text="Task name" />
                                   <TableColumn fx:id="col_task_project" prefWidth="75.0" text="Project" />
                                     <TableColumn fx:id="col_task_user" prefWidth="59.0" text="User" />
-                                    <TableColumn fx:id="col_task_userRate" prefWidth="81.0" text="User Rate" />
-                                    <TableColumn fx:id="col_task_time" prefWidth="79.0" text="Total hours" />
-                                    <TableColumn fx:id="col_task_projectRate" prefWidth="99.0" text="Task payment" />
-                                    <TableColumn fx:id="col_task_description" prefWidth="83.0" text="Description" />
+                                    <TableColumn fx:id="col_task_userRate" prefWidth="46.0" text="Rate" />
+                                    <TableColumn fx:id="col_task_time" prefWidth="84.0" text="Total hours" />
+                                    <TableColumn fx:id="col_task_projectRate" prefWidth="94.0" text="Task payment" />
+                                    <TableColumn fx:id="col_task_description" prefWidth="77.0" text="Description" />
+                                    <TableColumn fx:id="col_task_bill1" prefWidth="41.0" text="Billable" />
                                 </columns>
                               </TableView>
                               <TextField fx:id="tf_adm_task_name" layoutX="9.0" layoutY="286.0" prefHeight="27.0" prefWidth="81.0" text="Task name" />

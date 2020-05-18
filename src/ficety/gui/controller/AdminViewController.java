@@ -136,7 +136,9 @@ public class AdminViewController extends JFrame implements Initializable {
     private AnchorPane scrollpane;
     @FXML
     private ScrollPane scroll;
-
+private ObservableList<Client> admdataClient;
+    @FXML
+    private TableColumn<?, ?> col_task_bill1;
 
     public AdminViewController()
     {
@@ -151,6 +153,7 @@ public class AdminViewController extends JFrame implements Initializable {
       dataUsers =  FXCollections.observableArrayList(userlist);
       datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
       choosedatauser =  FXCollections.observableArrayList(UVM.getAllProjects());
+      admdataClient =  FXCollections.observableArrayList(UVM.getAllClients());
     }
     @FXML
     private TextField tf_newtask;
@@ -376,6 +379,7 @@ public class AdminViewController extends JFrame implements Initializable {
     }
     public void loadButtons()
     {
+  
         ObservableList<Project> last3data = FXCollections.observableArrayList(UVM.get3RecentProjects());
        loadAll();
       
@@ -390,7 +394,7 @@ public class AdminViewController extends JFrame implements Initializable {
                   c.setPromptText("Select Task");
                   c.setOnAction((e) -> {
                    Task tmp = c.getSelectionModel().getSelectedItem();
-               //    lu.setCurrentTask(tmp);
+                  lu.setCurrentTask(tmp);
                       System.out.println(tmp.getTaskName());
         });
                   Pane p = new Pane();
@@ -499,7 +503,8 @@ public class AdminViewController extends JFrame implements Initializable {
         Project associatedProject = cb_project.getSelectionModel().getSelectedItem();
         String taskName = tf_newtask.getText();
         boolean taskBillable = true;
-        UVM.addNewTaskAndSetItRunning(taskName, taskBillable, associatedProject);
+        Task c = UVM.addNewTaskAndSetItRunning(taskName, taskBillable, associatedProject).getKey();
+        tasklist.add(c);
         if(isTimerRunning)
         {
             timer.stop();
@@ -1044,7 +1049,6 @@ export = 3;
         tf_adm_client_standardRate.setText(s);
     }
 
-    @FXML
     private void adm_edit_client(ActionEvent event) {
         UVM.editClient(admin_clients.getSelectionModel().getSelectedItem(),tf_adm_client_name.getText(),Float.valueOf(tf_adm_client_standardRate.getText()),tf_adm_client_email.getText());
     }
@@ -1053,6 +1057,7 @@ export = 3;
     private void adm_add_client(ActionEvent event) {
        Client c =  UVM.addNewClientToDB(tf_adm_client_name.getText(),Float.valueOf(tf_adm_client_standardRate.getText()),tf_adm_client_email.getText());
          dataClient.add(c);
+         admdataClient.add(c);
     }
 
     @FXML
@@ -1061,8 +1066,7 @@ export = 3;
     tf_adm_project_hours.setText(admin_projects.getSelectionModel().getSelectedItem().getSeconds());
     tf_adm_project_name.setText(admin_projects.getSelectionModel().getSelectedItem().getProjectName());
     tf_adm_project_payment.setText(admin_projects.getSelectionModel().getSelectedItem().getCalPayment());
-     ArrayList<Client> list = UVM.getAllClients();
-     ObservableList<Client> admdataClient =  FXCollections.observableArrayList(list);
+    
             cb_adm_project_client.getItems().clear();
     cb_adm_project_client.getItems().addAll(admdataClient);
     for(int i = 0;i<admdataClient.size();i++)
@@ -1073,7 +1077,6 @@ export = 3;
             }
     }
 
-    @FXML
     private void adm_edit_project(ActionEvent event) {
         UVM.editProject(admin_projects.getSelectionModel().getSelectedItem(),tf_adm_project_name.getText(),cb_adm_project_client.getSelectionModel().getSelectedItem().getId(),Float.valueOf(tf_adm_project_payment.getText()),Integer.valueOf(tf_adm_project_hours.getText()),false,tf_adm_project_contact.getText());
     }
@@ -1114,7 +1117,6 @@ export = 3;
 
     }
 
-    @FXML
     private void adm_edit_task(ActionEvent event) {
         UVM.editTask(admin_tasks.getSelectionModel().getSelectedItem(),tf_adm_task_name.getText(),tf_adm_task_task_description.getText(),admin_tasks.getSelectionModel().getSelectedItem().getAssociatedProjectID());
     }
@@ -1135,7 +1137,6 @@ export = 3;
 
     }
 
-    @FXML
     private void adm_edit_user(ActionEvent event) {
         UVM.editUser(admin_users.getSelectionModel().getSelectedItem(),tf_adm_user_name.getText(),tf_adm_user_email.getText(),tf_adm_user_password.getText(),Float.valueOf(tf_adm_user_payperh.getText()), false);
 
@@ -1166,8 +1167,10 @@ export = 3;
     private void load_stat_tab(Event event) {
         if(cb_stat_task.getItems().isEmpty())
         {  
+             List<Project> list = UVM.getAllProjectsForUserTab();
+        ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
         Project p = new Project(0,"All Projects",0,"",0,0,false);
-        cb_stat_task.getItems().addAll(datax);
+        cb_stat_task.getItems().addAll(datapj);
         cb_stat_task.getItems().add(0, p);
         cb_stat_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");}
         
@@ -1197,7 +1200,8 @@ export = 3;
  
         for(int i = 0;i<list.size();i++)
         { 
-            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),list.get(i).getY()));
+            int hours = Math.round(list.get(i).getY()/3600);
+            series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),hours));
         }
         stat_graph.getData().add(series);
          stat_graph.setLegendVisible(false);
