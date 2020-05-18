@@ -1263,9 +1263,9 @@ export = 3;
     private void load_admin_column(Event event) {
         if(cb_bar_adm_data.getItems().isEmpty())
         {  
-            Project p = new Project(-1,"All Projects",0,"",0,0,false);
+            /*Project p = new Project(-1,"All Projects",0,"",0,0,false);
             ArrayList<Project> projectsAdmBar = UVM.getAllProjects();
-            projectsAdmBar.add(0,p);
+            projectsAdmBar.add(0,p); */
             cb_bar_adm_data.getItems().addAll("Clients", "Projects", "Users");
             cb_bar_adm_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");
         }
@@ -1523,6 +1523,8 @@ export = 3;
         if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Clients"))
         {
             ComboBox<Client> cb_bar_adm_data2 = new JFXComboBox<Client>();
+            cb_bar_adm_data2.setLayoutY(290);
+            cb_bar_adm_data2.setLayoutX(370);
             ArrayList<Client> clients = UVM.getAllClients();
             Client c = new Client(-1, "All Clients", 0, "");
             clients.add(0, c);
@@ -1540,6 +1542,8 @@ export = 3;
         else if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Projects"))
         {
             ComboBox<Project> cb_bar_adm_data2 = new JFXComboBox<Project>();
+            cb_bar_adm_data2.setLayoutY(290);
+            cb_bar_adm_data2.setLayoutX(370);
             ArrayList<Project> projects = UVM.getAllProjects();
             Project p = new Project(-1, "All Projects", 0, "", 0, 0, false);
             projects.add(0, p);
@@ -1557,6 +1561,8 @@ export = 3;
         if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Users"))
         {
             ComboBox<User> cb_bar_adm_data2 = new JFXComboBox<User>();
+            cb_bar_adm_data2.setLayoutY(290);
+            cb_bar_adm_data2.setLayoutX(370);
             ArrayList<User> users = UVM.getAllUsers();
             User u = new User(-1, "All Users", "", "", 0, false);
             users.add(0, u);

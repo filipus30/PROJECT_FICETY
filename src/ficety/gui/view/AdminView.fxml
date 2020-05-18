@@ -253,8 +253,8 @@
                                   <NumberAxis side="LEFT" />
                                 </yAxis>
                               </StackedBarChart>
-                              <JFXComboBox fx:id="cb_bar_adm_data" layoutX="79.0" layoutY="303.0" onAction="#selectDataBarAdm" promptText="Select Data Type" />
-                              <JFXComboBox fx:id="cb_bar_adm_time" layoutX="366.0" layoutY="303.0" onAction="#selectTimeBarAdm" promptText="Time period" />
+                              <JFXComboBox fx:id="cb_bar_adm_data" layoutX="204.0" layoutY="291.0" onAction="#selectDataBarAdm" promptText="Select Data Type" />
+                              <JFXComboBox fx:id="cb_bar_adm_time" layoutX="52.0" layoutY="291.0" onAction="#selectTimeBarAdm" promptText="Time period" />
                            </children>
                         </AnchorPane>
                     </content>
