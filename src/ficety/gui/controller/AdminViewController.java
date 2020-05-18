@@ -954,7 +954,9 @@ export = 3;
             col_project_time.setCellValueFactory(new PropertyValueFactory<Project,String>("seconds"));
             col_project_payment.setCellValueFactory(new PropertyValueFactory<Project,String>("calPayment"));
             col_project_allocatedhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("allocatedHours"));
-            admin_projects.setItems(datax);
+             ArrayList<Project> list = UVM.getAllProjects();
+             ObservableList<Project> dataProject =  FXCollections.observableArrayList(list);
+            admin_projects.setItems(dataProject);
             loadProject= true;
         }
         else
