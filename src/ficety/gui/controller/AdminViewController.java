@@ -1283,7 +1283,29 @@ export = 3;
             series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),hours));
         }
         stat_graph.getData().add(series);
-         stat_graph.setLegendVisible(false);
+        for(Series<String, Integer> seriess : stat_graph.getData())
+           {
+               for(XYChart.Data<String, Integer> data : seriess.getData())
+               {
+                   time = 0;
+                for(Coordinates c : list)
+                {
+                    if(c.getX() == Integer.parseInt(data.getXValue()))
+                    {
+                        time = c.getY();
+                    }
+                }
+                Tooltip tooltip = new Tooltip();
+                float wholeHours = time/3600;
+                debug("" + wholeHours);
+                float quarterHours = (float) (Math.round(((time%3600)/60)/15)*0.25);
+                debug("" + quarterHours);
+                float totalTime = wholeHours + quarterHours;
+                tooltip.setText("Date: " + data.getXValue() + "; " + totalTime + " hours" );
+                Tooltip.install(data.getNode(), tooltip);
+               }
+           }
+        stat_graph.setLegendVisible(false);
     }
 
     private void showSelectedProjectForGraph(String startTime,String finishTime,int projectId)
@@ -1298,22 +1320,67 @@ export = 3;
             series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),hours));
         }
         stat_graph.getData().add(series);
-         stat_graph.setLegendVisible(false);
+        for(Series<String, Integer> seriess : stat_graph.getData())
+           {
+               for(XYChart.Data<String, Integer> data : seriess.getData())
+               {
+                   time = 0;
+                for(Coordinates c : list)
+                {
+                    if(c.getX() == Integer.parseInt(data.getXValue()))
+                    {
+                        time = c.getY();
+                    }
+                }
+                Tooltip tooltip = new Tooltip();
+                float wholeHours = time/3600;
+                debug("" + wholeHours);
+                float quarterHours = (float) (Math.round(((time%3600)/60)/15)*0.25);
+                debug("" + quarterHours);
+                float totalTime = wholeHours + quarterHours;
+                tooltip.setText("Date: " + data.getXValue() + "; " + totalTime + " hours" );
+                Tooltip.install(data.getNode(), tooltip);
+               }
+           }
+        stat_graph.setLegendVisible(false);
     }
     
     private void showSingleClientForAdmGraph(String startTime,String finishTime,int clientId)
     {
-         ArrayList<Coordinates> list = UVM.getSingleClientForAdminGraph(startTime,finishTime,clientId);
+        ArrayList<Coordinates> list = UVM.getSingleClientForAdminGraph(startTime,finishTime,clientId);
         XYChart.Series series = new XYChart.Series();
-       stat_adm_graph.setAnimated(false);
+        stat_adm_graph.setAnimated(false);
  
         for(int i = 0;i<list.size();i++)
         { 
-             int hours = Math.round(list.get(i).getY()/3600);
+            int hours = Math.round(list.get(i).getY()/3600);
             series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),hours));
         }
         stat_adm_graph.getData().add(series);
-         stat_adm_graph.setLegendVisible(false);
+        for(Series<String, Integer> seriess : stat_adm_graph.getData())
+           {
+               for(XYChart.Data<String, Integer> data : seriess.getData())
+               {
+                   time = 0;
+                for(Coordinates c : list)
+                {
+                    if(c.getX() == Integer.parseInt(data.getXValue()))
+                    {
+                        time = c.getY();
+                    }
+                }
+                Tooltip tooltip = new Tooltip();
+                float wholeHours = time/3600;
+                debug("" + wholeHours);
+                float quarterHours = (float) (Math.round(((time%3600)/60)/15)*0.25);
+                debug("" + quarterHours);
+                float totalTime = wholeHours + quarterHours;
+                tooltip.setText("Date: " + data.getXValue() + "; " + totalTime + " hours" );
+                Tooltip.install(data.getNode(), tooltip);
+               }
+           }
+        
+        stat_adm_graph.setLegendVisible(false);
     }
     
     private void showAllClientsForAdmGraph(String startTime,String finishTime)
@@ -1321,13 +1388,36 @@ export = 3;
            ArrayList<Coordinates> list = UVM.getAllClientsForAdminGraph(startTime,finishTime);
         XYChart.Series series = new XYChart.Series();
        stat_adm_graph.setAnimated(false);
- 
+           
         for(int i = 0;i<list.size();i++)
         { 
              int hours = Math.round(list.get(i).getY()/3600);
             series.getData().add(new XYChart.Data<String,Integer>(Integer.toString(list.get(i).getX()),hours));
+            
         }
         stat_adm_graph.getData().add(series);
+        for(Series<String, Integer> seriess : stat_adm_graph.getData())
+           {
+               for(XYChart.Data<String, Integer> data : seriess.getData())
+               {
+                   time = 0;
+                for(Coordinates c : list)
+                {
+                    if(c.getX() == Integer.parseInt(data.getXValue()))
+                    {
+                        time = c.getY();
+                    }
+                }
+                Tooltip tooltip = new Tooltip();
+                float wholeHours = time/3600;
+                debug("" + wholeHours);
+                float quarterHours = (float) (Math.round(((time%3600)/60)/15)*0.25);
+                debug("" + quarterHours);
+                float totalTime = wholeHours + quarterHours;
+                tooltip.setText("Date: " + data.getXValue() + "; " + totalTime + " hours" );
+                Tooltip.install(data.getNode(), tooltip);
+               }
+           }
          stat_adm_graph.setLegendVisible(false);
     }
     
