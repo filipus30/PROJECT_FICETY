@@ -223,7 +223,7 @@ private ObservableList<Task> datatask;
     @FXML
     private Tab tab_sesion;
     @FXML
-    private TableColumn<Session, Integer> col_sesion_taskname;
+    private TableColumn<Session, Task> col_sesion_taskname;
     @FXML
     private TableColumn<Session, String> col_sesion_start;
     @FXML
@@ -753,7 +753,16 @@ export = 3;
         });
         tbv_task.setItems(datatask);
         //datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
-        col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
+        col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<>("taskName"));
+       col_sesion_taskname.setCellFactory(ComboBoxTableCell.forTableColumn(dataTasks));
+        col_sesion_taskname.setOnEditCommit((TableColumn.CellEditEvent<Session,Task> e) -> 
+        {
+         Task t = e.getNewValue();
+         Session s = e.getRowValue();
+         int id = t.getTaskID();
+         s.setAssociatedTaskID(id);
+         
+    });
         col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,String>("startTime"));
         col_sesion_start.setCellFactory(TextFieldTableCell.forTableColumn());
         col_sesion_start.setOnEditCommit(
@@ -2165,13 +2174,19 @@ export = 3;
 
     @FXML
     private void update_selected(ActionEvent event) {
+        Task t = null;
         Project pj = null;
+        Session s = null;
          if(export ==3 )
          {  pj = Tbv_pj.getSelectionModel().getSelectedItem();
        UVM.editProject(pj,pj.getProjectName(),pj.getAssociatedClientID(),pj.getProjectRate(),pj.getAllocatedHours(),pj.getIsClosed(),pj.getPhoneNr());}
-        else if(export ==2)
-        UVM.export(tbv_session,search.getText());
-        else if(export == 1)
-        UVM.export(tbv_task,search.getText());
+        else if(export ==1)
+        {
+        t = tbv_task.getSelectionModel().getSelectedItem();
+        UVM.editTask(t,t.getTaskName(),t.getDesc(),t.getAssociatedProjectID());
+         }
+        else if(export == 2)
+        s = tbv_session.getSelectionModel().getSelectedItem();
+         UVM.editSession(s,s.getStartTime(),s.getFinishTime(),s.getAssociatedTaskID());
     }
 }
