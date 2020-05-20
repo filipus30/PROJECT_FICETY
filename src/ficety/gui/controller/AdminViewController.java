@@ -45,6 +45,8 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -57,6 +59,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.Tooltip;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
@@ -433,9 +436,9 @@ private ObservableList<Client> admdataClient;
             else{
                 Stage stage = (Stage) bn_expandview.getScene().getWindow();
                 stage.setMaxHeight(550); //prev 500
-                stage.setMaxWidth(240); //prev 240
+                stage.setMaxWidth(260); //prev 240
                 stage.setMinHeight(480);
-                stage.setMinWidth(235);
+                stage.setMinWidth(255);
                 MaxWidth = 260;
               //  Sp_last3.setVisible(true
                ap.setVisible(true);
@@ -452,10 +455,10 @@ private ObservableList<Client> admdataClient;
                 ap.setVisible(true);
                 debug("Size toggle true");
                 Stage stage = (Stage) ap.getScene().getWindow();
-                stage.setMaxHeight(530); //prev 500
-                stage.setMaxWidth(800);
-                stage.setMinHeight(510); //prev 500
-                stage.setMinWidth(800);
+                stage.setMaxHeight(550); //prev 500
+                stage.setMaxWidth(820);
+                stage.setMinHeight(530); //prev 500
+                stage.setMinWidth(820);
                 tb_toggle.setLayoutY(409);
                 bn_start_stop.setLayoutY(343);
                 lb_tasktime.setLayoutY(342);
@@ -475,9 +478,9 @@ private ObservableList<Client> admdataClient;
 
                 debug("Size toggle false");
                 Stage stage = (Stage) ap.getScene().getWindow();
-                stage.setMaxHeight(180); //prev 208
+                stage.setMaxHeight(200); //prev 208
                 stage.setMaxWidth(245); //prev 340
-                stage.setMinHeight(180);
+                stage.setMinHeight(200);
                 stage.setMinWidth(245);
                  tb_toggle.setLayoutY(80); // - 20 px all the way down
                  bn_start_stop.setLayoutY(105);
@@ -1585,9 +1588,20 @@ export = 3;
             debug("After rounding: " + hours);
             seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getTopBar(),hours));
             stat_bar.getData().add(seriesArray[j]);
+            for(Data<String, Integer> data : seriesArray[j].getData())
+           {
+               Tooltip tooltip = new Tooltip();
+               float wholeHours = time/3600;
+               debug("" + wholeHours);
+               float quarterHours = (float) (Math.round(((time%3600)/60)/15)*0.25);
+               debug("" + quarterHours);
+               float totalTime = wholeHours + quarterHours;
+               tooltip.setText(list.get(j).getSubBar() + ": " + totalTime + " hours");
+               Tooltip.install(data.getNode(), tooltip);
+           }
         
         }
-        stat_bar.setLegendVisible(true);
+        stat_bar.setLegendVisible(false);
     }
     
     
@@ -1611,6 +1625,17 @@ export = 3;
             debug("After rounding: " + hours);
             seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getSubBar(),hours));
             stat_bar.getData().add(seriesArray[j]);
+            for(Data<String, Integer> data : seriesArray[j].getData())
+           {
+               Tooltip tooltip = new Tooltip();
+               float wholeHours = time/3600;
+               debug("" + wholeHours);
+               float quarterHours = (float) (Math.round(((time%3600)/60)/15)*0.25);
+               debug("" + quarterHours);
+               float totalTime = wholeHours + quarterHours;
+               tooltip.setText(list.get(j).getSubBar() + ": " + totalTime + " hours");
+               Tooltip.install(data.getNode(), tooltip);
+           }
         
         }
         stat_bar.setLegendVisible(false);
@@ -1787,9 +1812,20 @@ export = 3;
             debug("After rounding: " + hours);
             seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getTopBar(),hours));
             adm_stack_bar.getData().add(seriesArray[j]);
+            for(Data<String, Integer> data : seriesArray[j].getData())
+           {
+               Tooltip tooltip = new Tooltip();
+               float wholeHours = time/3600;
+               debug("" + wholeHours);
+               float quarterHours = (float) (Math.round(((time%3600)/60)/15)*0.25);
+               debug("" + quarterHours);
+               float totalTime = wholeHours + quarterHours;
+               tooltip.setText(list.get(j).getSubBar() + ": " + totalTime + " hours");
+               Tooltip.install(data.getNode(), tooltip);
+           }
         
         }
-        adm_stack_bar.setLegendVisible(true);
+        adm_stack_bar.setLegendVisible(false);
     }
 
     private void showOneProjectBarAdm(Project p, String startTime, String finishTime) {
@@ -1810,6 +1846,17 @@ export = 3;
             debug("After rounding: " + hours);
             seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getSubBar(),hours));
             adm_stack_bar.getData().add(seriesArray[j]);
+            for(Data<String, Integer> data : seriesArray[j].getData())
+           {
+               Tooltip tooltip = new Tooltip();
+               float wholeHours = time/3600;
+               debug("" + wholeHours);
+               float quarterHours = (float) (Math.round(((time%3600)/60)/15)*0.25);
+               debug("" + quarterHours);
+               float totalTime = wholeHours + quarterHours;
+               tooltip.setText(totalTime + " hours");
+               Tooltip.install(data.getNode(), tooltip);
+           }
         
         }
         adm_stack_bar.setLegendVisible(false);
@@ -1834,9 +1881,20 @@ export = 3;
             debug("After rounding: " + hours);
             seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getTopBar(),hours));
             adm_stack_bar.getData().add(seriesArray[j]);
+            for(Data<String, Integer> data : seriesArray[j].getData())
+           {
+               Tooltip tooltip = new Tooltip();
+               float wholeHours = time/3600;
+               debug("" + wholeHours);
+               float quarterHours = (float) (Math.round(((time%3600)/60)/15)*0.25);
+               debug("" + quarterHours);
+               float totalTime = wholeHours + quarterHours;
+               tooltip.setText(list.get(j).getSubBar() + ": " + totalTime + " hours");
+               Tooltip.install(data.getNode(), tooltip);
+           }
         
         }
-        adm_stack_bar.setLegendVisible(true);
+        adm_stack_bar.setLegendVisible(false);
     }
 
     private void showOneClientBarAdm(Client c, String startTime, String finishTime) {
@@ -1858,9 +1916,20 @@ export = 3;
             debug("After rounding: " + hours);
             seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getTopBar(),hours));
             adm_stack_bar.getData().add(seriesArray[j]);
+            for(Data<String, Integer> data : seriesArray[j].getData())
+           {
+               Tooltip tooltip = new Tooltip();
+               float wholeHours = time/3600;
+               debug("" + wholeHours);
+               float quarterHours = (float) (Math.round(((time%3600)/60)/15)*0.25);
+               debug("" + quarterHours);
+               float totalTime = wholeHours + quarterHours;
+               tooltip.setText(list.get(j).getSubBar() + ": " + totalTime + " hours");
+               Tooltip.install(data.getNode(), tooltip);
+           }
         
         }
-        adm_stack_bar.setLegendVisible(true);
+        adm_stack_bar.setLegendVisible(false);
     }
 
     private void showAllUsersBarAdm(String startTime, String finishTime) {
@@ -1881,8 +1950,20 @@ export = 3;
             debug("After rounding: " + hours);
             seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getSubBar(),hours));
             adm_stack_bar.getData().add(seriesArray[j]);
+           for(Data<String, Integer> data : seriesArray[j].getData())
+           {
+               Tooltip tooltip = new Tooltip();
+               float wholeHours = time/3600;
+               debug("" + wholeHours);
+               float quarterHours = (float) (Math.round(((time%3600)/60)/15)*0.25);
+               debug("" + quarterHours);
+               float totalTime = wholeHours + quarterHours;
+               tooltip.setText(list.get(j).getSubBar() + ": " + totalTime + " hours");
+               Tooltip.install(data.getNode(), tooltip);
+           }
         
         }
+        
         adm_stack_bar.setLegendVisible(false);
     }
 
@@ -1905,6 +1986,18 @@ export = 3;
             debug("After rounding: " + hours);
             seriesArray[j].getData().add(new XYChart.Data<String,Integer>(list.get(j).getSubBar(),hours));
             adm_stack_bar.getData().add(seriesArray[j]);
+            for(Data<String, Integer> data : seriesArray[j].getData())
+           {
+               Tooltip tooltip = new Tooltip();
+               float wholeHours = time/3600;
+               debug("" + wholeHours);
+               float quarterHours = (float) (Math.round(((time%3600)/60)/15)*0.25);
+               debug("" + quarterHours);
+               float totalTime = wholeHours + quarterHours;
+               tooltip.setText(list.get(j).getSubBar() + ": " + totalTime + " hours");
+               Tooltip.install(data.getNode(), tooltip);
+           }
+            
         
         }
         adm_stack_bar.setLegendVisible(false);
