@@ -88,7 +88,7 @@ public class ProjectDBDAO {
             pstmt.setString(5, phoneNr);
             pstmt.setInt(6, associatedClientID);
             int projectId = editedProject.getId();
-            pstmt.setInt(6, projectId);
+            pstmt.setInt(7, projectId);
             
             
             pstmt.executeUpdate();  //Execute SQL query.

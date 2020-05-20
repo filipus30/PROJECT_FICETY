@@ -38,6 +38,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
@@ -60,6 +61,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.Image;
@@ -140,12 +142,15 @@ public class AdminViewController extends JFrame implements Initializable {
     @FXML
     private ScrollPane scroll;
 private ObservableList<Client> admdataClient;
+private ObservableList<Task> datatask;
     @FXML
     private TableColumn col_task_bill1;
     @FXML
     private TableColumn col_pj_closed;
     @FXML
     private TableColumn col_pj_closed1;
+    @FXML
+    private JFXButton bn_exp1;
 
     public AdminViewController()
     {
@@ -161,6 +166,7 @@ private ObservableList<Client> admdataClient;
       datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
       choosedatauser =  FXCollections.observableArrayList(UVM.getAllProjects());
       admdataClient =  FXCollections.observableArrayList(UVM.getAllClients());
+      datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
     }
     @FXML
     private TextField tf_newtask;
@@ -189,7 +195,7 @@ private ObservableList<Client> admdataClient;
     @FXML
     private TableColumn<Project, String> Col_pj_name;
     @FXML
-    private TableColumn<Project, String> Col_pj_clint;
+    private TableColumn<Project, Client> Col_pj_clint;
     @FXML
     private TableColumn<Project, String> Col_pj_contact;
     @FXML
@@ -201,7 +207,7 @@ private ObservableList<Client> admdataClient;
     @FXML
     private TableColumn<Task,String> Col_task_taskname;
     @FXML
-    private TableColumn<Task,Integer> Col_task_project;
+    private TableColumn<Task,Project> Col_task_project;
     @FXML
     private TableColumn<Task, Integer> Col_task_myhours;
     private JFXTextField task_name;
@@ -285,7 +291,7 @@ private ObservableList<Client> admdataClient;
     @FXML
     private TableColumn<Task, String> col_task_name;
     @FXML
-    private TableColumn<Task, String> col_task_project;
+    private TableColumn<Task, Project> col_task_project;
     @FXML
     private TableColumn<Task, String> col_task_user;
     @FXML
@@ -371,13 +377,21 @@ private ObservableList<Client> admdataClient;
     @FXML
     private JFXComboBox<String> cb_bar_usr_time;
 
-
+    private ObservableList<String> clientstring;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        clientstring = FXCollections.observableArrayList();
+        for(int i = 0;i<clientlist.size();i++)
+        {
+           clientstring.add(clientlist.get(i).getClientName());
+           
+        }
+        List<Project> list = UVM.getAllProjectsForUserTab();
+        ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
        admin_tab.setVisible(false);
        datax = FXCollections.observableArrayList(UVM.get3RecentProjects());
-       cb_project.getItems().addAll(datax);
+       cb_project.getItems().addAll(datapj);
 //       cb_task_project.getItems().addAll(datax);
        
    loadButtons();
@@ -511,7 +525,10 @@ private ObservableList<Client> admdataClient;
         String taskName = tf_newtask.getText();
         boolean taskBillable = true;
         Task c = UVM.addNewTaskAndSetItRunning(taskName, taskBillable, associatedProject).getKey();
+        Session s = UVM.addNewTaskAndSetItRunning(taskName, taskBillable, associatedProject).getValue();
         tasklist.add(c);
+        datatask.add(c);
+        datasession.add(s);
         if(isTimerRunning)
         {
             timer.stop();
@@ -679,7 +696,7 @@ export = 3;
     {   tbv_task.setEditable(true);
 	// allows the individual cells to be selected
 	tbv_task.getSelectionModel().cellSelectionEnabledProperty().set(true);
-         ObservableList<Task> datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
+        
          Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
          Col_task_taskname.setCellFactory(TextFieldTableCell.forTableColumn());
          Col_task_taskname.setOnEditCommit(
@@ -696,7 +713,16 @@ export = 3;
                             t.getTablePosition().getRow())
                     ).setDesc(t.getNewValue())
                 );
-        Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectName"));
+        Col_task_project.setCellValueFactory(new PropertyValueFactory<>("associatedProjectName"));
+        Col_task_project.setCellFactory(ComboBoxTableCell.forTableColumn(datax));
+        Col_task_project.setOnEditCommit((TableColumn.CellEditEvent<Task,Project> e) -> 
+        {
+         String s = e.getNewValue().getProjectName();
+         int id = e.getNewValue().getId();
+         Task t = e.getRowValue();
+         t.setAssociatedProjectID(id);
+         t.setAssociatedProjectName(s);
+    });
         Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
         col_task_bill.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Task, CheckBox>, ObservableValue<CheckBox>>() {
 
@@ -749,13 +775,23 @@ export = 3;
         cb_project.getSelectionModel().getSelectedItem();
         List<Project> list = UVM.getAllProjectsForUserTab();
         ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
-        Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
+        Col_pj_clint.setCellValueFactory(new PropertyValueFactory<>("clientName"));
+        Col_pj_clint.setCellFactory(ComboBoxTableCell.forTableColumn(dataClient));
+        Col_pj_clint.setOnEditCommit((TableColumn.CellEditEvent<Project,Client> e) -> 
+        {
+         int id = e.getNewValue().getId();
+         Project p = e.getRowValue();
+         p.setAssociatedClientID(id);
+    });
         Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
-        col_client_standardRate.setOnEditCommit(
-                (TableColumn.CellEditEvent<Client, Float> t) ->
+        Col_pj_contact.setCellFactory(TextFieldTableCell.forTableColumn());
+        Col_pj_contact.setOnEditCommit(
+                (TableColumn.CellEditEvent<Project, String> t) ->
                     ( t.getTableView().getItems().get(
                             t.getTablePosition().getRow())
-                    ).setStandardRate(t.getNewValue())
+                    ).setPhoneNr(t.getNewValue())
+                
+                
                 );
         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
@@ -1045,7 +1081,7 @@ export = 3;
            // List<Task> tasklist = UVM.getAllTasksForAdmin();
           //  ObservableList<Task> dataTasks =  FXCollections.observableArrayList(tasklist);
             col_task_name.setCellValueFactory(new PropertyValueFactory<Task,String>("taskName"));
-            col_task_project.setCellValueFactory(new PropertyValueFactory<Task,String>("associatedProjectName"));
+            col_task_project.setCellValueFactory(new PropertyValueFactory<>("associatedProjectName"));
             col_task_user.setCellValueFactory(new PropertyValueFactory<Task ,String>("users"));
             col_task_userRate.setCellValueFactory(new PropertyValueFactory<Task, Float>("salary"));
             col_task_time.setCellValueFactory(new PropertyValueFactory<Task, String>("hours"));
@@ -2125,5 +2161,17 @@ export = 3;
        String[] dates = {startTime, finishTime};
        return dates;
        
+    }
+
+    @FXML
+    private void update_selected(ActionEvent event) {
+        Project pj = null;
+         if(export ==3 )
+         {  pj = Tbv_pj.getSelectionModel().getSelectedItem();
+       UVM.editProject(pj,pj.getProjectName(),pj.getAssociatedClientID(),pj.getProjectRate(),pj.getAllocatedHours(),pj.getIsClosed(),pj.getPhoneNr());}
+        else if(export ==2)
+        UVM.export(tbv_session,search.getText());
+        else if(export == 1)
+        UVM.export(tbv_task,search.getText());
     }
 }
