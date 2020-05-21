@@ -114,6 +114,10 @@ public class AdminViewController extends JFrame implements Initializable {
     
     boolean barAdmDataPicked = false;
     boolean barAdmTimePicked = false;
+    
+    ComboBox<Client> cb_bar_adm_dataClient= new JFXComboBox<Client>();
+    ComboBox<Project> cb_bar_adm_dataProject = new JFXComboBox<Project>();
+    ComboBox<User> cb_bar_adm_dataUser = new JFXComboBox<User>();
     //boolean selected = false;
     @FXML
     private Button bn_exp;
@@ -1506,7 +1510,7 @@ export = 3;
             ArrayList<Project> projectsUsr = UVM.getAllProjectsForUserTab();
             projectsUsr.add(0,p);
             cb_bar_usr_data.getItems().addAll(projectsUsr);
-            cb_bar_usr_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");
+            cb_bar_usr_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week", "Custom Date");
         }
         
     }
@@ -1519,7 +1523,7 @@ export = 3;
             ArrayList<Project> projectsAdmBar = UVM.getAllProjects();
             projectsAdmBar.add(0,p); */
             cb_bar_adm_data.getItems().addAll("Clients", "Projects", "Users");
-            cb_bar_adm_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");
+            cb_bar_adm_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week", "Custom Date");
         }
         
     }
@@ -1683,47 +1687,68 @@ export = 3;
     }
 
     private void showUsrBarChart() {
-        String startTime = "";
-        String finishTime = "";
+        
         if(cb_bar_usr_time.getSelectionModel().getSelectedItem().equals("Last Month"))
         {
-           LocalDate today = LocalDate.now();  // Retrieve the date now
-           LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
-          startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
-          finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
+            LocalDate today = LocalDate.now();  // Retrieve the date now
+            LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
+            lu.setStartTime(String.valueOf(lastMonth.withDayOfMonth(1))); // retrieve the first date
+            lu.setFinishTime(String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth()))); // retrieve the last date   
         }       
         else if(cb_bar_usr_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
         {
-            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
-            finishTime = String.valueOf(LocalDate.now());
+            lu.setStartTime(String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth())));
+            lu.setFinishTime(String.valueOf(LocalDate.now()));
           ;
         }
         else if(cb_bar_usr_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
         {
             LocalDate today = LocalDate.now();  // Retrieve the date now
-           LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
-          startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
-          finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
+            LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
+            lu.setStartTime(String.valueOf(lastWeek.with((DayOfWeek.MONDAY))));
+            lu.setFinishTime(String.valueOf(lastWeek.with((DayOfWeek.SUNDAY))));
         }
         else if(cb_bar_usr_time.getSelectionModel().getSelectedItem().equals("Current Week"))
         {
              LocalDate today = LocalDate.now();  // Retrieve the date now
-             startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
-             finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
+             lu.setStartTime(String.valueOf(today.with((DayOfWeek.MONDAY))));
+             lu.setFinishTime(String.valueOf(today.with((DayOfWeek.SUNDAY))));
              
         }
-        
-        
-        if(cb_bar_usr_data.getSelectionModel().getSelectedItem().getProjectName().equals("All Projects"))
+        else if(cb_bar_usr_time.getSelectionModel().getSelectedItem().equals("Custom Date"))
         {
-            stat_bar.getData().clear();
-            showAllprojectsBarUsr(startTime, finishTime);
+             try {
+                Parent root1;
+                FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ficety/gui/view/DateSelection.fxml"));
+                root1 = (Parent) fxmlLoader.load();
+                fxmlLoader.<AdminViewController>getController();
+                Stage addStage = new Stage();
+                Scene addScene = new Scene(root1);
+                addStage.setScene(addScene);
+                addStage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(AdminViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        else
+
+        String startTime = lu.getStartTime();
+        String finishTime = lu.getFinishTime();
+        
+        if(startTime != null && finishTime != null)
         {
-             stat_bar.getData().clear();
-          Project p = cb_bar_usr_data.getSelectionModel().getSelectedItem();
-            showOneProjectBarUsr(p, startTime, finishTime);          
+        
+            if(cb_bar_usr_data.getSelectionModel().getSelectedItem().getProjectName().equals("All Projects"))
+            {
+                stat_bar.getData().clear();
+
+                showAllprojectsBarUsr(startTime, finishTime);
+            }
+            else
+            {
+                stat_bar.getData().clear();
+                Project p = cb_bar_usr_data.getSelectionModel().getSelectedItem();
+                showOneProjectBarUsr(p, startTime, finishTime);          
+            }
         }
     }
 
@@ -1801,9 +1826,7 @@ export = 3;
 
     @FXML
     private void selectDataBarAdm(ActionEvent event) {
-        ComboBox<Client> cb_bar_adm_dataClient= new JFXComboBox<Client>();
-        ComboBox<Project> cb_bar_adm_dataProject = new JFXComboBox<Project>();
-        ComboBox<User> cb_bar_adm_dataUser = new JFXComboBox<User>();
+        
         
         if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Clients"))
         {
@@ -1826,14 +1849,14 @@ export = 3;
             clients.add(0, c);
             cb_bar_adm_dataClient.getItems().addAll(clients);
             col_tab_anchor.getChildren().add(cb_bar_adm_dataClient);
-            cb_bar_adm_dataClient.setOnAction(e -> {
+            /*cb_bar_adm_dataClient.setOnAction(e -> {
                 barAdmDataPicked = true;
                 if(barAdmTimePicked)
                 {
                     Client tempclient = cb_bar_adm_dataClient.getSelectionModel().getSelectedItem();
                     showAdmBarChart(tempclient);
                 }
-            });
+            }); */
         }
         else if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Projects"))
         {
@@ -1853,14 +1876,14 @@ export = 3;
             projects.add(0, p);
             cb_bar_adm_dataProject.getItems().addAll(projects);
             col_tab_anchor.getChildren().add(cb_bar_adm_dataProject);
-            cb_bar_adm_dataProject.setOnAction(e -> {
+            /*cb_bar_adm_dataProject.setOnAction(e -> {
                 barAdmDataPicked = true;
                 if(barAdmTimePicked)
                 {
                     Project tempproject = cb_bar_adm_dataProject.getSelectionModel().getSelectedItem();
                     showAdmBarChart(tempproject);
                 }
-            });
+            }); */
         }
         if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Users"))
         {
@@ -1880,14 +1903,14 @@ export = 3;
             users.add(0, u);
             cb_bar_adm_dataUser.getItems().addAll(users);
             col_tab_anchor.getChildren().add(cb_bar_adm_dataUser);
-            cb_bar_adm_dataUser.setOnAction(e -> {
+            /* cb_bar_adm_dataUser.setOnAction(e -> {
                 barAdmDataPicked = true;
                 if(barAdmTimePicked)
                 {
                     User tempuser = cb_bar_adm_dataUser.getSelectionModel().getSelectedItem();
                     showAdmBarChart(tempuser);
                 }
-            });
+            }); */
             
         }
         
@@ -1897,13 +1920,12 @@ export = 3;
     @FXML
     private void selectTimeBarAdm(ActionEvent event) {
         barAdmTimePicked = true;
+        getAdminBarTimes();
     }
 
     private void showAdmBarChart(Client c) {
-        String[] times = getAdminBarTimes();
-        String startTime = times[0];
-        String finishTime = times[1];
-        
+        String startTime = lu.getStartTime();
+        String finishTime = lu.getFinishTime();    
         
         if(c.getClientName().equals("All Clients"))
         {
@@ -1918,9 +1940,8 @@ export = 3;
     }
     
         private void showAdmBarChart(Project p) {
-        String[] times = getAdminBarTimes();
-        String startTime = times[0];
-        String finishTime = times[1];
+        String startTime = lu.getStartTime();
+        String finishTime = lu.getFinishTime();
         
         if(p.getProjectName().equals("All Projects"))
         {
@@ -1935,9 +1956,8 @@ export = 3;
     }
     
         private void showAdmBarChart(User u) {
-        String[] times = getAdminBarTimes();
-        String startTime = times[0];
-        String finishTime = times[1];
+        String startTime = lu.getStartTime();
+        String finishTime = lu.getFinishTime();
         
         if(u.getUserName().equals("All Users"))
         {
@@ -2161,38 +2181,51 @@ export = 3;
         adm_stack_bar.setLegendVisible(false);
     }
 
-    private String[] getAdminBarTimes() {
-        String startTime = "";
-        String finishTime ="";
+    private void getAdminBarTimes() {
+        
        if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Month"))
         {
             LocalDate today = LocalDate.now();  // Retrieve the date now
             LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
-            startTime = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
-            finishTime = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
+            lu.setStartTime(String.valueOf(lastMonth.withDayOfMonth(1))); // retrieve the first date
+            lu.setFinishTime(String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth()))); // retrieve the last date   
         }       
         else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Month"))        
         {
-            startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
-            finishTime = String.valueOf(LocalDate.now());
+            lu.setStartTime(String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth())));
+            lu.setFinishTime(String.valueOf(LocalDate.now()));
         }
         else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Last Week")) 
         {
             LocalDate today = LocalDate.now();  // Retrieve the date now
             LocalDate lastWeek = today.minus(1, ChronoUnit.WEEKS); // Retrieve the date a month from now
-            startTime = String.valueOf(lastWeek.with((DayOfWeek.MONDAY)));
-            finishTime = String.valueOf(lastWeek.with((DayOfWeek.SUNDAY)));
+            lu.setStartTime(String.valueOf(lastWeek.with((DayOfWeek.MONDAY))));
+            lu.setFinishTime(String.valueOf(lastWeek.with((DayOfWeek.SUNDAY))));
         }
         else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Current Week"))
         {
             LocalDate today = LocalDate.now();  // Retrieve the date now
-            startTime = String.valueOf(today.with((DayOfWeek.MONDAY)));
-            finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
+            lu.setStartTime(String.valueOf(today.with((DayOfWeek.MONDAY))));
+            lu.setFinishTime(String.valueOf(today.with((DayOfWeek.SUNDAY))));
              
         } 
-       String[] dates = {startTime, finishTime};
-       return dates;
        
+       else if(cb_bar_adm_time.getSelectionModel().getSelectedItem().equals("Custom Date"))
+        {
+             try {
+                 Parent root1;
+                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ficety/gui/view/DateSelection.fxml"));
+                 root1 = (Parent) fxmlLoader.load();
+                 fxmlLoader.<AdminViewController>getController();
+                 Stage addStage = new Stage();
+                 Scene addScene = new Scene(root1);
+                 addStage.setScene(addScene);
+                 addStage.show();
+             } catch (IOException ex) {
+                 Logger.getLogger(AdminViewController.class.getName()).log(Level.SEVERE, null, ex);
+             }
+        }
+      
     }
 
     @FXML
@@ -2248,9 +2281,48 @@ export = 3;
     
     @FXML
     private void show_adm_column(ActionEvent event) {
+        String startTime = lu.getStartTime();
+        String finishTime = lu.getFinishTime();
+        if(startTime != null && finishTime != null)
+        {
+            if(col_tab_anchor.getChildren().contains(cb_bar_adm_dataProject))
+            {
+              Project tempproject = cb_bar_adm_dataProject.getSelectionModel().getSelectedItem();
+              showAdmBarChart(tempproject);
+            }    
+                
+            else if(col_tab_anchor.getChildren().contains(cb_bar_adm_dataClient))
+            {
+                Client tempclient = cb_bar_adm_dataClient.getSelectionModel().getSelectedItem();
+                showAdmBarChart(tempclient);
+            }
+            
+            else if(col_tab_anchor.getChildren().contains(cb_bar_adm_dataUser))
+            {
+                User tempuser = cb_bar_adm_dataUser.getSelectionModel().getSelectedItem();
+                showAdmBarChart(tempuser);
+            }
+        }
+        
     }
 
     @FXML
     private void show_user_column(ActionEvent event) {
+        String startTime = lu.getStartTime();
+        String finishTime = lu.getFinishTime();
+               
+        if(cb_bar_usr_data.getSelectionModel().getSelectedItem().getProjectName().equals("All Projects"))
+        {
+            stat_bar.getData().clear();
+
+            showAllprojectsBarUsr(startTime, finishTime);
+        }
+        else
+        {
+            stat_bar.getData().clear();
+            Project p = cb_bar_usr_data.getSelectionModel().getSelectedItem();
+            showOneProjectBarUsr(p, startTime, finishTime);          
+        }
+            
     }
 }

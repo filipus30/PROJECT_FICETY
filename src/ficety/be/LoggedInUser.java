@@ -20,8 +20,10 @@ public class LoggedInUser {
     private Task currentTask;
     private Session currentSession = null;
     private boolean selected = false;
+    private String startTime;
+    private String finishTime;
 
-    
+        
     private LoggedInUser() {
 
        
@@ -120,4 +122,21 @@ public class LoggedInUser {
         this.currentSession = currentSession;
     }
     
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String adminStartTime) {
+        this.startTime = adminStartTime;
+    }
+
+    public String getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(String adminFinishTime) {
+        this.finishTime = adminFinishTime;
+    }
+    
+
 }

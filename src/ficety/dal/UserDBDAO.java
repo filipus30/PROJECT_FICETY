@@ -147,10 +147,10 @@ public class UserDBDAO {
         
         try(Connection con = dbc.getConnection()){
             String SQLStmt = "SELECT * FROM USERS WHERE email = ? AND password = ?";
-           PreparedStatement pstmt = con.prepareStatement(SQLStmt);   
-             pstmt.setString(1,email);
-             pstmt.setString(2,password);
-             pstmt.execute();
+            PreparedStatement pstmt = con.prepareStatement(SQLStmt);   
+            pstmt.setString(1,email);
+            pstmt.setString(2,password);
+            pstmt.execute();
             ResultSet rs = pstmt.executeQuery();
             if(rs != null) //If there is an entry
             {

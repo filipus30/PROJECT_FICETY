@@ -258,9 +258,9 @@
                                   <NumberAxis side="LEFT" />
                                 </yAxis>
                               </StackedBarChart>
-                              <JFXComboBox fx:id="cb_bar_adm_data" layoutX="204.0" layoutY="291.0" onAction="#selectDataBarAdm" promptText="Select Data Type" />
+                              <JFXComboBox fx:id="cb_bar_adm_data" layoutX="195.0" layoutY="291.0" onAction="#selectDataBarAdm" promptText="Select Data Type" />
                               <JFXComboBox fx:id="cb_bar_adm_time" layoutX="52.0" layoutY="291.0" onAction="#selectTimeBarAdm" promptText="Time period" />
-                              <JFXButton fx:id="bn_exp2" layoutX="381.0" layoutY="291.0" onAction="#show_adm_column" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Show" textFill="WHITE" />
+                              <JFXButton fx:id="bn_exp2" layoutX="499.0" layoutY="299.0" onAction="#show_adm_column" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Show" textFill="WHITE" />
                            </children>
                         </AnchorPane>
                     </content>
