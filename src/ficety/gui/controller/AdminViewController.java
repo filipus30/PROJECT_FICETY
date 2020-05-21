@@ -18,6 +18,7 @@ import ficety.be.Task;
 import ficety.be.User;
 import ficety.dal.ClientDBDAO;
 import ficety.gui.model.UserViewModel;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
@@ -29,6 +30,8 @@ import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 import javafx.animation.AnimationTimer;
 import javafx.beans.property.SimpleObjectProperty;
@@ -40,7 +43,10 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -108,7 +114,7 @@ public class AdminViewController extends JFrame implements Initializable {
     
     boolean barAdmDataPicked = false;
     boolean barAdmTimePicked = false;
-    
+    //boolean selected = false;
     @FXML
     private Button bn_exp;
     @FXML
@@ -151,6 +157,16 @@ private ObservableList<Task> datatask;
     private TableColumn col_pj_closed1;
     @FXML
     private JFXButton bn_exp1;
+    @FXML
+    private JFXButton bn_exp22;
+    @FXML
+    private JFXButton bn_exp23;
+    @FXML
+    private JFXButton bn_exp2;
+    @FXML
+    private JFXButton bn_exp21;
+    private String startTime = "";
+    private String finishTime = "";
 
     public AdminViewController()
     {
@@ -1311,7 +1327,7 @@ export = 3;
         Project p = new Project(0,"All Projects",0,"",0,0,false);
         cb_stat_task.getItems().addAll(datapj);
         cb_stat_task.getItems().add(0, p);
-        cb_stat_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");}
+        cb_stat_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week","Custom Date");}
         
      
         
@@ -1519,8 +1535,7 @@ export = 3;
     
     private void showLineChart()
     {
-         String startTime = "";
-        String finishTime = "";
+        
         if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Last Month"))
         {
            LocalDate today = LocalDate.now();  // Retrieve the date now
@@ -1548,19 +1563,24 @@ export = 3;
              finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
              
         }
+        else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Custom Date"))
+        {
+             try {
+                 Parent root1;
+                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ficety/gui/view/DateSelection.fxml"));
+                 root1 = (Parent) fxmlLoader.load();
+                 fxmlLoader.<AdminViewController>getController();
+                 Stage addStage = new Stage();
+                 Scene addScene = new Scene(root1);
+                 addStage.setScene(addScene);
+                 addStage.show();
+             } catch (IOException ex) {
+                 Logger.getLogger(AdminViewController.class.getName()).log(Level.SEVERE, null, ex);
+             }
+        }
         
         
-        if(cb_stat_task.getSelectionModel().getSelectedItem().getProjectName().equals("All Projects"))
-        {
-            stat_graph.getData().clear();
-            showAllprojectsForGraph(startTime, finishTime);
-        }
-        else
-        {
-             stat_graph.getData().clear();
-          int id = cb_stat_task.getSelectionModel().getSelectedItem().getId();
-            showSelectedProjectForGraph(startTime, finishTime,id);          
-        }
+ 
     }
     
     private void showAdmLineChart()
@@ -1596,19 +1616,22 @@ export = 3;
              finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
             
         }
-        
-        
-        if(cb_stat_adm_task.getSelectionModel().getSelectedItem().getClientName().equals("All Clients"))
+         else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Custom Date"))
         {
-            stat_adm_graph.getData().clear();
-            showAllClientsForAdmGraph(startTime, finishTime);
+             try {
+                 Parent root1;
+                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ficety/gui/view/DateSelection.fxml"));
+                 root1 = (Parent) fxmlLoader.load();
+                 fxmlLoader.<AdminViewController>getController();
+                 Stage addStage = new Stage();
+                 Scene addScene = new Scene(root1);
+                 addStage.setScene(addScene);
+                 addStage.show();
+             } catch (IOException ex) {
+                 Logger.getLogger(AdminViewController.class.getName()).log(Level.SEVERE, null, ex);
+             }
         }
-        else
-        {
-             stat_adm_graph.getData().clear();
-          int id = cb_stat_adm_task.getSelectionModel().getSelectedItem().getId();
-           showSingleClientForAdmGraph(startTime,finishTime,id);  
-        }
+       
     }
     
     @FXML
@@ -1634,7 +1657,7 @@ export = 3;
         if(cb_stat_adm_time.getItems().isEmpty())
         {    
             Client c = new Client(0,"All Clients",0,"");
-        cb_stat_adm_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week");
+        cb_stat_adm_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week","Custom Date");
         cb_stat_adm_task.getItems().addAll(dataClient);
         cb_stat_adm_task.getItems().add(0,c);
                 }
@@ -2188,5 +2211,49 @@ export = 3;
         else if(export == 2)
         s = tbv_session.getSelectionModel().getSelectedItem();
          UVM.editSession(s,s.getStartTime(),s.getFinishTime(),s.getAssociatedTaskID());
+    }
+
+    @FXML
+    private void show_user_graph(ActionEvent event) {
+          if(cb_stat_task.getSelectionModel().getSelectedItem().getProjectName().equals("All Projects"))
+        {
+            stat_graph.getData().clear();
+            showAllprojectsForGraph(startTime, finishTime);
+           
+        }
+        else
+        {
+             stat_graph.getData().clear();
+          int id = cb_stat_task.getSelectionModel().getSelectedItem().getId();
+            showSelectedProjectForGraph(startTime, finishTime,id);      
+        }
+    }
+
+   
+    @FXML
+    private void show_adm_graph(ActionEvent event) {
+        if(cb_stat_adm_task.getSelectionModel().getSelectedItem().getClientName().equals("All Clients"))
+        {
+            stat_adm_graph.getData().clear();
+            showAllClientsForAdmGraph(startTime, finishTime);
+        }
+        else
+        {
+             stat_adm_graph.getData().clear();
+          int id = cb_stat_adm_task.getSelectionModel().getSelectedItem().getId();
+           showSingleClientForAdmGraph(startTime,finishTime,id);  
+        }
+    }
+    
+    
+    @FXML
+    private void show_adm_column(ActionEvent event) {
+    }
+
+    @FXML
+    private void show_user_column(ActionEvent event) {
+        
+        
+        
     }
 }

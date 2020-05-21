@@ -19,6 +19,7 @@ public class LoggedInUser {
     private boolean admin; 
     private Task currentTask;
     private Session currentSession = null;
+    private boolean selected = false;
 
     
     private LoggedInUser() {
@@ -44,6 +45,14 @@ public class LoggedInUser {
     }
 
    
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 
 
 
