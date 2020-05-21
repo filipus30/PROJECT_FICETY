@@ -2248,33 +2248,54 @@ export = 3;
 
     @FXML
     private void show_user_graph(ActionEvent event) {
+         String startTimee = lu.getStartTime();
+        String finishTimee = lu.getFinishTime();
+        if(startTime != null && finishTime != null)
           if(cb_stat_task.getSelectionModel().getSelectedItem().getProjectName().equals("All Projects"))
         {
             stat_graph.getData().clear();
-            showAllprojectsForGraph(startTime, finishTime);
+            if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Custom Date"))
+            showAllprojectsForGraph(startTimee, finishTimee);
+            else
+             showAllprojectsForGraph(startTime, finishTime);
            
         }
         else
         {
              stat_graph.getData().clear();
-          int id = cb_stat_task.getSelectionModel().getSelectedItem().getId();
-            showSelectedProjectForGraph(startTime, finishTime,id);      
+             if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Custom Date"))
+             { int id = cb_stat_task.getSelectionModel().getSelectedItem().getId();
+            showSelectedProjectForGraph(startTimee, finishTimee,id);      }
+             else
+             {
+                 int id = cb_stat_task.getSelectionModel().getSelectedItem().getId();
+            showSelectedProjectForGraph(startTime, finishTime,id);
+             }
         }
     }
 
    
     @FXML
     private void show_adm_graph(ActionEvent event) {
+        String startTimee = lu.getStartTime();
+        String finishTimee = lu.getFinishTime();
         if(cb_stat_adm_task.getSelectionModel().getSelectedItem().getClientName().equals("All Clients"))
         {
             stat_adm_graph.getData().clear();
-            showAllClientsForAdmGraph(startTime, finishTime);
+            if(cb_stat_adm_time.getSelectionModel().getSelectedItem().equals("Custom Date"))
+             showAllClientsForAdmGraph(startTimee, finishTimee);
+            else
+             showAllClientsForAdmGraph(startTime, finishTime);
         }
         else
         {
              stat_adm_graph.getData().clear();
-          int id = cb_stat_adm_task.getSelectionModel().getSelectedItem().getId();
-           showSingleClientForAdmGraph(startTime,finishTime,id);  
+              if(cb_stat_adm_time.getSelectionModel().getSelectedItem().equals("Custom Date"))
+              { int id = cb_stat_adm_task.getSelectionModel().getSelectedItem().getId();
+           showSingleClientForAdmGraph(startTimee,finishTimee,id);}
+              else
+              {int id = cb_stat_adm_task.getSelectionModel().getSelectedItem().getId();
+           showSingleClientForAdmGraph(startTime,finishTime,id);  }
         }
     }
     
