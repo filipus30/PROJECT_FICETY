@@ -1616,7 +1616,7 @@ export = 3;
              finishTime = String.valueOf(today.with((DayOfWeek.SUNDAY)));
             
         }
-         else if(cb_stat_time.getSelectionModel().getSelectedItem().equals("Custom Date"))
+         else if(cb_stat_adm_time.getSelectionModel().getSelectedItem().equals("Custom Date"))
         {
              try {
                  Parent root1;
@@ -2252,8 +2252,5 @@ export = 3;
 
     @FXML
     private void show_user_column(ActionEvent event) {
-        
-        
-        
     }
 }
