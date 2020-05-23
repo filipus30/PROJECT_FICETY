@@ -296,7 +296,7 @@ private ObservableList<Task> datatask;
     @FXML
     private TableColumn<Project, String> col_project_name;
     @FXML
-    private TableColumn<Project, String> col_project_client;
+    private TableColumn<Project, Client> col_project_client;
     @FXML
     private TableColumn<Project, String> col_project_contact;
     @FXML
@@ -1052,7 +1052,14 @@ export = 3;
                             t.getTablePosition().getRow())
                     ).setProjectName(t.getNewValue())
                 );
-            col_project_client.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
+            col_project_client.setCellValueFactory(new PropertyValueFactory<>("clientName"));
+            col_project_client.setCellFactory(ComboBoxTableCell.forTableColumn(dataClient));
+        col_project_client.setOnEditCommit((TableColumn.CellEditEvent<Project,Client> e) -> 
+        {
+         int id = e.getNewValue().getId();
+         Project p = e.getRowValue();
+         p.setAssociatedClientID(id);
+    });
             col_project_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
             col_project_contact.setCellFactory(TextFieldTableCell.forTableColumn());
             col_project_contact.setOnEditCommit(
@@ -1110,6 +1117,13 @@ export = 3;
            // List<Task> tasklist = UVM.getAllTasksForAdmin();
           //  ObservableList<Task> dataTasks =  FXCollections.observableArrayList(tasklist);
             col_task_name.setCellValueFactory(new PropertyValueFactory<Task,String>("taskName"));
+             col_task_name.setCellFactory(TextFieldTableCell.forTableColumn());
+            col_task_name.setOnEditCommit(
+                (TableColumn.CellEditEvent<Task, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setTaskName(t.getNewValue())
+                );
             col_task_project.setCellValueFactory(new PropertyValueFactory<>("associatedProjectName"));
             col_task_user.setCellValueFactory(new PropertyValueFactory<Task ,String>("users"));
             col_task_userRate.setCellValueFactory(new PropertyValueFactory<Task, Float>("salary"));
