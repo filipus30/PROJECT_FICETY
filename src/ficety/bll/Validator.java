@@ -30,7 +30,7 @@ public class Validator {
        return (text.matches("^[0-9]*$"));             
     }
     
-    public static boolean isValidDate(String text) {
+    public boolean isValidDate(String text) {
     Date date = null;
     try {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

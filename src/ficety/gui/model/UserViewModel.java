@@ -13,6 +13,7 @@ import ficety.be.Task;
 import ficety.be.User;
 import ficety.bll.BllManager;
 import ficety.bll.Exporter;
+import ficety.bll.Validator;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,23 @@ import javafx.util.Pair;
 public class UserViewModel {
     private BllManager BllM = new BllManager();
     private Exporter ex = new Exporter();
+    private Validator val = new Validator();
+    
+    //Validators
+     public boolean isNumber(String text)
+     {
+         return val.isNumber(text);
+     }
+     public boolean isAlpha(String name)
+     {
+         return val.isAlpha(name);
+     }
+     public  boolean isValidDate(String text)
+     {
+         return val.isValidDate(text);
+     }
+   
+    
     
     //CLIENT related
     public Client addNewClientToDB(String clientName,float standardRate,String email)

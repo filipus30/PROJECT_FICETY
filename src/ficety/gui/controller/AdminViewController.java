@@ -713,17 +713,20 @@ export = 3;
     
      
     private void loadAll()
-    {   tbv_task.setEditable(true);
+    {  // tbv_task.setEditable(true);
 	// allows the individual cells to be selected
-	tbv_task.getSelectionModel().cellSelectionEnabledProperty().set(true);
+	//tbv_task.getSelectionModel().cellSelectionEnabledProperty().set(true);
         
          Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
          Col_task_taskname.setCellFactory(TextFieldTableCell.forTableColumn());
          Col_task_taskname.setOnEditCommit(
                 (TableColumn.CellEditEvent<Task, String> t) ->
-                    ( t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())
+                     
+                    (
+                            t.getTableView().getItems().get(
+                           t.getTablePosition().getRow())
                     ).setTaskName(t.getNewValue())
+                 
                 );
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("desc"));
         Col_task_description.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -2309,9 +2312,15 @@ export = 3;
         Client c = null;
         User u = null;
         if(admpanel == false)
-        {  if(export ==3 )
+        {  if(export == 3 )
          {  pj = Tbv_pj.getSelectionModel().getSelectedItem();
-       UVM.editProject(pj,pj.getProjectName(),pj.getAssociatedClientID(),pj.getProjectRate(),pj.getAllocatedHours(),pj.getIsClosed(),pj.getPhoneNr());}
+       if(UVM.isNumber(String.valueOf(pj.getAssociatedClientID())))
+       { UVM.editProject(pj,pj.getProjectName(),pj.getAssociatedClientID(),pj.getProjectRate(),pj.getAllocatedHours(),pj.getIsClosed(),pj.getPhoneNr());}
+       else {
+           System.out.println("DIALOG INVALID INPUT");
+       }
+         }
+       
         else if(export ==1)
         {
         t = tbv_task.getSelectionModel().getSelectedItem();
