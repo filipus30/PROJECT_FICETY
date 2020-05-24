@@ -198,7 +198,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f4f4f4" height="40.0" stroke="BLACK" strokeType="INSIDE" width="552.0" AnchorPane.bottomAnchor="22.0" />
-                              <TableView fx:id="admin_tasks" editable="true" layoutX="76.0" layoutY="-16.0" onMouseClicked="#adm_choose_task" prefHeight="285.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="admin_tasks" editable="true" layoutX="76.0" layoutY="-16.0" prefHeight="285.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_task_name" prefWidth="75.0" text="Task name" />
                                   <TableColumn fx:id="col_task_project" prefWidth="75.0" text="Project" />
