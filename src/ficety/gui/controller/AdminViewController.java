@@ -2314,7 +2314,7 @@ export = 3;
         if(admpanel == false)
         {  if(export == 3 )
          {  pj = Tbv_pj.getSelectionModel().getSelectedItem();
-       if(UVM.isNumber(String.valueOf(pj.getAssociatedClientID())))
+       if(UVM.isNumber(String.valueOf(pj.getAssociatedClientID())) && UVM.isNumber(String.valueOf(pj.getPhoneNr())))
        { UVM.editProject(pj,pj.getProjectName(),pj.getAssociatedClientID(),pj.getProjectRate(),pj.getAllocatedHours(),pj.getIsClosed(),pj.getPhoneNr());}
        else {
            System.out.println("DIALOG INVALID INPUT");
