@@ -51,7 +51,7 @@ public interface IBLL {
 // TaskDBDAO methods        
     public Task addNewTaskToDB(String taskName, String taskDesc, boolean isBillable, Project associatedProject);
     public Task addNewTaskToDB(String taskName, boolean isBillable, Project associatedProject);
-    public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID);
+    public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID,boolean isBillable);
     public void removeTaskFromDB(Task taskToDelete);
     public Pair<Task, Session> addNewTaskAndSetItRunning(String taskName, boolean isBillable, Project associatedProject);
     public List<Task> getTasksForUserInfo();

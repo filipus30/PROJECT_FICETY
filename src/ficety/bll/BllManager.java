@@ -178,8 +178,8 @@ public class BllManager implements IBLL {
     }
     
     @Override
-    public Task editTask(Task editedTask, String taskName, String description, int associatedProjectID) {
-        return dalManager.editTask(editedTask, taskName, description, associatedProjectID);
+    public Task editTask(Task editedTask, String taskName, String description, int associatedProjectID,boolean isBillable) {
+        return dalManager.editTask(editedTask, taskName, description, associatedProjectID,isBillable);
     }
 
     @Override

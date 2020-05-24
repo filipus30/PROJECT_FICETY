@@ -401,12 +401,12 @@ private ObservableList<Task> datatask;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        clientstring = FXCollections.observableArrayList();
-        for(int i = 0;i<clientlist.size();i++)
-        {
-           clientstring.add(clientlist.get(i).getClientName());
+     //   clientstring = FXCollections.observableArrayList();
+    //    for(int i = 0;i<clientlist.size();i++)
+    //    {
+    //       clientstring.add(clientlist.get(i).getClientName());
            
-        }
+     //   }
         List<Project> list = UVM.getAllProjectsForUserTab();
         ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
        admin_tab.setVisible(false);
@@ -896,7 +896,7 @@ export = 3;
             if(cb_task_project != null)
             {
                  debug("Editing task, passing down stack");
-                UVM.editTask(lu.getCurrentTask(), task_name.getText(), task_description.getText() , cb_task_project.getSelectionModel().getSelectedItem().getId() );
+              //  UVM.editTask(lu.getCurrentTask(), task_name.getText(), task_description.getText() , cb_task_project.getSelectionModel().getSelectedItem().getId() );
                 lu.setCurrentTask(null);
             }
             else
@@ -988,6 +988,7 @@ export = 3;
 
     @FXML
     private void load_admin_clients(Event event) {
+        export = 4;
         if(loadCli == false)
         {
 
@@ -1040,6 +1041,7 @@ export = 3;
 
     @FXML
     private void load_admin_projects(Event event) {
+        export =5;
         if(loadProject == false)
         {
             //ArrayList<Project> list = UVM.getAllProjects();
@@ -1112,6 +1114,7 @@ export = 3;
 
     @FXML
     private void load_admin_tasks(Event event) {
+        export = 6;
         if(loadAdminTasks == false)
         {
            // List<Task> tasklist = UVM.getAllTasksForAdmin();
@@ -1125,11 +1128,27 @@ export = 3;
                     ).setTaskName(t.getNewValue())
                 );
             col_task_project.setCellValueFactory(new PropertyValueFactory<>("associatedProjectName"));
-            col_task_user.setCellValueFactory(new PropertyValueFactory<Task ,String>("users"));
+            col_task_project.setCellFactory(ComboBoxTableCell.forTableColumn(datax));
+        col_task_project.setOnEditCommit((TableColumn.CellEditEvent<Task,Project> e) -> 
+        {
+         String s = e.getNewValue().getProjectName();
+         int id = e.getNewValue().getId();
+         Task t = e.getRowValue();
+         t.setAssociatedProjectID(id);
+         t.setAssociatedProjectName(s);
+    });
+            col_task_user.setCellValueFactory(new PropertyValueFactory<Task,String>("users"));
             col_task_userRate.setCellValueFactory(new PropertyValueFactory<Task, Float>("salary"));
             col_task_time.setCellValueFactory(new PropertyValueFactory<Task, String>("hours"));
             col_task_projectRate.setCellValueFactory(new PropertyValueFactory<Task,String>("projectPayment"));
             col_task_description.setCellValueFactory(new PropertyValueFactory<Task,String>("desc"));
+           col_task_description.setCellFactory(TextFieldTableCell.forTableColumn());
+            col_task_description.setOnEditCommit(
+                (TableColumn.CellEditEvent<Task, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setDesc(t.getNewValue())
+                );
              col_task_bill1.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Task, CheckBox>, ObservableValue<CheckBox>>() {
 
             @Override
@@ -1169,12 +1188,38 @@ export = 3;
 
     @FXML
     private void load_admin_users(Event event) {
+        export = 7;
         if(loadUsers == false)
         {
 
             col_user_name.setCellValueFactory(new PropertyValueFactory<User,String>("userName"));
+            col_user_name.setCellFactory(TextFieldTableCell.forTableColumn());
+            col_user_name.setOnEditCommit(
+                (TableColumn.CellEditEvent<User, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setUserName(t.getNewValue())
+                );
             col_user_time.setCellValueFactory(new PropertyValueFactory<User, String>("niceTime"));
             col_user_salary.setCellValueFactory(new PropertyValueFactory<User ,Float>("salary"));
+             col_user_salary.setCellFactory(TextFieldTableCell.forTableColumn(new StringConverter<Float>() {
+        @Override
+        public String toString(Float t) {
+            return t.toString();
+        }
+
+        @Override
+        public Float fromString(String string) {
+            return Float.parseFloat(string);
+        }
+    }));
+           
+       col_user_salary.setOnEditCommit(
+                (TableColumn.CellEditEvent<User, Float> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setSalary(t.getNewValue())
+                );
             col_user_admin.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<User, CheckBox>, ObservableValue<CheckBox>>() {
 
             @Override
@@ -1203,7 +1248,21 @@ export = 3;
 
         });
             col_user_email.setCellValueFactory(new PropertyValueFactory<User,String>("email"));
+                        col_user_email.setCellFactory(TextFieldTableCell.forTableColumn());
+            col_user_email.setOnEditCommit(
+                (TableColumn.CellEditEvent<User, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setEmail(t.getNewValue())
+                );
             col_user_password.setCellValueFactory(new PropertyValueFactory<User,String>("password"));
+                        col_user_email.setCellFactory(TextFieldTableCell.forTableColumn());
+            col_user_email.setOnEditCommit(
+                (TableColumn.CellEditEvent<User, String> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setEmail(t.getNewValue())
+                );
             admin_users.setItems(dataUsers);
             loadUsers= true;
         }
@@ -1291,7 +1350,7 @@ export = 3;
     }
 
     private void adm_edit_task(ActionEvent event) {
-        UVM.editTask(admin_tasks.getSelectionModel().getSelectedItem(),tf_adm_task_name.getText(),tf_adm_task_task_description.getText(),admin_tasks.getSelectionModel().getSelectedItem().getAssociatedProjectID());
+       // UVM.editTask(admin_tasks.getSelectionModel().getSelectedItem(),tf_adm_task_name.getText(),tf_adm_task_task_description.getText(),admin_tasks.getSelectionModel().getSelectedItem().getAssociatedProjectID());
     }
 
     @FXML
@@ -2247,17 +2306,43 @@ export = 3;
         Task t = null;
         Project pj = null;
         Session s = null;
-         if(export ==3 )
+        Client c = null;
+        User u = null;
+        if(admpanel == false)
+        {  if(export ==3 )
          {  pj = Tbv_pj.getSelectionModel().getSelectedItem();
        UVM.editProject(pj,pj.getProjectName(),pj.getAssociatedClientID(),pj.getProjectRate(),pj.getAllocatedHours(),pj.getIsClosed(),pj.getPhoneNr());}
         else if(export ==1)
         {
         t = tbv_task.getSelectionModel().getSelectedItem();
-        UVM.editTask(t,t.getTaskName(),t.getDesc(),t.getAssociatedProjectID());
+        UVM.editTask(t,t.getTaskName(),t.getDesc(),t.getAssociatedProjectID(),t.getBillable());
          }
         else if(export == 2)
-        s = tbv_session.getSelectionModel().getSelectedItem();
-         UVM.editSession(s,s.getStartTime(),s.getFinishTime(),s.getAssociatedTaskID());
+        { s = tbv_session.getSelectionModel().getSelectedItem();
+         UVM.editSession(s,s.getStartTime(),s.getFinishTime(),s.getAssociatedTaskID());}}
+        if(admpanel)
+        { if(export == 4)
+        {
+            c = admin_clients.getSelectionModel().getSelectedItem();
+            UVM.editClient(c,c.getClientName(),c.getStandardRate(),c.getEmail());
+        }
+        else if(export == 5)
+        {
+            pj = admin_projects.getSelectionModel().getSelectedItem();
+            UVM.editProject(pj,pj.getProjectName(),pj.getAssociatedClientID(),pj.getProjectRate(),pj.getAllocatedHours(),pj.getIsClosed(),pj.getPhoneNr());
+        }
+        else if(export == 6)
+        {
+            t = admin_tasks.getSelectionModel().getSelectedItem();
+            UVM.editTask(t,t.getTaskName(),t.getDesc(),t.getAssociatedProjectID(),t.getBillable());
+        }
+        else if(export ==7)
+        {
+            u = admin_users.getSelectionModel().getSelectedItem();
+            UVM.editUser(u,u.getUserName(),u.getEmail(),u.getPassword(),u.getSalary(),u.getIsAdmin());
+        }
+        
+        }
     }
 
     @FXML

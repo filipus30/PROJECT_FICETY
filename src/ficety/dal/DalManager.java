@@ -177,8 +177,8 @@ public class DalManager implements DalFaçade {
     }
     
     @Override
-    public Task editTask(Task editedTask, String taskName, String description, int associatedProjectID) {
-        return taskDBDao.editTask(editedTask, taskName, description, associatedProjectID);
+    public Task editTask(Task editedTask, String taskName, String description, int associatedProjectID,boolean isBillable) {
+        return taskDBDao.editTask(editedTask, taskName, description, associatedProjectID,isBillable);
     }
     
     @Override

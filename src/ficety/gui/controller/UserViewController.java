@@ -611,7 +611,7 @@ export = 1;
             if(cb_task_project != null)
             {
                  debug("Editing task, passing down stack");
-                UVM.editTask(lu.getCurrentTask(), task_name.getText(), task_description.getText() , cb_task_project.getSelectionModel().getSelectedItem().getId() );
+//                UVM.editTask(lu.getCurrentTask(), task_name.getText(), task_description.getText() , cb_task_project.getSelectionModel().getSelectedItem().getId() );
                 lu.setCurrentTask(null);
             }
             else 

@@ -109,10 +109,10 @@ public class TaskDBDAO {
         return newTask;
     }
   
-    public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID) { 
+    public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID,boolean isBillable) { 
     //  Edits a Task in the Task table of the database given the Projects new details.  
         int taskID = editedTask.getTaskID();
-        String sql = "UPDATE Tasks SET Name = ?, Description = ?, AssociatedProject = ? WHERE Id = ?";
+        String sql = "UPDATE Tasks SET Name = ?, Description = ?, AssociatedProject = ?, Billable = ? WHERE Id = ?";
         try ( Connection con = dbc.getConnection()) {
             //Create a prepared statement.
             PreparedStatement pstmt = con.prepareStatement(sql);
@@ -121,10 +121,17 @@ public class TaskDBDAO {
             pstmt.setString(2, description);
             pstmt.setInt(3, associatedProjectID);
             pstmt.setInt(4, taskID);
+           int billable = 1;
+            if(isBillable == false)
+            {
+                billable = 0;
+            }
+            pstmt.setInt(5, billable);
             pstmt.executeUpdate();  //Execute SQL query.
             editedTask.setTaskName(taskName);
             editedTask.setDesc(description);
             editedTask.setAssociatedProjectID(associatedProjectID);
+            editedTask.setBillable(isBillable);
             return editedTask;
         } catch (SQLServerException ex) {
             Logger.getLogger(TaskDBDAO.class.getName()).log(Level.SEVERE, null, ex);

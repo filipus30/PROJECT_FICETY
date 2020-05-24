@@ -55,7 +55,7 @@ public interface DalFaçade {
 // TaskDBDAO methods 
     public Task addNewTaskToDB(String taskName, String TaskDesc, boolean isbillable, Project associatedProject);
     public Task addNewTaskToDB(String taskName, boolean isbillable, Project associatedProject);
-    public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID);
+    public Task editTask (Task editedTask, String taskName, String description, int associatedProjectID,boolean isBillable);
     public void removeTaskFromDB(Task taskToDelete);
     public List<Task> getAllTasksForAdmin();
     public void addTasksToProject(Project p);
