@@ -67,9 +67,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -174,6 +178,12 @@ private ObservableList<Task> datatask;
     private String finishTime = "";
     @FXML
     private JFXButton btn_refreshAll;
+    @FXML
+    private TreeTableColumn<Project, Task> over_col1;
+    @FXML
+    private TreeTableColumn<String,String> over_col2;
+    @FXML
+    private TreeTableView<String> tbv_over;
 
     public AdminViewController()
     {
@@ -402,7 +412,8 @@ private ObservableList<Task> datatask;
 
     private ObservableList<String> clientstring;
     
-    ObservableList<Project> datapj;
+    private ObservableList<Project> datapj;
+    private List<Project> listpj;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -412,8 +423,8 @@ private ObservableList<Task> datatask;
     //       clientstring.add(clientlist.get(i).getClientName());
            
      //   }
-        List<Project> list = UVM.getAllOpenProjects();
-        datapj =  FXCollections.observableArrayList(list);
+       // listpj = UVM.getAllOpenProjects();
+       // datapj =  FXCollections.observableArrayList(listpj);
        admin_tab.setVisible(false);
        datax = FXCollections.observableArrayList(UVM.get3RecentProjects());
        cb_project.getItems().addAll(datapj);
@@ -421,6 +432,7 @@ private ObservableList<Task> datatask;
        
    loadButtons();
          loaded = true;
+       //  loadOver();
 
     }
     public void loadButtons()
@@ -2328,11 +2340,19 @@ export = 3;
         else if(export ==1)
         {
         t = tbv_task.getSelectionModel().getSelectedItem();
+        
         UVM.editTask(t,t.getTaskName(),t.getDesc(),t.getAssociatedProjectID(),t.getBillable());
          }
         else if(export == 2)
         { s = tbv_session.getSelectionModel().getSelectedItem();
-         UVM.editSession(s,s.getStartTime(),s.getFinishTime(),s.getAssociatedTaskID());}}
+        if(UVM.isValidDate(s.getStartTime()) && UVM.isValidDate(s.getFinishTime()))
+        {
+         UVM.editSession(s,s.getStartTime(),s.getFinishTime(),s.getAssociatedTaskID());}
+        else
+        {
+           System.out.println("DIALOG INVALID INPUT");
+        }
+        }
         if(admpanel)
         { if(export == 4)
         {
@@ -2357,7 +2377,7 @@ export = 3;
         
         }
     }
-
+    }
     @FXML
     private void show_user_graph(ActionEvent event) {
          String startTimee = lu.getStartTime();
@@ -2490,5 +2510,34 @@ export = 3;
         load_admin_users(event);
         
         
+    }
+
+    @FXML
+    private void load_overview_tab(Event event) {
+        loadOver();
+    }
+    
+    private void loadOver()
+    {
+    
+        listpj = UVM.getAllOpenProjects();
+        datapj =  FXCollections.observableArrayList(listpj);
+       Project p = new Project(0,"Projects",0,"",0,0,false);
+       TreeItem<String> itemmain = new TreeItem<String>("Projects");
+       over_col1.setCellValueFactory(new TreeItemPropertyValueFactory<>("projectName"));
+       for(int i = 0;i<datapj.size();i++)
+       {
+            TreeItem<String> item = new TreeItem<String>(datapj.get(i).getProjectName());
+            itemmain.getChildren().add(item);
+            ObservableList<Task> tasklist1 = FXCollections.observableArrayList(datapj.get(i).getTaskList());
+           for(int j =0;j<tasklist1.size();j++)
+                   {
+                        TreeItem<String> item2 = new TreeItem<String>(tasklist1.get(j).getTaskName());
+                       item.getChildren().add(item2);
+                   }
+       }
+        
+        tbv_over.setRoot(itemmain);
+    
     }
 }

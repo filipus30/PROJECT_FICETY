@@ -117,7 +117,12 @@ public class BllManager implements IBLL {
     @Override
     public ArrayList<Project> getAllOpenProjects()
     {
-        return dalManager.getAllOpenProjects();
+        ArrayList<Project> projects = dalManager.getAllOpenProjects();
+         for(Project p : projects)
+        {
+            dalManager.addTasksToProject(p);
+        }
+        return projects;
     }
     
     @Override

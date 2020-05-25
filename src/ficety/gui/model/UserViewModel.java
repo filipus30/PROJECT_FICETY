@@ -107,6 +107,7 @@ public class UserViewModel {
     
     public ArrayList<Project> getAllOpenProjects()
     {
+        
         return BllM.getAllOpenProjects();
     }
     
