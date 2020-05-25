@@ -2522,22 +2522,22 @@ export = 3;
     
         listpj = UVM.getAllOpenProjects();
         datapj =  FXCollections.observableArrayList(listpj);
-       Project p = new Project(0,"Projects",0,"",0,0,false);
-       TreeItem<Object> itemmain = new TreeItem<Object>("Projects");
-       over_col1.setCellValueFactory(new TreeItemPropertyValueFactory<>(over_col1.getCellValueFactory().toString()));
-       for(int i = 0;i<datapj.size();i++)
-       {
-            TreeItem<Object> item = new TreeItem<Object>(datapj.get(i));
-            itemmain.getChildren().add(item);
-            ObservableList<Task> tasklist1 = FXCollections.observableArrayList(datapj.get(i).getTaskList());
-           for(int j =0;j<tasklist1.size();j++)
-                   {
-                        TreeItem<Object> item2 = new TreeItem<Object>(tasklist1.get(j));
-                       item.getChildren().add(item2);
-                   }
-       }
-        
-        tbv_over.setRoot(itemmain);
-    
-    }
+//       Project p = new Project(0,"Projects",0,"",0,0,false);
+//       TreeItem<Object> itemmain = new TreeItem<Object>("Projects");
+//       over_col1.setCellValueFactory(new TreeItemPropertyValueFactory<>(over_col1.getCellValueFactory().toString()));
+//       for(int i = 0;i<datapj.size();i++)
+//       {
+//            TreeItem<Object> item = new TreeItem<Object>(datapj.get(i));
+//            itemmain.getChildren().add(item);
+//            ObservableList<Task> tasklist1 = FXCollections.observableArrayList(datapj.get(i).getTaskList());
+//           for(int j =0;j<tasklist1.size();j++)
+//                   {
+//                        TreeItem<Object> item2 = new TreeItem<Object>(tasklist1.get(j));
+//                       item.getChildren().add(item2);
+//                   }
+//       }
+//        
+//        tbv_over.setRoot(itemmain);
+//    
+//    }
 }
