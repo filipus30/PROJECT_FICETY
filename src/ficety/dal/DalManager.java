@@ -120,6 +120,12 @@ public class DalManager implements DalFaçade {
         return projectDBDao.get3RecentProjectsForUser(userID);
     }
     
+    @Override 
+    public ArrayList<Project> getAllOpenProjects()
+    {
+        return projectDBDao.getAllOpenProjects();
+    }
+    
     @Override
     public ArrayList<Project> getAllProjectsForUserTab (int userID)
     {

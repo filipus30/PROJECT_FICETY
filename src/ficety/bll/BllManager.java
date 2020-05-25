@@ -115,6 +115,12 @@ public class BllManager implements IBLL {
     }
     
     @Override
+    public ArrayList<Project> getAllOpenProjects()
+    {
+        return dalManager.getAllOpenProjects();
+    }
+    
+    @Override
     public ArrayList<Project> getAllProjectsForUserTab()
     {
         int userId = lu.getId();

@@ -311,8 +311,9 @@
       <JFXButton fx:id="tb_toggle" layoutX="191.0" layoutY="423.0" onAction="#toggel_size" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="&lt;-" textFill="WHITE" />
       <JFXButton fx:id="bn_expandview" layoutX="19.0" layoutY="423.0" onAction="#handle_view" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Show Overview" textFill="WHITE" />
       <JFXButton layoutX="70.0" layoutY="462.0" onAction="#show_admin" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Admin Panel" textFill="WHITE" />
-      <TextField fx:id="search" layoutX="549.0" layoutY="410.0" prefHeight="27.0" prefWidth="96.0" promptText="Search" text="Export Name" AnchorPane.leftAnchor="549.0" AnchorPane.topAnchor="410.0" />
-      <JFXButton fx:id="bn_exp" layoutX="677.0" layoutY="410.0" onAction="#export_table" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Export Table" textFill="WHITE" />
+      <TextField fx:id="search" layoutX="597.0" layoutY="409.0" prefHeight="27.0" prefWidth="96.0" promptText="Search" text="Export Name" AnchorPane.leftAnchor="597.0" AnchorPane.topAnchor="409.0" />
+      <JFXButton fx:id="bn_exp" layoutX="702.0" layoutY="410.0" onAction="#export_table" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Export Table" textFill="WHITE" />
+      <JFXButton fx:id="btn_refreshAll" layoutX="411.0" layoutY="410.0" onAction="#refresh_tables" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Refresh tables" textFill="WHITE" />
       <JFXButton fx:id="bn_exp1" layoutX="276.0" layoutY="410.0" onAction="#update_selected" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Update Selected" textFill="WHITE" />
    </children>
 </AnchorPane>

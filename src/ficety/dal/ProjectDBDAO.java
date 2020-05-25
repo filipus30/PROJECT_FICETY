@@ -111,7 +111,7 @@ public class ProjectDBDAO {
       public ArrayList<Project> get3RecentProjectsForUser(int loggedInUserKey)
       {
         ArrayList<Project> recentProjects = new ArrayList();
-        String sql = "Select  part.* " + 
+        String sql = "Select part.* " + 
                 "FROM (Select Projects.Id, Projects.Name, Projects.ProjectRate, Projects.AssociatedClient, Projects.Closed, Projects.Phonenr, Projects.AllocatedHours, " +
                         "Sessions.FinishTime, ROW_NUMBER() OVER(Partition BY Projects.Id ORDER BY Sessions.FinishTime) Corr " + 
                     "FROM Projects " +
@@ -146,6 +146,41 @@ public class ProjectDBDAO {
             Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return recentProjects;
+      }
+      
+    public ArrayList<Project> getAllOpenProjects()
+      {
+        ArrayList<Project> openProjects = new ArrayList();
+        String sql = "Select * " +
+                    "FROM Projects " +
+                    "WHERE Closed = 0" + 
+                    "ORDER BY Name ASC;";
+        try ( Connection con = dbc.getConnection()) {
+        //Create a prepared statement.
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        //Set parameter values.
+        ResultSet rs = pstmt.executeQuery();
+        while(rs.next())
+        {
+            int projectId = rs.getInt("Id");
+            String projectName = rs.getString("Name");
+            int associatedClientID = rs.getInt("AssociatedClient");
+            Float projectRate = rs.getFloat("ProjectRate");
+            String phoneNr = rs.getString("PhoneNr");
+            int allocatedHours = rs.getInt("AllocatedHours");
+            int closed = rs.getInt("Closed");
+            boolean isClosed = false;
+            if(closed == 1)
+            isClosed = true;
+            Project project; 
+            project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed);
+            openProjects.add(project);
+        }
+        return openProjects;  
+        } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return openProjects;
       }
       
       public ArrayList<Project> getAllProjectsForUserTab(int userID)

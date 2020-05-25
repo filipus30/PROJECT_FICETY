@@ -105,6 +105,11 @@ public class UserViewModel {
         return BllM.get3RecentProjectsForUser();
     }
     
+    public ArrayList<Project> getAllOpenProjects()
+    {
+        return BllM.getAllOpenProjects();
+    }
+    
     public ArrayList<Coordinates> getSingleProjectForUserGraph(int userId,String startTime,String finishTime,int projectId)
     {
         return BllM.getSingleProjectForUserGraph(userId, startTime, finishTime, projectId);

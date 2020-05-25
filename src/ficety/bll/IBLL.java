@@ -37,6 +37,7 @@ public interface IBLL {
     public Project addNewProjectToDB(String projectName, Client associatedClient, String phoneNr, float projectRate, int hoursAllocated, boolean isClosed);
     public Project editProject (Project editedProject, String projectName, int associatedClientID, float projectRate, int allocatedHours, boolean isClosed, String phoneNr);
     public ArrayList<Project> get3RecentProjectsForUser();
+    public ArrayList<Project> getAllOpenProjects();
     public ArrayList<Project> getAllProjectsForUserTab();
     public ArrayList<Project> getAllProjects();
     public void deleteProject(Project projectToDelete);

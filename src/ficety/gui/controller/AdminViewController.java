@@ -84,6 +84,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Pair;
 import javafx.util.StringConverter;
 import javax.swing.JFrame;
 
@@ -171,6 +172,8 @@ private ObservableList<Task> datatask;
     private JFXButton bn_exp21;
     private String startTime = "";
     private String finishTime = "";
+    @FXML
+    private JFXButton btn_refreshAll;
 
     public AdminViewController()
     {
@@ -398,6 +401,8 @@ private ObservableList<Task> datatask;
     private JFXComboBox<String> cb_bar_usr_time;
 
     private ObservableList<String> clientstring;
+    
+    ObservableList<Project> datapj;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -407,8 +412,8 @@ private ObservableList<Task> datatask;
     //       clientstring.add(clientlist.get(i).getClientName());
            
      //   }
-        List<Project> list = UVM.getAllProjectsForUserTab();
-        ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
+        List<Project> list = UVM.getAllOpenProjects();
+        datapj =  FXCollections.observableArrayList(list);
        admin_tab.setVisible(false);
        datax = FXCollections.observableArrayList(UVM.get3RecentProjects());
        cb_project.getItems().addAll(datapj);
@@ -544,8 +549,9 @@ private ObservableList<Task> datatask;
         Project associatedProject = cb_project.getSelectionModel().getSelectedItem();
         String taskName = tf_newtask.getText();
         boolean taskBillable = true;
-        Task c = UVM.addNewTaskAndSetItRunning(taskName, taskBillable, associatedProject).getKey();
-        Session s = UVM.addNewTaskAndSetItRunning(taskName, taskBillable, associatedProject).getValue();
+        Pair<Task, Session> ourPair = UVM.addNewTaskAndSetItRunning(taskName, taskBillable, associatedProject);
+        Task c = ourPair.getKey();
+        Session s = ourPair.getValue();
         tasklist.add(c);
         datatask.add(c);
         datasession.add(s);
@@ -661,8 +667,7 @@ export = 3;
 
     }
 
-    @FXML //On the task selection for both the Task-tab as well as the Tasks INSIDE 3 most recent projects.
-    private void chooseSelectedTask(Event event)
+        private void chooseSelectedTask(Event event)
     {
         if(event.getSource().equals(jcb1)) //From First recent Project
         {
@@ -1321,7 +1326,6 @@ export = 3;
         datax.add(UVM.addNewProjectToDB(tf_adm_project_name.getText(),cb_adm_project_client.getSelectionModel().getSelectedItem(),tf_adm_project_contact.getText(),Float.valueOf(tf_adm_project_payment.getText()),Integer.valueOf(tf_adm_project_hours.getText()), false));
     }
 
-    @FXML
     private void adm_choose_task(MouseEvent event) {
         ArrayList<Project> list = UVM.getAllProjects();
             ObservableList<Project> admdataProject =  FXCollections.observableArrayList(list);
@@ -2453,5 +2457,36 @@ export = 3;
             showOneProjectBarUsr(p, startTime, finishTime);          
         }
             
+    }
+
+    @FXML
+    private void refresh_tables(ActionEvent event) {
+        debug("refreshing tables.");
+        loadCli = false;
+        loadProject = false;
+        loadUsers = false;
+        loadAdminTasks = false;
+        
+        tasklist = UVM.getAllTasksForAdmin();
+        dataTasks =  FXCollections.observableArrayList(tasklist);
+        clientlist = UVM.getAllClients();
+        dataClient =  FXCollections.observableArrayList(clientlist);
+        userlist = UVM.getAllUsers();
+        dataUsers =  FXCollections.observableArrayList(userlist);
+        datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
+        choosedatauser =  FXCollections.observableArrayList(UVM.getAllProjects());
+        admdataClient =  FXCollections.observableArrayList(UVM.getAllClients());
+        datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
+        
+        List<Project> list = UVM.getAllOpenProjects();
+        datapj =  FXCollections.observableArrayList(list);
+        
+        loadAll();
+        load_admin_clients(event);
+        load_admin_projects(event);
+        load_admin_tasks(event);
+        load_admin_users(event);
+        
+        
     }
 }
