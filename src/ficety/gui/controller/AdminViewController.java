@@ -183,7 +183,7 @@ private ObservableList<Task> datatask;
     @FXML
     private TreeTableColumn<String,String> over_col2;
     @FXML
-    private TreeTableView<String> tbv_over;
+    private TreeTableView<Object> tbv_over;
 
     public AdminViewController()
     {
@@ -2523,16 +2523,16 @@ export = 3;
         listpj = UVM.getAllOpenProjects();
         datapj =  FXCollections.observableArrayList(listpj);
        Project p = new Project(0,"Projects",0,"",0,0,false);
-       TreeItem<String> itemmain = new TreeItem<String>("Projects");
-       over_col1.setCellValueFactory(new TreeItemPropertyValueFactory<>("projectName"));
+       TreeItem<Object> itemmain = new TreeItem<Object>("Projects");
+       over_col1.setCellValueFactory(new TreeItemPropertyValueFactory<>(over_col1.getCellValueFactory().toString()));
        for(int i = 0;i<datapj.size();i++)
        {
-            TreeItem<String> item = new TreeItem<String>(datapj.get(i).getProjectName());
+            TreeItem<Object> item = new TreeItem<Object>(datapj.get(i));
             itemmain.getChildren().add(item);
             ObservableList<Task> tasklist1 = FXCollections.observableArrayList(datapj.get(i).getTaskList());
            for(int j =0;j<tasklist1.size();j++)
                    {
-                        TreeItem<String> item2 = new TreeItem<String>(tasklist1.get(j).getTaskName());
+                        TreeItem<Object> item2 = new TreeItem<Object>(tasklist1.get(j));
                        item.getChildren().add(item2);
                    }
        }
