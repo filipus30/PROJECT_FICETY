@@ -1061,7 +1061,7 @@ export = 3;
 
     @FXML
     private void load_admin_projects(Event event) {
-        export =5;
+        export = 5;
         if(loadProject == false)
         {
             //ArrayList<Project> list = UVM.getAllProjects();
@@ -2330,10 +2330,14 @@ export = 3;
         if(admpanel == false)
         {  if(export == 3 )
          {  pj = Tbv_pj.getSelectionModel().getSelectedItem();
-       if(UVM.isNumber(String.valueOf(pj.getAssociatedClientID())) && UVM.isNumber(String.valueOf(pj.getPhoneNr())))
+       if(UVM.isNumber(String.valueOf(pj.getPhoneNr())))
        { UVM.editProject(pj,pj.getProjectName(),pj.getAssociatedClientID(),pj.getProjectRate(),pj.getAllocatedHours(),pj.getIsClosed(),pj.getPhoneNr());}
        else {
-           System.out.println("DIALOG INVALID INPUT");
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Error ! Invalid input : "+String.valueOf(pj.getPhoneNr()));
+      alert.showAndWait();
        }
          }
        
@@ -2350,14 +2354,29 @@ export = 3;
          UVM.editSession(s,s.getStartTime(),s.getFinishTime(),s.getAssociatedTaskID());}
         else
         {
-           System.out.println("DIALOG INVALID INPUT");
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Error ! Invalid input : "+s.getStartTime()+"  "+s.getFinishTime());
+      alert.showAndWait();
         }
-        }
+        }}
         if(admpanel)
         { if(export == 4)
         {
             c = admin_clients.getSelectionModel().getSelectedItem();
+            if(UVM.isNumber(String.valueOf(c.getStandardRate())))
+            {
             UVM.editClient(c,c.getClientName(),c.getStandardRate(),c.getEmail());
+            }
+            else
+            {
+                  Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Error ! Invalid input : "+String.valueOf(c.getStandardRate()));
+      alert.showAndWait();
+            }
         }
         else if(export == 5)
         {
@@ -2372,12 +2391,21 @@ export = 3;
         else if(export ==7)
         {
             u = admin_users.getSelectionModel().getSelectedItem();
-            UVM.editUser(u,u.getUserName(),u.getEmail(),u.getPassword(),u.getSalary(),u.getIsAdmin());
+            if(UVM.isNumber(String.valueOf(u.getSalary())))
+            { UVM.editUser(u,u.getUserName(),u.getEmail(),u.getPassword(),u.getSalary(),u.getIsAdmin());}
+            else
+            {
+                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Error ! Invalid input :  "+String.valueOf(u.getSalary()));
+      alert.showAndWait();}
+            }
         }
         
         }
-    }
-    }
+    
+    
     @FXML
     private void show_user_graph(ActionEvent event) {
          String startTimee = lu.getStartTime();
