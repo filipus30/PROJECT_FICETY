@@ -2479,7 +2479,9 @@ export = 3;
         datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
         
         List<Project> list = UVM.getAllOpenProjects();
+        cb_project.getItems().removeAll(datapj);
         datapj =  FXCollections.observableArrayList(list);
+        cb_project.getItems().addAll(datapj);
         
         loadAll();
         load_admin_clients(event);

@@ -120,13 +120,13 @@ public class TaskDBDAO {
             pstmt.setString(1, taskName);
             pstmt.setString(2, description);
             pstmt.setInt(3, associatedProjectID);
-            pstmt.setInt(4, taskID);
-           int billable = 1;
+            int billable = 1;
             if(isBillable == false)
             {
                 billable = 0;
             }
-            pstmt.setInt(5, billable);
+            pstmt.setInt(4, billable);
+            pstmt.setInt(5, taskID);
             pstmt.executeUpdate();  //Execute SQL query.
             editedTask.setTaskName(taskName);
             editedTask.setDesc(description);
