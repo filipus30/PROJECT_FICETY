@@ -290,6 +290,7 @@ public class ProjectDBDAO {
             String timee = String.format("%02d:%02d:%02d", totalTime / 3600, (totalTime % 3600) / 60, totalTime % 60);
             project.setSeconds(timee);
             int time = rs.getInt("BillableTime");
+            project.setBillableTime(time);
             if(allocatedHours > 0)
             {
                 double hours = time/3600;

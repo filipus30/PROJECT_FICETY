@@ -31,6 +31,10 @@ public class Project {
     private StringProperty clientName = new SimpleStringProperty();
     private StringProperty seconds = new SimpleStringProperty();
     private StringProperty calPayment = new SimpleStringProperty();
+    private final IntegerProperty billableTime = new SimpleIntegerProperty();
+
+
+    
 
 
     public Project(int projectID, String projectName, int associatedClientID, String phoneNr, float projectRate, int allocatedHours, boolean isClosed) {
@@ -183,6 +187,18 @@ public class Project {
 
     public void setCalPayment(String calPayment) {
         this.calPayment.set(calPayment);
+    }
+    
+    public int getBillableTime() {
+        return billableTime.get();
+    }
+
+    public void setBillableTime(int value) {
+        billableTime.set(value);
+    }
+
+    public IntegerProperty billableTimeProperty() {
+        return billableTime;
     }
     
 }
