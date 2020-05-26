@@ -431,8 +431,8 @@ private ObservableList<Task> datatask;
     //       clientstring.add(clientlist.get(i).getClientName());
            
      //   }
-       // listpj = UVM.getAllOpenProjects();
-       // datapj =  FXCollections.observableArrayList(listpj);
+        listpj = UVM.getAllOpenProjects();
+        datapj =  FXCollections.observableArrayList(listpj);
        admin_tab.setVisible(false);
        datax = FXCollections.observableArrayList(UVM.get3RecentProjects());
        cb_project.getItems().addAll(datapj);
@@ -2555,13 +2555,15 @@ export = 3;
     
     private void loadOver()
     {
+         ArrayList<Project> list = UVM.getAllProjects();
+          //   ObservableList<Project> dataProject =  FXCollections.observableArrayList(list);
     
-        listpj = UVM.getAllOpenProjects();
-        datapj =  FXCollections.observableArrayList(listpj);
+       // listpj = UVM.getAllOpenProjects();
+       // datapj =  FXCollections.observableArrayList(listpj);
         EntityItem e = new EntityItem();
         e.setprojectName("Projects");
 TreeItem<EntityItem> root = new TreeItem<>(e);
-for (Project project : listpj) {
+for (Project project : list) {
     TreeItem<EntityItem> projectTreeItem = new TreeItem<>(new EntityItem(project));
     for (Task t : project.getTaskList()) {
         TreeItem<EntityItem> employeeTreeItem = new TreeItem<>(new EntityItem(t));
@@ -2577,8 +2579,8 @@ over_col3.setCellValueFactory((cellData) -> cellData.getValue()
                                     .getValue().taskNameProperty());
 over_col4.setCellValueFactory((cellData) -> cellData.getValue()
                                     .getValue().taskTimeProperty());
-over_col5.setCellValueFactory((cellData) -> cellData.getValue()
-                                    .getValue().taskBillableProperty());
+          over_col5.setCellValueFactory((cellData) -> cellData.getValue()
+                                   .getValue().taskBillableProperty());
 
 
 tbv_over.setRoot(root);

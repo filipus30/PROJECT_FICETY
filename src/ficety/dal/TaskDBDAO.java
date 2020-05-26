@@ -263,7 +263,12 @@ public class TaskDBDAO {
     public void addTasksToProject(Project p)
     {
         ArrayList<Task> pTasks = new ArrayList();
-        String sql = "SELECT T.Id, T.Name, T.Description, T.Billable, P.Name as PName FROM Tasks T JOIN Projects P ON T.AssociatedProject=P.Id WHERE AssociatedProject = ?";
+        String sql = "Select Tasks.id ,Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.Billable, P.Name AS PName, SUM(Datediff(SECOND, S.StartTime, S.FinishTime)) AS Total \n" +
+"                        FROM Tasks\n" +
+"                            LEFT JOIN Sessions S ON Tasks.Id=S.AssociatedTask\n" +
+"                            LEFT JOIN Projects P ON Tasks.AssociatedProject = P.Id\n" +
+"                        WHERE Tasks.AssociatedProject = ?\n" +
+"                        GROUP BY Tasks.Name, Tasks.AssociatedProject, Tasks.Description, Tasks.id, Tasks.Billable, P.Name";
         try(Connection con = dbc.getConnection())
         {
             PreparedStatement pstmt = con.prepareStatement(sql);
@@ -284,8 +289,9 @@ public class TaskDBDAO {
                    isBillable = true;
                }
                String associatedProjectName = rs.getString("PName");
-               
-               Task newTask = new Task(taskId, taskName, taskDesc, isBillable, projectId, associatedProjectName, "");
+               int time = rs.getInt("Total");
+               String timee = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
+               Task newTask = new Task(taskId, taskName, taskDesc, isBillable, projectId, associatedProjectName,timee);
                pTasks.add(newTask);
             }
             p.setTaskList(pTasks);
