@@ -29,9 +29,9 @@ public class Project {
     private List<Task> taskList;
     private BooleanProperty isClosed = new SimpleBooleanProperty();
     private StringProperty clientName = new SimpleStringProperty();
-    private StringProperty seconds = new SimpleStringProperty();
+    private StringProperty seconds = new SimpleStringProperty(); //total time
     private StringProperty calPayment = new SimpleStringProperty();
-    private final IntegerProperty billableTime = new SimpleIntegerProperty();
+    private IntegerProperty billableTime = new SimpleIntegerProperty(); //Stored in seconds!
 
 
     
