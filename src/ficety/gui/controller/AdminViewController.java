@@ -185,6 +185,12 @@ private ObservableList<Task> datatask;
     private TreeTableColumn<EntityItem,String> over_col2;
     @FXML
     private TreeTableView<EntityItem> tbv_over;
+    @FXML
+    private TreeTableColumn<EntityItem,String> over_col3;
+    @FXML
+    private TreeTableColumn<EntityItem,String> over_col4;
+    @FXML
+    private TreeTableColumn<EntityItem,Boolean> over_col5;
 
     public AdminViewController()
     {
@@ -2552,8 +2558,10 @@ export = 3;
     
         listpj = UVM.getAllOpenProjects();
         datapj =  FXCollections.observableArrayList(listpj);
-TreeItem<EntityItem> root = new TreeItem<>(new EntityItem());
-for (Project project : datapj) {
+        EntityItem e = new EntityItem();
+        e.setprojectName("Projects");
+TreeItem<EntityItem> root = new TreeItem<>(e);
+for (Project project : listpj) {
     TreeItem<EntityItem> projectTreeItem = new TreeItem<>(new EntityItem(project));
     for (Task t : project.getTaskList()) {
         TreeItem<EntityItem> employeeTreeItem = new TreeItem<>(new EntityItem(t));
@@ -2563,8 +2571,16 @@ for (Project project : datapj) {
 }
 over_col1.setCellValueFactory((cellData) -> cellData.getValue()
                                     .getValue().projectNameProperty());
-over_col1.setCellValueFactory((cellData) -> cellData.getValue()
+over_col2.setCellValueFactory((cellData) -> cellData.getValue()
+                                    .getValue().projectTotalTimeProperty());
+over_col3.setCellValueFactory((cellData) -> cellData.getValue()
                                     .getValue().taskNameProperty());
+over_col4.setCellValueFactory((cellData) -> cellData.getValue()
+                                    .getValue().taskTimeProperty());
+over_col5.setCellValueFactory((cellData) -> cellData.getValue()
+                                    .getValue().taskBillableProperty());
+
+
 tbv_over.setRoot(root);
     }
 
