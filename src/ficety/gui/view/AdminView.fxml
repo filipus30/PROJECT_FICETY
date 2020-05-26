@@ -16,6 +16,8 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -49,6 +51,20 @@
       <AnchorPane fx:id="ap" layoutX="21.0" layoutY="111.0" />
       <TabPane fx:id="user_tabpane" layoutX="245.0" layoutY="30.0" prefHeight="375.0" prefWidth="552.0" side="LEFT" style="-fx-background-color: #5cb4fd#5cb4fd;" stylesheets="@../css/adminview.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
+            <Tab onSelectionChanged="#load_overview_tab" text="Overview">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TreeTableView fx:id="tbv_over" layoutX="45.0" layoutY="44.0" prefHeight="375.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TreeTableColumn fx:id="over_col1" prefWidth="219.0" text="C1" />
+                            <TreeTableColumn fx:id="over_col2" minWidth="0.0" prefWidth="184.0" />
+                          </columns>
+                        </TreeTableView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
           <Tab fx:id="tab_pj" onSelectionChanged="#load_pj_tab" text="Projects">
             <content>
               <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="375.0" prefWidth="519.0">
@@ -83,27 +99,6 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="tab_stat" onSelectionChanged="#load_stat_tab" text="Statistics">
-               <content>
-                  <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="389.0" prefWidth="519.0">
-                     <children>
-                        <Label fx:id="lb_stat_taskhours" layoutX="583.0" layoutY="381.0" prefHeight="27.0" prefWidth="75.0" text="Hour on Task" />
-                        <Label fx:id="lb_stat_totalhours" layoutX="667.0" layoutY="381.0" prefHeight="27.0" prefWidth="75.0" text="Total Hours" />
-                        <LineChart fx:id="stat_graph" prefHeight="365.0" prefWidth="519.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </LineChart>
-                        <JFXComboBox fx:id="cb_stat_task" layoutX="27.0" layoutY="343.0" onAction="#show_after_date" prefHeight="27.0" prefWidth="184.0" promptText="Select Data" />
-                        <JFXComboBox fx:id="cb_stat_time" layoutX="233.0" layoutY="343.0" onAction="#show_linechart" prefHeight="27.0" prefWidth="200.0" promptText="Select Time Period" />
-                        <JFXButton fx:id="bn_exp22" layoutX="447.0" layoutY="343.0" onAction="#show_user_graph" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Show" textFill="WHITE" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
 
             <Tab fx:id="tab_sesion" onSelectionChanged="#load_session_tab" text="Sessions">
                <content>
@@ -139,6 +134,27 @@
                      </children>
                   </AnchorPane>
               </content>
+            </Tab>
+            <Tab fx:id="tab_stat" onSelectionChanged="#load_stat_tab" text="Statistics">
+               <content>
+                  <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="389.0" prefWidth="519.0">
+                     <children>
+                        <Label fx:id="lb_stat_taskhours" layoutX="583.0" layoutY="381.0" prefHeight="27.0" prefWidth="75.0" text="Hour on Task" />
+                        <Label fx:id="lb_stat_totalhours" layoutX="667.0" layoutY="381.0" prefHeight="27.0" prefWidth="75.0" text="Total Hours" />
+                        <LineChart fx:id="stat_graph" prefHeight="365.0" prefWidth="519.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                        <JFXComboBox fx:id="cb_stat_task" layoutX="27.0" layoutY="343.0" onAction="#show_after_date" prefHeight="27.0" prefWidth="184.0" promptText="Select Data" />
+                        <JFXComboBox fx:id="cb_stat_time" layoutX="233.0" layoutY="343.0" onAction="#show_linechart" prefHeight="27.0" prefWidth="200.0" promptText="Select Time Period" />
+                        <JFXButton fx:id="bn_exp22" layoutX="447.0" layoutY="343.0" onAction="#show_user_graph" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Show" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
+               </content>
             </Tab>
         </tabs>
       </TabPane>

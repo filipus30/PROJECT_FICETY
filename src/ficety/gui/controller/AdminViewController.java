@@ -67,9 +67,13 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeTableColumn;
+import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.control.cell.TreeItemPropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -174,6 +178,12 @@ private ObservableList<Task> datatask;
     private String finishTime = "";
     @FXML
     private JFXButton btn_refreshAll;
+    @FXML
+    private TreeTableColumn<Project, Task> over_col1;
+    @FXML
+    private TreeTableColumn<String,String> over_col2;
+    @FXML
+    private TreeTableView<Object> tbv_over;
 
     public AdminViewController()
     {
@@ -402,7 +412,8 @@ private ObservableList<Task> datatask;
 
     private ObservableList<String> clientstring;
     
-    ObservableList<Project> datapj;
+    private ObservableList<Project> datapj;
+    private List<Project> listpj;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -412,8 +423,8 @@ private ObservableList<Task> datatask;
     //       clientstring.add(clientlist.get(i).getClientName());
            
      //   }
-        List<Project> list = UVM.getAllOpenProjects();
-        datapj =  FXCollections.observableArrayList(list);
+       // listpj = UVM.getAllOpenProjects();
+       // datapj =  FXCollections.observableArrayList(listpj);
        admin_tab.setVisible(false);
        datax = FXCollections.observableArrayList(UVM.get3RecentProjects());
        cb_project.getItems().addAll(datapj);
@@ -421,6 +432,7 @@ private ObservableList<Task> datatask;
        
    loadButtons();
          loaded = true;
+       //  loadOver();
 
     }
     public void loadButtons()
@@ -1049,7 +1061,7 @@ export = 3;
 
     @FXML
     private void load_admin_projects(Event event) {
-        export =5;
+        export = 5;
         if(loadProject == false)
         {
             //ArrayList<Project> list = UVM.getAllProjects();
@@ -2318,26 +2330,53 @@ export = 3;
         if(admpanel == false)
         {  if(export == 3 )
          {  pj = Tbv_pj.getSelectionModel().getSelectedItem();
-       if(UVM.isNumber(String.valueOf(pj.getAssociatedClientID())) && UVM.isNumber(String.valueOf(pj.getPhoneNr())))
+       if(UVM.isNumber(String.valueOf(pj.getPhoneNr())))
        { UVM.editProject(pj,pj.getProjectName(),pj.getAssociatedClientID(),pj.getProjectRate(),pj.getAllocatedHours(),pj.getIsClosed(),pj.getPhoneNr());}
        else {
-           System.out.println("DIALOG INVALID INPUT");
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Error ! Invalid input : "+String.valueOf(pj.getPhoneNr()));
+      alert.showAndWait();
        }
          }
        
         else if(export ==1)
         {
         t = tbv_task.getSelectionModel().getSelectedItem();
+        
         UVM.editTask(t,t.getTaskName(),t.getDesc(),t.getAssociatedProjectID(),t.getBillable());
          }
         else if(export == 2)
         { s = tbv_session.getSelectionModel().getSelectedItem();
-         UVM.editSession(s,s.getStartTime(),s.getFinishTime(),s.getAssociatedTaskID());}}
+        if(UVM.isValidDate(s.getStartTime()) && UVM.isValidDate(s.getFinishTime()))
+        {
+         UVM.editSession(s,s.getStartTime(),s.getFinishTime(),s.getAssociatedTaskID());}
+        else
+        {
+           Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Error ! Invalid input : "+s.getStartTime()+"  "+s.getFinishTime());
+      alert.showAndWait();
+        }
+        }}
         if(admpanel)
         { if(export == 4)
         {
             c = admin_clients.getSelectionModel().getSelectedItem();
+            if(UVM.isNumber(String.valueOf(c.getStandardRate())))
+            {
             UVM.editClient(c,c.getClientName(),c.getStandardRate(),c.getEmail());
+            }
+            else
+            {
+                  Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Error ! Invalid input : "+String.valueOf(c.getStandardRate()));
+      alert.showAndWait();
+            }
         }
         else if(export == 5)
         {
@@ -2352,12 +2391,21 @@ export = 3;
         else if(export ==7)
         {
             u = admin_users.getSelectionModel().getSelectedItem();
-            UVM.editUser(u,u.getUserName(),u.getEmail(),u.getPassword(),u.getSalary(),u.getIsAdmin());
+            if(UVM.isNumber(String.valueOf(u.getSalary())))
+            { UVM.editUser(u,u.getUserName(),u.getEmail(),u.getPassword(),u.getSalary(),u.getIsAdmin());}
+            else
+            {
+                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Error ! Invalid input :  "+String.valueOf(u.getSalary()));
+      alert.showAndWait();}
+            }
         }
         
         }
-    }
-
+    
+    
     @FXML
     private void show_user_graph(ActionEvent event) {
          String startTimee = lu.getStartTime();
@@ -2491,4 +2539,34 @@ export = 3;
         
         
     }
+
+    @FXML
+    private void load_overview_tab(Event event) {
+        loadOver();
+    }
+    
+    private void loadOver()
+    {
+    
+        listpj = UVM.getAllOpenProjects();
+        datapj =  FXCollections.observableArrayList(listpj);
+//       Project p = new Project(0,"Projects",0,"",0,0,false);
+//       TreeItem<Object> itemmain = new TreeItem<Object>("Projects");
+//       over_col1.setCellValueFactory(new TreeItemPropertyValueFactory<>(over_col1.getCellValueFactory().toString()));
+//       for(int i = 0;i<datapj.size();i++)
+//       {
+//            TreeItem<Object> item = new TreeItem<Object>(datapj.get(i));
+//            itemmain.getChildren().add(item);
+//            ObservableList<Task> tasklist1 = FXCollections.observableArrayList(datapj.get(i).getTaskList());
+//           for(int j =0;j<tasklist1.size();j++)
+//                   {
+//                        TreeItem<Object> item2 = new TreeItem<Object>(tasklist1.get(j));
+//                       item.getChildren().add(item2);
+//                   }
+//       }
+//        
+//        tbv_over.setRoot(itemmain);
+//    
+    }
+
 }
