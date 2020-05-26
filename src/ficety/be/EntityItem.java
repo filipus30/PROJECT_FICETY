@@ -25,7 +25,7 @@ public class EntityItem {
     //Task
     private final StringProperty taskName = new SimpleStringProperty(this, "taskName", "");
     private final StringProperty taskTime = new SimpleStringProperty(this, "hours", "");
-    private final BooleanProperty taskBillable = new SimpleBooleanProperty(this, "billable");
+    private final StringProperty taskBillable = new SimpleStringProperty(this, "billable");
     
     
     public EntityItem(){
@@ -41,19 +41,23 @@ public class EntityItem {
     public EntityItem(Task t){
         taskName.bindBidirectional(t.taskNameProperty());
         taskTime.bindBidirectional(t.hoursProperty());
-        taskBillable.bindBidirectional(t.billableProperty());
+        taskBillable.bindBidirectional(new SimpleStringProperty(String.valueOf(t.getBillable())));
+        if(t.getBillable())
+            taskBillable.set("Yes");
+        else
+            taskBillable.set("No");
     }
 
-    public boolean isTaskBillable() {
+    public String isTaskBillable() {
         return taskBillable.get();
     }
 
-    public void setTaskBillable(boolean value) {
+    public void setTaskBillable(String value) {
         taskBillable.set(value);
     }
 
-    public BooleanProperty taskBillableProperty() {
-        return taskBillable;
+    public StringProperty taskBillableProperty() {
+           return taskBillable;
     }
     
 

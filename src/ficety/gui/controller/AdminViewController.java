@@ -190,7 +190,7 @@ private ObservableList<Task> datatask;
     @FXML
     private TreeTableColumn<EntityItem,String> over_col4;
     @FXML
-    private TreeTableColumn<EntityItem,Boolean> over_col5;
+    private TreeTableColumn<EntityItem,String> over_col5;
 
     public AdminViewController()
     {
@@ -2579,8 +2579,9 @@ over_col3.setCellValueFactory((cellData) -> cellData.getValue()
                                     .getValue().taskNameProperty());
 over_col4.setCellValueFactory((cellData) -> cellData.getValue()
                                     .getValue().taskTimeProperty());
-          over_col5.setCellValueFactory((cellData) -> cellData.getValue()
-                                   .getValue().taskBillableProperty());
+over_col5.setCellValueFactory((cellData) -> 
+                  cellData.getValue().getValue().taskBillableProperty());
+          
 
 
 tbv_over.setRoot(root);
