@@ -44,80 +44,80 @@ public class EntityItem {
         taskBillable.bindBidirectional(t.billableProperty());
     }
 
-    boolean isTaskBillable() {
+    public boolean isTaskBillable() {
         return taskBillable.get();
     }
 
-    void setTaskBillable(boolean value) {
+    public void setTaskBillable(boolean value) {
         taskBillable.set(value);
     }
 
-    BooleanProperty taskBillableProperty() {
+    public BooleanProperty taskBillableProperty() {
         return taskBillable;
     }
     
 
-    String getTaskTime() {
+    public String getTaskTime() {
         return taskTime.get();
     }
 
-    void setTaskTime(String value) {
+    public void setTaskTime(String value) {
         taskTime.set(value);
     }
 
-    StringProperty taskTimeProperty() {
+    public StringProperty taskTimeProperty() {
         return taskTime;
     }
     
 
-    String getTaskName() {
+    public String getTaskName() {
         return taskName.get();
     }
 
-    void setTaskName(String value) {
+    public void setTaskName(String value) {
         taskName.set(value);
     }
 
-    StringProperty taskNameProperty() {
+    public StringProperty taskNameProperty() {
         return taskName;
     }
     
 
-    int getProjectBillableTime() {
+    public int getProjectBillableTime() {
         return projectBillableTime.get();
     }
 
-    void setProjectBillableTime(int value) {
+    public void setProjectBillableTime(int value) {
         projectBillableTime.set(value);
     }
 
-    IntegerProperty projectBillableTimeProperty() {
+    public IntegerProperty projectBillableTimeProperty() {
         return projectBillableTime;
     }
     
 
-    String getProjectTotalTime() {
+    public String getProjectTotalTime() {
         return projectTotalTime.get();
     }
 
-    void setProjectTotalTime(String value) {
+    public void setProjectTotalTime(String value) {
         projectTotalTime.set(value);
     }
 
-    StringProperty projectTotalTimeProperty() {
+    public StringProperty projectTotalTimeProperty() {
         return projectTotalTime;
     }
     
 
-    String getProjectName() {
+    public String getprojectName() {
         return projectName.get();
     }
 
-    void setProjectName(String value) {
+    public void setprojectName(String value) {
         projectName.set(value);
     }
 
-    StringProperty projectNameProperty() {
+    public StringProperty projectNameProperty() {
         return projectName;
     }
     

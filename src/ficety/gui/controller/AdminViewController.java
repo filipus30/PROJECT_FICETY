@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import ficety.be.Client;
 import ficety.be.Coordinates;
+import ficety.be.EntityItem;
 import ficety.be.LoggedInUser;
 import ficety.be.Project;
 import ficety.be.Session;
@@ -179,14 +180,15 @@ private ObservableList<Task> datatask;
     @FXML
     private JFXButton btn_refreshAll;
     @FXML
-    private TreeTableColumn<Project, Task> over_col1;
+    private TreeTableColumn<EntityItem,String> over_col1;
     @FXML
-    private TreeTableColumn<String,String> over_col2;
+    private TreeTableColumn<EntityItem,String> over_col2;
     @FXML
-    private TreeTableView<Object> tbv_over;
+    private TreeTableView<EntityItem> tbv_over;
 
     public AdminViewController()
     {
+       
         MaxWidth = 260;
         min = true;
        UVM = new UserViewModel();
@@ -2550,23 +2552,20 @@ export = 3;
     
         listpj = UVM.getAllOpenProjects();
         datapj =  FXCollections.observableArrayList(listpj);
-//       Project p = new Project(0,"Projects",0,"",0,0,false);
-//       TreeItem<Object> itemmain = new TreeItem<Object>("Projects");
-//       over_col1.setCellValueFactory(new TreeItemPropertyValueFactory<>(over_col1.getCellValueFactory().toString()));
-//       for(int i = 0;i<datapj.size();i++)
-//       {
-//            TreeItem<Object> item = new TreeItem<Object>(datapj.get(i));
-//            itemmain.getChildren().add(item);
-//            ObservableList<Task> tasklist1 = FXCollections.observableArrayList(datapj.get(i).getTaskList());
-//           for(int j =0;j<tasklist1.size();j++)
-//                   {
-//                        TreeItem<Object> item2 = new TreeItem<Object>(tasklist1.get(j));
-//                       item.getChildren().add(item2);
-//                   }
-//       }
-//        
-//        tbv_over.setRoot(itemmain);
-//    
+TreeItem<EntityItem> root = new TreeItem<>(new EntityItem());
+for (Project project : datapj) {
+    TreeItem<EntityItem> projectTreeItem = new TreeItem<>(new EntityItem(project));
+    for (Task t : project.getTaskList()) {
+        TreeItem<EntityItem> employeeTreeItem = new TreeItem<>(new EntityItem(t));
+        projectTreeItem.getChildren().add(employeeTreeItem);
+    }
+    root.getChildren().add(projectTreeItem);
+}
+over_col1.setCellValueFactory((cellData) -> cellData.getValue()
+                                    .getValue().projectNameProperty());
+over_col1.setCellValueFactory((cellData) -> cellData.getValue()
+                                    .getValue().taskNameProperty());
+tbv_over.setRoot(root);
     }
 
 }
