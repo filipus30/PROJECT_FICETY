@@ -191,13 +191,39 @@ private ObservableList<Task> datatask;
     private TreeTableColumn<EntityItem,String> over_col4;
     @FXML
     private TreeTableColumn<EntityItem,String> over_col5;
-
+    @FXML
+    private TreeTableView<EntityItem> tbv_user_over;
+    @FXML
+    private TreeTableColumn<EntityItem,String> over_user_time;
+    @FXML
+    private TreeTableColumn<EntityItem,String> over_user_btime;
+    @FXML
+    private TreeTableColumn<EntityItem,String> over_user_tmonth;
+    @FXML
+    private TreeTableColumn<EntityItem,String> over_user_project;
+    @FXML
+    private TreeTableColumn<EntityItem,String> over_user_ptime;
+    @FXML
+    private TreeTableView<EntityItem> tree_tbv_adm;
+    @FXML
+    private TreeTableColumn<EntityItem,String> over_user_timeadm;
+    @FXML
+    private TreeTableColumn<EntityItem,String> over_user_btimeadm;
+    @FXML
+    private TreeTableColumn<EntityItem,String> over_user_tmonthadm;
+    @FXML
+    private TreeTableColumn<EntityItem,String> over_user_salaryadm;
+    private TreeTableColumn<EntityItem,String> over_user_ptimeadm;
+    private List<Project> treelist;
+    private List<User> treeuserlist;
+    private List<User> treeuserlist1;
     public AdminViewController()
     {
        
         MaxWidth = 260;
         min = true;
        UVM = new UserViewModel();
+       treelist = UVM.getAllProjectsForUserTab();
       tasklist = UVM.getAllTasksForAdmin();
       dataTasks =  FXCollections.observableArrayList(tasklist);
       clientlist = UVM.getAllClients();
@@ -422,7 +448,9 @@ private ObservableList<Task> datatask;
     
     private ObservableList<Project> datapj;
     private List<Project> listpj;
-
+    private boolean treeuser = false;
+    private boolean treeuseradm = false;
+    private boolean treeprojectadm = false;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
      //   clientstring = FXCollections.observableArrayList();
@@ -2550,7 +2578,9 @@ export = 3;
 
     @FXML
     private void load_overview_tab(Event event) {
-        loadOver();
+        if(treeprojectadm == false)
+        { loadOver();
+        treeprojectadm = true;}
     }
     
     private void loadOver()
@@ -2561,7 +2591,7 @@ export = 3;
        // listpj = UVM.getAllOpenProjects();
        // datapj =  FXCollections.observableArrayList(listpj);
         EntityItem e = new EntityItem();
-        e.setprojectName("Projects");
+        e.setprojectName("Show");
 TreeItem<EntityItem> root = new TreeItem<>(e);
 for (Project project : list) {
     TreeItem<EntityItem> projectTreeItem = new TreeItem<>(new EntityItem(project));
@@ -2587,4 +2617,106 @@ over_col5.setCellValueFactory((cellData) ->
 tbv_over.setRoot(root);
     }
 
+    @FXML
+    private void load_user_overview(Event event) {
+        if(treeuser == false)
+        { loadUserTree();
+          treeuser = true;
+        }
+      }
+ private void loadUserTree()
+ {
+      EntityItem e = new EntityItem();
+        e.setUserName("Show");
+TreeItem<EntityItem> root = new TreeItem<>(e);
+       String  startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+       String   finishTime = String.valueOf(LocalDate.now());
+        LocalDate today = LocalDate.now();  // Retrieve the date now
+            LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
+        String startTimee = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
+        String finishTimee = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
+User u = UVM.getLoggedInUserForOverview(startTime, finishTime);
+User u1 = UVM.getLoggedInUserForOverview(startTimee, finishTimee);
+u.setUserName("This Month");
+u1.setUserName("Last Month");
+TreeItem<EntityItem> user = new TreeItem<>(new EntityItem(u));
+TreeItem<EntityItem> user1 = new TreeItem<>(new EntityItem(u1));
+root.getChildren().addAll(user,user1);
+for (Project project : treelist) {
+    TreeItem<EntityItem> projectTreeItem = new TreeItem<>(new EntityItem(project));
+    root.getChildren().add(projectTreeItem);
+}
+
+over_user_time.setCellValueFactory((cellData) -> 
+                  cellData.getValue().getValue().userNameProperty());
+over_user_btime.setCellValueFactory((cellData) -> 
+                  cellData.getValue().getValue().userBillableTimeProperty());
+over_user_tmonth.setCellValueFactory((cellData) -> 
+                  cellData.getValue().getValue().userTotalTimeProperty());
+over_user_project.setCellValueFactory((cellData) -> 
+                  cellData.getValue().getValue().projectNameProperty());
+over_user_ptime.setCellValueFactory((cellData) -> 
+                  cellData.getValue().getValue().projectTotalTimeProperty());
+
+    
+        tbv_user_over.setRoot(root);
+ }
+    
+    
+    @FXML
+    private void load_tree_user(Event event) {
+        if(treeuseradm == false)
+        {  loadAdmTree();
+          treeuseradm = true;
+        }
+        
+
+    }
+
+    private void loadAdmTree()
+    {
+          EntityItem e = new EntityItem();
+        e.setUserName("Users");
+TreeItem<EntityItem> root = new TreeItem<>(e);
+       String  startTime = String.valueOf(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()));
+       String   finishTime = String.valueOf(LocalDate.now());
+        LocalDate today = LocalDate.now();  // Retrieve the date now
+            LocalDate lastMonth = today.minus(1, ChronoUnit.MONTHS); // Retrieve the date a month from now
+        String startTimee = String.valueOf(lastMonth.withDayOfMonth(1)); // retrieve the first date
+        String finishTimee = String.valueOf(lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())); // retrieve the last date   
+        treeuserlist = UVM.getAllUsersForOverview(startTime, finishTime);
+        treeuserlist1 = UVM.getAllUsersForOverview(startTimee, finishTimee);
+        
+User u = new User(0,"","","",0,false);
+User u1 = new User(0,"","","",0,false);
+u.setUserName("This Month");
+u1.setUserName("Last Month");
+TreeItem<EntityItem> user = new TreeItem<>(new EntityItem(u));
+TreeItem<EntityItem> user1 = new TreeItem<>(new EntityItem(u1));
+root.getChildren().addAll(user,user1);
+for (User userr : treeuserlist) {
+    float time = userr.getTotalTime()/3600;
+    float salary = userr.getSalary();
+    userr.setIncome(String.valueOf(time*salary));
+    TreeItem<EntityItem> projectTreeItem = new TreeItem<>(new EntityItem(userr));
+    user.getChildren().add(projectTreeItem);
+}
+for (User userr : treeuserlist1) {
+    float time = userr.getTotalTime()/3600;
+    float salary = userr.getSalary();
+    userr.setIncome(String.valueOf(time*salary));
+    TreeItem<EntityItem> projectTreeItem = new TreeItem<>(new EntityItem(userr));
+    user1.getChildren().add(projectTreeItem);
+}
+
+over_user_timeadm.setCellValueFactory((cellData) -> 
+                  cellData.getValue().getValue().userNameProperty());
+over_user_btimeadm.setCellValueFactory((cellData) -> 
+                  cellData.getValue().getValue().userBillableTimeProperty());
+over_user_tmonthadm.setCellValueFactory((cellData) -> 
+                  cellData.getValue().getValue().userTotalTimeProperty());
+over_user_salaryadm.setCellValueFactory((cellData) -> 
+                  cellData.getValue().getValue().salaryProperty());
+        tree_tbv_adm.setRoot(root);
+    }
 }

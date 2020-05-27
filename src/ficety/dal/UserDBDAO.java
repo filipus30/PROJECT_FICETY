@@ -383,7 +383,7 @@ public class UserDBDAO {
         User theUser = null;
         try(Connection con = dbc.getConnection()) {
             String sql = "SELECT U.Id, U.Name AS UName, U.Email, U.Password, U.Salary, U.Admin, " +
-                                    "temp.TotalTime, temp2.BillableTime, " +
+                                    "temp.TotalTime, temp2.BillableTime " +
                         "FROM Users U " +
                         "LEFT JOIN Sessions ON U.Id = Sessions.AssociatedUser " +
                         "LEFT JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY Users.Id) AS TotalTime, " +
@@ -397,7 +397,7 @@ public class UserDBDAO {
                             ") temp ON temp.Name = U.Name " +
                         "LEFT JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY U.Id) AS BillableTime, " +
                                             "U.Name " +
-                                    "FROM Sessions" +
+                                    "FROM Sessions " +
                                     "JOIN Tasks ON Tasks.Id = Sessions.AssociatedTask " +
                                     "JOIN Users U ON U.Id = Sessions.AssociatedUser " +
                                     "WHERE Tasks.Billable = 1 " +

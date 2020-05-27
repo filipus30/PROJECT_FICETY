@@ -31,12 +31,26 @@ public class EntityItem {
     private final StringProperty userName = new SimpleStringProperty(this, "userName", "");
     private final StringProperty userTotalTime = new SimpleStringProperty(this, "niceTime", "");
     private final StringProperty userBillableTime = new SimpleStringProperty(this, "userBillableTime", "");
+    private final StringProperty salary = new SimpleStringProperty(this, "income", "");
+
+    public String getSalary() {
+        return salary.get();
+    }
+
+    public void setSalary(String value) {
+        salary.set(value);
+    }
+
+    public StringProperty salaryProperty() {
+        return salary;
+    }
 
     public EntityItem(){
         
     }
     
     public EntityItem(User u) {
+        salary.bindBidirectional(u.incomeProperty());
         userName.bindBidirectional(u.userNameProperty());
         userTotalTime.bindBidirectional(u.niceTimeProperty());
         userBillableTime.bindBidirectional(u.userBillableTimeProperty());

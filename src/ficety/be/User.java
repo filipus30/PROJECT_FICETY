@@ -32,6 +32,20 @@ public class User {
     private LongProperty totalTime = new SimpleLongProperty();
     private StringProperty niceTime = new SimpleStringProperty();
     private StringProperty userBillableTime = new SimpleStringProperty();
+    private final StringProperty income = new SimpleStringProperty();
+
+    public String getIncome() {
+        return income.get();
+    }
+
+    public void setIncome(String value) {
+        income.set(value);
+    }
+
+    public StringProperty incomeProperty() {
+        return income;
+    }
+    
 
     
 
