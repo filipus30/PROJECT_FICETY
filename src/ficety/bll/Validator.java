@@ -8,12 +8,18 @@ package ficety.bll;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 /**
  *
  * @author macos
  */
 public class Validator {
+    private static Pattern p = Pattern.compile("^[a-zA-Z]*$");
+
+	public static boolean isAlphaNumeric(String s) {
+		return p.matcher(s).find();
+	}
     public boolean isAlpha(String name) {
     char[] chars = name.toCharArray();
 
