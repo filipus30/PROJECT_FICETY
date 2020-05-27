@@ -155,7 +155,12 @@ public class UserViewModel {
     public ArrayList<Coordinates> getOneProjectForUsrBar(Project project, String startTime, String finishTime)
     {
         return BllM.getOneProjectForUsrBar(project, startTime, finishTime);
-    }   
+    }
+    
+    public ArrayList<Project> getAllProjectsForSingleUser(int userID, String startTime, String finishTime)
+    {
+        return BllM.getAllProjectsForSingleUser(userID, startTime, finishTime);
+    }
    
    
     //TASK Related
@@ -212,6 +217,16 @@ public class UserViewModel {
     public ArrayList<Coordinates> getOneUserForAdmBar(User user, String startTime, String finishTime)
     {
         return BllM.getOneUserForAdmBar(user, startTime, finishTime);
+    }
+    
+    public ArrayList<User> getAllUsersForOverview(String startTime, String finishTime)
+    {
+        return BllM.getAllUsersForOverview(startTime, finishTime);
+    }
+    
+    public User getLoggedInUserForOverview(String startTime, String finishTime)
+    {
+        return BllM.getOneUserForOverview(startTime, finishTime);
     }
     
     

@@ -181,6 +181,12 @@ public class BllManager implements IBLL {
         return dalManager.getOneProjectForUsrBar(currentUser, projectId, startTime, finishTime);
     }
     
+    @Override
+    public ArrayList<Project> getAllProjectsForSingleUser(int userId, String startTime, String finishTime)
+    {
+        return dalManager.getAllProjectsForSingleUser(userId, startTime, finishTime);
+    }
+    
     
 // TaskDBDAO methods                
     @Override
@@ -330,8 +336,18 @@ public class BllManager implements IBLL {
         return dalManager.getOneUserForAdmBar(userId, startTime, finishTime);
     }
     
+    @Override
+    public ArrayList<User> getAllUsersForOverview(String startTime, String finishTime)
+    {
+        return dalManager.getAllUsersForOverview(startTime, finishTime);
+    }
     
-    
+    @Override
+    public User getOneUserForOverview(String startTime, String finishTime)
+    {
+        int userId = lu.getId();
+        return dalManager.getOneUserForOverview(userId, startTime, finishTime);
+    }
     
     
     

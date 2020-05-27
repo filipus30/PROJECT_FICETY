@@ -118,7 +118,8 @@ public class ProjectDBDAO {
                     "JOIN Tasks ON Projects.Id = Tasks.AssociatedProject  " + 
                     "JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask " + 
                     "WHERE Sessions.AssociatedUser = ? AND Closed = 0) part " + 
-                "WHERE part.Corr=1";
+                "WHERE part.Corr=1" + 
+                "ORDER BY part.FinishTime DESC";
         try ( Connection con = dbc.getConnection()) {
         //Create a prepared statement.
         PreparedStatement pstmt = con.prepareStatement(sql);
@@ -602,6 +603,108 @@ public class ProjectDBDAO {
             Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
           return projCol;
+      }
+    
+    public ArrayList<Project> getAllProjectsForSingleUser(int userID, String startTime, String finishTime)
+      {//Returns a list of projects that a single user has worked on, inside a start and finishtime specified.
+          ArrayList<Project> allProjects = new ArrayList();
+          String sql ="SELECT Part.* " +
+                            "FROM (SELECT Projects.Id, Projects.Name AS PName, Projects.AssociatedClient, Projects.ProjectRate, " +
+                                        "Projects.PhoneNr, Projects.AllocatedHours, Projects.Closed, " +
+                                        "Clients.Name AS CName, Tasks.Id AS TId," +
+                                        "Temp.BillableTime, " +
+                                        "Temp2.TotalTime, " +
+                                        "ROW_NUMBER() OVER(PARTITION BY Projects.Id ORDER BY Projects.Name) AS Corr " +
+                                    "FROM Projects " +
+                                    "JOIN Clients ON Projects.AssociatedClient=Clients.Id " +
+                                    "LEFT JOIN Tasks ON Projects.Id=Tasks.AssociatedProject " +
+                                    "LEFT JOIN Sessions ON Tasks.Id = Sessions.AssociatedTask " +
+                                    "JOIN Users ON Users.Id = Sessions.AssociatedUser " +
+                                    "LEFT JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY Projects.Id) AS BillableTime, " +
+                                                        "Projects.Name " +
+                                                "FROM Sessions " +
+                                                "JOIN Tasks ON  Sessions.AssociatedTask = Tasks.Id " +
+                                                "JOIN Projects ON Projects.Id = Tasks.AssociatedProject " +
+                                                "JOIN Users ON Sessions.AssociatedUser = Users.Id " +
+                                                "WHERE Tasks.Billable = 1  " +
+                                                "AND Sessions.StartTime >= Convert(datetime2(7), ?) " +
+                                                "AND Sessions.StartTime <= Convert(datetime2(7), ?)  " +
+                                                "AND Users.Id = ? " +
+                                        ") Temp ON Temp.Name = Projects.Name " +
+                                    "LEFT JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY Projects.Id) AS TotalTime, " +
+                                                        "Projects.Name " +
+                                                "FROM Sessions " +
+                                                "JOIN Tasks ON  Sessions.AssociatedTask = Tasks.Id " +
+                                                "JOIN Projects ON Projects.Id = Tasks.AssociatedProject " +
+                                                "JOIN Users ON Sessions.AssociatedUser = Users.Id " +
+                                                "WHERE Users.Id=? " +
+                                                "AND Sessions.StartTime >= Convert(datetime2(7), ?) " +
+                                                "AND Sessions.StartTime <= Convert(datetime2(7), ?)  " +
+                                        ") Temp2 ON Temp2.Name = Projects.Name " +
+                                    "WHERE Users.Id = ? " +
+                                    "AND Sessions.StartTime >= Convert(datetime2(7), ?) " +
+                                    "AND Sessions.StartTime <= Convert(datetime2(7), ?)  " +
+                            ") Part " +
+                        "WHERE part.Corr=1";
+      
+          try ( Connection con = dbc.getConnection()) {
+        //Create a prepared statement.
+        PreparedStatement pstmt = con.prepareStatement(sql);
+        pstmt.setString(1, startTime);
+        pstmt.setString(2, finishTime);
+        pstmt.setInt(3, userID);
+        pstmt.setInt(4, userID);
+        pstmt.setString(5, startTime);
+        pstmt.setString(6, finishTime);
+        pstmt.setInt(7, userID);
+        pstmt.setString(8, startTime);
+        pstmt.setString(9, finishTime);
+        
+        ResultSet rs = pstmt.executeQuery();
+        while(rs.next())
+        {
+            int projectId = rs.getInt("Id");
+            String projectName = rs.getString("PName");
+            int associatedClientID = rs.getInt("AssociatedClient");
+            Float projectRate = rs.getFloat("ProjectRate");
+            String phoneNr = rs.getString("PhoneNr");
+            int allocatedHours = rs.getInt("AllocatedHours");
+            int closed = rs.getInt("Closed");
+            boolean isClosed = false;
+            if(closed == 1)
+            isClosed = true;
+            Project project; 
+            project = new Project(projectId, projectName, associatedClientID, phoneNr, projectRate, allocatedHours, isClosed);
+            String ClientName = rs.getString("CName");
+            project.setClientName(ClientName);
+            int totalTime = rs.getInt("TotalTime");
+            String timee = String.format("%02d:%02d:%02d", totalTime / 3600, (totalTime % 3600) / 60, totalTime % 60);
+            project.setSeconds(timee);
+            int time = rs.getInt("BillableTime");
+            project.setBillableTime(time);
+            if(allocatedHours > 0)
+            {
+                double hours = time/3600;
+                double quarterly = (Math.round(Math.round((time%3600)*60) / 15.0) * .25);
+                double payment = (hours + quarterly)*projectRate;
+                String total = String.valueOf(payment);
+                project.setCalPayment(total + " calculated");
+            }
+            else
+            {
+                String payment = String.valueOf(projectRate);
+                project.setCalPayment(payment + "fixed rate");
+            }
+            
+            allProjects.add(project);
+        }
+        
+        return allProjects;  
+        } catch (SQLException ex) {
+            Logger.getLogger(ProjectDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allProjects;
+      
       }
      
 }

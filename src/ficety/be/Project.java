@@ -29,10 +29,13 @@ public class Project {
     private List<Task> taskList;
     private BooleanProperty isClosed = new SimpleBooleanProperty();
     private StringProperty clientName = new SimpleStringProperty();
-    private StringProperty seconds = new SimpleStringProperty(); //total time
+    private StringProperty seconds = new SimpleStringProperty(); //total time as a nice String.
     private StringProperty calPayment = new SimpleStringProperty();
     private IntegerProperty billableTime = new SimpleIntegerProperty(); //Stored in seconds!
+    private final StringProperty projectBillableTimeNice = new SimpleStringProperty();
 
+    
+    
 
     
 
@@ -195,10 +198,23 @@ public class Project {
 
     public void setBillableTime(int value) {
         billableTime.set(value);
+        String niceTime = String.format("%02d:%02d:%02d", value / 3600, (value % 3600) / 60, value % 60);
+        setProjectBillableTimeNice(niceTime);
+        
     }
 
     public IntegerProperty billableTimeProperty() {
         return billableTime;
     }
-    
+    public String getProjectBillableTimeNice() {
+        return projectBillableTimeNice.get();
+    }
+
+    public void setProjectBillableTimeNice(String value) {
+        projectBillableTimeNice.set(value);
+    }
+
+    public StringProperty projectBillableTimeNiceProperty() {
+        return projectBillableTimeNice;
+    }
 }

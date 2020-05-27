@@ -31,6 +31,9 @@ public class User {
     private BooleanProperty isAdmin = new SimpleBooleanProperty(); 
     private LongProperty totalTime = new SimpleLongProperty();
     private StringProperty niceTime = new SimpleStringProperty();
+    private StringProperty userBillableTime = new SimpleStringProperty();
+
+    
 
 
     public User(int userID, String userName, String email, String password, float salary, boolean isAdmin) {
@@ -142,6 +145,19 @@ public class User {
         this.niceTime.set(niceTime);
     }
 
+    public String getUserBillableTime() {
+        return userBillableTime.get();
+    }
+
+    public void setUserBillableTime(String value) {
+        userBillableTime.set(value);
+    }
+
+    public StringProperty userBillableTimeProperty() {
+        return userBillableTime;
+    }
+    
+    
     @Override
     public String toString() {
         return userName.get();

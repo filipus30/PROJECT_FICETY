@@ -21,15 +21,25 @@ public class EntityItem {
     //Project
     private final StringProperty projectName = new SimpleStringProperty(this, "projectName", "");
     private final StringProperty projectTotalTime = new SimpleStringProperty(this, "seconds", "");
-    private final IntegerProperty projectBillableTime = new SimpleIntegerProperty(this, "billableTime");
+    private final IntegerProperty projectBillableTime = new SimpleIntegerProperty(this, "projectBillableTimeNice");
     //Task
     private final StringProperty taskName = new SimpleStringProperty(this, "taskName", "");
     private final StringProperty taskTime = new SimpleStringProperty(this, "hours", "");
     private final StringProperty taskBillable = new SimpleStringProperty(this, "billable");
     
-    
+    //User
+    private final StringProperty userName = new SimpleStringProperty(this, "userName", "");
+    private final StringProperty userTotalTime = new SimpleStringProperty(this, "niceTime", "");
+    private final StringProperty userBillableTime = new SimpleStringProperty(this, "userBillableTime", "");
+
     public EntityItem(){
         
+    }
+    
+    public EntityItem(User u) {
+        userName.bindBidirectional(u.userNameProperty());
+        userTotalTime.bindBidirectional(u.niceTimeProperty());
+        userBillableTime.bindBidirectional(u.userBillableTimeProperty());
     }
     
     public EntityItem(Project p){
@@ -125,5 +135,41 @@ public class EntityItem {
         return projectName;
     }
     
+    public String getUserBillableTime() {
+        return userBillableTime.get();
+    }
+
+    public void setUserBillableTime(String value) {
+        userBillableTime.set(value);
+    }
+
+    public StringProperty userBillableTimeProperty() {
+        return userBillableTime;
+    }
     
+
+    public String getUserTotalTime() {
+        return userTotalTime.get();
+    }
+
+    public void setUserTotalTime(String value) {
+        userTotalTime.set(value);
+    }
+
+    public StringProperty userTotalTimeProperty() {
+        return userTotalTime;
+    }
+    
+
+    public String getUserName() {
+        return userName.get();
+    }
+
+    public void setUserName(String value) {
+        userName.set(value);
+    }
+
+    public StringProperty userNameProperty() {
+        return userName;
+    }
 }

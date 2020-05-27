@@ -51,7 +51,8 @@ public interface DalFaçade {
     public ArrayList<Coordinates> getAllProjectsForAdmBar(String startTime, String finishTime);
     public ArrayList<Coordinates> getOneProjectForAdmBar(int ProjectId, String startTime, String finishTime);
     public ArrayList<Coordinates> getAllProjectsForUsrBar(int currentUser, String startTime, String finishTime);
-    public ArrayList<Coordinates> getOneProjectForUsrBar(int currentUser, int ProjectId, String startTime, String finishTime); 
+    public ArrayList<Coordinates> getOneProjectForUsrBar(int currentUser, int ProjectId, String startTime, String finishTime);
+    public ArrayList<Project> getAllProjectsForSingleUser(int userID, String startTime, String finishTime);
     
 // TaskDBDAO methods 
     public Task addNewTaskToDB(String taskName, String TaskDesc, boolean isbillable, Project associatedProject);
@@ -80,6 +81,8 @@ public interface DalFaçade {
     public ArrayList<User> getAllUsers();
     public ArrayList<Coordinates> getAllUsersForAdmBar(String startTime, String finishTime);
     public ArrayList<Coordinates> getOneUserForAdmBar(int userId, String startTime, String finishTime);
+    public ArrayList<User> getAllUsersForOverview(String startTime, String finishTime);
+    public User getOneUserForOverview(int userId, String startTime, String finishTime);
     
     
     

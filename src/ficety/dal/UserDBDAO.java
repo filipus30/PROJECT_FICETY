@@ -186,18 +186,32 @@ public class UserDBDAO {
         return 4; //this should never happen.
     }
     
-        public ArrayList<User> getAllUsers() {
-    //  Returns a spacific user data object given their user id
+    public ArrayList<User> getAllUsers() {
+    //  Returns a list of all Users, with their respective totalTime and Billable time.
         ArrayList<User> allUsers= new ArrayList();
         try(Connection con = dbc.getConnection()) {
             String sql = "SELECT Part.* FROM " +
-                            "(SELECT Users.Id, Users.Name AS UName, Users.Email, Users.Password, Users.Salary, Users.Admin, " + 
-                                    "SUM(Datediff(SECOND, Sessions.StartTime, Sessions.FinishTime)) OVER(PARTITION BY Users.Id) AS TotalTime, " + 
-                                    "ROW_NUMBER() OVER(PARTITION BY Users.Id ORDER BY Users.Name) AS Corr " +
-                                "FROM Users " +
-                                    "LEFT JOIN Sessions ON Users.Id = Sessions.AssociatedUser " +
-                            ")Part " +
-                            "WHERE part.Corr=1;";
+                                        "(SELECT U.Id, U.Name AS UName, U.Email, U.Password, U.Salary, U.Admin, " +
+                                            "temp.TotalTime, temp2.BillableTime, " +
+                                            "ROW_NUMBER() OVER(PARTITION BY U.Id ORDER BY U.Name) AS Corr " +
+                                        "FROM Users U " +
+                                        "LEFT JOIN Sessions ON U.Id = Sessions.AssociatedUser " +
+                                        "LEFT JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY Users.Id) AS TotalTime, " +
+                                                            "Users.Name " +
+                                                    "FROM Sessions " +
+                                                    "JOIN Tasks ON  Sessions.AssociatedTask = Tasks.Id " +
+                                                    "JOIN Projects ON Projects.Id = Tasks.AssociatedProject " +
+                                                    "JOIN Users ON Users.Id = Sessions.AssociatedUser " +
+                                            ") temp ON temp.Name = U.Name " +
+                                        "LEFT JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY U.Id) AS BillableTime, " +
+                                                            "U.Name " +
+                                                    "FROM Sessions " +
+                                                    "JOIN Tasks ON Tasks.Id = Sessions.AssociatedTask " +
+                                                    "JOIN Users U ON U.Id = Sessions.AssociatedUser " +
+                                                    "WHERE Tasks.Billable = 1 " +
+                                            ")temp2 ON temp2.Name = U.Name " +
+                                ")Part " +
+                        "WHERE part.Corr=1;";
             PreparedStatement pstmt = con.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()) //While you have something in the results
@@ -216,8 +230,9 @@ public class UserDBDAO {
                tempUser.setTotalTime(time);
                String niceTime = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
                tempUser.setNiceTime(niceTime);
-               
-               
+               long billableTime = rs.getInt("BillableTime");
+               String niceBillable = String.format("%02d:%02d:%02d", billableTime / 3600, (billableTime % 3600) / 60, billableTime % 60);
+               tempUser.setUserBillableTime(niceBillable);
                allUsers.add(tempUser);
             }    
         } catch (SQLException ex) {
@@ -300,5 +315,128 @@ public class UserDBDAO {
         }
           return usrCol;
     }    
-
+    public ArrayList<User> getAllUsersForOverview(String startTime, String finishTime) {
+    //  Returns a list of all Users, with their respective totalTime and Billable time, within a timespan.
+        ArrayList<User> allUsers= new ArrayList();
+        try(Connection con = dbc.getConnection()) {
+            String sql = "SELECT Part.* FROM " +
+                                        "(SELECT U.Id, U.Name AS UName, U.Email, U.Password, U.Salary, U.Admin, " +
+                                            "temp.TotalTime, temp2.BillableTime, " +
+                                            "ROW_NUMBER() OVER(PARTITION BY U.Id ORDER BY U.Name) AS Corr\n" +
+                                        "FROM Users U " +
+                                        "LEFT JOIN Sessions ON U.Id = Sessions.AssociatedUser " +
+                                        "LEFT JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY Users.Id) AS TotalTime, " +
+                                                            "Users.Name " +
+                                                    "FROM Sessions " +
+                                                    "JOIN Tasks ON  Sessions.AssociatedTask = Tasks.Id " +
+                                                    "JOIN Projects ON Projects.Id = Tasks.AssociatedProject " +
+                                                    "JOIN Users ON Users.Id = Sessions.AssociatedUser " +
+                                                    "WHERE Sessions.StartTime >= Convert(datetime2(7), ?) " +
+                                                    "AND Sessions.StartTime <= Convert(datetime2(7), ?) " +
+                                            ") temp ON temp.Name = U.Name " +
+                                        "LEFT JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY U.Id) AS BillableTime, " +
+                                                            "U.Name " +
+                                                    "FROM Sessions " +
+                                                    "JOIN Tasks ON Tasks.Id = Sessions.AssociatedTask " +
+                                                    "JOIN Users U ON U.Id = Sessions.AssociatedUser " +
+                                                    "WHERE Tasks.Billable = 1 " +
+                                                    "AND Sessions.StartTime >= Convert(datetime2(7), ?) " +
+                                                    "AND Sessions.StartTime <= Convert(datetime2(7), ?) " +
+                                            ")temp2 ON temp2.Name = U.Name " +
+                                ")Part " +
+                        "WHERE part.Corr=1;";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, startTime);
+            pstmt.setString(2, finishTime);
+            pstmt.setString(3, startTime);
+            pstmt.setString(4, finishTime);
+            
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) //While you have something in the results
+            {
+                int userID = rs.getInt("Id");
+                String userName = rs.getString("UName");
+                String email = rs.getString("Email");
+                String password = rs.getString("Password");
+                Float salary = rs.getFloat("Salary");
+                int admin = rs.getInt("Admin");
+                boolean isAdmin = false;
+                if(admin == 1)
+                    isAdmin = true;
+               User tempUser = new User(userID, userName, email, password, salary, isAdmin);
+               long time = rs.getLong("TotalTime");
+               tempUser.setTotalTime(time);
+               String niceTime = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
+               tempUser.setNiceTime(niceTime);
+               long billableTime = rs.getInt("BillableTime");
+               String niceBillable = String.format("%02d:%02d:%02d", billableTime / 3600, (billableTime % 3600) / 60, billableTime % 60);
+               tempUser.setUserBillableTime(niceBillable);
+               allUsers.add(tempUser);
+            }    
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return allUsers;
+    }
+    public User getOneUserForOverview(int userId, String startTime, String finishTime) {
+    //  Returns a single user with totalTime and Billable time, within a timespan.
+        User theUser = null;
+        try(Connection con = dbc.getConnection()) {
+            String sql = "SELECT U.Id, U.Name AS UName, U.Email, U.Password, U.Salary, U.Admin, " +
+                                    "temp.TotalTime, temp2.BillableTime, " +
+                        "FROM Users U " +
+                        "LEFT JOIN Sessions ON U.Id = Sessions.AssociatedUser " +
+                        "LEFT JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY Users.Id) AS TotalTime, " +
+                                        "Users.Name " +
+                                    "FROM Sessions " +
+                                    "JOIN Tasks ON  Sessions.AssociatedTask = Tasks.Id " +
+                                    "JOIN Projects ON Projects.Id = Tasks.AssociatedProject " +
+                                    "JOIN Users ON Users.Id = Sessions.AssociatedUser " +
+                                    "WHERE Sessions.StartTime >= Convert(datetime2(7), ?) " +
+                                    "AND Sessions.StartTime <= Convert(datetime2(7), ?) " +
+                            ") temp ON temp.Name = U.Name " +
+                        "LEFT JOIN (Select Sessions.Id , Sum(DateDiff(SECOND, StartTime, FinishTime)) OVER(Partition BY U.Id) AS BillableTime, " +
+                                            "U.Name " +
+                                    "FROM Sessions" +
+                                    "JOIN Tasks ON Tasks.Id = Sessions.AssociatedTask " +
+                                    "JOIN Users U ON U.Id = Sessions.AssociatedUser " +
+                                    "WHERE Tasks.Billable = 1 " +
+                                    "AND Sessions.StartTime >= Convert(datetime2(7), ?) " +
+                                    "AND Sessions.StartTime <= Convert(datetime2(7), ?) " +
+                            ")temp2 ON temp2.Name = U.Name " +
+                        "WHERE U.Id = ?";
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, startTime);
+            pstmt.setString(2, finishTime);
+            pstmt.setString(3, startTime);
+            pstmt.setString(4, finishTime);
+            pstmt.setInt(5, userId);
+            
+            ResultSet rs = pstmt.executeQuery();
+            while(rs.next()) //While you have something in the results
+            {
+                int userID = rs.getInt("Id");
+                String userName = rs.getString("UName");
+                String email = rs.getString("Email");
+                String password = rs.getString("Password");
+                Float salary = rs.getFloat("Salary");
+                int admin = rs.getInt("Admin");
+                boolean isAdmin = false;
+                if(admin == 1)
+                    isAdmin = true;
+               theUser = new User(userID, userName, email, password, salary, isAdmin);
+               long time = rs.getLong("TotalTime");
+               theUser.setTotalTime(time);
+               String niceTime = String.format("%02d:%02d:%02d", time / 3600, (time % 3600) / 60, time % 60);
+               theUser.setNiceTime(niceTime);
+               long billableTime = rs.getInt("BillableTime");
+               String niceBillable = String.format("%02d:%02d:%02d", billableTime / 3600, (billableTime % 3600) / 60, billableTime % 60);
+               theUser.setUserBillableTime(niceBillable);
+               
+            }    
+        } catch (SQLException ex) {
+            Logger.getLogger(UserDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return theUser;
+    } 
 }

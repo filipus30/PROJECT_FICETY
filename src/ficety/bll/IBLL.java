@@ -48,6 +48,7 @@ public interface IBLL {
     public ArrayList<Coordinates> getOneProjectForAdmBar(Project project, String startTime, String finishTime);
     public ArrayList<Coordinates> getAllProjectsForUsrBar(String startTime, String finishTime);
     public ArrayList<Coordinates> getOneProjectForUsrBar(Project project, String startTime, String finishTime); 
+    public ArrayList<Project> getAllProjectsForSingleUser(int userId, String startTime, String finishTime);
     
 // TaskDBDAO methods        
     public Task addNewTaskToDB(String taskName, String taskDesc, boolean isBillable, Project associatedProject);
@@ -74,6 +75,8 @@ public interface IBLL {
     public ArrayList<User> getAllUsers();
     public ArrayList<Coordinates> getAllUsersForAdmBar(String startTime, String finishTime);
     public ArrayList<Coordinates> getOneUserForAdmBar(User user, String startTime, String finishTime);
+    public ArrayList<User> getAllUsersForOverview(String startTime, String finishTime);
+    public User getOneUserForOverview(String startTime, String finishTime);
     
     
     

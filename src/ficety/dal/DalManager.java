@@ -168,6 +168,12 @@ public class DalManager implements DalFaçade {
         return projectDBDao.getOneProjectForUsrBar(currentUser, projectId, startTime, finishTime);
     }
     
+    @Override
+    public ArrayList<Project> getAllProjectsForSingleUser(int userId, String startTime, String finishTime)
+    {
+        return projectDBDao.getAllProjectsForSingleUser(userId, startTime, finishTime);
+    }
+    
     
     
     
@@ -300,6 +306,17 @@ public class DalManager implements DalFaçade {
     }
    
 
+    @Override
+    public ArrayList<User> getAllUsersForOverview(String startTime, String finishTime)
+    {
+        return userDBDao.getAllUsersForOverview(startTime, finishTime);
+    }
+    
+    @Override
+    public User getOneUserForOverview(int userId, String startTime, String finishTime)
+    {
+        return userDBDao.getOneUserForOverview(userId, startTime, finishTime);
+    }
     
 
     
