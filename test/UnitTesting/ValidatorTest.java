@@ -45,12 +45,12 @@ public class ValidatorTest {
     @Test
     public void testIsAlphaNumeric() {
         System.out.println("isAlphaNumeric");
-        String s = "";
+        String s = "123";
         boolean expResult = false;
         boolean result = instance.isAlphaNumeric(s);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+       // fail("The test case is a prototype.");
     }
 
     /**
@@ -59,12 +59,12 @@ public class ValidatorTest {
     @Test
     public void testIsAlpha() {
         System.out.println("isAlpha");
-        String name = "";
-        boolean expResult = false;
+        String name = "abc";
+        boolean expResult = true;
         boolean result = instance.isAlpha(name);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+      //  fail("The test case is a prototype.");
     }
 
     /**
@@ -73,12 +73,12 @@ public class ValidatorTest {
     @Test
     public void testIsNumber() {
         System.out.println("isNumber");
-        String text = "";
-        boolean expResult = false;
+        String text = "123";
+        boolean expResult = true;
         boolean result = instance.isNumber(text);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+       // fail("The test case is a prototype.");
     }
 
     /**
@@ -87,12 +87,12 @@ public class ValidatorTest {
     @Test
     public void testIsValidDate() {
         System.out.println("isValidDate");
-        String text = "";
-        boolean expResult = false;
+        String text = "2020-04-29 01:03:38";
+        boolean expResult = true;
         boolean result = instance.isValidDate(text);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        //fail("The test case is a prototype.");
     }
     
 }
