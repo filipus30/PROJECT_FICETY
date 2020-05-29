@@ -59,7 +59,7 @@ public class EntityItem {
     public EntityItem(Project p){
         projectName.bindBidirectional(p.ProjectNameProperty());
         projectTotalTime.bindBidirectional(p.secondsProperty());
-        projectBillableTime.bindBidirectional(new SimpleStringProperty(String.valueOf(p.billableTimeProperty())));
+        projectBillableTime.bindBidirectional(new SimpleStringProperty(String.valueOf(p.getProjectBillableTimeNice())));
     }
     
     public EntityItem(Task t){

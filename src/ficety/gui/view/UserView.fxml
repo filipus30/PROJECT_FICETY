@@ -2,137 +2,81 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXDatePicker?>
-<?import com.jfoenix.controls.JFXTextField?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.StackedBarChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TreeTableColumn?>
+<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.FlowPane?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" maxHeight="550.0" maxWidth="1044.0" minWidth="-Infinity" prefHeight="405.0" prefWidth="798.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ficety.gui.controller.UserViewController">
+<AnchorPane id="AnchorPane" maxHeight="580.0" maxWidth="1044.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="489.0" prefWidth="798.0" style="-fx-background-color: #5cb4fd#5cb4fd;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ficety.gui.controller.UserViewController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIGHTGRAY" height="450.0" layoutX="-1.0" stroke="BLACK" strokeType="INSIDE" width="246.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f4f4f4" height="445.0" stroke="WHITE" strokeType="INSIDE" width="240.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5cb4fd" height="490.0" layoutX="-1.0" stroke="BLACK" strokeType="INSIDE" width="246.0" />
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5cb4fd" height="450.0" stroke="WHITE" strokeType="INSIDE" strokeWidth="0.0" width="240.0" />
       <TextField fx:id="tf_newtask" layoutX="102.0" layoutY="35.0" prefHeight="25.0" prefWidth="75.0" promptText="New Task" AnchorPane.leftAnchor="102.0" AnchorPane.topAnchor="35.0" />
-      <ComboBox fx:id="cb_project" layoutX="16.0" layoutY="35.0" prefHeight="25.0" prefWidth="81.0" promptText="Project" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="35.0" />
-      <Button fx:id="bn_add" layoutX="186.0" layoutY="33.0" mnemonicParsing="false" onAction="#addTaskAndSetItRunning" text="Start" AnchorPane.leftAnchor="186.0" AnchorPane.topAnchor="35.0" />
-      <TextField fx:id="search" layoutX="16.0" layoutY="73.0" prefHeight="27.0" prefWidth="104.0" promptText="Search" text="Export Name" AnchorPane.leftAnchor="16.0" AnchorPane.topAnchor="73.0" />
-      <ToggleButton fx:id="tb_toggle" layoutX="189.0" layoutY="409.0" mnemonicParsing="false" onAction="#toggel_size" prefHeight="27.0" prefWidth="35.0" text="&lt;-" />
-      <Button fx:id="bn_start_stop" layoutX="16.0" layoutY="355.0" mnemonicParsing="false" onAction="#handle_startStop" prefHeight="40.0" prefWidth="81.0" text="Start/Stop" />
-      <Label fx:id="lb_tasktime" layoutX="178.0" layoutY="356.0" text="00:00:00" />
-      <Label fx:id="lb_timetoday" layoutX="178.0" layoutY="378.0" text="00:00:00" />
-      <Text fx:id="label_task" layoutX="120.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Task" wrappingWidth="29.44921875" />
-      <Text fx:id="label_today" layoutX="122.0" layoutY="392.0" strokeType="OUTSIDE" strokeWidth="0.0" text="today" />
-      <ToolBar layoutY="1.0" prefHeight="29.0" prefWidth="773.0" style="-fx-background-color: lightgrey;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <items>
-            <Label text="FICETY" />
-            <Label prefHeight="17.0" prefWidth="44.0" />
-            <Label text="User:  " />
-            <Label fx:id="lb_loginuser" />
-         </items>
-      </ToolBar>
-      <Button fx:id="bn_expandview" layoutX="16.0" layoutY="409.0" mnemonicParsing="false" onAction="#handle_view" prefHeight="25.0" prefWidth="135.0" text="Show Overview" />
-      <AnchorPane fx:id="ap" layoutX="21.0" layoutY="111.0">
-         <children>
-            <FlowPane fx:id="fp_last3task" prefHeight="194.0" prefWidth="200.0">
-               <children>
-                  <StackPane prefHeight="72.0" prefWidth="200.0">
-                     <children>
-                        <JFXButton fx:id="txtpj1" prefHeight="62.0" prefWidth="184.0" style="-fx-background-color: lightgrey;" text="Time Controll: Task Call">
-                           <padding>
-                              <Insets bottom="35.0" />
-                           </padding>
-                           <graphic>
-                              <ImageView fx:id="img1" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" scaleX="7.0" scaleY="2.5" translateX="18.0" translateY="25.0">
-                                 <image>
-                                    <Image url="@../assets/work%20out%20img.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <JFXComboBox fx:id="jcb1" onAction="#chooseSelectedTask" prefHeight="25.0" prefWidth="82.0" promptText="Tasks">
-                           <StackPane.margin>
-                              <Insets left="126.0" top="30.0" />
-                           </StackPane.margin>
-                        </JFXComboBox>
-                     </children>
-                  </StackPane>
-                  <StackPane prefHeight="72.0" prefWidth="200.0">
-                     <children>
-                        <JFXButton fx:id="txtpj2" prefHeight="62.0" prefWidth="184.0" style="-fx-background-color: lightgrey;" text="Time Controll: Task Call">
-                           <padding>
-                              <Insets bottom="35.0" />
-                           </padding>
-                           <graphic>
-                              <ImageView fx:id="img2" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" scaleX="7.0" scaleY="2.5" translateX="18.0" translateY="25.0">
-                                 <image>
-                                    <Image url="@../assets/gym-exercise-healthy-dumbbell-512.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <JFXComboBox fx:id="jcb2" onAction="#chooseSelectedTask" prefHeight="25.0" prefWidth="82.0" promptText="Tasks">
-                           <StackPane.margin>
-                              <Insets left="126.0" top="30.0" />
-                           </StackPane.margin>
-                        </JFXComboBox>
-                     </children>
-                  </StackPane>
-                  <StackPane prefHeight="72.0" prefWidth="200.0">
-                     <children>
-                        <JFXButton fx:id="txtpj3" prefHeight="62.0" prefWidth="184.0" style="-fx-background-color: lightgrey;" text="Time Controll: Task Call">
-                           <padding>
-                              <Insets bottom="35.0" />
-                           </padding>
-                           <graphic>
-                              <ImageView fx:id="img3" fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true" scaleX="7.0" scaleY="2.5" translateX="18.0" translateY="25.0">
-                                 <image>
-                                    <Image url="@../assets/gym-exercise-healthy-dumbbell-512.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                        <JFXComboBox fx:id="jcb3" onAction="#chooseSelectedTask" prefHeight="25.0" prefWidth="82.0" promptText="Tasks">
-                           <StackPane.margin>
-                              <Insets left="126.0" top="30.0" />
-                           </StackPane.margin>
-                        </JFXComboBox>
-                     </children>
-                  </StackPane>
-               </children>
-            </FlowPane>
-         </children>
-      </AnchorPane>
-      <TabPane layoutX="245.0" layoutY="27.0" prefHeight="423.0" prefWidth="552.0" side="LEFT" tabClosingPolicy="UNAVAILABLE">
+      <ComboBox fx:id="cb_project" layoutX="2.0" layoutY="35.0" prefHeight="27.0" prefWidth="95.0" promptText="Project" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="35.0" />
+      <Button id="bn_start_stop" fx:id="bn_start_stop" layoutX="2.0" layoutY="357.0" mnemonicParsing="false" onAction="#handle_startStop" prefHeight="48.0" prefWidth="79.0" styleClass="bn_start_stop" stylesheets="@../css/adminview.css" />
+      <Label fx:id="lb_tasktime" layoutX="156.0" layoutY="351.0" text="00:00:00" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Label fx:id="lb_timetoday" layoutX="156.0" layoutY="381.0" text="00:00:00" textFill="WHITE">
+         <font>
+            <Font size="18.0" />
+         </font></Label>
+      <Text fx:id="label_task" fill="WHITE" layoutX="95.0" layoutY="369.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Task:" wrappingWidth="57.0">
+         <font>
+            <Font size="18.0" />
+         </font></Text>
+      <Text fx:id="label_today" fill="WHITE" layoutX="88.0" layoutY="399.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Today:">
+         <font>
+            <Font size="18.0" />
+         </font></Text>
+      <AnchorPane fx:id="ap" layoutX="21.0" layoutY="111.0" />
+      <TabPane fx:id="user_tabpane" layoutX="245.0" layoutY="30.0" prefHeight="375.0" prefWidth="552.0" side="LEFT" style="-fx-background-color: #5cb4fd#5cb4fd;" stylesheets="@../css/adminview.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
+            <Tab onSelectionChanged="#load_user_overview" text="Overview">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TreeTableView fx:id="tbv_user_over" layoutX="45.0" layoutY="42.0" prefHeight="375.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <columns>
+                            <TreeTableColumn fx:id="over_user_time" prefWidth="140.0" />
+                            <TreeTableColumn fx:id="over_user_btime" prefWidth="100.0" text="Billable Time" />
+                              <TreeTableColumn fx:id="over_user_tmonth" prefWidth="87.0" text="Total Time" />
+                              <TreeTableColumn fx:id="over_user_project" prefWidth="110.0" text="Projects" />
+                              <TreeTableColumn fx:id="over_user_ptime" prefWidth="81.0" text="Time" />
+                          </columns>
+                        </TreeTableView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
           <Tab fx:id="tab_pj" onSelectionChanged="#load_pj_tab" text="Projects">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="661.0">
+              <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="375.0" prefWidth="519.0">
                      <children>
-                        <TableView fx:id="Tbv_pj" layoutX="3.0" prefHeight="422.0" prefWidth="516.0">
+                        <TableView fx:id="Tbv_pj" editable="true" prefHeight="375.0" prefWidth="519.0">
                           <columns>
-                            <TableColumn fx:id="Col_pj_name" prefWidth="122.0" text="Name" />
-                            <TableColumn fx:id="Col_pj_clint" prefWidth="123.0" text="Client" />
-                              <TableColumn fx:id="Col_pj_contact" prefWidth="137.0" text="Contact info" />
-                              <TableColumn fx:id="Col_pj_myhours" prefWidth="134.0" text="Time spent" />
+                            <TableColumn fx:id="Col_pj_name" prefWidth="102.0" text="Name" />
+                            <TableColumn fx:id="Col_pj_clint" prefWidth="95.0" text="Client" />
+                              <TableColumn fx:id="Col_pj_contact" prefWidth="114.0" text="Contact info" />
+                              <TableColumn fx:id="Col_pj_myhours" prefWidth="148.0" text="Time spent" />
+                              <TableColumn fx:id="col_pj_closed" prefWidth="61.0" text="Closed" />
                           </columns>
                         </TableView>
                      </children>
@@ -141,60 +85,27 @@
           </Tab>
           <Tab fx:id="tab_task" onSelectionChanged="#load_task_tab" text="Tasks">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="582.0">
+              <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="460.0" prefWidth="519.0">
                      <children>
-                        <TableView fx:id="tbv_task" layoutX="3.0" onMouseClicked="#chooseSelectedTask" prefHeight="391.0" prefWidth="516.0">
+                        <TableView fx:id="tbv_task" editable="true" layoutX="-1.0" prefHeight="375.0" prefWidth="521.0">
                           <columns>
-                            <TableColumn fx:id="Col_task_taskname" prefWidth="96.0" text="Task name" />
-                              <TableColumn fx:id="Col_task_description" prefWidth="137.0" text="Description" />
-                            <TableColumn fx:id="Col_task_project" minWidth="0.0" prefWidth="73.0" text="Project" />
-                              <TableColumn fx:id="Col_task_myhours" prefWidth="114.0" text="Time Spent" />
-                              <TableColumn fx:id="col_task_bill" prefWidth="95.0" text="Billable" />
+                            <TableColumn fx:id="Col_task_taskname" prefWidth="83.0" text="Task name" />
+                              <TableColumn fx:id="Col_task_description" prefWidth="169.0" text="Description" />
+                            <TableColumn fx:id="Col_task_project" minWidth="0.0" prefWidth="63.0" text="Project" />
+                              <TableColumn fx:id="Col_task_myhours" prefWidth="145.0" text="Time Spent" />
+                              <TableColumn fx:id="col_task_bill" prefWidth="60.0" text="Billable" />
                           </columns>
                         </TableView>
-                        <Label layoutX="6.0" layoutY="396.0" text="Task">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <JFXTextField fx:id="task_name" layoutX="43.0" layoutY="392.0" prefHeight="27.0" prefWidth="45.0" text="Name " />
-                        <JFXComboBox fx:id="cb_task_project" layoutX="98.0" layoutY="392.0" prefHeight="27.0" prefWidth="125.0" promptText="Project" />
-                        <JFXButton fx:id="bn_task_add" layoutX="362.0" layoutY="392.0" onAction="#addTask" style="-fx-background-color: lightgrey;" text="Add" />
-                        <JFXButton fx:id="bn_task_eddit" layoutX="405.0" layoutY="392.0" onAction="#editTask" style="-fx-background-color: lightgrey;" text="Edit" />
-                        <JFXButton fx:id="bn_task_delete" layoutX="447.0" layoutY="392.0" onAction="#deleteTask" style="-fx-background-color: lightgrey;" text="Delete" />
-                        <JFXTextField fx:id="task_description" layoutX="240.0" layoutY="392.0" prefHeight="27.0" prefWidth="112.0" text="Description" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab fx:id="tab_stat" text="Statistics">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="734.0">
-                     <children>
-                        <BarChart fx:id="stat_graf" prefHeight="393.0" prefWidth="494.0">
-                          <xAxis>
-                            <CategoryAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </BarChart>
-                        <JFXComboBox fx:id="cb_stat_project" layoutX="43.0" layoutY="382.0" prefHeight="25.0" prefWidth="100.0" promptText="Client" />
-                        <JFXComboBox fx:id="cb_stat_task" layoutX="162.0" layoutY="382.0" prefHeight="25.0" prefWidth="103.0" promptText="Project" />
-                        <JFXDatePicker fx:id="dp_stat_from" layoutX="283.0" layoutY="379.0" prefHeight="28.0" prefWidth="95.0" />
-                        <JFXDatePicker fx:id="dp_stat_to" layoutX="378.0" layoutY="381.0" prefHeight="28.0" prefWidth="95.0" />
-                        <Label fx:id="lb_stat_taskhours" layoutX="583.0" layoutY="381.0" prefHeight="27.0" prefWidth="75.0" text="Hour on Task" />
-                        <Label fx:id="lb_stat_totalhours" layoutX="667.0" layoutY="381.0" prefHeight="27.0" prefWidth="75.0" text="Total Hours" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
 
             <Tab fx:id="tab_sesion" onSelectionChanged="#load_session_tab" text="Sessions">
                <content>
-                  <AnchorPane maxWidth="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="423.0" prefWidth="566.0">
+                  <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="418.0" prefWidth="519.0">
                      <children>
-                        <TableView fx:id="tbv_session" onMouseClicked="#chooseSession" prefHeight="383.0" prefWidth="520.0">
+                        <TableView fx:id="tbv_session" editable="true" maxHeight="-Infinity" prefHeight="375.0" prefWidth="520.0">
                            <columns>
                               <TableColumn fx:id="col_sesion_taskname" prefWidth="99.0" text="Task name" />
                               <TableColumn fx:id="col_sesion_start" prefWidth="153.0" text="Start" />
@@ -202,16 +113,71 @@
                               <TableColumn fx:id="col_sesion_myhours" prefWidth="134.0" text="Time Spent" />
                            </columns>
                         </TableView>
-                         <JFXButton layoutX="395.0" layoutY="384.0" onAction="#edit_session" style="-fx-background-color: lightgrey lightgrey;" text="Edit" />
-                        <JFXButton layoutX="453.0" layoutY="384.0" onAction="#delete_session" style="-fx-background-color: lightgrey lightgrey;" text="Delete" />
-                        <JFXTextField fx:id="session_start" layoutX="50.0" layoutY="384.0" prefHeight="27.0" prefWidth="148.0" text="Start" />
-                        <JFXTextField fx:id="session_stop" layoutX="222.0" layoutY="384.0" prefHeight="27.0" prefWidth="162.0" text="Stop" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="tab_column" onSelectionChanged="#load_column_tab" text="Column Chart">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="385.0" prefWidth="519.0">
+                     <children>
+                        <StackedBarChart fx:id="stat_bar" prefHeight="375.0" prefWidth="519.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <xAxis>
+                            <CategoryAxis prefHeight="21.0" prefWidth="460.0" side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </StackedBarChart>
+                        <JFXComboBox fx:id="cb_bar_usr_data" layoutX="24.0" layoutY="353.0" onAction="#selectDataBarUsr" promptText="Select Data" />
+                        <JFXComboBox fx:id="cb_bar_usr_time" layoutX="301.0" layoutY="353.0" onAction="#selectTimeBarUsr" promptText="Time period" />
+                        <JFXButton fx:id="bn_exp23" layoutX="438.0" layoutY="348.0" onAction="#show_user_column" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Show" textFill="WHITE" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="tab_stat" onSelectionChanged="#load_stat_tab" text="Statistics">
+               <content>
+                  <AnchorPane maxHeight="-Infinity" minHeight="0.0" minWidth="0.0" prefHeight="389.0" prefWidth="519.0">
+                     <children>
+                        <Label fx:id="lb_stat_taskhours" layoutX="583.0" layoutY="381.0" prefHeight="27.0" prefWidth="75.0" text="Hour on Task" />
+                        <Label fx:id="lb_stat_totalhours" layoutX="667.0" layoutY="381.0" prefHeight="27.0" prefWidth="75.0" text="Total Hours" />
+                        <LineChart fx:id="stat_graph" prefHeight="365.0" prefWidth="519.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </LineChart>
+                        <JFXComboBox fx:id="cb_stat_task" layoutX="27.0" layoutY="343.0" onAction="#show_after_date" prefHeight="27.0" prefWidth="184.0" promptText="Select Data" />
+                        <JFXComboBox fx:id="cb_stat_time" layoutX="233.0" layoutY="343.0" onAction="#show_linechart" prefHeight="27.0" prefWidth="200.0" promptText="Select Time Period" />
+                        <JFXButton fx:id="bn_exp22" layoutX="447.0" layoutY="343.0" onAction="#show_user_graph" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Show" textFill="WHITE" />
                      </children>
                   </AnchorPane>
                </content>
             </Tab>
         </tabs>
       </TabPane>
-      <Button fx:id="bn_exp" layoutX="129.0" layoutY="73.0" mnemonicParsing="false" onAction="#export_table" text="Export Table" />
+      <JFXButton fx:id="bn_add" layoutX="183.0" layoutY="35.0" onAction="#addTaskAndSetItRunning" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Start" textFill="WHITE" />
+      <ToolBar layoutY="1.0" prefHeight="29.0" prefWidth="773.0" style="-fx-background-color: #256FA8#256FA8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <items>
+            <Label text="EaST" textFill="WHITE" />
+            <Label prefHeight="17.0" prefWidth="44.0" />
+            <Label text="User:  " textFill="WHITE" />
+            <Label fx:id="lb_loginuser" textFill="WHITE" />
+         </items>
+      </ToolBar>
+      <JFXButton fx:id="tb_toggle" layoutX="191.0" layoutY="423.0" onAction="#toggel_size" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="&lt;-" textFill="WHITE" />
+      <JFXButton fx:id="bn_expandview" layoutX="19.0" layoutY="423.0" onAction="#handle_view" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Show Overview" textFill="WHITE" />
+      <TextField fx:id="search" layoutX="597.0" layoutY="409.0" prefHeight="27.0" prefWidth="96.0" promptText="Search" text="Export Name" AnchorPane.leftAnchor="597.0" AnchorPane.topAnchor="409.0" />
+      <JFXButton fx:id="bn_exp" layoutX="702.0" layoutY="410.0" onAction="#export_table" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Export Table" textFill="WHITE" />
+      <JFXButton fx:id="btn_refreshAll" layoutX="411.0" layoutY="410.0" onAction="#refresh_tables" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Refresh tables" textFill="WHITE" />
+      <JFXButton fx:id="bn_exp1" layoutX="276.0" layoutY="410.0" onAction="#update_selected" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Update Selected" textFill="WHITE" />
+      <ScrollPane fx:id="scroll" layoutX="2.0" layoutY="79.0" prefHeight="267.0" prefWidth="240.0">
+        <content>
+          <AnchorPane fx:id="scrollpane" minHeight="0.0" minWidth="0.0" prefHeight="406.0" prefWidth="237.0" />
+        </content>
+      </ScrollPane>
    </children>
 </AnchorPane>

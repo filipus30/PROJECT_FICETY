@@ -785,7 +785,7 @@ export = 3;
                 );
         Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("desc"));
         Col_task_description.setCellFactory(TextFieldTableCell.forTableColumn());
-        col_task_description.setOnEditCommit(
+        Col_task_description.setOnEditCommit(
                 (TableColumn.CellEditEvent<Task, String> t) ->
                     ( t.getTableView().getItems().get(
                             t.getTablePosition().getRow())

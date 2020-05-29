@@ -346,11 +346,6 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <ScrollPane fx:id="scroll" layoutY="77.0" prefHeight="258.0" prefWidth="240.0">
-        <content>
-          <AnchorPane fx:id="scrollpane" minHeight="0.0" minWidth="0.0" prefHeight="255.0" prefWidth="238.0" />
-        </content>
-      </ScrollPane>
       <JFXButton fx:id="bn_add" layoutX="183.0" layoutY="35.0" onAction="#addTaskAndSetItRunning" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Start" textFill="WHITE" />
       <ToolBar layoutY="1.0" prefHeight="29.0" prefWidth="773.0" style="-fx-background-color: #256FA8#256FA8;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
@@ -367,5 +362,10 @@
       <JFXButton fx:id="bn_exp" layoutX="702.0" layoutY="410.0" onAction="#export_table" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Export Table" textFill="WHITE" />
       <JFXButton fx:id="btn_refreshAll" layoutX="411.0" layoutY="410.0" onAction="#refresh_tables" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Refresh tables" textFill="WHITE" />
       <JFXButton fx:id="bn_exp1" layoutX="276.0" layoutY="410.0" onAction="#update_selected" style="-fx-background-color: #256FA8#256FA8 #256FA8#256FA8;" text="Update Selected" textFill="WHITE" />
+      <ScrollPane fx:id="scroll" layoutX="2.0" layoutY="82.0" prefHeight="264.0" prefWidth="240.0">
+        <content>
+          <AnchorPane fx:id="scrollpane" minHeight="0.0" minWidth="0.0" prefHeight="410.0" prefWidth="241.0" />
+        </content>
+      </ScrollPane>
    </children>
 </AnchorPane>
