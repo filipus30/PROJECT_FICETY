@@ -44,11 +44,13 @@ public class ValidatorTest {
      */
     @Test
     public void testIsAlphaNumeric() {
-        System.out.println("isAlphaNumeric");
         String s = "123";
-        boolean expResult = false;
-        boolean result = instance.isAlphaNumeric(s);
-        assertEquals(expResult, result);
+        String textNumber = "NotMyNumber1";
+        String text = "NotMyNumber";
+        
+        assertEquals(false, instance.isAlphaNumeric(s));
+        assertEquals(false, instance.isAlphaNumeric(textNumber));
+        assertEquals(true, instance.isAlphaNumeric(text));
         // TODO review the generated test code and remove the default call to fail.
        // fail("The test case is a prototype.");
     }
@@ -58,11 +60,29 @@ public class ValidatorTest {
      */
     @Test
     public void testIsAlpha() {
-        System.out.println("isAlpha");
-        String name = "abc";
-        boolean expResult = true;
-        boolean result = instance.isAlpha(name);
-        assertEquals(expResult, result);
+        String name = "Marcus";
+        String name2 = "Marcus Smith";
+        String namewithMail = "Marcus@bla.com";
+        String nameNumbers = "Marcus2Bad";
+        
+        assertEquals(true, instance.isAlpha(name));
+        assertEquals(false, instance.isAlpha(name2));
+        assertEquals(false, instance.isAlpha(namewithMail));
+        assertEquals(false, instance.isAlpha(nameNumbers));
+        // TODO review the generated test code and remove the default call to fail.
+      //  fail("The test case is a prototype.");
+    }
+       @Test
+    public void testIsCharOrSpace() {
+        String name = "Marcus";
+        String name2 = "Marcus Smith";
+        String namewithMail = "Marcus@bla.com";
+        String nameNumbers = "Marcus2Bad";
+        
+        assertEquals(true, instance.checkLettersAndSpaces(name));
+        assertEquals(true, instance.checkLettersAndSpaces(name2));
+        assertEquals(false, instance.checkLettersAndSpaces(namewithMail));
+        assertEquals(false, instance.checkLettersAndSpaces(nameNumbers));
         // TODO review the generated test code and remove the default call to fail.
       //  fail("The test case is a prototype.");
     }
@@ -72,11 +92,11 @@ public class ValidatorTest {
      */
     @Test
     public void testIsNumber() {
-        System.out.println("isNumber");
-        String text = "123";
-        boolean expResult = true;
-        boolean result = instance.isNumber(text);
-        assertEquals(expResult, result);
+        String numbers = "123";
+        String text = "Hello";
+        
+        assertEquals(true, instance.isNumber(numbers));
+        assertEquals(false, instance.isNumber(text));
         // TODO review the generated test code and remove the default call to fail.
        // fail("The test case is a prototype.");
     }
@@ -86,11 +106,15 @@ public class ValidatorTest {
      */
     @Test
     public void testIsValidDate() {
-        System.out.println("isValidDate");
         String text = "2020-04-29 01:03:38";
-        boolean expResult = true;
-        boolean result = instance.isValidDate(text);
-        assertEquals(expResult, result);
+        String falsetext = "2020-04-29T01:03:38"; //Wrong dateTime format
+        String falsetext2 = "2020-04-h18 01:03:38"; //extra letter
+        String falsetext3 = "2020-04-78 01:03:38"; //date out of bounds.
+        
+        assertEquals(true, instance.isValidDate(text));
+        assertEquals(false, instance.isValidDate(falsetext));
+        assertEquals(false, instance.isValidDate(falsetext2));
+        assertEquals(false, instance.isValidDate(falsetext3));
         // TODO review the generated test code and remove the default call to fail.
         //fail("The test case is a prototype.");
     }

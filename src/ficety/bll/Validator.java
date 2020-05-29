@@ -51,7 +51,7 @@ public class Validator {
        return true;
     }
     }
-    public boolean method(String name)
+    public boolean checkLettersAndSpaces(String name)
     {
         return (name.matches("[a-zA-Z\\s\'\"]+"));
     }
