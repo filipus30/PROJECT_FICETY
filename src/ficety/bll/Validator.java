@@ -16,13 +16,13 @@ import java.util.regex.Pattern;
  */
 public class Validator {
     private static Pattern p = Pattern.compile("^[a-zA-Z]*$");
+   
 
 	public static boolean isAlphaNumeric(String s) {
 		return p.matcher(s).find();
 	}
     public boolean isAlpha(String name) {
     char[] chars = name.toCharArray();
-
     for (char c : chars) {
         if(!Character.isLetter(c)) {
             return false;
@@ -50,6 +50,10 @@ public class Validator {
     } else {
        return true;
     }
+    }
+    public boolean method(String name)
+    {
+        return (name.matches("[a-zA-Z\\s\'\"]+"));
     }
 }
 
