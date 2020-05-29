@@ -217,6 +217,8 @@ private ObservableList<Task> datatask;
     private List<Project> treelist;
     private List<User> treeuserlist;
     private List<User> treeuserlist1;
+    @FXML
+    private TreeTableColumn<EntityItem,String> over_col25;
     public AdminViewController()
     {
        
@@ -2605,6 +2607,9 @@ over_col1.setCellValueFactory((cellData) -> cellData.getValue()
                                     .getValue().projectNameProperty());
 over_col2.setCellValueFactory((cellData) -> cellData.getValue()
                                     .getValue().projectTotalTimeProperty());
+over_col25.setCellValueFactory((cellData) -> cellData.getValue()
+                                    .getValue().projectBillableTimeProperty());
+
 over_col3.setCellValueFactory((cellData) -> cellData.getValue()
                                     .getValue().taskNameProperty());
 over_col4.setCellValueFactory((cellData) -> cellData.getValue()

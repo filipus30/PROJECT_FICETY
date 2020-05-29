@@ -21,7 +21,7 @@ public class EntityItem {
     //Project
     private final StringProperty projectName = new SimpleStringProperty(this, "projectName", "");
     private final StringProperty projectTotalTime = new SimpleStringProperty(this, "seconds", "");
-    private final IntegerProperty projectBillableTime = new SimpleIntegerProperty(this, "projectBillableTimeNice");
+    private final StringProperty projectBillableTime = new SimpleStringProperty(this, "projectBillableTimeNice","");
     //Task
     private final StringProperty taskName = new SimpleStringProperty(this, "taskName", "");
     private final StringProperty taskTime = new SimpleStringProperty(this, "hours", "");
@@ -59,7 +59,7 @@ public class EntityItem {
     public EntityItem(Project p){
         projectName.bindBidirectional(p.ProjectNameProperty());
         projectTotalTime.bindBidirectional(p.secondsProperty());
-       // projectBillableTime.bindBidirectional(p.billableTimeProperty());
+        projectBillableTime.bindBidirectional(new SimpleStringProperty(String.valueOf(p.billableTimeProperty())));
     }
     
     public EntityItem(Task t){
@@ -111,15 +111,15 @@ public class EntityItem {
     }
     
 
-    public int getProjectBillableTime() {
+    public String getProjectBillableTime() {
         return projectBillableTime.get();
     }
 
-    public void setProjectBillableTime(int value) {
+    public void setProjectBillableTime(String value) {
         projectBillableTime.set(value);
     }
 
-    public IntegerProperty projectBillableTimeProperty() {
+    public StringProperty projectBillableTimeProperty() {
         return projectBillableTime;
     }
     
