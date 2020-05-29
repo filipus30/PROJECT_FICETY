@@ -3,37 +3,39 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package ficety.bll;
+package UnitTesting;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import ficety.bll.Validator;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
  * @author macos
  */
 public class ValidatorTest {
+    Validator instance = new Validator();
     
     public ValidatorTest() {
     }
     
-    @BeforeAll
+    @BeforeClass
     public static void setUpClass() {
     }
     
-    @AfterAll
+    @AfterClass
     public static void tearDownClass() {
     }
     
-    @BeforeEach
+    @Before
     public void setUp() {
     }
     
-    @AfterEach
+    @After
     public void tearDown() {
     }
 
@@ -45,7 +47,7 @@ public class ValidatorTest {
         System.out.println("isAlphaNumeric");
         String s = "";
         boolean expResult = false;
-        boolean result = Validator.isAlphaNumeric(s);
+        boolean result = instance.isAlphaNumeric(s);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -58,7 +60,6 @@ public class ValidatorTest {
     public void testIsAlpha() {
         System.out.println("isAlpha");
         String name = "";
-        Validator instance = new Validator();
         boolean expResult = false;
         boolean result = instance.isAlpha(name);
         assertEquals(expResult, result);
@@ -73,7 +74,6 @@ public class ValidatorTest {
     public void testIsNumber() {
         System.out.println("isNumber");
         String text = "";
-        Validator instance = new Validator();
         boolean expResult = false;
         boolean result = instance.isNumber(text);
         assertEquals(expResult, result);
@@ -88,7 +88,6 @@ public class ValidatorTest {
     public void testIsValidDate() {
         System.out.println("isValidDate");
         String text = "";
-        Validator instance = new Validator();
         boolean expResult = false;
         boolean result = instance.isValidDate(text);
         assertEquals(expResult, result);
