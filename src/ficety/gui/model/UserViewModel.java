@@ -42,7 +42,10 @@ public class UserViewModel {
      {
          return val.isValidDate(text);
      }
-   
+     public boolean isStringFloat(String s)
+     {
+         return val.isStringFloat(s);
+     }
     
     
     //CLIENT related

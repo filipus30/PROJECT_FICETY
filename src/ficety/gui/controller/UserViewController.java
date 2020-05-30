@@ -825,32 +825,9 @@ export = 3;
         List<Project> list = UVM.getAllProjectsForUserTab();
         ObservableList<Project> datapj =  FXCollections.observableArrayList(list);
         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<>("clientName"));
-        Col_pj_clint.setCellFactory(ComboBoxTableCell.forTableColumn(dataClient));
-        Col_pj_clint.setOnEditCommit((TableColumn.CellEditEvent<Project,Client> e) -> 
-        {
-         int id = e.getNewValue().getId();
-         Project p = e.getRowValue();
-         p.setAssociatedClientID(id);
-    });
         Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
-        Col_pj_contact.setCellFactory(TextFieldTableCell.forTableColumn());
-        Col_pj_contact.setOnEditCommit(
-                (TableColumn.CellEditEvent<Project, String> t) ->
-                    ( t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())
-                    ).setPhoneNr(t.getNewValue())
-                
-                
-                );
         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
-         Col_pj_name.setCellFactory(TextFieldTableCell.forTableColumn());
-       Col_pj_name.setOnEditCommit(
-                (TableColumn.CellEditEvent<Project, String> t) ->
-                    ( t.getTableView().getItems().get(
-                            t.getTablePosition().getRow())
-                    ).setProjectName(t.getNewValue())
-                );
         col_pj_closed.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Project, CheckBox>, ObservableValue<CheckBox>>() {
 
             @Override

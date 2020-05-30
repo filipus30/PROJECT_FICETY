@@ -55,5 +55,17 @@ public class Validator {
     {
         return (name.matches("[a-zA-Z\\s\'\"]+"));
     }
+    
+    public boolean isStringFloat(String s)
+{
+    try
+    {
+        Float.parseFloat(s);
+        return true;
+    } catch (NumberFormatException ex)
+    {
+        return false;
+    }
+}
 }
 

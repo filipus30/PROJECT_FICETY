@@ -110,7 +110,7 @@ public class AdminViewController extends JFrame implements Initializable {
     private List<User> userlist ;
     private ObservableList<User> dataUsers ;
     private ObservableList<Session> datasession;
-    private ObservableList<Project> choosedatauser;
+   // private ObservableList<Project> choosedatauser;
     boolean added = true;
     boolean datepicked = false;
     boolean admdatepicked = false;
@@ -233,7 +233,7 @@ private ObservableList<Task> datatask;
       userlist = UVM.getAllUsers();
       dataUsers =  FXCollections.observableArrayList(userlist);
       datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
-      choosedatauser =  FXCollections.observableArrayList(UVM.getAllProjects());
+     // choosedatauser =  FXCollections.observableArrayList(UVM.getAllProjects());
       admdataClient =  FXCollections.observableArrayList(UVM.getAllClients());
       datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
     }
@@ -414,16 +414,6 @@ private ObservableList<Task> datatask;
     @FXML
     private TextField tf_adm_project_payment;
     @FXML
-    private TextField tf_adm_task_name;
-    @FXML
-    private JFXComboBox<Project> cb_adm_task_project;
-    @FXML
-    private JFXComboBox<User> cb_adm_task_user;
-    @FXML
-    private TextField tf_adm_task_rate;
-    @FXML
-    private TextField tf_adm_task_task_payment;
-    @FXML
     private TextField tf_adm_user_email;
     @FXML
     private TextField tf_adm_user_payperh;
@@ -433,8 +423,6 @@ private ObservableList<Task> datatask;
     private JFXComboBox<Boolean> cb_adm_user_admin;
     @FXML
     private TableColumn<Task, String> col_task_description;
-    @FXML
-    private TextField tf_adm_task_task_description;
     @FXML
     private TableColumn<User, String> col_user_password;
     @FXML
@@ -612,6 +600,7 @@ private ObservableList<Task> datatask;
             isTimerRunning = false;
         }
         timer.start();
+        time = 0;
         isTimerRunning = true;
 
     }
@@ -920,21 +909,7 @@ export = 3;
         lb_loginuser.setText(lu.getName());
 
     }
-     @FXML
-    private void chooseSession(Event event)
-    {
-        if(event.getSource().equals(tbv_session))
-        { Session ses = tbv_session.getSelectionModel().getSelectedItem();
-           session_start.setText(ses.getStartTime());
-           session_stop.setText(ses.getFinishTime());
-        }
-
-    }
-
-
-    private void edit_session(ActionEvent event) {
-        UVM.editSession(tbv_session.getSelectionModel().getSelectedItem(),session_start.getText(),session_stop.getText(),tbv_session.getSelectionModel().getSelectedItem().getSessionID());
-    }
+   
 
     private void delete_session(ActionEvent event) {
         UVM.removeSessionFromDB(tbv_session.getSelectionModel().getSelectedItem());
@@ -1131,6 +1106,12 @@ export = 3;
             col_project_time.setCellValueFactory(new PropertyValueFactory<Project,String>("seconds"));
             col_project_payment.setCellValueFactory(new PropertyValueFactory<Project,String>("calPayment"));
             col_project_allocatedhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("allocatedHours"));
+           col_project_allocatedhours.setOnEditCommit(
+                (TableColumn.CellEditEvent<Project, Integer> t) ->
+                    ( t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())
+                    ).setAllocatedHours(t.getNewValue())
+                );
              ArrayList<Project> list = UVM.getAllProjects();
              ObservableList<Project> dataProject =  FXCollections.observableArrayList(list);
              col_pj_closed1.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Project, CheckBox>, ObservableValue<CheckBox>>() {
@@ -1330,18 +1311,7 @@ export = 3;
         }
     }
 
-    @FXML
-    private void adm_choose_client(MouseEvent event) {
-        tf_adm_client_email.setText(admin_clients.getSelectionModel().getSelectedItem().getEmail());
-        tf_adm_client_name.setText(admin_clients.getSelectionModel().getSelectedItem().getClientName());
-        float f = admin_clients.getSelectionModel().getSelectedItem().getStandardRate();
-        String s= Float.toString(f);
-        tf_adm_client_standardRate.setText(s);
-    }
-
-    private void adm_edit_client(ActionEvent event) {
-        UVM.editClient(admin_clients.getSelectionModel().getSelectedItem(),tf_adm_client_name.getText(),Float.valueOf(tf_adm_client_standardRate.getText()),tf_adm_client_email.getText());
-    }
+   
 
     @FXML
     private void adm_add_client(ActionEvent event) {
@@ -1350,86 +1320,14 @@ export = 3;
          admdataClient.add(c);
     }
 
-    @FXML
-    private void adm_choose_project(MouseEvent event) {
-    tf_adm_project_contact.setText(admin_projects.getSelectionModel().getSelectedItem().getPhoneNr());
-    tf_adm_project_hours.setText(admin_projects.getSelectionModel().getSelectedItem().getSeconds());
-    tf_adm_project_name.setText(admin_projects.getSelectionModel().getSelectedItem().getProjectName());
-    tf_adm_project_payment.setText(admin_projects.getSelectionModel().getSelectedItem().getCalPayment());
-    
-            cb_adm_project_client.getItems().clear();
-    cb_adm_project_client.getItems().addAll(admdataClient);
-    for(int i = 0;i<admdataClient.size();i++)
-            {
-               if(admdataClient.get(i).getClientName().equals(admin_projects.getSelectionModel().getSelectedItem().getClientName()))
-                 cb_adm_project_client.getSelectionModel().select(admdataClient.get(i));
-
-            }
-    }
-
-    private void adm_edit_project(ActionEvent event) {
-        UVM.editProject(admin_projects.getSelectionModel().getSelectedItem(),tf_adm_project_name.getText(),cb_adm_project_client.getSelectionModel().getSelectedItem().getId(),Float.valueOf(tf_adm_project_payment.getText()),Integer.valueOf(tf_adm_project_hours.getText()),false,tf_adm_project_contact.getText());
-    }
-
+  
     @FXML
     private void adm_add_project(ActionEvent event) {
         datax.add(UVM.addNewProjectToDB(tf_adm_project_name.getText(),cb_adm_project_client.getSelectionModel().getSelectedItem(),tf_adm_project_contact.getText(),Float.valueOf(tf_adm_project_payment.getText()),Integer.valueOf(tf_adm_project_hours.getText()), false));
     }
 
-    private void adm_choose_task(MouseEvent event) {
-        ArrayList<Project> list = UVM.getAllProjects();
-            ObservableList<Project> admdataProject =  FXCollections.observableArrayList(list);
-             List<User> zlist = UVM.getAllUsers();
-            ObservableList<User> admdataUsers =  FXCollections.observableArrayList(zlist);
-        tf_adm_task_name.setText(admin_tasks.getSelectionModel().getSelectedItem().getTaskName());
-        tf_adm_task_rate.setText(String.valueOf(admin_tasks.getSelectionModel().getSelectedItem().getSalary()));
-        tf_adm_task_task_payment.setText(admin_tasks.getSelectionModel().getSelectedItem().getProjectPayment());
-        tf_adm_task_task_description.setText(admin_tasks.getSelectionModel().getSelectedItem().getDesc());
-         cb_adm_task_project.getItems().clear();
-        cb_adm_task_user.getItems().clear();
-        cb_adm_task_project.getItems().addAll(admdataProject);
-        cb_adm_task_user.getItems().addAll(admdataUsers);
-        for(int i = 0;i<admdataProject.size();i++)
-            {
-               if(admdataProject.get(i).getId() == admin_projects.getSelectionModel().getSelectedItem().getId())
-                   cb_adm_task_project.getSelectionModel().select(admdataProject.get(i));
-            }
-        for(int i = 0;i<admdataUsers.size();i++)
-            {
-               if(admdataUsers.get(i).getEmail().equals(admin_users.getSelectionModel().getSelectedItem().getEmail()))
-                   cb_adm_task_user.getSelectionModel().select(admdataUsers.get(i));;
-            ;}
-    }
-
-    @FXML
-    private void adm_add_task(ActionEvent event) {
-
-    }
-
-    private void adm_edit_task(ActionEvent event) {
-       // UVM.editTask(admin_tasks.getSelectionModel().getSelectedItem(),tf_adm_task_name.getText(),tf_adm_task_task_description.getText(),admin_tasks.getSelectionModel().getSelectedItem().getAssociatedProjectID());
-    }
-
-    @FXML
-    private void adm_choose_user(MouseEvent event) {
-        tf_adm_user_email.setText(admin_users.getSelectionModel().getSelectedItem().getEmail());
-        tf_adm_user_name.setText(admin_users.getSelectionModel().getSelectedItem().getUserName());
-        tf_adm_user_payperh.setText(String.valueOf(admin_users.getSelectionModel().getSelectedItem().getSalary()));
-        tf_adm_user_password.setText(admin_users.getSelectionModel().getSelectedItem().getPassword());
-         cb_adm_user_admin.getItems().clear();
-        cb_adm_user_admin.getItems().addAll(true,false);
-
-        if(admin_users.getSelectionModel().getSelectedItem().getIsAdmin() == true)
-            cb_adm_user_admin.getSelectionModel().select(true);
-        else if(admin_users.getSelectionModel().getSelectedItem().getIsAdmin() == false)
-            cb_adm_user_admin.getSelectionModel().select(false);
-
-    }
-
-    private void adm_edit_user(ActionEvent event) {
-        UVM.editUser(admin_users.getSelectionModel().getSelectedItem(),tf_adm_user_name.getText(),tf_adm_user_email.getText(),tf_adm_user_password.getText(),Float.valueOf(tf_adm_user_payperh.getText()), false);
-
-    }
+  
+   
 
     @FXML
     private void adm_add_user(ActionEvent event) {
@@ -2419,8 +2317,19 @@ export = 3;
         else if(export == 5)
         {
             pj = admin_projects.getSelectionModel().getSelectedItem();
-            UVM.editProject(pj,pj.getProjectName(),pj.getAssociatedClientID(),pj.getProjectRate(),pj.getAllocatedHours(),pj.getIsClosed(),pj.getPhoneNr());
-        }
+            if(UVM.isNumber(String.valueOf(pj.getAllocatedHours())))
+            { UVM.editProject(pj,pj.getProjectName(),pj.getAssociatedClientID(),pj.getProjectRate(),pj.getAllocatedHours(),pj.getIsClosed(),pj.getPhoneNr());
+            
+            }
+            else
+                 {
+                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Error ! Invalid input :  "+String.valueOf(pj.getAllocatedHours()));
+      alert.showAndWait();}
+            }
+        
         else if(export == 6)
         {
             t = admin_tasks.getSelectionModel().getSelectedItem();
@@ -2429,7 +2338,7 @@ export = 3;
         else if(export ==7)
         {
             u = admin_users.getSelectionModel().getSelectedItem();
-            if(UVM.isNumber(String.valueOf(u.getSalary())))
+            if(UVM.isStringFloat(String.valueOf(u.getSalary())))
             { UVM.editUser(u,u.getUserName(),u.getEmail(),u.getPassword(),u.getSalary(),u.getIsAdmin());}
             else
             {
@@ -2441,7 +2350,7 @@ export = 3;
             }
         }
         
-        }
+    }
     
     
     @FXML
@@ -2560,7 +2469,7 @@ export = 3;
         userlist = UVM.getAllUsers();
         dataUsers =  FXCollections.observableArrayList(userlist);
         datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
-        choosedatauser =  FXCollections.observableArrayList(UVM.getAllProjects());
+       // choosedatauser =  FXCollections.observableArrayList(UVM.getAllProjects());
         admdataClient =  FXCollections.observableArrayList(UVM.getAllClients());
         datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
         
@@ -2724,4 +2633,17 @@ over_user_salaryadm.setCellValueFactory((cellData) ->
                   cellData.getValue().getValue().salaryProperty());
         tree_tbv_adm.setRoot(root);
     }
+
+    @FXML
+    private void adm_choose_user(MouseEvent event) {
+    }
+
+    @FXML
+    private void adm_choose_project(MouseEvent event) {
+    }
+
+    @FXML
+    private void adm_choose_client(MouseEvent event) {
+    }
 }
+        
