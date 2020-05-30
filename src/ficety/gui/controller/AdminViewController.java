@@ -1315,15 +1315,33 @@ export = 3;
 
     @FXML
     private void adm_add_client(ActionEvent event) {
-       Client c =  UVM.addNewClientToDB(tf_adm_client_name.getText(),Float.valueOf(tf_adm_client_standardRate.getText()),tf_adm_client_email.getText());
-         dataClient.add(c);
-         admdataClient.add(c);
+       if(UVM.isStringFloat((tf_adm_client_standardRate.getText())))
+       {        Client c =  UVM.addNewClientToDB(tf_adm_client_name.getText(),Float.valueOf(tf_adm_client_standardRate.getText()),tf_adm_client_email.getText());
+           dataClient.add(c);
+         admdataClient.add(c);}
+       
+       else 
+       {  Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Error ! Invalid input :  "+tf_adm_client_standardRate.getText());
+      alert.showAndWait();}
     }
 
   
     @FXML
     private void adm_add_project(ActionEvent event) {
-        datax.add(UVM.addNewProjectToDB(tf_adm_project_name.getText(),cb_adm_project_client.getSelectionModel().getSelectedItem(),tf_adm_project_contact.getText(),Float.valueOf(tf_adm_project_payment.getText()),Integer.valueOf(tf_adm_project_hours.getText()), false));
+        if(UVM.isStringFloat(tf_adm_project_payment.getText()) || UVM.isNumber(tf_adm_project_hours.getText()))
+        {  Project p = UVM.addNewProjectToDB(tf_adm_project_name.getText(),cb_adm_project_client.getSelectionModel().getSelectedItem(),tf_adm_project_contact.getText(),Float.valueOf(tf_adm_project_payment.getText()),Integer.valueOf(tf_adm_project_hours.getText()), false);
+        datax.add(p);}
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Error ! Invalid input :  "+tf_adm_project_payment.getText()+" "+tf_adm_project_hours.getText());
+      alert.showAndWait();
+        }
     }
 
   
@@ -1331,7 +1349,17 @@ export = 3;
 
     @FXML
     private void adm_add_user(ActionEvent event) {
-        dataUsers.add(UVM.createUser(tf_adm_user_name.getText(),tf_adm_user_email.getText(),tf_adm_user_password.getText(),Float.valueOf(tf_adm_user_payperh.getText()), false));
+        if(UVM.isStringFloat(tf_adm_user_payperh.getText()))
+        { dataUsers.add(UVM.createUser(tf_adm_user_name.getText(),tf_adm_user_email.getText(),tf_adm_user_password.getText(),Float.valueOf(tf_adm_user_payperh.getText()), false));
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("Information Dialog");
+      alert.setHeaderText(null);
+      alert.setContentText("Error ! Invalid input :  "+tf_adm_user_payperh.getText());
+      alert.showAndWait();
+        }
     }
 
     @FXML
@@ -2634,16 +2662,6 @@ over_user_salaryadm.setCellValueFactory((cellData) ->
         tree_tbv_adm.setRoot(root);
     }
 
-    @FXML
-    private void adm_choose_user(MouseEvent event) {
-    }
-
-    @FXML
-    private void adm_choose_project(MouseEvent event) {
-    }
-
-    @FXML
-    private void adm_choose_client(MouseEvent event) {
-    }
+   
 }
         

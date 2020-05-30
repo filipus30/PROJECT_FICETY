@@ -242,7 +242,7 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f4f4f4" height="40.0" stroke="BLACK" strokeType="INSIDE" width="552.0" AnchorPane.bottomAnchor="22.0" />
-                              <TableView fx:id="admin_users" editable="true" layoutX="152.0" layoutY="1.0" onMouseClicked="#adm_choose_user" prefHeight="284.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="admin_users" editable="true" layoutX="152.0" layoutY="1.0" prefHeight="284.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_user_name" prefWidth="75.0" text="Name" />
                                   <TableColumn fx:id="col_user_time" prefWidth="113.0" text="Total time" />
@@ -288,7 +288,7 @@
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f4f4f4" height="40.0" stroke="BLACK" strokeType="INSIDE" width="552.0" AnchorPane.bottomAnchor="22.0" />
-                              <TableView fx:id="admin_projects" editable="true" layoutX="144.0" layoutY="-16.0" onMouseClicked="#adm_choose_project" prefHeight="285.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="admin_projects" editable="true" layoutX="144.0" layoutY="-16.0" prefHeight="285.0" prefWidth="552.0" AnchorPane.bottomAnchor="57.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_project_name" prefWidth="75.0" text="Name" />
                                   <TableColumn fx:id="col_project_client" prefWidth="75.0" text="Client" />
@@ -314,7 +314,7 @@
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="257.0" prefWidth="794.0">
                            <children>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#5cb4fd" height="40.0" layoutX="112.0" layoutY="282.0" stroke="BLACK" strokeType="INSIDE" width="552.0" AnchorPane.bottomAnchor="22.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                              <TableView fx:id="admin_clients" editable="true" layoutY="-3.0" onMouseClicked="#adm_choose_client" prefHeight="290.0" prefWidth="552.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <TableView fx:id="admin_clients" editable="true" layoutY="-3.0" prefHeight="290.0" prefWidth="552.0" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                 <columns>
                                   <TableColumn fx:id="col_client_name" prefWidth="75.0" text="Name" />
                                   <TableColumn fx:id="col_client_email" prefWidth="128.0" text="Email" />
