@@ -598,6 +598,7 @@ private ObservableList<Task> datatask;
             isTimerRunning = false;
         }
         timer.start();
+        time = 0;
         isTimerRunning = true;
 
     }
