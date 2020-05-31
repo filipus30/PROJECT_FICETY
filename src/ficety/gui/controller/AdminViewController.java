@@ -7,7 +7,6 @@ package ficety.gui.controller;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
-import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXTextField;
 import ficety.be.Client;
 import ficety.be.Coordinates;
@@ -17,15 +16,12 @@ import ficety.be.Project;
 import ficety.be.Session;
 import ficety.be.Task;
 import ficety.be.User;
-import ficety.dal.ClientDBDAO;
 import ficety.gui.model.UserViewModel;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
@@ -42,15 +38,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
@@ -66,7 +59,6 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.control.Tooltip;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeTableColumn;
@@ -74,17 +66,10 @@ import javafx.scene.control.TreeTableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.control.cell.TreeItemPropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -443,22 +428,16 @@ private ObservableList<Task> datatask;
     private boolean treeprojectadm = false;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-     //   clientstring = FXCollections.observableArrayList();
-    //    for(int i = 0;i<clientlist.size();i++)
-    //    {
-    //       clientstring.add(clientlist.get(i).getClientName());
-           
-     //   }
+  
         listpj = UVM.getAllOpenProjects();
         datapj =  FXCollections.observableArrayList(listpj);
        admin_tab.setVisible(false);
        datax = FXCollections.observableArrayList(UVM.get3RecentProjects());
        cb_project.getItems().addAll(datapj);
-//       cb_task_project.getItems().addAll(datax);
+
        
    loadButtons();
          loaded = true;
-       //  loadOver();
 
     }
     public void loadButtons()
@@ -548,9 +527,9 @@ private ObservableList<Task> datatask;
 
             }
         else{
-               // Sp_last3.setVisible(false);
+               
                 ap.setVisible(false);
-               //user_tabpane.setVisible(false);
+            
                  min = false;
 
                 debug("Size toggle false");
@@ -663,43 +642,17 @@ AnimationTimer timer = new AnimationTimer() {
 
     @FXML
     private void load_task_tab(Event event) throws SQLException {
-//        ObservableList<Task> data =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
-//        Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
-//        Col_task_description.setCellValueFactory(new PropertyValueFactory<Task, String>("description"));
-//        Col_task_project.setCellValueFactory(new PropertyValueFactory<Task, Integer>("associatedProjectID"));
-//        Col_task_myhours.setCellValueFactory(new PropertyValueFactory<Task, Integer>("hours"));
-//        tbv_task.setItems(data);
-//        debug(data.size() + "");
 export = 1;
     }
 
     @FXML
     private void load_session_tab(Event event) throws SQLException {
-
-     //  Timestamp n
-     //   Session s = new Session(3,3,3,now,now,0,"");
-//        ObservableList<Session> data =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
-//        col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<Session,Integer>("taskName"));
-//        col_sesion_start.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("startTime"));
-//        col_sesion_stop.setCellValueFactory(new PropertyValueFactory<Session,LocalDateTime>("finishTime"));
-//        col_sesion_myhours.setCellValueFactory(new PropertyValueFactory<Session,Integer>("hours"));
-//        tbv_session.setItems(data);
-//        cb_project.getSelectionModel().getSelectedItem();
-//      //  cb_project.getItems().addAll(c);
 export = 2;
 
     }
 
     @FXML
     private void load_pj_tab(Event event) throws InterruptedException {
-
-//        {   List<Project> list = UVM.getAllProjectsForUserTab();
-//         ObservableList<Project> data =  FXCollections.observableArrayList(list);
-//         Col_pj_clint.setCellValueFactory(new PropertyValueFactory<Project,String>("clientName"));
-//         Col_pj_contact.setCellValueFactory(new PropertyValueFactory<Project,String>("phoneNr"));
-//         Col_pj_myhours.setCellValueFactory(new PropertyValueFactory<Project,Integer>("seconds"));
-//         Col_pj_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
-//         Tbv_pj.setItems(data);}
 export = 3;
 
 
@@ -743,7 +696,6 @@ export = 3;
             debug("TableView selected.");//DEBUG MESSAGE
             Task tmp = tbv_task.getSelectionModel().getSelectedItem();
             lu.setCurrentTask(tmp);
-            //task_name.setText(lu.getCurrentTask().getTaskName());
             task_description.setText(lu.getCurrentTask().getDesc());
             for(int i = 0;i<datax.size();i++)
             {
@@ -757,9 +709,7 @@ export = 3;
     
      
     private void loadAll()
-    {  // tbv_task.setEditable(true);
-	// allows the individual cells to be selected
-	//tbv_task.getSelectionModel().cellSelectionEnabledProperty().set(true);
+    {  
         
          Col_task_taskname.setCellValueFactory(new PropertyValueFactory<Task, String>("taskName"));
          Col_task_taskname.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -819,7 +769,6 @@ export = 3;
 
         });
         tbv_task.setItems(datatask);
-        //datasession =  FXCollections.observableArrayList(UVM.getAllSessionsOfAUser());
         col_sesion_taskname.setCellValueFactory(new PropertyValueFactory<>("taskName"));
        col_sesion_taskname.setCellFactory(ComboBoxTableCell.forTableColumn(dataTasks));
         col_sesion_taskname.setOnEditCommit((TableColumn.CellEditEvent<Session,Task> e) -> 
@@ -923,32 +872,6 @@ export = 3;
         }
     }
 
-    private void editTask(ActionEvent event) {
-        if(task_name.getText() != null)
-        {
-            if(cb_task_project != null)
-            {
-                 debug("Editing task, passing down stack");
-              //  UVM.editTask(lu.getCurrentTask(), task_name.getText(), task_description.getText() , cb_task_project.getSelectionModel().getSelectedItem().getId() );
-                lu.setCurrentTask(null);
-            }
-            else
-            {
-               Alert alert = new Alert(Alert.AlertType.INFORMATION);
-      alert.setTitle("Information Dialog");
-      alert.setHeaderText(null);
-      alert.setContentText("Please select project for task you want to edit");
-      alert.showAndWait();}
-
-        }
-        else
-        {
-           Alert alert = new Alert(Alert.AlertType.INFORMATION);
-      alert.setTitle("Information Dialog");
-      alert.setHeaderText(null);
-      alert.setContentText("Please enter name for task");
-      alert.showAndWait();}
-        }
 
 
     private void addTask(ActionEvent event)
@@ -958,7 +881,7 @@ export = 3;
             if(cb_task_project != null)
             {
                 debug("Adding task to DB passing down stack");
-                boolean taskBillable = true; //NEEDS EDITING IMPORTANT
+                boolean taskBillable = true; 
                 debug("TaskBillable hardcoded to true.");
                 UVM.addNewTaskToDB(task_name.getText(), task_description.getText(), taskBillable, cb_task_project.getSelectionModel().getSelectedItem());
                 lu.setCurrentTask(null);
@@ -1077,8 +1000,7 @@ export = 3;
         export = 5;
         if(loadProject == false)
         {
-            //ArrayList<Project> list = UVM.getAllProjects();
-          //  ObservableList<Project> dataProject =  FXCollections.observableArrayList(list);
+            
             col_project_name.setCellValueFactory(new PropertyValueFactory<Project,String>("projectName"));
             col_project_name.setCellFactory(TextFieldTableCell.forTableColumn());
             col_project_name.setOnEditCommit(
@@ -1156,8 +1078,7 @@ export = 3;
         export = 6;
         if(loadAdminTasks == false)
         {
-           // List<Task> tasklist = UVM.getAllTasksForAdmin();
-          //  ObservableList<Task> dataTasks =  FXCollections.observableArrayList(tasklist);
+           
             col_task_name.setCellValueFactory(new PropertyValueFactory<Task,String>("taskName"));
              col_task_name.setCellFactory(TextFieldTableCell.forTableColumn());
             col_task_name.setOnEditCommit(
@@ -1575,9 +1496,6 @@ export = 3;
     private void load_admin_column(Event event) {
         if(cb_bar_adm_data.getItems().isEmpty())
         {  
-            /*Project p = new Project(-1,"All Projects",0,"",0,0,false);
-            ArrayList<Project> projectsAdmBar = UVM.getAllProjects();
-            projectsAdmBar.add(0,p); */
             cb_bar_adm_data.getItems().addAll("Clients", "Projects", "Users");
             cb_bar_adm_time.getItems().addAll("Last Month","Last Week","Current Month","Current Week", "Custom Date");
         }
@@ -1904,14 +1822,7 @@ export = 3;
             clients.add(0, c);
             cb_bar_adm_dataClient.getItems().addAll(clients);
             col_tab_anchor.getChildren().add(cb_bar_adm_dataClient);
-            /*cb_bar_adm_dataClient.setOnAction(e -> {
-                barAdmDataPicked = true;
-                if(barAdmTimePicked)
-                {
-                    Client tempclient = cb_bar_adm_dataClient.getSelectionModel().getSelectedItem();
-                    showAdmBarChart(tempclient);
-                }
-            }); */
+          
         }
         else if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Projects"))
         {
@@ -1931,14 +1842,7 @@ export = 3;
             projects.add(0, p);
             cb_bar_adm_dataProject.getItems().addAll(projects);
             col_tab_anchor.getChildren().add(cb_bar_adm_dataProject);
-            /*cb_bar_adm_dataProject.setOnAction(e -> {
-                barAdmDataPicked = true;
-                if(barAdmTimePicked)
-                {
-                    Project tempproject = cb_bar_adm_dataProject.getSelectionModel().getSelectedItem();
-                    showAdmBarChart(tempproject);
-                }
-            }); */
+          
         }
         if(cb_bar_adm_data.getSelectionModel().getSelectedItem().equals("Users"))
         {
@@ -1958,14 +1862,7 @@ export = 3;
             users.add(0, u);
             cb_bar_adm_dataUser.getItems().addAll(users);
             col_tab_anchor.getChildren().add(cb_bar_adm_dataUser);
-            /* cb_bar_adm_dataUser.setOnAction(e -> {
-                barAdmDataPicked = true;
-                if(barAdmTimePicked)
-                {
-                    User tempuser = cb_bar_adm_dataUser.getSelectionModel().getSelectedItem();
-                    showAdmBarChart(tempuser);
-                }
-            }); */
+           
             
         }
         
@@ -2499,6 +2396,7 @@ export = 3;
        // choosedatauser =  FXCollections.observableArrayList(UVM.getAllProjects());
         admdataClient =  FXCollections.observableArrayList(UVM.getAllClients());
         datatask =  FXCollections.observableArrayList(UVM.getTasksForUserInfo());
+        
         
         List<Project> list = UVM.getAllOpenProjects();
         cb_project.getItems().removeAll(datapj);
