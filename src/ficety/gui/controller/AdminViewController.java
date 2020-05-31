@@ -1645,8 +1645,7 @@ export = 3;
     
     private void showAdmLineChart()
     {
-         String startTime = "";
-        String finishTime = "";
+        
         if(cb_stat_adm_time.getSelectionModel().getSelectedItem().equals("Last Month"))
         {
            LocalDate today = LocalDate.now();  // Retrieve the date now
