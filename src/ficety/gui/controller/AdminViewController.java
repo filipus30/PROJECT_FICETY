@@ -516,11 +516,11 @@ private ObservableList<Task> datatask;
                 stage.setMinHeight(530); //prev 500
                 stage.setMinWidth(820);
                 tb_toggle.setLayoutY(409);
-                bn_start_stop.setLayoutY(343);
+                bn_start_stop.setLayoutY(348);
                 lb_tasktime.setLayoutY(342);
                 lb_timetoday.setLayoutY(376);
-                label_task.setLayoutY(356);
-                label_today.setLayoutY(383);
+                label_task.setLayoutY(361);
+                label_today.setLayoutY(388);
                 scroll.setVisible(true);
                 admin_tab.setVisible(false);
                 admpanel = false;
@@ -1329,7 +1329,7 @@ export = 3;
            {
                for(XYChart.Data<String, Integer> data : seriess.getData())
                {
-                   time = 0;
+                   int time = 0;
                 for(Coordinates c : list)
                 {
                     if(c.getX() == Integer.parseInt(data.getXValue()))
@@ -1366,7 +1366,7 @@ export = 3;
            {
                for(XYChart.Data<String, Integer> data : seriess.getData())
                {
-                   time = 0;
+                  int time = 0;
                 for(Coordinates c : list)
                 {
                     if(c.getX() == Integer.parseInt(data.getXValue()))
@@ -1403,7 +1403,7 @@ export = 3;
            {
                for(XYChart.Data<String, Integer> data : seriess.getData())
                {
-                   time = 0;
+                  int time = 0;
                 for(Coordinates c : list)
                 {
                     if(c.getX() == Integer.parseInt(data.getXValue()))
@@ -1442,7 +1442,7 @@ export = 3;
            {
                for(XYChart.Data<String, Integer> data : seriess.getData())
                {
-                   time = 0;
+                  int time = 0;
                 for(Coordinates c : list)
                 {
                     if(c.getX() == Integer.parseInt(data.getXValue()))

@@ -111,8 +111,8 @@
                            <columns>
                               <TableColumn fx:id="col_sesion_taskname" prefWidth="99.0" text="Task name" />
                               <TableColumn fx:id="col_sesion_start" prefWidth="153.0" text="Start" />
-                              <TableColumn fx:id="col_sesion_stop" prefWidth="138.0" text="Stop" />
-                              <TableColumn fx:id="col_sesion_myhours" prefWidth="134.0" text="Time Spent" />
+                              <TableColumn fx:id="col_sesion_stop" prefWidth="158.0" text="Stop" />
+                              <TableColumn fx:id="col_sesion_myhours" prefWidth="114.0" text="Time Spent" />
                            </columns>
                         </TableView>
                      </children>
@@ -256,7 +256,6 @@
                               <TextField fx:id="tf_adm_user_email" layoutX="345.0" layoutY="286.0" prefHeight="27.0" prefWidth="107.0" text="Email" />
                               <TextField fx:id="tf_adm_user_payperh" layoutX="79.0" layoutY="286.0" prefHeight="27.0" prefWidth="75.0" text="\$ per H" />
                               <TextField fx:id="tf_adm_user_name" layoutX="14.0" layoutY="286.0" prefHeight="27.0" prefWidth="57.0" text="Name" />
-                              <JFXComboBox fx:id="cb_adm_user_admin" layoutX="245.0" layoutY="286.0" prefHeight="27.0" prefWidth="88.0" promptText="Admin" />
                               <TextField fx:id="tf_adm_user_password" layoutX="164.0" layoutY="286.0" prefHeight="27.0" prefWidth="74.0" text="Password" />
                            </children>
                         </AnchorPane>

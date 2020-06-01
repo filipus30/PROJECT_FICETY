@@ -109,8 +109,8 @@
                            <columns>
                               <TableColumn fx:id="col_sesion_taskname" prefWidth="99.0" text="Task name" />
                               <TableColumn fx:id="col_sesion_start" prefWidth="153.0" text="Start" />
-                              <TableColumn fx:id="col_sesion_stop" prefWidth="138.0" text="Stop" />
-                              <TableColumn fx:id="col_sesion_myhours" prefWidth="134.0" text="Time Spent" />
+                              <TableColumn fx:id="col_sesion_stop" prefWidth="153.0" text="Stop" />
+                              <TableColumn fx:id="col_sesion_myhours" prefWidth="119.0" text="Time Spent" />
                            </columns>
                         </TableView>
                      </children>
