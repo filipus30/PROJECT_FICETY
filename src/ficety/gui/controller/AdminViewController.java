@@ -931,9 +931,9 @@ export = 3;
         else
         {
              Stage stage = (Stage) bn_expandview.getScene().getWindow();
-        stage.setMaxHeight(510);//prev 500
-        stage.setMaxWidth(800);
-        stage.setMinHeight(500); //prev 500
+        stage.setMaxHeight(528);//prev 500
+        stage.setMaxWidth(820);
+        stage.setMinHeight(480); //prev 500
         stage.setMinWidth(800);
         admin_tab.setVisible(false);
         admpanel = false;
