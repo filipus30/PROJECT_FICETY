@@ -24,7 +24,7 @@ import java.util.ArrayList;
  *
  * @author Trigger, Filip, Cecillia and Alan
  */
-public interface DalFaçade {
+public interface DalFacade {
 
 //ClientDBDAO methods
     public Client addNewClientToDB(String clientName,float standardRate,String email);

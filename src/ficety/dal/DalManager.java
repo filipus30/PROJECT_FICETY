@@ -23,7 +23,7 @@ import java.util.ArrayList;
  *
  * @author Trigger, Filip, Cecillia and Alan
  */
-public class DalManager implements DalFaçade {
+public class DalManager implements DalFacade {
     private ProjectDBDAO projectDBDao ;
     private TaskDBDAO taskDBDao ;
     private SessionDBDAO sessionDBDao ;
