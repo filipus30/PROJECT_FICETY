@@ -405,8 +405,6 @@ private ObservableList<Task> datatask;
     @FXML
     private TextField tf_adm_user_name;
     @FXML
-    private JFXComboBox<Boolean> cb_adm_user_admin;
-    @FXML
     private TableColumn<Task, String> col_task_description;
     @FXML
     private TableColumn<User, String> col_user_password;
@@ -2557,6 +2555,16 @@ over_user_tmonthadm.setCellValueFactory((cellData) ->
 over_user_salaryadm.setCellValueFactory((cellData) -> 
                   cellData.getValue().getValue().salaryProperty());
         tree_tbv_adm.setRoot(root);
+    }
+
+    @FXML
+    private void adm_delete_user(ActionEvent event) {
+       UVM.removeUser(admin_users.getSelectionModel().getSelectedItem());
+       for(int i = 0; i<dataUsers.size();i++)
+       {
+           if(dataUsers.get(i).getUserId() == admin_users.getSelectionModel().getSelectedItem().getUserId())
+               dataUsers.remove(i);
+       }
     }
 
    

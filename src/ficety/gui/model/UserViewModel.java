@@ -201,6 +201,10 @@ public class UserViewModel {
     {
         return BllM.getAllUsers();
     }
+    public void removeUser(User user)
+    {
+        BllM.removeUserFromDB(user);
+    }
     
     public User editUser(User userToEdit, String userName, String email, String password, Float salary, boolean isAdmin)
     {

@@ -133,10 +133,11 @@ public class UserDBDAO {
          
     public void removeUserFromDB(User userToDelete) {
     //  Removes a user from the Users table of the database given a User data object
-        String stat = "DELETE FROM Users WHERE id =?";
+        String stat = "DELETE FROM Sessions WHERE AssociatedUser = ? ; DELETE FROM Users WHERE Id = ?";
         try (Connection con = dbc.getConnection()) {
             PreparedStatement stmt = con.prepareStatement(stat);
             stmt.setInt(1,userToDelete.getUserId());
+            stmt.setInt(2,userToDelete.getUserId());
             stmt.execute();
         } catch (SQLException ex) {
             System.out.println("Exception " + ex);
